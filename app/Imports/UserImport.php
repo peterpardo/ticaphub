@@ -66,8 +66,8 @@ class UserImport implements ToCollection, WithHeadingRow
             if(!Group::where('name', $groupName)->exists()) {
                 $group = Group::create([
                     'name' => $groupName,
-                    'specialization_id' => rand(1,4),
-                    'school_id' => rand(1,3),
+                    'specialization_id' => $this->specialization,
+                    'school_id' => $this->school,
                 ]);
 
                 $user->userGroup()->create([

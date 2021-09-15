@@ -81,7 +81,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
     
-    Route::middlware(['student'])->group(function(){
+    Route::middleware(['student'])->group(function(){
         Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
         Route::post('/officers-and-committees/vote', [VoterController::class, 'getVote']);
     });

@@ -17,22 +17,13 @@
         <div class="flex flex-col flex-nowrap lg:flex-row lg:flex-wrap w-full mb-5">
             
             {{-- CANDIDATES  - START --}}
-            <table class="w-full rounded-lg shadow-lg mx-1 text-center">
-
-                <thead>
-                    <tr class="bg-gray-100 uppercase border-b border-gray-600">
-                        <th class="px-4 py-3">Position</th>
-                        <th class="px-4 py-3">Student Name</th>
-                        <th class="px-4 py-3">Student Number</th>
-                        <th class="px-4 py-3">School</th>
-                        <th class="px-4 py-3">Specialization</th>
-                        <th class="px-4 py-3">Action</th>
-                    </tr>
-                </thead>
-                
-                <tbody class="bg-white" id="positions"></tbody>
-                
-            </table>
+            
+                <div class="card-body">
+                    @livewire('candidates')
+                </div>
+            </div>
+         @livewireScripts
+            
             {{-- CANDIDATES FOR POSITIONS - END --}}
 
         </div>

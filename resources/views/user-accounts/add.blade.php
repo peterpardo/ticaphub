@@ -19,6 +19,7 @@
             @endforeach 
         @endif
 
+
         {{-- @if(session()->has('failures'))
         <table class="border-collapse border-2 border-gray-200 bg-red-200">
             <tr>
