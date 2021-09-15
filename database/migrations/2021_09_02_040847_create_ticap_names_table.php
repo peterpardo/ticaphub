@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateTicapNamesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('ticaps', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->boolean('invitation_is_set')->default(0);
+            $table->boolean('election_has_started')->default(0);
+            $table->boolean('election_finished')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('ticaps');
+    }
+}
