@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Officer;
 use App\Models\Position;
+use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,6 +17,7 @@ class VoterController extends Controller
     public function voterPanel(){
         $title = 'Officers and Committees';
         
+        $officers = Officer::all();
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $school = User::find(Auth::user()->id)->userProgram->school->name;
         $specialization = User::find(Auth::user()->id)->userProgram->specialization->name;
@@ -22,18 +25,21 @@ class VoterController extends Controller
         $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
 
         $positions = Position::all();
+        $schools = School::where('is_involved')->get();
 
         return view('officers-and-committees.vote', [
             'title' => $title,
             'ticap' => $ticap->name,
             'users' => $users,
             'positions' => $positions,
-            'school' => $school,
-            'specialization' => $specialization,
+            'schools' => $schools,
+            'userSchool' => $school,
+            'userSpecialization' => $specialization,
+            'officers' => $officers,
         ]);
     }
 
-    public function voteCandidates(Request $request) {
+    public function getVote(Request $request) {
         // DYNAMIC VALIDATION OF POSITIONS
         $positions = Position::all();
 

@@ -313,7 +313,7 @@ class ElectionController extends Controller
                                 
                             }
 
-                            // ALLOW USERS SOME USERS TO VOTE AGAIN 
+                            // ALLOW SOME USERS TO VOTE AGAIN 
                             foreach($users as $user){
                                 if($user->hasRole('student')){
                                     
@@ -500,6 +500,10 @@ class ElectionController extends Controller
     }
 
     public function endElection() {
+        dd('end election');
+        if(Officer::where('is_elected', 0)->exists()){
+            $officers = Officer::where();
+        }
         // SET ELECTION FINISHED FOR THE TICAP
         $ticap = Ticap::find(Auth::user()->id);
         $ticap->election_finished = 1;

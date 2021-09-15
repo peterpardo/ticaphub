@@ -67,12 +67,14 @@ class HomeController extends Controller
         $officers = Officer::with(['candidate.user', 'candidate.position'])->get();
 
         $title = 'Officers and Committees';
-        $ticap = Ticap::find(Auth::user()->id)->first();
+        $ticap =Ticap::find(Auth::user()->ticap_id);
+        $user = User::find(Auth::user()->id);
 
         return view('officers-and-committees.officers', [
             'title' => $title,
-            'ticap' => $ticap->name,
+            'ticap' => $ticap,
             'officers' => $officers,
+            'user' => $user,
         ]);
     }
 

@@ -9,16 +9,11 @@
             <h1 class="font-semibold text-3xl">Election Results</h1>
         </div>
 
-        {{-- CHECKS WHETHER THE ELECTION NEEDS TO BE RE-DONE --}}
-        @if(\App\Models\Officer::where('is_elected', 0)->exists())
-        <form 
-            action="{{ route('new-election') }}" 
-            method="get">
-        @else
+        
+        
         <form 
             action="{{ route('election-result') }}" 
             method="post">
-        @endif
         @csrf
 
         <div class="flex flex-wrap justify-evenly w-full">

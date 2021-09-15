@@ -29,7 +29,6 @@ class UserSeeder extends Seeder
 
         $user->userProgram()->create([
             'school_id' => 1,
-            // 'specialization_id' => 1,
         ]);
 
         $mina = User::create([

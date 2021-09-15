@@ -31,7 +31,7 @@ class CheckIfElectionHasStarted
         } else if($user->hasRole('admin') && $ticap->election_has_started && !$ticap->election_finished) {
             return redirect()->route('election');
         }else if ($user->hasRole('student') && $ticap->election_has_started && !$user->userProgram->has_voted){
-            return redirect()->route('voter-panel');
+            return redirect()->route('vote');
         }
 
         return $next($request);

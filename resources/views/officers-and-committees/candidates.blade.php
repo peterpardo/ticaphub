@@ -39,7 +39,7 @@
 
         <div class="text-center">
 
-            <a href="{{ route('election-panel') }}" class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Start Election</a>
+            <a href="{{ route('election') }}" class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Start Election</a>
 
         </div>
 
