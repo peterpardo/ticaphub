@@ -20,10 +20,12 @@ class CheckIfUserIsAdmin
     {   
         $user = User::find(Auth::user()->id);
 
-        if($user->hasRole('student') && $user->has_voted) {
-            return redirect()->route('officers');
+        if($user->hasRole('admin')) {
+            return $next($request);
         } 
         
-        return $next($request);
+        return redirect()->route('dashboard');
+        
+        
     }
 }

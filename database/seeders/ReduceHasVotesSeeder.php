@@ -19,6 +19,7 @@ class ReduceHasVotesSeeder extends Seeder
     public function run()
     {   
         Ticap::where('id', 1)->update(['election_finished' => 0]);
+        Ticap::where('id', 1)->update(['has_new_election' => 0]);
         $specializations = Specialization::all();
 
         foreach($specializations as $specialization){

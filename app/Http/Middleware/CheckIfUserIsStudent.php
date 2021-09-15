@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Ticap;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckIfInvitationHasBeenSet
+class CheckIfUserIsStudent
 {
     /**
      * Handle an incoming request.
@@ -18,13 +17,13 @@ class CheckIfInvitationHasBeenSet
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {   
+    {
         $user = User::find(Auth::user()->id);
-        $ticap = Ticap::find($user->ticap_id);
-        if($user->hasRole('admin') && !$ticap->invitation_is_set){
+
+        if($user->hasRole('student')){
             return $next($request);
         }
-        
+
         return redirect()->route('dashboard');
     }
 }

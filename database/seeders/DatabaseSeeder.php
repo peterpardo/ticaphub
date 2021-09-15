@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,
             SpecializationSeeder::class,
             PositionSeeder::class,
-            TicapSeeder::class,
+            // TicapSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            CandidateSeeder::class
+            // CandidateSeeder::class
         ]);
     }
 }

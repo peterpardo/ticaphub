@@ -64,9 +64,10 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'register_user' => \App\Http\Middleware\RegisterUser::class,
-        'set_ticap' => \App\Http\Middleware\EnsureTicapIsSet::class,
+        'set.ticap' => \App\Http\Middleware\EnsureTicapIsSet::class,
         'election' => \App\Http\Middleware\CheckIfElectionHasStarted::class,
-        'isAdmin' => \App\Http\Middleware\CheckIfUserIsAdmin::class,
-        'user_invitation' => \App\Http\Middleware\CheckIfInvitationHasBeenSet::class,
+        'admin' => \App\Http\Middleware\CheckIfUserIsAdmin::class,
+        'set.invitation' => \App\Http\Middleware\CheckIfInvitationHasBeenSet::class,
+        'student' => \App\Http\Middleware\CheckIfUserIsStudent::class,
     ];
 }

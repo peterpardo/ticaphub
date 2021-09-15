@@ -47,7 +47,7 @@ class VoteSeeder extends Seeder
         
         
         foreach($users as $user){
-            if($user->hasRole('student')){
+            if($user->hasRole('student') && !$user->userProgram->has_voted){
                 if($user->userProgram->specialization_id == 1){
                     $user->votes()->create([
                         'candidate_id' => $wmaChairman[array_rand($wmaChairman)],

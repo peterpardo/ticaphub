@@ -15,6 +15,7 @@ class Candidate extends Model
         'user_id',
         'position_id',
         'specialization_id',
+        'school_id',
         'is_done'
     ];
 
@@ -28,6 +29,10 @@ class Candidate extends Model
 
     public function specialization() {
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
+    }
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school_id', 'id');
     }
 
 

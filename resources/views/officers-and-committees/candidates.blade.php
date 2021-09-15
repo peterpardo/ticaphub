@@ -53,10 +53,7 @@
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
             <div >
-                <form 
-                    action="{{ route('appoint-candidate') }}"
-                    method="POST"
-                    id="addCandidateForm"
+                <form id="addCandidateForm"
                     >
                     @csrf
                     <!--body-->

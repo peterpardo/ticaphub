@@ -19,6 +19,7 @@ class CreateTicapNamesTable extends Migration
             $table->boolean('invitation_is_set')->default(0);
             $table->boolean('election_has_started')->default(0);
             $table->boolean('election_finished')->default(0);
+            $table->boolean('has_new_election')->default(0);
             $table->timestamps();
         });
     }

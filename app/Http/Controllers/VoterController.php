@@ -17,37 +17,49 @@ class VoterController extends Controller
     public function voterPanel(){
         $title = 'Officers and Committees';
         
-        $officers = Officer::all();
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        $school = User::find(Auth::user()->id)->userProgram->school->name;
-        $specialization = User::find(Auth::user()->id)->userProgram->specialization->name;
-
-        $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
-
+        $school = User::find(Auth::user()->id)->userProgram->school;
+        $specialization = User::find(Auth::user()->id)->userProgram->specialization;
         $positions = Position::all();
         $schools = School::where('is_involved')->get();
 
-        return view('officers-and-committees.vote', [
-            'title' => $title,
-            'ticap' => $ticap->name,
-            'users' => $users,
-            'positions' => $positions,
-            'schools' => $schools,
-            'userSchool' => $school,
-            'userSpecialization' => $specialization,
-            'officers' => $officers,
-        ]);
+        // IF TICAP HAS NEW ELECTION
+        if($ticap->has_new_election){   
+            $officers = Officer::all();
+            return view('officers-and-committees.new-vote', [
+                'title' => $title,
+                'ticap' => $ticap->name,
+                'officers' => $officers,
+                'positions' => $positions,
+                'school' => $school,
+                'specialization' => $specialization,
+            ]);
+        } else {
+            $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
+
+            return view('officers-and-committees.vote', [
+                'title' => $title,
+                'ticap' => $ticap->name,
+                'users' => $users,
+                'positions' => $positions,
+                'schools' => $schools,
+                'school' => $school,
+                'specialization' => $specialization,
+            ]);
+        }
+        
     }
 
     public function getVote(Request $request) {
         // DYNAMIC VALIDATION OF POSITIONS
-        $positions = Position::all();
-
         $fields = [];
-
-        foreach($positions as $position) {
-            $name = str_replace(' ', '_', $position->name);
-            $fields[$name] = 'required';
+        $officers = Officer::where('is_elected', 0)->get();
+        foreach($officers as $officer) {
+            $name = str_replace(' ', '_', $officer->candidate->position->name);
+            if(!array_key_exists($name, $fields)){
+                $fields[$name] = 'required';
+            }
+           
         }
 
         $request->validate($fields);
@@ -63,7 +75,6 @@ class VoterController extends Controller
 
             // REGISTER VOTE OF USER
             $user = User::find($voter->id);
-
             $user->votes()->create([
                 'candidate_id' => $value,
                 'ticap_id' => $user->ticap_id,
