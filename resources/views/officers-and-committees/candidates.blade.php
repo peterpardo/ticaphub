@@ -12,7 +12,16 @@
             <div class="text-red-500">{{ Session::get('error')  }}</div>
         @endif
 
-        <a class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500 mb-5" id="modal-btn">Add Candidate</a>
+        {{-- <a class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500 mb-5" id="modal-btn">Add Candidate</a> --}}
+        <div class="mb-2 text-xs text-gray-800 font-thin">
+            <label for="school">Filter School</label>
+        </div>
+            <select name="school" id="school" class="border rounded-lg px-auto py-2 mb-2">
+                @foreach($schools as $school)
+                    <option value="{{ $school->id }}">{{ $school->name }}</option>
+                @endforeach
+            </select>
+        
         
         <div class="flex flex-col flex-nowrap lg:flex-row lg:flex-wrap w-full mb-5">
             
@@ -21,6 +30,7 @@
                 <div class="card-body">
                     @livewire('candidates')
                 </div>
+    
             </div>
          @livewireScripts
             

@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
             SpecializationSeeder::class,
             PositionSeeder::class,
             TicapSeeder::class,
-            RoleSeeder::class,
             UserSeeder::class,
-            // CandidateSeeder::class
+            // CandidateSeeder::class,
+            // VoteSeeder::class,
         ]);
     }
 }

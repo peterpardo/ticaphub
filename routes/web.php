@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ElectionController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ListController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
@@ -52,12 +54,13 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
 
         Route::get('/users', [HomeController::class, 'users'])->name('users');
         Route::get('/users/add-user', [UserController::class, 'userForm'])->name('add-user');
+        Route::get('/users/add-admin', [UserController::class, 'userForm'])->name('add-admin');
         Route::post('/users/add-user', [UserController::class, 'addUser']);
         Route::post('/users', [UserController::class, 'resetUsers'])->name('reset-users');
 
-        Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('invite-users');
-        Route::post('/users/invite-users', [MailController::class, 'sendMultipleInvitation']);
-        Route::post('/users/import-users', [MailController::class, 'importUsers'])->name('import-users');
+        Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
+        Route::post('/users/invite-users', [UserController::class, 'importFile']);
+        // Route::post('/users/import-users', [MailController::class, 'importUsers'])->name('import-users');
 
         // OFFICERS AND COMMITTEES
         Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
@@ -80,7 +83,23 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
+
+    // EVENTS AND LISTS/TASKS
+    Route::get('/events', [EventController::class, 'index'])->name('events');
+    Route::get('/fetch-event', [EventController::class, 'fetchEvents']);
+    Route::post('/add-event', [EventController::class, 'addEvent']);
+    Route::post('/delete-event', [EventController::class, 'deleteEvent']);
+    Route::get('/events/{id}', [EventController::class, 'viewEvent']);
+
+    Route::post('/events/{id}', [EventController::class, 'addList']);
+    Route::get('/fetch-lists/{id}', [EventController::class, 'fetchLists']);
+    Route::post('/delete-list', [EventController::class, 'deleteList']);
+    Route::get('/events/{id}/list/{list}', [EventController::class, 'viewList']);
+
+
+
     
+    // STUDENT ROUTE
     Route::middleware(['student'])->group(function(){
         Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
         Route::post('/officers-and-committees/vote', [VoterController::class, 'getVote']);

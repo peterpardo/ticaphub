@@ -56,11 +56,17 @@ class MailController extends Controller
 
         if($request->file){
             $data =  array_map('str_getcsv', file($request->file));
-
             unset($data[0]);
 
-            // dd($data);
+            DB::transaction(function() use ($data){
+                foreach($data as $value) {
+                    $email = $value[0];
+                }
+            });
 
+
+
+            
             foreach($data as $value) {
                 $email = $value[0];
 
@@ -83,7 +89,7 @@ class MailController extends Controller
 
                 dispatch(new RegisterUserJob($email, $details));
             }
-
+            
             $request->session()->flash('msg', 'Email has been sent successfully');
             $request->session()->flash('status', 'green');
             return back();
@@ -103,8 +109,8 @@ class MailController extends Controller
         
         $file = $request->file('file');
         
-        $import = new UserImport($request->school, $request->specialization);
-        $import->import($file);
+        // $import = new UserImport($request->school, $request->specialization, );
+        // $import->import($file);
    
 
         return back()->with('success', 'User Imported Successfully.');

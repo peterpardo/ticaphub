@@ -97,7 +97,7 @@ class ElectionController extends Controller
 
     public function setCandidates() {
         $title = 'Officers and Committees';
-
+        $schools = School::all();
         $scripts = [
             asset('js/modal.js'),
             asset('js/officersandcommittees/appointCandidate.js'),
@@ -107,6 +107,7 @@ class ElectionController extends Controller
         return view('officers-and-committees.candidates', [
                 'title' => $title,
                 'scripts' => $scripts,
+                'schools' => $schools,
         ]);
     }
 
@@ -296,11 +297,12 @@ class ElectionController extends Controller
 
                             // INSERT CANDIDATE TO OFFICERS TABLE (IS_ELECTED = TRUE)
                             $candidate = Candidate::find($final[0]);
-                            $candidate->officer()->create([
-                                'ticap_id' => $candidate->user->ticap_id,
-                                'is_elected' => 1,
-                            ]);
-
+                            if($candidate->officer == null || !$candidate->officer->exists()){
+                                $candidate->officer()->create([
+                                    'ticap_id' => $candidate->user->ticap_id,
+                                    'is_elected' => 1,
+                                ]);
+                            }  
                         } 
                         
                         // RUNS IF THERE ARE MORE THAN ONE RESULT
@@ -309,12 +311,11 @@ class ElectionController extends Controller
                                 
                                 // INSERT CANDIDATE TO OFFICERS TABLE WITH (IS_ELECTED = FALSE)
                                 $candidate = Candidate::find($candidate_id);
-                                $candidate->officer()->create([
-                                    'ticap_id' => $candidate->user->ticap_id,
-                                ]);
-
-                                // DELETE VOTES OF THE CANDIDATES
-                                Vote::where('candidate_id', $candidate->id)->delete();
+                                if($candidate->officer == null || !$candidate->officer->exists()){
+                                    $candidate->officer()->create([
+                                        'ticap_id' => $candidate->user->ticap_id,
+                                    ]);
+                                }
                                 
                             }
 
@@ -379,10 +380,10 @@ class ElectionController extends Controller
     public function getNewElectionResults() {
         $users = User::all();
         // SET USER TO HAS VOTED
-        // foreach($users as $user){
-        //     $user->userProgram->has_voted = 1;
-        //     $user->userProgram->save();
-        // }
+        foreach($users as $user){
+            $user->userProgram->has_voted = 1;
+            $user->userProgram->save();
+        }
 
         // TEMP CONTAINER FOR COUNTING OF VOTES
         $winners = [];
@@ -434,7 +435,7 @@ class ElectionController extends Controller
                     // RUNS IF THERE ARE MORE THAN ONE RESULT
                     if(count($final) > 1){
                         foreach($final as $candidate_id){
-                            dd($final);
+                            
                             // DELETE ALL LOSERS
                             foreach($winners as $id => $votes){
                                 if($id == $candidate_id){
@@ -444,8 +445,6 @@ class ElectionController extends Controller
                                 Officer::where('candidate_id', $id)->delete();
                             }
                             
-                            // DELETE VOTES OF THE CANDIDATES
-                            Vote::where('candidate_id', $candidate_id)->delete();   
                         }
                     }
 
@@ -458,7 +457,8 @@ class ElectionController extends Controller
     }
 
     public function endElection() {
-        // ALLOW USERS TO VOTE AGAIN AND RETURN TO NEW ELECTION
+
+        // RETURNS TRUE OF RE-ELECTION IS NEEDED
         if(Officer::where('is_elected', 0)->exists()){
             $ticap = Ticap::find(Auth::user()->id);
             $ticap->has_new_election = 1;
@@ -467,6 +467,10 @@ class ElectionController extends Controller
             $officers = Officer::where('is_elected', 0)->get();
 
             foreach($officers as $officer) {
+                // DELETE VOTES OF THE RE-ELECTED CANDIDATES
+                Vote::where('candidate_id', $officer->candidate->id)->delete();
+
+                // REMOVE VOTES OF STUDENTS TO VOTE AGAIN
                 $users = UserProgram::where('specialization_id', $officer->candidate->specialization->id)->get();
                 foreach($users as $user){
                     if($user->has_voted){

@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use App\Models\School;
+
 
 class Candidates extends Component
 {
@@ -25,5 +27,15 @@ class Candidates extends Component
     									  ->orWhere('student_number', 'like', '%'.$this->searchCandidate.'%');
     						})->paginate(6)
     	]);
+
+		$query = '%'.$this->searchCandidate.'%';
+
+		return view('livewire.candidates', [
+    		 'schools'		=>	School::where(function($sub_query){
+    								$sub_query->where('name', 'like', '%'.$this->searchCandidate.'%');
+    						})->paginate(6)
+    	]);
+
+		
     }
 }

@@ -7,7 +7,7 @@
         <h1 class="font-bold text-5xl text-center mb-5" >Add Multiple Users</h1>
 
         <form 
-            action="{{ route('invite-users') }}"
+            action="{{ route('upload-users') }}"
             method="POST"
             enctype="multipart/form-data">
         @csrf

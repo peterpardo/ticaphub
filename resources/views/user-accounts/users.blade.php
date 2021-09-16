@@ -5,8 +5,11 @@
     </x-page-title>
 
     <div class="flex justify-between mb-2">
-        <a href="{{ route('add-user') }}" class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">+ Add User</a>
+        <a href="{{ route('add-user') }}" class="bg-green-600 py-2 px-5 mr-1 rounded text-white hover:bg-green-500">+ User</a>
         <button type="button" class="bg-red-600 py-2 px-5 rounded text-white hover:bg-red-500" id="modal-btn">Reset Users</button>
+    </div>
+    <div class="mt-8">
+        <a href="{{ route('add-user') }}" class="bg-yellow-500 py-2 px-5 mr-1 rounded text-white hover:bg-yellow-600 ">+ Admin</a>
     </div>
 
     @if($users->isEmpty())

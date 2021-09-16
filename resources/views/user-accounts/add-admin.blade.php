@@ -5,16 +5,19 @@
     </x-page-title>
 
     <div class="w-1/2 mx-auto">
-        <h1 class="font-bold text-5xl text-center mb-5" >Add User</h1>
-
-        {{-- FILE --}}
+        <h1 class="font-bold text-5xl text-center mb-5" >Add Admin</h1>
+        
         @if($errors->all())
             @foreach($errors->all() as $error)
             <div class="text-red-500">{{ $error }}</div>
             @endforeach 
         @endif
 
-        <button type="button" class="bg-green-600 py-2 px-5 mb-3 rounded text-white hover:bg-green-500" id="modal-btn">Upload Users</button>
+        
+
+        @if(session('success'))
+        <div class="text-green-500">{{ session('success') }}</div>
+        @endif
 
         @if(session('status'))
             <div class="text-{{ session('status') }}-500">{{ session('msg') }}</div>
@@ -25,38 +28,11 @@
         @enderror
 
         <form 
-            action="{{ route('add-admin') }}" 
+            action="{{ route('add-user') }}" 
             method="post">
             @csrf
 
-           <div class="mb-2">
-                <label for="role">User Role</label>
-                <select name="role" id="role"  class="border rounded-lg px-auto py-2 mt-5">
-                    @foreach($roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            
-            <div class="mb-2">
-                <label for="school">School</label>
-                <select name="school" id="school" class="border rounded-lg px-auto py-2 mt-5">
-                    @foreach($schools as $school)
-                        @if($school->is_involved)
-                        <option value="{{ $school->id }}">{{ $school->name }}</option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-2">
-                <label for="specialization">School</label>
-                <select name="specialization" id="specialization"  class="border rounded-lg px-auto py-2 mt-5">
-                    @foreach($specializations as $specialization)
-                    <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+             
 
             <div class="mb-2">
                 @error('first_name')
@@ -90,23 +66,7 @@
                 <input type="email" name="email" value="{{ old('email') }}" class="border rounded-lg px-auto py-2 mt-5">
             </div>
 
-            <div class="mb-2">
-                @error('student_number')
-                    <div class="text-red-500">{{ $message }}</div>
-                @enderror
-                <label for="school">Student Number</label>
-                <input type="text" name="student_number" value="{{ old('student_number') }}" class="border rounded-lg px-auto py-2 mt-5">
-            </div>
-
-            <div class="mb-2">
-                @error('group')
-                    <div class="text-red-500">{{ $message }}</div>
-                @enderror
-                <label for="group">Group</label>
-                <input type="text" name="group" value="{{ old('group') }}" class="border rounded-lg px-auto py-2 mt-5">
-            </div>
-            
-            <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400">Add Student</button>
+            <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400">Add Admin</button>
         </form>
 
     </div>

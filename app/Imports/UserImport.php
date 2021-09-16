@@ -32,14 +32,14 @@ class UserImport implements ToCollection, WithHeadingRow
     {   
         $ticap = Auth::user()->ticap_id;
 
-        Validator::make($rows->toArray(), [
-            '*.first_name' => ['required'],
-            '*.middle_name' => ['required'],
-            '*.last_name' => ['required'],
-            '*.email' => ['required', 'email', 'unique:users,email'],
-            '*.student_number' => ['required', 'numeric', 'max:99999999999', 'unique:users,student_number'],
-            '*.group' => ['required'],
-        ])->validate();
+        // Validator::make($rows->toArray(), [
+        //     '*.first_name' => ['required'],
+        //     '*.middle_name' => ['required'],
+        //     '*.last_name' => ['required'],
+        //     '*.email' => ['required', 'email', 'unique:users,email'],
+        //     '*.student_number' => ['required', 'numeric', 'max:99999999999', 'unique:users,student_number'],
+        //     '*.group' => ['required'],
+        // ])->validate();
 
         foreach($rows as $row) {
             // GENERATE DEFAULT PASSWORD
@@ -100,7 +100,7 @@ class UserImport implements ToCollection, WithHeadingRow
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            dispatch(new RegisterUserJob($user->email, $details));
+            // dispatch(new RegisterUserJob($user->email, $details));
         }
         
     }

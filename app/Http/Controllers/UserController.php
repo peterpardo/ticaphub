@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
 use App\Models\Group;
 use App\Models\School;
@@ -48,6 +49,7 @@ class UserController extends Controller
         $request->validate([
             'FEU_Diliman' => 'numeric',
             'FEU_Alabang' => 'numeric',
+            
         ]);
 
         if($request->FEU_Diliman != null) {
@@ -72,7 +74,6 @@ class UserController extends Controller
 
     public function fetchSpecializations(){
         $specializations = Specialization::all();
-
         return response()->json([
             'specializations' =>  $specializations,
         ]);
@@ -140,6 +141,7 @@ class UserController extends Controller
         ]);
     }
 
+    
     public function adduser(Request $request) {
         $request->validate([
             'role' => 'required',
@@ -225,6 +227,8 @@ class UserController extends Controller
     
     }
 
+    
+
     public function setPasswordForm(Request $request) {
         return view('user-accounts.set-password', [
             'token' => $request->token,
@@ -265,6 +269,117 @@ class UserController extends Controller
         return view('user-accounts.upload', [
             'title' => $title,
         ]);
+    }
+
+    public function importFile(Request $request) {
+        // DB::beginTransaction();
+
+        //     try {
+        //         DB::insert(...);
+        //         DB::insert(...);
+        //         DB::insert(...);
+
+        //         DB::commit();
+        //         // all good
+        //     } catch (\Exception $e) {
+        //         DB::rollback();
+        //         // something went wrong
+        //     }
+
+        return DB::transaction(function() use ($request){
+            $request->validate([
+                'school' => 'required',
+                'specialization' => 'required',
+                'file' => 'required|mimes:csv',
+            ]);
+
+            $file = $request->file;
+            $specialization = $request->specialization;
+            $school = $request->school;
+            
+
+             // READ FILE
+            $ctr = 1;
+
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($row = fgetcsv($handle, 1000)) !== FALSE) {
+                    if($ctr == 1){
+                        $ctr++;
+                        continue;
+                    }
+                    // LIMIT COLUMN TO 5 COLUMNS
+                    // $limit = 6;
+                    // for($col = 0; $col < $limit; $col++){
+                    //     array_push($userDetails, $row[$col]);
+                    // };
+
+                    // HEADERS
+                    $fname = trim($row[0]);
+                    $mname = trim($row[1]);
+                    $lname = trim($row[2]);
+                    $email = trim($row[3]);
+                    $studentNumber = trim($row[4]);
+                    $group = trim($row[5]);
+
+                    // GENERATE RANDOM PASSWORD
+                    $tempPassword = "picab" . $studentNumber;
+
+                    // VALIDATE EMAIL AND STUDENT NUMBER
+                    if(User::where([
+                        'email'=> $email,
+                        'student_number' => $studentNumber
+                        ])->exists() ){
+                        
+                        throw new GeneralException('Line ' . $ctr . ' - Email and Student Number must be unique');
+                        
+                    }
+
+                    // CREATE USER
+                    $user = User::create([
+                        'first_name' => Str::title($fname),
+                        'middle_name' => Str::title($mname),
+                        'last_name' => Str::title($lname),
+                        'email' => $email,
+                        'student_number' => $studentNumber,
+                        'password' => Hash::make($tempPassword),
+                        'ticap_id' => Auth::user()->ticap_id,
+                    ]);
+
+                    // ADD USER WITH SCHOOL AND SPECIALIZATION
+                    $user->userProgram()->create([
+                        'school_id' => $school,
+                        'specialization_id' => $specialization,
+                    ]);
+
+                    // CHECK IF GROUP EXISTS
+                    $groupName = Str::upper($group);
+                    if(!Group::where('name', $groupName)->exists()) {
+                        $group = Group::create([
+                            'name' => $groupName,
+                            'specialization_id' => $specialization,
+                            'school_id' => $school,
+                        ]);
+                        $user->userGroup()->create([
+                            'group_id' => $group->id,
+                        ]);
+                    } else {
+                        $group = Group::where('name', $groupName)->first();
+                        $user->userGroup()->create([
+                            'group_id' => $group->id,
+                        ]);
+                    }
+
+                    $ctr++;
+                }
+
+                fclose($handle);
+            }
+        
+            $request->session()->flash('msg', 'Email has been sent successfully');
+            $request->session()->flash('status', 'green');
+            return back();
+            
+        });
     }
 
     public function resetUsers() {
