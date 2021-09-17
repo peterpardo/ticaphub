@@ -66,4 +66,8 @@ class User extends Authenticatable
     public function userSchool() {
         return $this->hasOne(UserSchool::class, 'user_id', 'id');
     }
+
+    public function lists() {
+        return $this->hasMany(TaskList::class, 'user_id', 'id');
+    }
 }

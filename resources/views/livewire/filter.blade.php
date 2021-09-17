@@ -56,7 +56,6 @@
                                     <button class="bg-green-400 px-4 py-1 rounded text-white hover:bg-green-500">View</button>
                                     <button class="bg-yellow-400 px-4 py-1 rounded text-white hover:bg-yellow-500">Edit</button>
                                     <button class="bg-red-400 px-4 py-1 rounded text-white hover:bg-red-500">Delete</button>
-                                    <button class="bg-red-400 px-4 py-1 rounded text-white hover:bg-blue-500">Add</button>
                                 </td>
     
                             </tr>

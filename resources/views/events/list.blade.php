@@ -7,8 +7,8 @@
         <h1 class="text-center text-4xl font-bold">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
 
-        {{-- ADD LIST --}}
-        <div class="container shadow-md p-3 rounded">
+        {{-- ADD LIST - START --}}
+        <div class="container shadow-md p-3 rounded mb-2">
             <form id="addListForm">
             @csrf
 
@@ -24,6 +24,7 @@
 
             </form>
         </div>
+        {{-- ADD LIST - END --}}
 
         {{-- KANBAN LAYOUT (TEMPORARY TABLE)--}}
         <div class="container">
@@ -31,6 +32,9 @@
                 <thead>
                     <tr class="bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">List</th>
+                        <th class="px-4 py-3">Created By</th>
+                        <th class="px-4 py-3">School</th>
+                        <th class="px-4 py-3">Specialization</th>
                         <th class="px-4 py-3">No. of Tasks</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
@@ -39,5 +43,6 @@
                 <tbody class="bg-white text-center"></tbody>
             </table>
         </div>
+        {{-- KANBAN LAYOUT (TEMPORARY TABLE)--}}
     </div>
 </x-app-layout>

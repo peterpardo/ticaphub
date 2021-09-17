@@ -17,7 +17,7 @@ class Event extends Model
         'ticap_id'
     ];
 
-    public function taskLists() {
+    public function lists() {
         return $this->hasMany(TaskList::class, 'event_id', 'id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate;
 use App\Models\Officer;
 use App\Models\School;
 use App\Models\Ticap;
@@ -74,12 +75,14 @@ class HomeController extends Controller
         $title = 'Officers and Committees';
         $ticap =Ticap::find(Auth::user()->ticap_id);
         $user = User::find(Auth::user()->id);
+        
 
         // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
         if ($user->hasRole('admin')) {
             if(!$ticap->invitation_is_set){
                 return redirect()->route('set-invitation');
             }
+            // NO CANDIDATES EXISTS YET
             if($ticap->election_has_started && !$ticap->election_finished && $ticap->has_new_election) {
                 return redirect()->route('new-election');
             }else if($ticap->election_has_started && !$ticap->election_finished && !$ticap->has_new_election) {
@@ -88,6 +91,7 @@ class HomeController extends Controller
                 return redirect()->route('set-positions');
             }
         }
+        
 
         // REDIRECT STUDENT WHETHER ELECTION HAS STARTED OR NOT AND HAS NOT YET VOTED
         if ($user->hasRole('student')) {

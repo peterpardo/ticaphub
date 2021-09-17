@@ -30,8 +30,7 @@ class ListController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'List Added SuccessFully',
-            ]);
-        }
+            ]);        }
     }
 
     public function fetchLists($id){

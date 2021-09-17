@@ -10,12 +10,20 @@ $(document).ready(function() {
             url: `/fetch-lists/${id}`,
             dataType: "json",
             success: function (response) {
-                console.log(response.lists);
                 $('tbody').html('');
                 $.each(response.lists, function (key, item){
+                    let specialization = '';
+                    if(item.user.user_program.specialization == null) {
+                        specialization = 'admin';
+                    } else {
+                        specialization = item.user.user_program.specialization.name;
+                    }
                     $('tbody').append('<tr>\
                     <td class="px-4 py-3 border">' + item.title + '</td>\
-                    <td class="px-4 py-3 text-ms font-semibold border">' + item.title+ '</td>\
+                    <td class="px-4 py-3 text-ms font-semibold border">' + `${item.user.first_name} ${item.user.middle_name} ${item.user.last_name}` + '</td>\
+                    <td class="px-4 py-3 text-ms font-semibold border">' + item.user.user_program.school.name + '</td>\
+                    <td class="px-4 py-3 text-ms font-semibold border">' +  specialization + '</td>\
+                    <td class="px-4 py-3 text-ms font-semibold border">' + `${item.user.first_name} ${item.user.middle_name} ${item.user.last_name}` + '</td>\
                     <td class="px-4 py-3 text-ms font-semibold border">\
                         <a href="/events/'+ item.event_id + '/list/' + item.id + '" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>\
                         <button data-id="' + item.id + '" class="removeListBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>\
@@ -59,7 +67,7 @@ $(document).ready(function() {
     };
     // FETCH LISTS - END
 
-    // ADD TASK - START
+    // ADD LIST - START
     $(document).on('submit', '#addListForm', function(e){
         e.preventDefault();
         
@@ -96,5 +104,5 @@ $(document).ready(function() {
             }
         });
     }); 
-    // ADD TASK - DELETE
+    // ADD LIST - DELETE
 });

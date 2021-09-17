@@ -100,7 +100,7 @@ class UserImport implements ToCollection, WithHeadingRow
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            // dispatch(new RegisterUserJob($user->email, $details));
+            dispatch(new RegisterUserJob($user->email, $details));
         }
         
     }

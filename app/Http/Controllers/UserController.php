@@ -121,6 +121,61 @@ class UserController extends Controller
         }
     }
 
+    // ADD PANELISTS FOR USERS ACCOUNT
+    public function panelistForm() {
+        $title = 'User Accounts';
+
+        $schools = School::all();
+
+        $scripts = [
+            asset('js/modal.js'),
+        ];
+        
+        return view('user-accounts.add-panelist', [
+            'title' => $title,
+            'scripts' => $scripts,
+            'schools' => $schools,
+        ]);
+    }
+
+    public function addPanelist(Request $request) {
+        $request->validate([
+            'first_name' => 'required',
+            'middle_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email',
+        ]); 
+        dd($request->all());
+    }
+
+// ADD ADMIN FOR USER ACCOUNTS
+    public function adminForm() {
+        $title = 'User Accounts';
+
+        $schools = School::all();
+
+        $scripts = [
+            asset('js/modal.js'),
+        ];
+        
+        return view('user-accounts.add-admin', [
+            'title' => $title,
+            'scripts' => $scripts,
+            'schools' => $schools,
+        ]);
+    }
+
+    public function addAdmin(Request $request) {
+        $request->validate([
+            'first_name' => 'required',
+            'middle_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email',
+        ]); 
+        dd($request->all());
+    }
+
+    // ADD ADMIN FOR USER(STUDENTS) ACCOUNTS
     public function userForm() {
         $title = 'User Accounts';
 
@@ -140,7 +195,6 @@ class UserController extends Controller
             'specializations' => $specializations,
         ]);
     }
-
     
     public function adduser(Request $request) {
         $request->validate([
@@ -272,19 +326,6 @@ class UserController extends Controller
     }
 
     public function importFile(Request $request) {
-        // DB::beginTransaction();
-
-        //     try {
-        //         DB::insert(...);
-        //         DB::insert(...);
-        //         DB::insert(...);
-
-        //         DB::commit();
-        //         // all good
-        //     } catch (\Exception $e) {
-        //         DB::rollback();
-        //         // something went wrong
-        //     }
 
         return DB::transaction(function() use ($request){
             $request->validate([
@@ -296,7 +337,6 @@ class UserController extends Controller
             $file = $request->file;
             $specialization = $request->specialization;
             $school = $request->school;
-            
 
              // READ FILE
             $ctr = 1;
@@ -307,11 +347,6 @@ class UserController extends Controller
                         $ctr++;
                         continue;
                     }
-                    // LIMIT COLUMN TO 5 COLUMNS
-                    // $limit = 6;
-                    // for($col = 0; $col < $limit; $col++){
-                    //     array_push($userDetails, $row[$col]);
-                    // };
 
                     // HEADERS
                     $fname = trim($row[0]);
@@ -374,7 +409,42 @@ class UserController extends Controller
 
                 fclose($handle);
             }
-        
+
+            // SEND EMAILS
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($row = fgetcsv($handle, 1000)) !== FALSE) {
+                    if($ctr == 1){
+                        $ctr++;
+                        continue;
+                    }
+
+                    // GET EMAIL
+                    $email = trim($row[3]);
+
+                    // SEND LINK FOR CHANGING PASSWORD TO USER
+                    $token = Str::random(60) . time();
+                    $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+                        'token' => $token, 
+                        'ticap' => Auth::user()->ticap_id,
+                        'email' => $email,
+                    ]);
+                    $details = [
+                        'title' => 'Welcome to TICaP Hub ' . $email,
+                        'body' => "You are invited! Click the link below",
+                        'link' => $link,
+                    ];
+
+                    DB::table('register_users')->insert([
+                        'email' => $email,
+                        'token' => $token,
+                        'created_at' =>  date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+                    dispatch(new RegisterUserJob($email, $details));
+                }
+            }
+
             $request->session()->flash('msg', 'Email has been sent successfully');
             $request->session()->flash('status', 'green');
             return back();

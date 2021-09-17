@@ -4,12 +4,13 @@
         {{ $title }}
     </x-page-title>
 
-    <div class="flex justify-between mb-2">
-        <a href="{{ route('add-user') }}" class="bg-green-600 py-2 px-5 mr-1 rounded text-white hover:bg-green-500">+ User</a>
-        <button type="button" class="bg-red-600 py-2 px-5 rounded text-white hover:bg-red-500" id="modal-btn">Reset Users</button>
-    </div>
-    <div class="mt-8">
-        <a href="{{ route('add-user') }}" class="bg-yellow-500 py-2 px-5 mr-1 rounded text-white hover:bg-yellow-600 ">+ Admin</a>
+    <div class="flex justify-between my-2">
+        <div>
+            <a href="{{ route('add-user') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">+ Student</a>
+            <a href="{{ route('add-admin') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+ Admin</a>
+            <a href="{{ route('add-panelist') }}" class="inline-block bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full">+ Panelist</a>
+        </div>
+        <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" id="modal-btn">Reset Users</button>
     </div>
 
     @if($users->isEmpty())

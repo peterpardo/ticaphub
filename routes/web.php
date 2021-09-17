@@ -54,8 +54,11 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
 
         Route::get('/users', [HomeController::class, 'users'])->name('users');
         Route::get('/users/add-user', [UserController::class, 'userForm'])->name('add-user');
-        Route::get('/users/add-admin', [UserController::class, 'userForm'])->name('add-admin');
         Route::post('/users/add-user', [UserController::class, 'addUser']);
+        Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
+        Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
+        Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);
+        Route::get('/users/add-panelist', [UserController::class, 'panelistForm'])->name('add-panelist');
         Route::post('/users', [UserController::class, 'resetUsers'])->name('reset-users');
 
         Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
@@ -89,12 +92,13 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     Route::get('/fetch-event', [EventController::class, 'fetchEvents']);
     Route::post('/add-event', [EventController::class, 'addEvent']);
     Route::post('/delete-event', [EventController::class, 'deleteEvent']);
-    Route::get('/events/{id}', [EventController::class, 'viewEvent']);
 
+    Route::get('/events/{id}', [EventController::class, 'viewEvent']);
     Route::post('/events/{id}', [EventController::class, 'addList']);
     Route::get('/fetch-lists/{id}', [EventController::class, 'fetchLists']);
     Route::post('/delete-list', [EventController::class, 'deleteList']);
     Route::get('/events/{id}/list/{list}', [EventController::class, 'viewList']);
+    Route::get('/search-member', [EventController::class, 'searchMember']);
 
 
 

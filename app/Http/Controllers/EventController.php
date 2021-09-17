@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\TaskList;
+use App\Models\User;
+use App\Models\UserProgram;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +19,7 @@ class EventController extends Controller
             asset('js/events/addEvent.js'),
         ];
 
-        return view('events.index', [
+        return view('events.event', [
             'title' => $title,
             'scripts' => $scripts,
         ]);
@@ -85,7 +87,7 @@ class EventController extends Controller
             asset('js/events/addList.js'),
         ];
 
-        return view('events.view', [
+        return view('events.list', [
             'title' => $title,
             'event' => $event,
             'scripts' => $scripts,
@@ -106,8 +108,10 @@ class EventController extends Controller
             // INSERT LIST
             $event = Event::find($id);
 
-            $event->taskLists()->create([
-                'title' => $request->title
+            $event->lists()->create([
+                'title' => $request->title,
+                'user_id' => Auth::user()->id,
+                'event_id' => $event->id
             ]);
 
             return response()->json([
@@ -118,7 +122,7 @@ class EventController extends Controller
     }
 
     public function fetchLists($id){
-        $lists = TaskList::where('event_id', $id)->get();
+        $lists = TaskList::with(['user.userProgram.school', 'event', 'user.userProgram.specialization'])->where('event_id', $id)->get();
 
         return response()->json([
             'lists' =>  $lists,
@@ -148,8 +152,50 @@ class EventController extends Controller
 
     public function viewList($id, $list){
         $list = TaskList::find($list);
-
+        $event = Event::find($id);
         $title = "Manage Events";
-        // return view('')
+ 
+        $scripts = [
+            asset('js/events/addTask.js'),
+        ];
+
+        return view('events.tasks', [
+            'list' => $list,
+            'title' => $title,
+            'event' => $event,
+            'scripts' => $scripts,
+        ]);
+    }
+
+    public function searchMember(Request $request) {
+        // dd('pasok'); 
+
+        // dd($users);
+
+        // if($request->ajax()){
+        //     if($request->search == '') {
+        //         return response('');
+        //     }
+
+        //     $search = $request->search;
+        
+        //     $data = User::where('first_name', 'like', '%'.$search.'%')
+        //                 ->orWhere('middle_name', 'like', '%'.$search.'%')
+        //                 ->orWhere('last_name', 'like', '%'.$search.'%')
+        //                 ->orWhere('student_number', 'like', '%'.$search.'%')         
+        //     ->get();
+                        
+        //     $output = '';
+        
+        //     if($data){
+        //         foreach($data as $user){
+        //             $output .=  '<p class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer" data-id="' . $user->id . '">' . $user->userProgram->school->name . ' | ' . $user->userProgram->specialization->name . ' | ' . $user->last_name . ', ' . $user->first_name . ' ' . $user->middle_name . '</p>';
+        //         }
+        //     } else {
+        //         $output .= 'No Results';
+        //     }
+    
+        //     return response($output);
+        // }
     }
 }

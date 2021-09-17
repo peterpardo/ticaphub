@@ -71,45 +71,45 @@ $(document).ready(function() {
     };
     // SHOW LIST OF CANDIDATES - END
 
-    // LIVE SEARCH FOR USERS - START
-    let list = document.querySelector('#search_list');
-    let user_id = document.querySelector('.user_id');
-    let position = document.getElementById('position');
-    let school = document.getElementById('school').value;
-    // let specialization = document.getElementById('specialization').value;
+    // // LIVE SEARCH FOR USERS - START
+    // let list = document.querySelector('#search_list');
+    // let user_id = document.querySelector('.user_id');
+    // let position = document.getElementById('position');
+    // let school = document.getElementById('school').value;
+    // // let specialization = document.getElementById('specialization').value;
 
-    $('#search').on('keyup', function() {
-        let input = $(this).val();
+    // $('#search').on('keyup', function() {
+    //     let input = $(this).val();
 
-        if(input == ""){
-            $('#search_list').html("");
-        } else {
-            $.ajax({
-                method:"GET",
-                url:"/search-candidate",
-                data:{
-                    'search':input,
-                    'school':school,
-                },
-                success:function(data){
-                    $('#search_list').html(data);
+    //     if(input == ""){
+    //         $('#search_list').html("");
+    //     } else {
+    //         $.ajax({
+    //             method:"GET",
+    //             url:"/search-candidate",
+    //             data:{
+    //                 'search':input,
+    //                 'school':school,
+    //             },
+    //             success:function(data){
+    //                 $('#search_list').html(data);
 
-                    list.childNodes.forEach((result) => {
-                        result.addEventListener('click', (e) => {
-                            e.preventDefault();
+    //                 list.childNodes.forEach((result) => {
+    //                     result.addEventListener('click', (e) => {
+    //                         e.preventDefault();
 
-                            $('#search').val(result.innerHTML); 
-                            list.innerHTML = "";
+    //                         $('#search').val(result.innerHTML); 
+    //                         list.innerHTML = "";
 
-                            user_id.value = result.dataset.id;
+    //                         user_id.value = result.dataset.id;
             
-                        });
-                    });
-                }
-            });
-        }
-    });
-    // LIVE SEARCH FOR USERS - END
+    //                     });
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
+    // // LIVE SEARCH FOR USERS - END
 
     // SUBMIT SEARCHED USER - START
     $('#addCandidateForm').on('submit', (e) => {

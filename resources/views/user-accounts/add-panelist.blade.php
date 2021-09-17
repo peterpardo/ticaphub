@@ -9,11 +9,11 @@
             <div class="container mx-auto py-8">
                 <div class="w-96 mx-auto bg-white rounded shadow flex flex-col justify-center items-center text-center">
     
-                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Admin
+                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Panelist
                     </div>
     
             <form 
-            action="{{ route('add-admin') }}" 
+            action="{{ route('add-panelist') }}" 
             method="post">
             @csrf
 {{-- 
@@ -68,12 +68,11 @@
                         </select>
                     </div>
         
-                <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400 mb-2">Add Admin</button>
+                <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400 mb-2">Add Panelist</button>
             </form>   
     </div>         
             </div>
         </div>
-
     </div>
 
 </x-app-layout>
