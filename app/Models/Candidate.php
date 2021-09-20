@@ -35,9 +35,4 @@ class Candidate extends Model
         return $this->belongsTo(School::class, 'school_id', 'id');
     }
 
-
-    public function officer() {
-        return $this->hasOne(Officer::class, 'candidate_id', 'id');
-    }
-
 }

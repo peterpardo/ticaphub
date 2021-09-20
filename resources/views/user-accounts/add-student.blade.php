@@ -13,25 +13,17 @@
             <div class="container mx-auto py-8">
                 <div class="w-96 mx-auto bg-white rounded shadow flex flex-col justify-center items-center text-center">
     
-                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Users
+                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Students
                     </div>
     
                     <form 
-            action="{{ route('add-admin') }}" 
-            method="post">
+            action="{{ route('add-student') }}" 
+            method="post">{{  }}
             @csrf
-{{-- 
-           <div class="mb-2">
-                <label for="role">User Role</label>
-                <select name="role" id="role"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                    @foreach($roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                    @endforeach
-                </select>
-            </div> --}}
                     <div class="py-2">
                         <button type="button" class="bg-blue-600 py-2 px-5 mb-3 rounded text-white hover:bg-blue-500" id="modal-btn">Upload Users</button>
-                    
+                        
+                        {{-- FLASH DATA --}}
                         @if(session('status'))
                             <div class="text-{{ session('status') }}-500">{{ session('msg') }}</div>
                         @endif

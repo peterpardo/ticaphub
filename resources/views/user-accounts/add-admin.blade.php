@@ -16,30 +16,27 @@
             action="{{ route('add-admin') }}" 
             method="post">
             @csrf
-{{-- 
-           <div class="mb-2">
-                <label for="role">User Role</label>
-                <select name="role" id="role"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                    @foreach($roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                    @endforeach
-                </select>
-            </div> --}}
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="school">First Name</label>
-                        <input type="text" name="first_name" value="{{ old('first_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                        @error('first_name')
-                        <div class="text-red-500">{{ $message }}</div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Middle Name</label>
-                        <input type="text" name="middle_name" value="{{ old('middle_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                        @error('middle_name')
-                        <div class="text-red-500">{{ $message }}</div>
-                        @enderror
-                    </div>
+            {{-- FLASH DATA --}}
+            @if(session('status'))
+            <div class="text-{{ session('status') }}-500">{{ session('msg') }}</div>
+            @endif
+
+                <div class="mb-2">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">First Name</label>
+                    <input type="text" name="first_name" value="{{ old('first_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                    @error('first_name')
+                    <div class="text-red-500">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-2">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Middle Name</label>
+                    <input type="text" name="middle_name" value="{{ old('middle_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                    @error('middle_name')
+                    <div class="text-red-500">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="mb-2">
                     <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Last Name</label>
@@ -56,18 +53,30 @@
                     <div class="text-red-500">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="mb-2">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Password</label>
+                    <input type="password" name="password" value="{{ old('password') }}" class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                    @error('password')
+                    <div class="text-red-500">{{ $message }}</div>
+                    @enderror
+                </div>
             
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2"  for="school">School</label>
-                        <select name="school" id="school" class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                            @foreach($schools as $school)
-                                @if($school->is_involved)
-                                <option value="{{ $school->id }}">{{ $school->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-        
+                <div class="mb-2">
+                    <label class="block text-grey-darker text-sm font-bold mb-2"  for="school">School</label>
+                    <select name="school" id="school" class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                        @foreach($schools as $school)
+                            @if($school->is_involved)
+                            <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                @if($errors->all())
+                    @foreach($errors->all() as $error)
+                    <div class="text-red-500">{{ $error }}</div>
+                    @endforeach 
+                @endif
                 <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400 mb-2">Add Admin</button>
             </form>   
     </div>         

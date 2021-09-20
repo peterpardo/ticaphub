@@ -13,15 +13,15 @@ $(document).ready(function() {
                 $('tbody').html('');
                 $.each(response.lists, function (key, item){
                     let specialization = '';
-                    if(item.user.user_program.specialization == null) {
+                    if(item.user.roles[0].name == 'admin') {
                         specialization = 'admin';
                     } else {
-                        specialization = item.user.user_program.specialization.name;
+                        specialization = item.user.user_specialization.specialization.name;
                     }
                     $('tbody').append('<tr>\
                     <td class="px-4 py-3 border">' + item.title + '</td>\
                     <td class="px-4 py-3 text-ms font-semibold border">' + `${item.user.first_name} ${item.user.middle_name} ${item.user.last_name}` + '</td>\
-                    <td class="px-4 py-3 text-ms font-semibold border">' + item.user.user_program.school.name + '</td>\
+                    <td class="px-4 py-3 text-ms font-semibold border">' + item.user.school.name + '</td>\
                     <td class="px-4 py-3 text-ms font-semibold border">' +  specialization + '</td>\
                     <td class="px-4 py-3 text-ms font-semibold border">' + `${item.user.first_name} ${item.user.middle_name} ${item.user.last_name}` + '</td>\
                     <td class="px-4 py-3 text-ms font-semibold border">\
@@ -70,8 +70,6 @@ $(document).ready(function() {
     // ADD LIST - START
     $(document).on('submit', '#addListForm', function(e){
         e.preventDefault();
-        
-        console.log($('#title').val());
 
         var data = {
             'title': $('#title').val(),
@@ -95,7 +93,6 @@ $(document).ready(function() {
                         $('#message').append('<span class="text-red-500">'+ value + '</span>');
                     });
                 } else {
-                    console.log(response.message);
                     $('#message').html("")
                     $('#message').append('<span class="text-green-500">Task added successfully</span>');
                     $('#title').val("");

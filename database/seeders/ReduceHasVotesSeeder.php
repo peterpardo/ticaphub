@@ -23,7 +23,7 @@ class ReduceHasVotesSeeder extends Seeder
         $specializations = Specialization::all();
 
         foreach($specializations as $specialization){
-            foreach($specialization->userProgram as $user) {
+            foreach($specialization->userSpecialization as $user) {
                 $user->has_voted = 0;
                 $user->save();
             }

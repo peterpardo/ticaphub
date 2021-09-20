@@ -97,13 +97,13 @@ class HomeController extends Controller
         if ($user->hasRole('student')) {
             if(
                 $ticap->election_has_started && 
-                !$user->userProgram->has_voted
+                !$user->userSpecialization->has_voted
             ) {
                 return redirect()->route('vote');
             }
         }
 
-        $officers = Officer::with(['candidate.user', 'candidate.position'])->get();
+        $officers = Officer::with(['user.candidate.position', 'user.candidate.specialization'])->get();
 
         return view('officers-and-committees.officers', [
             'title' => $title,

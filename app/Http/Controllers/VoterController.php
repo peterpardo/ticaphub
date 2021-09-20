@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate;
+
 use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
@@ -10,7 +10,7 @@ use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class VoterController extends Controller
 {
@@ -18,8 +18,8 @@ class VoterController extends Controller
         $title = 'Officers and Committees';
         
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        $school = User::find(Auth::user()->id)->userProgram->school;
-        $specialization = User::find(Auth::user()->id)->userProgram->specialization;
+        $school = User::find(Auth::user()->id)->school;
+        $specialization = User::find(Auth::user()->id)->userSpecialization->specialization;
         $positions = Position::all();
         $schools = School::where('is_involved')->get();
 
@@ -35,7 +35,7 @@ class VoterController extends Controller
                 'specialization' => $specialization,
             ]);
         } else {
-            $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
+            $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
 
             return view('officers-and-committees.vote', [
                 'title' => $title,
@@ -82,8 +82,8 @@ class VoterController extends Controller
         }
         
         $user = User::find($voter->id);
-        $user->userProgram->has_voted = 1;
-        $user->userProgram->save();
+        $user->userSpecialization->has_voted = 1;
+        $user->userSpecialization->save();
 
         return redirect()->route('officers');  
     }

@@ -27,7 +27,7 @@ class Specialization extends Model
         return $this->hasMany(Candidate::class, 'specialization_id', 'id');
     }
 
-    public function userProgram() {
+    public function userSpecialization() {
         return $this->hasMany(UserProgram::class, 'specialization_id', 'id');
     }
 }

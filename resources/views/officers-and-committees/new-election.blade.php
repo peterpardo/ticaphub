@@ -30,7 +30,7 @@
 
                         <div class="mb-3">
                             <h1 class="text-xl">{{ $specialization->name }}</h1>
-                            <p>{{ \App\Models\UserProgram::all()->where('specialization_id', $specialization->id)->where('has_voted', 1)->count() }} out of {{ \App\Models\UserProgram::all()->where('specialization_id', $specialization->id)->count() }} has voted</p>
+                            <p>{{ \App\Models\UserSpecialization::all()->where('specialization_id', $specialization->id)->where('has_voted', 1)->count() }} out of {{ \App\Models\UserSpecialization::all()->where('specialization_id', $specialization->id)->count() }} has voted</p>
                         </div>
                         
                         <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">
@@ -53,10 +53,10 @@
                                         <ul>
                                         @foreach($officers as $officer)
                                             @if(
-                                                $officer->candidate->user->userProgram->specialization->id == $specialization->id &&
-                                                $officer->candidate->position->id == $position->id
+                                                $officer->user->candidate->specialization->id == $specialization->id &&
+                                                $officer->user->candidate->position->id == $position->id
                                             )
-                                                <li class="py-2">{{ $officer->candidate->user->first_name . ' ' . $officer->candidate->user->middle_name . ' ' . $officer->candidate->user->last_name . ' ' }}</li>
+                                                <li class="py-2">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</li>
                                             @endif
                                         @endforeach
                                         </ul>
@@ -66,13 +66,13 @@
                                         <ul>
                                         @foreach($officers as $officer)
                                             @if(
-                                                $officer->candidate->user->userProgram->specialization->id == $specialization->id &&
-                                                $officer->candidate->position->id == $position->id
+                                                $officer->user->candidate->specialization->id == $specialization->id &&
+                                                $officer->user->candidate->position->id == $position->id
                                             )
                                                 @if($officer->is_elected)
                                                 <li class="text-green-500 py-2">elected</li>
                                                 @else
-                                                <li class="py-2">{{ \App\Models\Vote::where('candidate_id', $officer->candidate->id)->count() }}</li>
+                                                <li class="py-2">{{ \App\Models\Vote::where('candidate_id', $officer->user->candidate->id)->count() }}</li>
                                                 @endif
                                             @endif
                                         @endforeach

@@ -12,12 +12,12 @@ class Officer extends Model
     protected $table = 'officers';
 
     protected $fillable = [
-        'candidate_id',
+        'user_id',
         'is_elected',
         'ticap_id'
     ];
 
-    public function candidate(){
-        return $this->belongsTo(Candidate::class, 'candidate_id', 'id');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

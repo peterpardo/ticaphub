@@ -23,9 +23,6 @@ class PositionSeeder extends Seeder
             'name' => 'Co-Chairman',
         ]);
 
-        // Position::create([
-        //     'name' => 'Committee Lead',
-        // ]);
         
     }
 }

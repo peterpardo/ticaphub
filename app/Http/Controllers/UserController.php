@@ -10,16 +10,13 @@ use App\Models\Specialization;
 use App\Models\Ticap;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
-use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {   
@@ -36,13 +33,12 @@ class UserController extends Controller
         $scripts = [
             asset('js/modal.js'),
             asset('js/useraccounts/addSpecialization.js'),
-            // asset('js/useraccounts/schoolCheckbox.js'),
         ];
 
-        return view('user-accounts.set-invitation', [
-            'title' => $title,
-            'scripts' => $scripts,
-        ]);
+        // return view('user-accounts.set-invitation', [
+        //     'title' => $title,{{  }}{{  }}{{  }}
+        //     'scripts' => $scripts,
+        // ]);
     }
 
     public function setInvitation(Request $request) {
@@ -139,13 +135,32 @@ class UserController extends Controller
     }
 
     public function addPanelist(Request $request) {
+        $ticap = Auth::user()->ticap_id;
+
         $request->validate([
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'password' => 'required',
         ]); 
-        dd($request->all());
+    
+        // CREATE USER
+        $user = User::create([
+            'first_name' => Str::title($request->first_name),
+            'middle_name' => Str::title($request->middle_name),
+            'last_name' => Str::title($request->last_name),
+            'email' => $request->email,
+            'student_number' => $request->student_number,
+            'password' => $request->password,
+            'ticap_id' => $ticap,
+            'password' => Hash::make('123'),
+            'school_id' => $request->school,
+        ]);
+
+        $request->session()->flash('msg', 'Account has been created!');
+        $request->session()->flash('status', 'green');
+        return back();
     }
 
 // ADD ADMIN FOR USER ACCOUNTS
@@ -166,13 +181,33 @@ class UserController extends Controller
     }
 
     public function addAdmin(Request $request) {
+        $ticap = Auth::user()->ticap_id;
+
+        // VALIDATION OF INPUT
         $request->validate([
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'password' => 'required',
         ]); 
-        dd($request->all());
+        
+         // CREATE USER
+         $user = User::create([
+            'first_name' => Str::title($request->first_name),
+            'middle_name' => Str::title($request->middle_name),
+            'last_name' => Str::title($request->last_name),
+            'email' => $request->email,
+            'student_number' => $request->student_number,
+            'password' => $request->password,
+            'ticap_id' => $ticap,
+            'password' => Hash::make('123'),
+            'school_id' => $request->school,
+        ]);
+
+        $request->session()->flash('msg', 'Account has been created!');
+        $request->session()->flash('status', 'green');
+        return back();
     }
 
     // ADD ADMIN FOR USER(STUDENTS) ACCOUNTS
@@ -187,7 +222,7 @@ class UserController extends Controller
             asset('js/modal.js'),
         ];
         
-        return view('user-accounts.add', [
+        return view('user-accounts.add-student', [
             'title' => $title,
             'scripts' => $scripts,
             'schools' => $schools,
@@ -196,9 +231,9 @@ class UserController extends Controller
         ]);
     }
     
-    public function adduser(Request $request) {
+    public function addUser(Request $request) {
         $request->validate([
-            'role' => 'required',
+            // 'role' => 'required',
             'school' => 'required',
             'specialization' => 'required',
             'first_name' => 'required',
@@ -213,6 +248,7 @@ class UserController extends Controller
         $ticap = Auth::user()->ticap_id;
 
         // GENERATE DEFAULT PASSWORD
+        // EX: picab201811780
         $tempPassword = "picab" . $request->student_number;
 
         // CREATE USER
@@ -224,11 +260,11 @@ class UserController extends Controller
             'student_number' => $request->student_number,
             'ticap_id' => $ticap,
             'password' => Hash::make($tempPassword),
+            'school_id' => $request->school,
         ]);
 
         // ADD USER WITH SCHOOL AND SPECIALIZATION
-        $user->userProgram()->create([
-            'school_id' => $request->school,
+        $user->userSpecialization()->create([
             'specialization_id' => $request->specialization,
         ]);
 
@@ -255,7 +291,7 @@ class UserController extends Controller
 
         // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
-        $link = URL::temporarySignedRoute('set-password', now()->addDays(7), [
+        $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
             'token' => $token, 
             'ticap' => $ticap,
             'email' => $request->email,
@@ -378,11 +414,11 @@ class UserController extends Controller
                         'student_number' => $studentNumber,
                         'password' => Hash::make($tempPassword),
                         'ticap_id' => Auth::user()->ticap_id,
+                        'school_id' => $school,
                     ]);
 
-                    // ADD USER WITH SCHOOL AND SPECIALIZATION
-                    $user->userProgram()->create([
-                        'school_id' => $school,
+                    // ADD STUDENT WITH SPECIALIZATION
+                    $user->userSpecialization()->create([
                         'specialization_id' => $specialization,
                     ]);
 

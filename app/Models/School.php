@@ -16,8 +16,8 @@ class School extends Model
         'is_involved',
     ];
 
-    public function userProgram() {
-        return $this->hasMany(UserProgram::class, 'school_id', 'id');
+    public function user() {
+        return $this->hasMany(User::class, 'school_id', 'id');
     }
 
     public function groups() {

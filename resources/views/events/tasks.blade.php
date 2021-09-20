@@ -23,26 +23,29 @@
                 
                 <div class="my-2">
                     <label for="title" class="block font-semibold mb-2">Title</label>
-                    <input class="rounded" type="text" name="title" id="title">
+                    <input class="rounded" type="text" name="title" id="title" autocomplete="off">
                 </div>
 
                 <div class="my-2 relative">
-                    <label for="title" class="block font-semibold mb-2">Members</label>
-        
-                    <input class="rounded" type="text" name="search" id="search">
-                    <div id="searchList" class="absolute bg-white w-56 rounded text-center hidden">
-                        <div class="py-1 hover:bg-gray-200 cursor-pointer rounded m-1">Mina Sharon Myoui | Officer</div>
-                        <div class="py-1 hover:bg-gray-200 cursor-pointer rounded m-1">Mina Sharon Myoui | Officer</div>
-                        <div class="py-1 hover:bg-gray-200 cursor-pointer rounded m-1">Mina Sharon Myoui | Officer</div>
+                    <label for="title" class="block font-semibold mb-2">Member</label>
+
+                    <div class="relative">
+                      <div id="memberError" class="text-red-500"></div>
+                      <input type="text" name="member" id="member" autocomplete="off" class="rounded" placeholder="Search officer">
+                      <div id="searchList" class="absolute bg-white rounded z-40 max-h-40 overflow-auto"></div>
+                    </div>
+
+                    {{-- TAG CONTAINER --}}
+                    <div class="relative w-56">                
+                        <div id="tagContainer"></div>
                     </div>
                 </div>
                  
                 <div class="my-2">
-                    <label for="title" class="block font-semibold mb-2">Description</label>
+                    <label for="description" class="block font-semibold mb-2">Description</label>
                     <textarea id="description" class="resize-none w-1/2 h-40 rounded"></textarea>
                 </div>
 
-                
                 <div>
                     <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add Task</button>
                 </div>
@@ -59,11 +62,12 @@
                         <th class="px-4 py-3">Title</th>
                         <th class="px-4 py-3">Description</th>
                         <th class="px-4 py-3">Created by</th>
+                        <th class="px-4 py-3">Created At</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
                 </thead>
 
-                <tbody class="bg-white text-center"></tbody>
+                <tbody id="taskLists" class="bg-white text-center"></tbody>
             </table>
         </div>
         {{--(TEMPORARY TABLE)--}}

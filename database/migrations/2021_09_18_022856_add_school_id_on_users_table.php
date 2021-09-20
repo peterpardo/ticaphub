@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddHasVotedColumnOnUsersProgramTable extends Migration
+class AddSchoolIdOnUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddHasVotedColumnOnUsersProgramTable extends Migration
      */
     public function up()
     {
-        Schema::table('users_program', function (Blueprint $table) {
-            $table->boolean('has_voted')->default(0);
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
         });
     }
 
@@ -25,8 +25,8 @@ class AddHasVotedColumnOnUsersProgramTable extends Migration
      */
     public function down()
     {
-        Schema::table('users_program', function (Blueprint $table) {
-            $table->dropColumn('has_voted');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('school_id');
         });
     }
 }

@@ -23,13 +23,13 @@
                                 
                                 <td class="px-4 py-3 text-ms font-semibold border">{{ $user->student_number }}</td>
                                 
-                                <td class="px-4 py-3 text-ms font-semibold border">{{ $user->userProgram->school->name ?? '' }}</td>
+                                <td class="px-4 py-3 text-ms font-semibold border">{{ $user->school->name ?? '' }}</td>
     
                                 <td class="px-4 py-3 text-ms font-semibold border">
                                     @if($user->hasRole('admin'))
                                         None 
                                     @else
-                                    {{ $user->userProgram->specialization->name ?? ''}}
+                                    {{ $user->userSpecialization->specialization->name ?? ''}}
                                     @endif
                                 </td>
     

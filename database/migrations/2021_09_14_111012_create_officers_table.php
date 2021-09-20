@@ -15,7 +15,7 @@ class CreateOfficersTable extends Migration
     {
         Schema::create('officers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('candidate_id')->constrained('candidates')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_elected')->default(0);
             $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
             $table->timestamps();

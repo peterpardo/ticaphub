@@ -50,10 +50,10 @@
                                         <ul>
                                         @foreach($officers as $officer)
                                             @if(
-                                                $officer->candidate->user->userProgram->specialization->id == $specialization->id &&
-                                                $officer->candidate->position->id == $position->id
+                                                $officer->user->candidate->specialization->id == $specialization->id &&
+                                                $officer->user->candidate->position->id == $position->id
                                             )
-                                                <li class="py-2">{{ $officer->candidate->user->first_name . ' ' . $officer->candidate->user->middle_name . ' ' . $officer->candidate->user->last_name . ' ' }}</li>
+                                                <li class="py-2">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</li>
                                             @endif
                                         @endforeach
                                         </ul>
@@ -63,8 +63,8 @@
                                         <ul>
                                         @foreach($officers as $officer)
                                             @if(
-                                                $officer->candidate->user->userProgram->specialization->id == $specialization->id &&
-                                                $officer->candidate->position->id == $position->id
+                                                $officer->user->candidate->specialization->id == $specialization->id &&
+                                                $officer->user->candidate->position->id == $position->id
                                             )
                                                 @if($officer->is_elected)
                                                 <li class="text-green-500 py-2">elected</li>

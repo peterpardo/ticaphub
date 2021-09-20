@@ -38,7 +38,7 @@
                 <ul class="mb-2">
                     @foreach($users as $user) 
                     @if($user->candidate != null && 
-                    $school->id == $user->userProgram->school->id &&
+                    $school->id == $user->school->id &&
                     $user->candidate->position_id == $position->id && 
                     $specialization->id == $user->candidate->specialization_id)
                     <li>

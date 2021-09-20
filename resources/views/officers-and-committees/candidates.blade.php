@@ -1,4 +1,4 @@
-<x-app-layout :scripts="$scripts">
+<x-app-layout>
 
     <x-page-title>
         {{ $title }}

@@ -30,7 +30,7 @@
 
                     <div class="mb-3">
                         <h1 class="text-xl">{{ $specialization->name }}</h1>
-                        <p>{{ \App\Models\UserProgram::all()->where('specialization_id', $specialization->id)->where('has_voted', 1)->count() }} out of   {{ \App\Models\UserProgram::all()->where('specialization_id', $specialization->id)->count() }} has voted</p>
+                        <p>{{ \App\Models\UserSpecialization::all()->where('specialization_id', $specialization->id)->where('has_voted', 1)->count() }} out of   {{ \App\Models\UserSpecialization::all()->where('specialization_id', $specialization->id)->count() }} has voted</p>
                     </div>
                     
                     <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">
@@ -51,7 +51,7 @@
                                 
                                 <td class="border">
                                     @foreach($users as $user)
-                                    @if($user->candidate != null && $user->userProgram->specialization->id == $specialization->id && $user->userProgram->school->id == $school->id && $user->candidate->position_id == $position->id)
+                                    @if($user->candidate != null && $user->userSpecialization->specialization->id == $specialization->id && $user->school->id == $school->id && $user->candidate->position_id == $position->id)
                                     <ul>
                                         <li class="py-1">{{ $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name}}</li>
                                     </ul>
@@ -61,7 +61,7 @@
                                 
                                 <td class="border">
                                     @foreach($users as $user)
-                                    @if($user->candidate != null && $user->userProgram->specialization->id == $specialization->id && $user->userProgram->school->id == $school->id  && $user->candidate->position_id == $position->id)
+                                    @if($user->candidate != null && $user->userSpecialization->specialization->id == $specialization->id && $user->school->id == $school->id  && $user->candidate->position_id == $position->id)
                                     <ul>
                                         <li class="py-1">{{ \App\Models\Vote::where('candidate_id', $user->candidate->id)->count() }}</li>
                                     </ul>

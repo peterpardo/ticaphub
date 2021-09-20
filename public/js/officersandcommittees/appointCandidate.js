@@ -21,8 +21,8 @@ $(document).ready(function() {
                                 <td class="px-4 py-3 text-ms font-semibold border">'+ users[key].candidate.position.name +'</td>\
                                 <td class="px-4 py-3 text-ms font-semibold border">' + users[key].first_name + ' ' + users[key].middle_name + ' ' + users[key].last_name + ' | ' + users[key].student_number + '</td>\
                                 <td class="px-4 py-3 text-ms font-semibold border">' + users[key].student_number + '</td>\
-                                <td class="px-4 py-3 text-ms font-semibold border">' + users[key].user_program.school.name + '</td>\
-                                <td class="px-4 py-3 text-ms font-semibold border">' + users[key].user_program.specialization.name + '</td>\
+                                <td class="px-4 py-3 text-ms font-semibold border">' + users[key].school.name + '</td>\
+                                <td class="px-4 py-3 text-ms font-semibold border">' + users[key].userSpecialization.specialization.name + '</td>\
                                 <td class="px-4 py-3 text-ms font-semibold border"><button data-position-id="' + users[key].candidate.position_id + '"data-user-id="' + users[key].id + '" class="removeCandidateBtn bg-red-400 px-4 py-1 m-0.5 rounded text-white hover:bg-red-500">&times;</button>\</td>\
                             </tr>'
                         );

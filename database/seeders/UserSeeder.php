@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -24,12 +25,10 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.com',
             'student_number' => 201811780,
             'password' => Hash::make('123'), // password
-            'ticap_id' => 1
-        ]);
-
-        $user->userProgram()->create([
+            'ticap_id' => 1,
             'school_id' => 1,
         ]);
+
 
         $mina = User::create([
             'first_name' => 'Mina',
@@ -39,10 +38,10 @@ class UserSeeder extends Seeder
             'student_number' => 123456789,
             'password' => Hash::make('123'), // password
             'ticap_id' => 1,
+            'school_id' => 1,
         ]);
 
-        $mina->userProgram()->create([
-            'school_id' => 1,
+        $mina->userSpecialization()->create([
             'specialization_id' => 1,
         ]);
 
@@ -54,12 +53,13 @@ class UserSeeder extends Seeder
             'student_number' => 35345345,
             'password' => Hash::make('123'), // password
             'ticap_id' => 1,
+            'school_id' => 1,
         ]);
 
-        $sana->userProgram()->create([
-            'school_id' => 1,
-            'specialization_id' => 2,
+        $sana->userSpecialization()->create([
+            'specialization_id' => 1,
         ]);
+
 
         // CREATE PERMISSIONS
         // ADMIN
@@ -67,6 +67,8 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'access events']);
         Permission::create(['name' => 'add events']);
         Permission::create(['name' => 'delete events']);
+        Permission::create(['name' => 'add lists']);
+        Permission::create(['name' => 'add tasks']);
 
         // PANELIST
         Permission::create(['name' => 'evaluate']);
@@ -78,6 +80,8 @@ class UserSeeder extends Seeder
         $admin->givePermissionTo('access events');
         $admin->givePermissionTo('add events');
         $admin->givePermissionTo('delete events');
+        $admin->givePermissionTo('add lists');
+        $admin->givePermissionTo('add tasks');
         
         // STUDENT
         $student = Role::create(['name' => 'student']);
@@ -85,6 +89,8 @@ class UserSeeder extends Seeder
         // CHAIRMAN
         $chairman = Role::create(['name' => 'chairman']);
         $chairman->givePermissionTo('access events');
+        $chairman->givePermissionTo('add lists');
+        $chairman->givePermissionTo('add tasks');
 
         // OFFICER
         $officer = Role::create(['name' => 'officer']);
@@ -97,93 +103,30 @@ class UserSeeder extends Seeder
 
         // ASSIGN ROLE
         $user->assignRole($admin);
-        $mina->assignRole($student, $chairman);
-        $sana->assignRole($student, $officer);
+        $mina->assignRole($student);
+        $sana->assignRole($student);
 
-        // GENERATE USERS - FEU TECH
+        // GENERATE USERS - FEU TECH ONLY
         for ($x = 0; $x <= 40; $x++) {
-            $user = \App\Models\User::factory()->create();
-            $user->userProgram()->create([
+            
+            $user = \App\Models\User::create([
+                'first_name' => Str::random(5),
+                'middle_name' => Str::random(5),
+                'last_name' => Str::random(5),
+                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
+                'student_number' => rand(1,999999999),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10),
+                'ticap_id' => 1,
                 'school_id' => 1,
+            ]);
+
+            $user->userSpecialization()->create([
                 'specialization_id' => rand(1,2),
             ]);
+
             $user->assignRole($student);
-        }   
-
-        
-        // // GENERATE USERS - FEU DILIMAN
-        // for ($x = 0; $x <= 20; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 2,
-        //         'specialization_id' => 1,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 2,
-        //         'specialization_id' => 2,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 2,
-        //         'specialization_id' => 3,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 2,
-        //         'specialization_id' => 4,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // // GENERATE USERS - FEU ALABANG
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 3,
-        //         'specialization_id' => 1,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 3,
-        //         'specialization_id' => 2,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 3,
-        //         'specialization_id' => 3,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
-
-        // for ($x = 0; $x <= 10; $x++) {
-        //     $user = \App\Models\User::factory()->create();
-        //     $user->userProgram()->create([
-        //         'school_id' => 3,
-        //         'specialization_id' => 4,
-        //     ]);
-        //     $user->assignRole($student);
-        // }   
+        }    
 
     }
 }

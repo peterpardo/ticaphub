@@ -18,7 +18,6 @@ class TicapSeeder extends Seeder
         Ticap::create([
             'name' => 'TICaP 9.0',
             'invitation_is_set' => 1,
-            'election_has_started' => 1,
         ]);
     }
 }

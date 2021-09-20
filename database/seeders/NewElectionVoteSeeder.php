@@ -29,23 +29,23 @@ class NewElectionVoteSeeder extends Seeder
 
         // INSERT OFFICERS NOT YET ELECTED IN AN ARRAY
         foreach($officers as $officer){
-            if($officer->candidate->position_id == 1 && $officer->candidate->specialization_id == 1){
-                array_push($wmaChairman, $officer->candidate->id);
+            if($officer->user->candidate->position_id == 1 && $officer->user->candidate->specialization_id == 1){
+                array_push($wmaChairman, $officer->user->candidate->id);
             }
-            if($officer->candidate->position_id == 2 && $officer->candidate->specialization_id == 1){
-                array_push($wmaCo, $officer->candidate->id);
+            if($officer->user->candidate->position_id == 2 && $officer->user->candidate->specialization_id == 1){
+                array_push($wmaCo, $officer->user->candidate->id);
             }
-            if($officer->candidate->position_id == 1 && $officer->candidate->specialization_id == 2){
-                array_push($daChairman, $officer->candidate->id);
+            if($officer->user->candidate->position_id == 1 && $officer->user->candidate->specialization_id == 2){
+                array_push($daChairman, $officer->user->candidate->id);
             }
-            if($officer->candidate->position_id == 2 && $officer->candidate->specialization_id == 2){
-                array_push($daCo, $officer->candidate->id);
+            if($officer->user->candidate->position_id == 2 && $officer->user->candidate->specialization_id == 2){
+                array_push($daCo, $officer->user->candidate->id);
             }
         }
 
         foreach($users as $user){
-            if($user->hasRole('student') && !$user->userProgram->has_voted){
-                if($user->userProgram->specialization_id == 1 && !$user->userProgram->has_voted){
+            if($user->hasRole('student') && !$user->userSpecialization->has_voted){
+                if($user->userSpecialization->specialization_id == 1 && !$user->userSpecialization->has_voted){
                     if(!empty($wmaChairman)){
                         $user->votes()->create([
                             'candidate_id' => $wmaChairman[array_rand($wmaChairman)],
@@ -58,10 +58,10 @@ class NewElectionVoteSeeder extends Seeder
                             'ticap_id' => $user->ticap_id,
                         ]);
                     }
-                    $user->userProgram->has_voted = 1;
-                    $user->userProgram->save();
+                    $user->userSpecialization->has_voted = 1;
+                    $user->userSpecialization->save();
                 } 
-                if($user->userProgram->specialization_id == 2 && !$user->userProgram->has_voted){
+                if($user->userSpecialization->specialization_id == 2 && !$user->userSpecialization->has_voted){
                     if(!empty($daChairman)){
                         $user->votes()->create([
                             'candidate_id' => $daChairman[array_rand($daChairman)],
@@ -74,8 +74,8 @@ class NewElectionVoteSeeder extends Seeder
                             'ticap_id' => $user->ticap_id,
                         ]);
                     }
-                    $user->userProgram->has_voted = 1;
-                    $user->userProgram->save();
+                    $user->userSpecialization->has_voted = 1;
+                    $user->userSpecialization->save();
                 }
             }
         }

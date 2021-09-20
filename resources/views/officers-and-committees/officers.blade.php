@@ -48,10 +48,10 @@
                                         @else
                                             @foreach($officers as $officer)
                                                 @if(
-                                                    $officer->candidate->user->userProgram->specialization->id == $specialization->id &&
-                                                    $officer->candidate->position->id == $position->id
+                                                    $officer->user->candidate->specialization->id == $specialization->id &&
+                                                    $officer->user->candidate->position->id == $position->id
                                                 )
-                                                    {{ $officer->candidate->user->first_name . ' ' . $officer->candidate->user->middle_name . ' ' . $officer->candidate->user->last_name . ' ' }}
+                                                    {{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}
                                                 @endif
                                             @endforeach
                                         @endif

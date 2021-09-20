@@ -53,10 +53,10 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         });
 
         Route::get('/users', [HomeController::class, 'users'])->name('users');
-        Route::get('/users/add-user', [UserController::class, 'userForm'])->name('add-user');
-        Route::post('/users/add-user', [UserController::class, 'addUser']);
-        Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
+        Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
+        Route::post('/users/add-student', [UserController::class, 'addUser']);
         Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
+        Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
         Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);
         Route::get('/users/add-panelist', [UserController::class, 'panelistForm'])->name('add-panelist');
         Route::post('/users', [UserController::class, 'resetUsers'])->name('reset-users');
@@ -98,7 +98,18 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     Route::get('/fetch-lists/{id}', [EventController::class, 'fetchLists']);
     Route::post('/delete-list', [EventController::class, 'deleteList']);
     Route::get('/events/{id}/list/{list}', [EventController::class, 'viewList']);
+    Route::post('/events/{id}/list/{list}', [EventController::class, 'addTask']);
+    Route::post('/delete-task', [EventController::class, 'deleteTask']);
     Route::get('/search-member', [EventController::class, 'searchMember']);
+    Route::get('/fetch-tasks/{id}', [EventController::class, 'fetchTasks']);
+
+    Route::get('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'viewTask']);
+    Route::post('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'addActivity']);
+    Route::get('/fetch-activity/{taskId}', [EventController::class, 'fetchActivities']);
+    Route::get('/download-event-file/{fileName}', [EventController::class, 'downloadEventFile']);
+    Route::get('/fetch-files/{taskId}', [EventController::class, 'fetchFiles']);
+    Route::post('event/{eventId}/list/{listId}/task/{taskId}/move-task', [EventController::class, 'moveTask']);
+
 
 
 

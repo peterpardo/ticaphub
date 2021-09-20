@@ -11,7 +11,7 @@ use App\Models\Ticap;
 
 ;
 use App\Models\User;
-use App\Models\UserProgram;
+use App\Models\UserSpecialization;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,15 +98,13 @@ class ElectionController extends Controller
     public function setCandidates() {
         $title = 'Officers and Committees';
         $schools = School::all();
-        $scripts = [
-            asset('js/modal.js'),
-            asset('js/officersandcommittees/appointCandidate.js'),
-            // asset('js/officersandcommittees/datatable.js'),
-        ];
+        // $scripts = [
+        //     asset('js/officersandcommittees/appointCandidate.js'),
+        // ];
 
         return view('officers-and-committees.candidates', [
                 'title' => $title,
-                'scripts' => $scripts,
+                // 'scripts' => $scripts,
                 'schools' => $schools,
         ]);
     }
@@ -130,7 +128,7 @@ class ElectionController extends Controller
         
             if($data){
                 foreach($data as $user){
-                    $output .=  '<p class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer" data-id="' . $user->id . '">' . $user->userProgram->school->name . ' | ' . $user->userProgram->specialization->name . ' | ' . $user->last_name . ', ' . $user->first_name . ' ' . $user->middle_name . '</p>';
+                    $output .=  '<p class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer" data-id="' . $user->id . '">' . $user->school->name . ' | ' . $user->userSpecialization->specialization->name . ' | ' . $user->last_name . ', ' . $user->first_name . ' ' . $user->middle_name . '</p>';
                 }
             } else {
                 $output .= 'No Results';
@@ -157,8 +155,8 @@ class ElectionController extends Controller
 
             $user->candidate()->create([
                 'position_id' => $request->position,
-                'specialization_id' => $user->userProgram->specialization_id,
-                'school_id' => $user->userProgram->school->id
+                'specialization_id' => $user->userSpecialization->specialization_id,
+                'school_id' => $user->school->id
             ]);
 
             return response()->json([
@@ -169,7 +167,7 @@ class ElectionController extends Controller
     }
 
     public function fetchCandidates(){
-        $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
+        $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
         
         return response()->json([
             'users' =>  $users,
@@ -227,7 +225,7 @@ class ElectionController extends Controller
         $ticap->save();
 
         // GIVE VIEW ACCESS TO ALL MODELS RELATED TO USER
-        $users = User::with(['candidate.position', 'userProgram.school', 'userProgram.specialization'])->get();
+        $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
         $positions = Position::all();
         $schools = School::all();
         $specializations = Specialization::all();
@@ -246,13 +244,7 @@ class ElectionController extends Controller
         $specializations = Specialization::all();
         $schools = School::all();
         $positions = Position::all();
-        $users = User::all();
-
-        // SET USER TO HAS VOTED
-        foreach($users as $user){
-            $user->userProgram->has_voted = 1;
-            $user->userProgram->save();
-        }
+        $users = User::role('student')->get();
 
         // TEMP CONTAINER FOR COUNTING OF VOTES
         $winners = [];
@@ -265,13 +257,14 @@ class ElectionController extends Controller
 
                 // SPECIALIZATION
                 foreach($specializations as $specialization) {
-                    $userCountPerSpecialization = UserProgram::where('specialization_id', $specialization->id)->count();
+                    $userCountPerSpecialization = UserSpecialization::where('specialization_id', $specialization->id)->count();
+                    
 
                     // RETURN TRUE IF VOTES PER SPECIALIZATION IS LESS THAN HALF OF THE USERS IN THE SPECIALIZATION
-                    if(UserProgram::where('has_voted', 1)->where('specialization_id', $specialization->id)->count() < (int)round($userCountPerSpecialization/2)){
+                    if(UserSpecialization::where('has_voted', 1)->where('specialization_id', $specialization->id)->count() < (int)round($userCountPerSpecialization/2)){
                         return back()->with('error', 'The ' . $school->name . '(' . $specialization->name . ') needs more votes.');
                     }
-                    
+   
                     // POSITION
                     foreach($positions as $position){
 
@@ -297,8 +290,8 @@ class ElectionController extends Controller
 
                             // INSERT CANDIDATE TO OFFICERS TABLE (IS_ELECTED = TRUE)
                             $candidate = Candidate::find($final[0]);
-                            if($candidate->officer == null || !$candidate->officer->exists()){
-                                $candidate->officer()->create([
+                            if($candidate->user->officer == null || !$candidate->user->officer->exists()){
+                                $candidate->user->officer()->create([
                                     'ticap_id' => $candidate->user->ticap_id,
                                     'is_elected' => 1,
                                 ]);
@@ -311,8 +304,8 @@ class ElectionController extends Controller
                                 
                                 // INSERT CANDIDATE TO OFFICERS TABLE WITH (IS_ELECTED = FALSE)
                                 $candidate = Candidate::find($candidate_id);
-                                if($candidate->officer == null || !$candidate->officer->exists()){
-                                    $candidate->officer()->create([
+                                if($candidate->user->officer == null || !$candidate->user->officer->exists()){
+                                    $candidate->user->officer()->create([
                                         'ticap_id' => $candidate->user->ticap_id,
                                     ]);
                                 }
@@ -351,7 +344,7 @@ class ElectionController extends Controller
     }
 
     public function electionResults(){
-        $officers = Officer::with(['candidate.user', 'candidate.position'])->get();
+        $officers = Officer::with(['user', 'user.candidate.position', 'user.candidate.specialization'])->get();
 
         $title = 'Officers and Committees';
         $ticap = Ticap::find(Auth::user()->id)->first();
@@ -365,7 +358,7 @@ class ElectionController extends Controller
     }
 
     public function newElectionPanel() {
-        $officers = Officer::with(['candidate.user', 'candidate.position'])->get();
+        $officers = Officer::with(['user', 'user.candidate.position', 'user.candidate.specialization'])->get();
 
         $title = 'Officers and Committees';
         $ticap = Ticap::find(Auth::user()->id)->first();
@@ -381,8 +374,10 @@ class ElectionController extends Controller
         $users = User::all();
         // SET USER TO HAS VOTED
         foreach($users as $user){
-            $user->userProgram->has_voted = 1;
-            $user->userProgram->save();
+            if(!$user->userSpecialization->has_voted){
+                $user->userSpecialization->has_voted = 1;
+                $user->userSpecialization->save();
+            }
         }
 
         // TEMP CONTAINER FOR COUNTING OF VOTES
@@ -394,14 +389,14 @@ class ElectionController extends Controller
         // GET INFO OF OFFICERS
         $officers = Officer::where('is_elected', 0)->get();
         foreach($officers as $officer){
-            if(!in_array($officer->candidate->position->id, $positions)){
-                array_push($positions, $officer->candidate->position->id);
+            if(!in_array($officer->user->candidate->position->id, $positions)){
+                array_push($positions, $officer->user->candidate->position->id);
             }
-            if(!in_array($officer->candidate->specialization->id, $specializations)){
-                array_push($specializations, $officer->candidate->specialization->id);
+            if(!in_array($officer->user->candidate->specialization->id, $specializations)){
+                array_push($specializations, $officer->user->candidate->specialization->id);
             }
-            if(!in_array($officer->candidate->school->id, $schools)){
-                array_push($schools, $officer->candidate->school->id);
+            if(!in_array($officer->user->candidate->school->id, $schools)){
+                array_push($schools, $officer->user->candidate->school->id);
             }
         }
 
@@ -410,13 +405,13 @@ class ElectionController extends Controller
                 foreach($positions as $position){
                     foreach($officers as $officer){
                         if(
-                            $officer->candidate->school->id == $school &&
-                            $officer->candidate->specialization->id == $specialization &&
-                            $officer->candidate->position->id == $position
+                            $officer->user->candidate->school->id == $school &&
+                            $officer->user->candidate->specialization->id == $specialization &&
+                            $officer->user->candidate->position->id == $position
                         ) {
                             // COUNT VOTES FOR OFFICER
-                            $votes = Vote::where('candidate_id', $officer->candidate->id)->count();
-                            $winners[$officer->candidate->id] = $votes;
+                            $votes = Vote::where('candidate_id', $officer->user->candidate->id)->count();
+                            $winners[$officer->user->id] = $votes;
                         }
                     }
 
@@ -428,8 +423,8 @@ class ElectionController extends Controller
                         $loser = array_keys($winners, min($winners));
 
                         // UPDATE OFFICER AS ELECTED AND DELETE LOSER
-                        Officer::where('candidate_id', $final[0])->update(['is_elected' => 1]);
-                        Officer::where('candidate_id', $loser[0])->delete();
+                        Officer::where('user_id', $final[0])->update(['is_elected' => 1]);
+                        Officer::where('user_id', $loser[0])->delete();
                     } 
                     
                     // RUNS IF THERE ARE MORE THAN ONE RESULT
@@ -442,7 +437,7 @@ class ElectionController extends Controller
                                     continue;
                                 }
                                 dd('deleted');
-                                Officer::where('candidate_id', $id)->delete();
+                                Officer::where('user_id', $id)->delete();
                             }
                             
                         }
@@ -468,10 +463,10 @@ class ElectionController extends Controller
 
             foreach($officers as $officer) {
                 // DELETE VOTES OF THE RE-ELECTED CANDIDATES
-                Vote::where('candidate_id', $officer->candidate->id)->delete();
+                Vote::where('candidate_id', $officer->user->candidate->id)->delete();
 
                 // REMOVE VOTES OF STUDENTS TO VOTE AGAIN
-                $users = UserProgram::where('specialization_id', $officer->candidate->specialization->id)->get();
+                $users = UserSpecialization::where('specialization_id', $officer->user->candidate->specialization->id)->get();
                 foreach($users as $user){
                     if($user->has_voted){
                         $user->has_voted = 0;
@@ -492,10 +487,10 @@ class ElectionController extends Controller
         // ASSIGNMENT OF ROLES TO ELECTED OFFICERS
         $officers = Officer::all();
         foreach($officers as $officer) {
-            if($officer->candidate->position->name == 'Chairman'){
-                $officer->candidate->user->assignRole('chairman');
+            if($officer->user->candidate->position->name == 'Chairman'){
+                $officer->user->assignRole('chairman');
             } else {
-                $officer->candidate->user->assignRole('officer');
+                $officer->user->assignRole('officer');
             }
         }
 

@@ -13,18 +13,16 @@ class CreateUsersProgramTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_program', function (Blueprint $table) {
+        Schema::create('user_specialization', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
                 ->constrained('users')
-                ->onDelete('cascade');
-            $table->foreignId('school_id')
-                ->constrained('schools')
                 ->onDelete('cascade');
             $table->foreignId('specialization_id')
                 ->nullable()
                 ->constrained('specializations')
                 ->onDelete('cascade');
+            $table->boolean('has_voted')->default(0);
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ class CreateUsersProgramTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_program');
+        Schema::dropIfExists('user_specialization');
     }
 }

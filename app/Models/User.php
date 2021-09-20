@@ -26,6 +26,7 @@ class User extends Authenticatable
         'student_number',
         'password',
         'ticap_id',
+        'school_id',
     ];
 
     /**
@@ -47,12 +48,20 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
-    public function userProgram() {
-        return $this->hasOne(UserProgram::class, 'user_id', 'id');
+    public function school() {
+        return $this->belongsTo(School::class, 'school_id', 'id');
+    }
+    
+    public function userSpecialization() {
+        return $this->hasOne(UserSpecialization::class, 'user_id', 'id');
     }
 
     public function candidate() {
         return $this->hasOne(Candidate::class, 'user_id', 'id');
+    }
+
+    public function officer() {
+        return $this->hasOne(Officer::class, 'user_id', 'id');
     }
 
     public function votes() {
@@ -62,12 +71,20 @@ class User extends Authenticatable
     public function userGroup() {
         return $this->hasOne(UserGroup::class, 'user_id', 'id');
     }
-
-    public function userSchool() {
-        return $this->hasOne(UserSchool::class, 'user_id', 'id');
-    }
-
+    
     public function lists() {
         return $this->hasMany(TaskList::class, 'user_id', 'id');
+    }
+
+    public function tasks() {
+        return $this->belongsToMany(Task::class, 'user_task', 'user_id', 'task_id');
+    }
+
+    public function tasksCreated() {
+        return $this->hasMany(Task::class, 'user_id', 'id');
+    }
+
+    public function activities() {
+        return $this->hasMany(Activity::class, 'user_id', 'id');
     }
 }

@@ -6,7 +6,7 @@
 
     <div class="flex justify-between my-2">
         <div>
-            <a href="{{ route('add-user') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">+ Student</a>
+            <a href="{{ route('add-student') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">+ Student</a>
             <a href="{{ route('add-admin') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+ Admin</a>
             <a href="{{ route('add-panelist') }}" class="inline-block bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full">+ Panelist</a>
         </div>

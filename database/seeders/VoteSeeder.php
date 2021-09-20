@@ -47,8 +47,8 @@ class VoteSeeder extends Seeder
         
         
         foreach($users as $user){
-            if($user->hasRole('student') && !$user->userProgram->has_voted){
-                if($user->userProgram->specialization_id == 1){
+            if($user->hasRole('student') && !$user->userSpecialization->has_voted){
+                if($user->userSpecialization->specialization_id == 1){
                     $user->votes()->create([
                         'candidate_id' => $wmaChairman[array_rand($wmaChairman)],
                         'ticap_id' => $user->ticap_id,
@@ -57,10 +57,10 @@ class VoteSeeder extends Seeder
                         'candidate_id' => $wmaCo[array_rand($wmaCo)],
                         'ticap_id' => $user->ticap_id,
                     ]);
-                    $user->userProgram->has_voted = 1;
-                    $user->userProgram->save();
+                    $user->userSpecialization->has_voted = 1;
+                    $user->userSpecialization->save();
                 } 
-                if($user->userProgram->specialization_id == 2){
+                if($user->userSpecialization->specialization_id == 2){
                     $user->votes()->create([
                         'candidate_id' => $daChairman[array_rand($daChairman)],
                         'ticap_id' => $user->ticap_id,
@@ -69,8 +69,8 @@ class VoteSeeder extends Seeder
                         'candidate_id' => $daCo[array_rand($daCo)],
                         'ticap_id' => $user->ticap_id,
                     ]);
-                    $user->userProgram->has_voted = 1;
-                    $user->userProgram->save();
+                    $user->userSpecialization->has_voted = 1;
+                    $user->userSpecialization->save();
                 }
             }
         }
