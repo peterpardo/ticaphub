@@ -17,8 +17,6 @@ class CreateCommitteesTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('specialization_id')->constrained('specializations')->onDelete('cascade');
-            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
             $table->timestamps();
         });
     }

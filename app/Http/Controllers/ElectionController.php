@@ -57,9 +57,7 @@ class ElectionController extends Controller
             ]);
         } else {
             $position = Position::find($request->position);
-
             $position->delete();
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Position Deleted SuccessFully',
@@ -96,15 +94,8 @@ class ElectionController extends Controller
 
     public function setCandidates() {
         $title = 'Officers and Committees';
-        $schools = School::all();
-        // $scripts = [
-        //     asset('js/officersandcommittees/appointCandidate.js'),
-        // ];
-
         return view('officers-and-committees.candidates', [
-                'title' => $title,
-                // 'scripts' => $scripts,
-                'schools' => $schools,
+            'title' => $title,
         ]);
     }
 
@@ -198,37 +189,41 @@ class ElectionController extends Controller
 
     public function electionPanel() {
         $positions = Position::all();
-
         // CHECK IF CANDIDATES EXIST
         if (Candidate::all()->count() == 0) {
-            return back()->with('error', 'Please add Candidates');
+            return back()->with([
+                'status' => 'red',
+                'message' => 'Add more candidates',
+            ]);
         }
-
         // CHECK IF CANDIDATES EXIST FOR EACH POSITION ON EACH SPECIALIZATION
         $positions = Position::all();
         $specializations = Specialization::all();
-        foreach($specializations as $specialization) {
-            foreach($positions as $position){
-                if($position->candidates->where('specialization_id', $specialization->id)->count() < 2){
-                    return back()->with('error','Specialization: "' . $specialization->name . '" *Please add more candidates for the position: ' . $position->name . ' (min. of 2 candidates)' );
+        $schools = School::all();
+        foreach($schools as $school) {
+            foreach($specializations as $specialization) {
+                foreach($positions as $position){
+                    if($position->candidates->where('specialization_id', $specialization->id)->count() < 2 && $position->candidates->where('school_id', $school->id)->count() < 2){
+                        return back()->with([
+                            'status' => 'red',
+                            'message' => 'Please add more candidates for ' . $position->name . ' (' . $school->name . '|' . $specialization->name . ') '.' *min. of 2 candidates'
+                        ]);
+                    }
                 }
             }
         }
-
-        $title = 'Officers and Committees';
         
+        $title = 'Officers and Committees';
         // UPDATE TO ELECTION HAS STARTED
         $ticap = Auth::user()->ticap_id;
         $ticap = Ticap::find($ticap);
         $ticap->election_has_started = 1;
         $ticap->save();
-
         // GIVE VIEW ACCESS TO ALL MODELS RELATED TO USER
         $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
         $positions = Position::all();
         $schools = School::all();
         $specializations = Specialization::all();
-
         return view('officers-and-committees.election', [
             'title' => $title, 
             'ticap' => $ticap->name, 

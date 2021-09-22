@@ -10,7 +10,7 @@
         <div class="text-center">
             <h1 class="font-semibold text-xl">{{ $ticap }}</h1>
         </div>
-                
+
         <section class="container p-6">
 
             <h1 class="font-bold text-xl mb-2">Position</h1>
@@ -20,12 +20,12 @@
 
                 <div class="w-full overflow-y-auto"> --}}
 
-                    <table class="rounded-lg shadow-lg">
+                    <table class="rounded-lg shadow-lg justify-center mx-auto">
 
                         <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3">Name</th>
-                                <th class="px-4 py-3">Action</th>
+                                <th class="px-16 py-2">Name</th>
+                                <th class="px-16 py-2">Action</th>
                             </tr>
                         </thead>
 

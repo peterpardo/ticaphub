@@ -9,6 +9,9 @@
             <h1 class="font-semibold text-3xl">Election Results</h1>
         </div>
 
+        {{-- APPOINT COMMITTEE HEADS --}}
+        <a href="#" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Appoint Committee Heads</a>
+
         <div class="flex flex-wrap justify-evenly w-full">
  
             @foreach(\App\Models\School::all() as $school)

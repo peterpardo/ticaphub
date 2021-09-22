@@ -21,6 +21,7 @@ class SchoolSeeder extends Seeder
 
         DB::table('schools')->insert([
             'name' => 'FEU Diliman',
+            'is_involved' => 1,
         ]);
 
         DB::table('schools')->insert([

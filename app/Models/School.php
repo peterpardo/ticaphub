@@ -23,4 +23,8 @@ class School extends Model
     public function groups() {
         return $this->hasMany(Group::class, 'school_id', 'id');
     }
+
+    public function candidates() {
+        return $this->hasMany(Candidate::class, 'school_id', 'id');
+    }
 }

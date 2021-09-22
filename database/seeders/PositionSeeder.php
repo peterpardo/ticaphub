@@ -16,7 +16,6 @@ class PositionSeeder extends Seeder
     {
         Position::create([
             'name' => 'Chairman',
-
         ]);
 
         Position::create([

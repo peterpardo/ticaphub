@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             TicapSeeder::class,
             UserSeeder::class,
-            CandidateSeeder::class,
+            // CandidateSeeder::class,
             // VoteSeeder::class,
         ]);
     }
