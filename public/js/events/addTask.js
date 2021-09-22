@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // ADD TASK
     const addTaskForm = document.getElementById('addTaskForm');
     const title = document.getElementById('title');
     const description = document.getElementById('description');
@@ -10,10 +9,9 @@ $(document).ready(function() {
     const member = document.getElementById('member');
     const tagContainer = document.getElementById('tagContainer');
     const memberError = document.getElementById('memberError');
-    const taskLists = document.getElementById('taskLists');
+   
 
-    fetchTasks();
-
+    // ADD TASK FORM
     addTaskForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -39,7 +37,7 @@ $(document).ready(function() {
     
         $.ajax({
             type: 'POST',
-            url: `/events/${event.value}/list/${list.value}`,
+            url: `/events/${event.value}/list/${list.value}/add-task`,
             data: data,
             dataType: "json",
             success: function (response) {
@@ -51,18 +49,8 @@ $(document).ready(function() {
                         `<span class="inline-block text-red-500">${value}</span>`;
                     });
                 } else {
-                    message.innerHTML = "";
-                    message.innerHTML =
-                    `<span class="inline-block text-green-500">${response.message}</span>`;
-                    title.value = "";
-                    description.value = "";
-                    tagContainer.innerHTML = "";
-
-                    fetchTasks();
-
-                    setTimeout(function(){
-                        message.innerHTML = '';
-                    }, 2000);
+                    alert(response.message);
+                    location.href = response.url;
                 }
             }
         });
@@ -70,7 +58,7 @@ $(document).ready(function() {
     });
     // ADD TASK
 
-     // LIVE SEARCH FOR USERS
+    // LIVE SEARCH FOR USERS
     $('#member').on('keyup', function() {
         let input = $(this).val();
 
@@ -133,6 +121,10 @@ $(document).ready(function() {
             if(id == tag.dataset.id){
                 memberError.textContent = "Member already inserted";
                 memberInserted = true;
+                setTimeout(function(){
+                    memberError.innerHTML = '';
+                }, 2000);
+                
             } 
         });
         
@@ -147,79 +139,79 @@ $(document).ready(function() {
     }
     // DELETE TAG
 
-    // FETCH TASK
-    function fetchTasks() {
-        $.ajax({
-            type: 'GET',
-            url: `/fetch-tasks/${list.value}`,
-            dataType: "json",
-            success: function (response) {
-                tasks = response.tasks
-                taskLists.innerHTML = '';
-                for(let key in tasks){
-                    let created_at = new Date(tasks[key].created_at).toLocaleString();
+    // // FETCH TASK
+    // function fetchTasks() {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: `/fetch-tasks/${list.value}`,
+    //         dataType: "json",
+    //         success: function (response) {
+    //             tasks = response.tasks
+    //             taskLists.innerHTML = '';
+    //             for(let key in tasks){
+    //                 let created_at = new Date(tasks[key].created_at).toLocaleString();
 
-                    $(taskLists).append(`
-                        <tr>
-                            <td class="px-4 py-3 border">${tasks[key].title}</td>
-                            <td class="px-4 py-3 border">${tasks[key].description}</td>
-                            <td class="px-4 py-3 border">${tasks[key].task_creator.first_name} ${tasks[key].task_creator.middle_name} ${tasks[key].task_creator.last_name}</td>
-                            <td class="px-4 py-3 border">${created_at}</td>
-                            <td class="px-4 py-3 text-ms font-semibold border">
-                                <a href="/events/${event.value}/list/${list.value}/task/${tasks[key].id}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
-                                <button data-id="${tasks[key].id}" class="removeTaskBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
-                            </td>
-                        </tr>
-                    `);
-                }
+    //                 $(taskLists).append(`
+    //                     <tr>
+    //                         <td class="px-4 py-3 border">${tasks[key].title}</td>
+    //                         <td class="px-4 py-3 border">${tasks[key].description}</td>
+    //                         <td class="px-4 py-3 border">${tasks[key].task_creator.first_name} ${tasks[key].task_creator.middle_name} ${tasks[key].task_creator.last_name}</td>
+    //                         <td class="px-4 py-3 border">${created_at}</td>
+    //                         <td class="px-4 py-3 text-ms font-semibold border">
+    //                             <a href="/events/${event.value}/list/${list.value}/task/${tasks[key].id}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
+    //                             <button data-id="${tasks[key].id}" class="removeTaskBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
+    //                         </td>
+    //                     </tr>
+    //                 `);
+    //             }
 
-                // // REMOVE TASK BUTTON
-                let removeTaskBtn = document.querySelectorAll(".removeTaskBtn")
+    //             // // REMOVE TASK BUTTON
+    //             let removeTaskBtn = document.querySelectorAll(".removeTaskBtn")
 
-                removeTaskBtn.forEach((btn) => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
+    //             removeTaskBtn.forEach((btn) => {
+    //                 btn.addEventListener('click', (e) => {
+    //                     e.preventDefault();
                         
-                        let data = {
-                            'task_id' : btn.dataset.id,
-                        };
+    //                     let data = {
+    //                         'task_id' : btn.dataset.id,
+    //                     };
 
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
+    //                     $.ajaxSetup({
+    //                         headers: {
+    //                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //                         }
+    //                     });
                     
-                        $.ajax({
-                            type: 'POST',
-                            url: '/delete-task',
-                            data: data,
-                            dataType: "json",
-                            success: function (response) {
-                                if(response.status == 200) {
-                                    message.innerHTML = "";
-                                    message.innerHTML =
-                                    `<span class="inline-block text-green-500">${response.message}</span>`;
-                                    title.value = "";
-                                    description.value = "";
-                                    tagContainer.innerHTML = "";
+    //                     $.ajax({
+    //                         type: 'POST',
+    //                         url: '/delete-task',
+    //                         data: data,
+    //                         dataType: "json",
+    //                         success: function (response) {
+    //                             if(response.status == 200) {
+    //                                 message.innerHTML = "";
+    //                                 message.innerHTML =
+    //                                 `<span class="inline-block text-green-500">${response.message}</span>`;
+    //                                 title.value = "";
+    //                                 description.value = "";
+    //                                 tagContainer.innerHTML = "";
 
-                                    fetchTasks();
+    //                                 fetchTasks();
 
-                                    setTimeout(function(){
-                                        message.innerHTML = '';
-                                    }, 2000);
-                                } 
+    //                                 setTimeout(function(){
+    //                                     message.innerHTML = '';
+    //                                 }, 2000);
+    //                             } 
 
-                            }
-                        });
-                    });
-                });
-                // REMOVE TASK BUTTON
-            }
-        });
-    };
-    // FETCH TASK
+    //                         }
+    //                     });
+    //                 });
+    //             });
+    //             // REMOVE TASK BUTTON
+    //         }
+    //     });
+    // };
+    // // FETCH TASK
 
 
 });

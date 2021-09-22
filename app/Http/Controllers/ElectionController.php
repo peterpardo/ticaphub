@@ -49,7 +49,7 @@ class ElectionController extends Controller
         $validator = Validator::make($request->all(), [
             'position' => 'required',
         ]);
-
+{{  }}
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -65,7 +65,6 @@ class ElectionController extends Controller
                 'message' => 'Position Deleted SuccessFully',
             ]);
         }
-
     }
 
     public function setPositions() {
@@ -292,6 +291,7 @@ class ElectionController extends Controller
                             $candidate = Candidate::find($final[0]);
                             if($candidate->user->officer == null || !$candidate->user->officer->exists()){
                                 $candidate->user->officer()->create([
+                                    'position_id' => $candidate->position->id,
                                     'ticap_id' => $candidate->user->ticap_id,
                                     'is_elected' => 1,
                                 ]);
@@ -306,6 +306,7 @@ class ElectionController extends Controller
                                 $candidate = Candidate::find($candidate_id);
                                 if($candidate->user->officer == null || !$candidate->user->officer->exists()){
                                     $candidate->user->officer()->create([
+                                        'position_id' => $candidate->position->id,
                                         'ticap_id' => $candidate->user->ticap_id,
                                     ]);
                                 }
@@ -374,10 +375,12 @@ class ElectionController extends Controller
         $users = User::all();
         // SET USER TO HAS VOTED
         foreach($users as $user){
-            if(!$user->userSpecialization->has_voted){
-                $user->userSpecialization->has_voted = 1;
-                $user->userSpecialization->save();
-            }
+            if($user->hasRole('student')){
+                if(!$user->userSpecialization->has_voted){
+                    $user->userSpecialization->has_voted = 1;
+                    $user->userSpecialization->save();
+                }
+            }  
         }
 
         // TEMP CONTAINER FOR COUNTING OF VOTES

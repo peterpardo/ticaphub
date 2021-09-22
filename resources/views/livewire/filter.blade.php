@@ -1,22 +1,24 @@
 <div>
     <div class="container">
 	    <div class="row">
-	        <div class="col-md-12">	            
-	            <input type="text"  class="form-control" placeholder="Search" wire:model="searchTerm" />
-	            <div class="w-full overflow-x-auto">
+	        <div class="col-md-12">	
+                <div class="mb-5">            
+	                <input type="text" class="form-control border rounded-lg px-3 py-2 mt-5 mb-2"  placeholder="Search Users" wire:model="searchTerm" />
+                </div>
+	            <div class="w-full overflow-x-auto ">
 
                     <table class="w-full">
                         <thead>
-                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                            <tr class="mt-5 text-md text-center font-semibold tracking-wide text-gray-900 uppercase border-b border-gray-600 ">
                                 <th class="px-4 py-3">User</th>
-                                <th class="px-4 py-3">Name</th>
+                                <th class="px-12 py-3">Name</th>
                                 <th class="px-4 py-3">School</th>
                                 <th class="px-4 py-3">Specialization</th>
                                 <th class="px-4 py-3">Email</th>
-                                <th class="px-4 py-3">Action</th>
+                                <th class="px-24 py-3">Action</th>
                             </tr>   
                         </thead>
-                        <tbody class="bg-white">
+                        <tbody class="bg-white text-center">
                         @foreach($users as $user)
                             <tr class="text-gray-700">
                                 
@@ -66,7 +68,9 @@
                     </table>
     
                 </div>
-	            {{ $users->links() }}
+                <div class="mt-5">
+	                {{ $users->links() }}
+                </div>
 	        </div>
 	    </div>
 	</div>

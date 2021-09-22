@@ -18,47 +18,33 @@ class EventController extends Controller
 {
     public function index(){
         $title = 'Manage Events';
-
+        $events = Event::all();
         $scripts = [
-            asset('js/events/addEvent.js'),
+            asset('js/events/event.js'),
         ];
 
         return view('events.event', [
             'title' => $title,
             'scripts' => $scripts,
-        ]);
-    }
-
-    public function fetchEvents(){
-        $events = Event::all();
-
-        return response()->json([
-            'events' =>  $events,
+            'events' => $events,
         ]);
     }
 
     public function addEvent(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'event_name' => 'required',
+        $request->validate([
+            'event_name' => 'required'
         ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->getMessageBag(),
-            ]);
-        } else {
-            // INSERT EVENT
-            Event::create([
-                'name' => $request->event_name,
-                'ticap_id' => Auth::user()->ticap_id
-            ]);
+        // INSERT EVENT
+        Event::create([
+            'name' => $request->event_name,
+            'ticap_id' => Auth::user()->ticap_id
+        ]);
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Event Added SuccessFully',
-            ]);
-        }
+        return back()->with([
+            'status' => 'green',
+            'message' => 'Event Successfully Created'
+        ]);
     }
 
     public function deleteEvent(Request $request){
@@ -77,18 +63,17 @@ class EventController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Event Deleted SuccessFully',
+                'message' => 'Event Deleted Successfully',
             ]);
         }
     }
 
-    public function viewEvent($id) {
+    public function viewEvent($eventId) {
+        $event = Event::find($eventId);
         $title = 'Manage Events';
-
-        $event = Event::find($id);
         
         $scripts = [
-            asset('js/events/addList.js'),
+            asset('js/events/list.js'),
         ];
 
         return view('events.list', [
@@ -98,42 +83,26 @@ class EventController extends Controller
         ]);
     }
 
-    public function addList(Request $request, $id){
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
+    public function addList(Request $request, $eventId){
+        $event = Event::find($eventId);
+        $request->validate([
+            'title' => 'required'
         ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->getMessageBag(),
-            ]);
-        } else {
-            // INSERT LIST
-            $event = Event::find($id);
+        $event->lists()->create([
+            'title' => $request->title,
+            'user_id' => Auth::user()->id,
+            'event_id' => $event->id
+        ]);
 
-            $event->lists()->create([
-                'title' => $request->title,
-                'user_id' => Auth::user()->id,
-                'event_id' => $event->id
-            ]);
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'List Added SuccessFully',
-            ]);
-        }
-    }
-
-    public function fetchLists($id){
-        $lists = TaskList::with(['user.school', 'user.roles', 'event', 'user.userSpecialization.specialization'])->where('event_id', $id)->get();
-
-        return response()->json([
-            'lists' =>  $lists,
+        return back()->with([
+            'status' => 'green',
+            'message' => 'List Successfully Created'
         ]);
     }
 
-    public function deleteList(Request $request){
+
+    public function deleteList(Request $request, $eventId){
         $validator = Validator::make($request->all(), [
             'list_id' => 'required',
         ]);
@@ -154,15 +123,13 @@ class EventController extends Controller
         }
     }
 
-    public function viewList($id, $list){
-        $list = TaskList::find($list);
-        $event = Event::find($id);
+    public function viewList($eventId, $listId){
+        $event = Event::find($eventId);
+        $list = TaskList::find($listId);
         $title = "Manage Events";
-        
-        $users = User::role(['officer', 'chairman'])->get();
        
         $scripts = [
-            asset('js/events/addTask.js'),
+            asset('js/events/deleteTask.js'),
         ];
 
         return view('events.tasks', [
@@ -170,7 +137,6 @@ class EventController extends Controller
             'title' => $title,
             'event' => $event,
             'scripts' => $scripts,
-            'users' => $users,
         ]);
     }
 
@@ -196,7 +162,9 @@ class EventController extends Controller
         
             if($data){
                 foreach($data as $user){
-                    $output .=  '<div class="rounded px-2 py-1 hover:bg-gray-100 cursor-pointer" data-id="' . $user->id . '"><span class="font-semibold">' . $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name . '</span> | ' . $user->school->name . ' | '. $user->userSpecialization->specialization->name . '</div>';
+                    $output .=  '<div class="rounded px-2 py-1 hover:bg-gray-100 border cursor-pointer" data-id="' . $user->id . '">
+                                    <span class="font-semibold">' . $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name . '</span> | ' . $user->school->name . ' | '. $user->userSpecialization->specialization->name . 
+                                '</div>';
                 }
             } else {
                 $output .= '<div class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer">No Results</div>';
@@ -206,7 +174,41 @@ class EventController extends Controller
         }
     }   
 
-    public function addTask(Request $request, $event, $listId) {
+    public function addTaskForm(Request $request, $eventId, $listId) {
+        $event = Event::find($eventId);
+        $list = TaskList::find($listId);
+        $title = "Manage Events";
+       
+        $scripts = [
+            asset('js/events/addTask.js'),
+        ];
+
+        return view('events.add-task', [
+            'list' => $list,
+            'title' => $title,
+            'event' => $event,
+            'scripts' => $scripts,
+        ]);
+    }
+
+    public function addTask(Request $request, $eventId, $listId) {
+        // CHECK IF EVENT OR LIST STILL EXISTS
+        if(!Event::where('id', $eventId)->exists()) {
+            $url = url('events');
+            return response()->json([
+                'status' => 200,
+                'message' => 'Event Already Deleted by the Admin',
+                'url' => $url
+            ]);
+        } elseif(!TaskList::where('id', $listId)->exists() ){
+            $url = url('events/'.$eventId);
+            return response()->json([
+                'status' => 200,
+                'message' => 'List Already Been Deleted by the creator',
+                'url' => $url
+            ]);
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
@@ -232,9 +234,12 @@ class EventController extends Controller
                 }
             }
 
+            $url = url('events/'.$eventId.'/list/'.$listId);
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Task Added Successfully',
+                'url' => $url
             ]);
         }
     }
@@ -247,7 +252,16 @@ class EventController extends Controller
         ]);     
     }
 
-    public function deleteTask(Request $request){
+    public function deleteTask(Request $request, $eventId, $listId){
+        // CHECK IF TASK ALREADY BEEN DELETED
+        if(!Task::where('id', $request->task_id)->exists()){
+            $url = url('events/'.$eventId.'/list/'.$listId);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Task Already Been Deleted',
+                'url' => $url
+            ]);
+        }
         Task::find($request->task_id)->delete();
         return response()->json([
             'status' => 200,
@@ -256,6 +270,13 @@ class EventController extends Controller
     }
 
     public function viewTask($eventId, $listId, $taskId){
+        // RETURN BACK TO PREVIOUS URL IF TASK DOESN'T EXIST
+        if(!Task::where('id', $taskId)->exists()){
+            return back()->with([
+                'status' => 'red',
+                'message' => 'Task Already Been Deleted'
+            ]);
+        }
         $event = Event::find($eventId);
         $list = TaskList::find($listId);
         $lists = TaskList::all();
@@ -264,7 +285,6 @@ class EventController extends Controller
        
         $scripts = [
             asset('js/events/addActivity.js'),
-            asset('js/modal.js'),
         ];
 
         return view('events.task-details', [
@@ -316,7 +336,6 @@ class EventController extends Controller
                 }
             }
            
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Activity Report added'
@@ -344,6 +363,67 @@ class EventController extends Controller
         ]); 
     }
 
+    public function updateTaskForm($eventId, $listId, $taskId) {
+        $event = Event::find($eventId);
+        $list = TaskList::find($listId);
+        $lists = TaskList::all();
+        $task = Task::find($taskId);
+        $title = "Manage Events";
+       
+        $scripts = [
+            asset('js/events/updateTask.js'),
+            asset('js/modal.js'),
+        ];
+
+        return view('events.update-task', [
+            'list' => $list,
+            'title' => $title,
+            'event' => $event,
+            'task' => $task,
+            'scripts' => $scripts,
+            'lists' => $lists,
+        ]);
+    }
+
+    public function updateTask(Request $request, $eventId, $listId, $taskId) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->getMessageBag(),
+            ]);
+        } else {
+            // UPDATE TASK
+            // $task = Task::where('id', $taskId)->update([
+            //     'title' => $request->title,
+            //     'description' => $request->description
+            // ]);
+
+            $task = Task::find($taskId);
+            $task->title = $request->title;
+            $task->description = $request->description;
+
+            // REMOVE ALL MEMBERS FROM TASK
+            $task->users()->detach();
+
+            // INSERT NEW SET OF MEMBERS TO TASK
+            $task->users()->attach($request->members);
+
+            $task->save();
+
+            $url = url('events/'.$eventId.'/list/'.$listId.'/task/'.$taskId);
+        
+            return response()->json([
+                'status' => 200,
+                'url' => $url,
+            ]);
+        }
+    }
+
+
     public function moveTask(Request $request, $eventId, $listId, $taskId) {
         $validator = Validator::make($request->all(), [
             'list' => 'required',
@@ -366,4 +446,28 @@ class EventController extends Controller
             ]);
         }
     }
+    
+    public function fetchMembers($taskId) {
+        $members = Task::find($taskId)->users()->with(['userSpecialization.specialization', 'school'])->get();
+
+        return response()->json([
+            'members' => $members
+        ]);
+    }
+
+    // public function deleteOfficerFromTask(Request $request, $taskId) {
+    //     Task::find($taskId)->users()->where('user_id', $request->officer)->delete();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => 'Officer Successfully Removed'
+    //     ]);
+    // }
+
+    // public function addOfficerToTask(Request $request, $taskId) {
+    //     Task::find($taskId)->users()->attach($request->officer);
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => 'Officer Successfully Added'
+    //     ]);
+    // }
 }

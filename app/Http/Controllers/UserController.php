@@ -396,10 +396,9 @@ class UserController extends Controller
                     $tempPassword = "picab" . $studentNumber;
 
                     // VALIDATE EMAIL AND STUDENT NUMBER
-                    if(User::where([
-                        'email'=> $email,
-                        'student_number' => $studentNumber
-                        ])->exists() ){
+                    if(User::orWhere('email', $email)
+                        ->orWhere('student_number', $studentNumber)
+                        ->exists() ){
                         
                         throw new GeneralException('Line ' . $ctr . ' - Email and Student Number must be unique');
                         

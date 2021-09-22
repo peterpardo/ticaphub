@@ -63,7 +63,6 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
 
         Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
         Route::post('/users/invite-users', [UserController::class, 'importFile']);
-        // Route::post('/users/import-users', [MailController::class, 'importUsers'])->name('import-users');
 
         // OFFICERS AND COMMITTEES
         Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
@@ -88,31 +87,45 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     });
 
     // EVENTS AND LISTS/TASKS
-    Route::get('/events', [EventController::class, 'index'])->name('events');
-    Route::get('/fetch-event', [EventController::class, 'fetchEvents']);
-    Route::post('/add-event', [EventController::class, 'addEvent']);
-    Route::post('/delete-event', [EventController::class, 'deleteEvent']);
+    Route::middleware(['officer'])->group(function(){
+        Route::get('/events', [EventController::class, 'index'])->name('events');
+        Route::post('/events/add-event', [EventController::class, 'addEvent']);
+        Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
 
-    Route::get('/events/{id}', [EventController::class, 'viewEvent']);
-    Route::post('/events/{id}', [EventController::class, 'addList']);
-    Route::get('/fetch-lists/{id}', [EventController::class, 'fetchLists']);
-    Route::post('/delete-list', [EventController::class, 'deleteList']);
-    Route::get('/events/{id}/list/{list}', [EventController::class, 'viewList']);
-    Route::post('/events/{id}/list/{list}', [EventController::class, 'addTask']);
-    Route::post('/delete-task', [EventController::class, 'deleteTask']);
+        Route::middleware(['event'])->group(function() {
+            Route::get('/events/{eventId}', [EventController::class, 'viewEvent']);
+            Route::post('/events/{eventId}/add-list', [EventController::class, 'addList']);
+            Route::post('/events/{eventId}/delete-list', [EventController::class, 'deleteList']);
+
+            Route::middleware(['list'])->group(function() {
+                Route::get('/events/{eventId}/list/{listId}', [EventController::class, 'viewList']);
+                Route::get('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTaskForm']);
+                Route::post('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTask'])
+                    ->withoutMiddleware(['list', 'event']);
+                Route::post('/events/{eventId}/list/{listId}/delete-task', [EventController::class, 'deleteTask']);
+                
+                Route::get('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'viewTask']);
+                Route::get('/events/{eventId}/list/{listId}/task/{taskId}/update-task', [EventController::class, 'updateTaskForm']);
+                Route::post('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'addActivity']);
+                Route::post('/events/{eventId}/list/{listId}/task/{taskId}/update-task', [EventController::class, 'updateTask']);
+                Route::post('/event/{eventId}/list/{listId}/task/{taskId}/move-task', [EventController::class, 'moveTask']);
+    
+                // Route::post('/delete-officer-from-task/{taskId}', [EventController::class, 'deleteOfficerFromTask']);
+                // Route::post('/add-officer-to-task/{taskId}', [EventController::class, 'addOfficerToTask']);
+            });
+           
+        });
+
+        
+        
+    });
+
     Route::get('/search-member', [EventController::class, 'searchMember']);
-    Route::get('/fetch-tasks/{id}', [EventController::class, 'fetchTasks']);
+    Route::get('/fetch-members/{taskId}', [EventController::class, 'fetchMembers']);
 
-    Route::get('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'viewTask']);
-    Route::post('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'addActivity']);
     Route::get('/fetch-activity/{taskId}', [EventController::class, 'fetchActivities']);
     Route::get('/download-event-file/{fileName}', [EventController::class, 'downloadEventFile']);
     Route::get('/fetch-files/{taskId}', [EventController::class, 'fetchFiles']);
-    Route::post('event/{eventId}/list/{listId}/task/{taskId}/move-task', [EventController::class, 'moveTask']);
-
-
-
-
     
     // STUDENT ROUTE
     Route::middleware(['student'])->group(function(){

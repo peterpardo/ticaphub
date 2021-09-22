@@ -4,6 +4,7 @@
     </x-page-title>
 
     <div>
+        <a href="/events/{{ $event->id }}/list/{{ $list->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-5xl font-bold mb-4">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
 
@@ -14,36 +15,70 @@
         
         {{-- MAIN DIV --}}
         <div class="flex flex-col xl:flex-row w-full my-5 shadow rounded-lg bg-white p-2">
+
             {{-- LEFT SIDE --}}
             <div class="flex flex-col my-1 xl:flex-1 xl:mx-2">
+                
                 <div class="flex my-2">
-                    <div class="flex-1">
-                        
-                        {{-- <div id="moveTaskError" class="text-red-500"></div> --}}
 
+                    <div class="flex-1">
                         <h1 class="font-semibold text-3xl">Title</h1>
-                        <div class="text-xl w-1/2 px-2 py-1 rounded">
-                            {{ $task->title }}
-                        </div>  
+                        <div class="text-xl w-1/2 px-2 py-1 rounded">{{ $task->title }}</div>  
                     </div>
+
+                    {{-- SHOW UPDATE TASK TO TASK CREATOR ONLY --}}
+                    @if(Auth::user()->id == $task->taskCreator->id)
                     <div>
-                        <button type="button" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded" id="modal-btn">Move Task To</button>
+                        <a href="{{ url()->current() }}/update-task" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded" id="modal-btn">Update Task</a>
                     </div>
+                    @endif
+
+                    {{-- @if(Auth::user()->id == $task->taskCreator->id)
+                        @can('move task')
+                        <div>
+                            <button type="button" class="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded" id="modal-btn">Move Task To</button>
+                        </div>
+                        @endcan
+                    @endif --}}
                     
                 </div>
+                
                 <div class="my-2">
                     <h1 class="font-semibold text-3xl">Description</h1>
-                    <div class="text-xl w-1/2 px-2 py-1 rounded">
-                        {{ $task->description }}
-                    </div>  
+                    <div class="text-xl w-1/2 px-2 py-1 rounded">{{ $task->description }}</div>  
                 </div>
+
                 <div class="my-2">
+                    <div class="flex">
+                        <h1 class="font-semibold text-3xl">Members</h1>
+                    </div>
+
+                    <ul class="text-md list-disc list-inside">
+                        @foreach ($task->users as $user)
+                            <li>{{ $user->first_name . ' ' . $user->middle_name . ' ' .  $user->last_name . ' | ' . $user->userSpecialization->specialization->name }}</li>
+                        @endforeach
+                    </ul>  
+                </div>
+                
+                <div class="my-2">
+                    <h1 class="font-semibold text-3xl">Files</h1>
+                    <div id="fileContainer" class="text-md"></div>  
+                </div>    
+            </div>
+            {{-- LEFT SIDE --}}
+
+            {{-- RIGHT SIDE --}}
+            <div class="flex flex-col xl:flex-1 xl:mx-2">
+                <div class="my-2">
+                    {{-- ONLY OFFICERS INCLUDED IN THE TASK CAN ADD REPORT --}}
+                    @if($task->users()->where('id', Auth::user()->id)->exists() || Auth::user()->id == $task->taskCreator->id)
+                    @can('add report')
                     <div class="w-full rounded p-2 border border-black">
                         <form 
-                            id="addActivityForm" 
                             action="/events/{{ $event->id }}/list/{{ $list->id }}/task/{{ $task->id }}" 
                             method="POST" 
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data"
+                            id="addActivityForm">
                             @csrf
                             <h1 class="text-xl font-semibold">Add Report</h1>
 
@@ -56,29 +91,11 @@
                             </div>
                         </form>
                     </div>  
+                    @endcan
+                    @endif
 
                     <h1 class="font-semibold text-3xl mt-3">Activity Reports</h1>
                     <div id="activityList" class="w-full rounded p-2 border border-black"></div>  
-                </div>
-            </div>
-            {{-- LEFT SIDE --}}
-
-            {{-- RIGHT SIDE --}}
-            <div class="flex flex-col xl:flex-1 xl:mx-2">
-                <div class="my-2">
-                    <div class="flex">
-                        <h1 class="font-semibold text-3xl">Members</h1>
-                        <button class="ml-2 rounded bg-blue-500 hover:bg-blue-600 text-white px-2">+ Member</button>
-                    </div>
-                    <ul class="text-md list-disc list-inside">
-                        @foreach ($task->users as $user)
-                            <li>{{ $user->first_name . ' ' . $user->middle_name . ' ' .  $user->last_name . ' | ' . $user->userSpecialization->specialization->name }}</li>
-                        @endforeach
-                    </ul>  
-                </div>
-                <div class="my-2">
-                    <h1 class="font-semibold text-3xl">Files</h1>
-                    <div id="fileContainer" class="text-md"></div>  
                 </div>
             </div>
             {{-- RIGHT SIDE --}}
@@ -88,7 +105,7 @@
     </div>
 
     {{-- MOVE TASK TO MODAL --}}
-    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="modal-overlay">
+    {{-- <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="modal-overlay">
     
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         
@@ -130,6 +147,50 @@
 
         </div>
 
-    </div>
+    </div> --}}
     {{-- MOVE TASK TO MODAL --}}
+
+    {{-- ADD MEMBER MODAL --}}
+    {{-- <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="addMemberModal">
+    
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content--> --}}
+            {{-- <div >
+                <form>
+                    @csrf
+               
+                    <div class="p-5 flex-auto justify-center">
+                        <div class="relative">
+                            <div id="memberError" class="text-red-500"></div>
+                            <label for="member" class="mb-2 text-lg font-semibold block">Update Members</label>
+                            <input type="text" name="member" id="member" autocomplete="off" class="rounded" placeholder="Search officer">
+                            <div id="searchList" class="absolute bg-white rounded z-40 max-h-40 overflow-auto"></div>
+                        </div>
+
+                        <div id="message"></div>
+                        <span class="font-semibold block">Members</span>
+                        <div id="memberContainer"></div>
+
+                    </div>
+                    <!--footer--> --}}
+                    {{-- <div class="p-3 mt-2 text-center space-x-4 md:block">
+
+                            <a href="javascript:;" id="addMemberCloseBtn" class="inline-block mb-2 md:mb-0 bg-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-white rounded-full hover:shadow-lg hover:bg-green-600">Done</a>
+                             --}}
+                            {{-- <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Update</button> --}}
+    
+                    {{-- </div>
+                    
+                </form>
+
+            </div>
+
+        </div>
+
+    </div> --}}
+    {{-- ADD MEMBER MODAL --}}
+
+
 </x-app-layout>

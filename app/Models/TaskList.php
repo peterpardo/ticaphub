@@ -25,4 +25,8 @@ class TaskList extends Model
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
+    public function tasks() {
+        return $this->hasMany(Task::class, 'list_id', 'id');
+    }
+
 }

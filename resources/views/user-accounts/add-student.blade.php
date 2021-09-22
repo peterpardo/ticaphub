@@ -9,16 +9,13 @@
 
         {{-- FILE --}}
       
-        <div class="w-full bg-grey-500">
+        <div class="bg-grey-500">
             <div class="container mx-auto py-8">
-                <div class="w-96 mx-auto bg-white rounded shadow flex flex-col justify-center items-center text-center">
-    
-                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Students
-                    </div>
-    
-                    <form 
+                <div class="w-96 mx-auto bg-white rounded shadow flex flex-col justify-center items-center">
+                        <div class="inline-block mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Students</div>
+                    <form class="text-center"
             action="{{ route('add-student') }}" 
-            method="post">{{  }}
+            method="post">
             @csrf
                     <div class="py-2">
                         <button type="button" class="bg-blue-600 py-2 px-5 mb-3 rounded text-white hover:bg-blue-500" id="modal-btn">Upload Users</button>

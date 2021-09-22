@@ -69,5 +69,8 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\CheckIfUserIsAdmin::class,
         'set.invitation' => \App\Http\Middleware\CheckIfInvitationHasBeenSet::class,
         'student' => \App\Http\Middleware\CheckIfUserIsStudent::class,
+        'officer' => \App\Http\Middleware\EnsureUserIsAnOfficer::class,
+        'event' => \App\Http\Middleware\EnsureEventExists::class,
+        'list' => \App\Http\Middleware\EnsureListExists::class,
     ];
 }
