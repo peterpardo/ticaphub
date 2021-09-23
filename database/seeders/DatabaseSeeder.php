@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Group;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SpecializationSeeder::class,
             PositionSeeder::class,
             TicapSeeder::class,
+            GroupSeeder::class,
             UserSeeder::class,
             // CandidateSeeder::class,
             // VoteSeeder::class,

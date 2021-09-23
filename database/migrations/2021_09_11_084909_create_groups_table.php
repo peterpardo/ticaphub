@@ -18,6 +18,7 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->foreignId('specialization_id')->constrained('specializations')->onDelete('cascade');
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
             $table->timestamps();
         });
     }

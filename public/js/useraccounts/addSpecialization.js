@@ -1,7 +1,5 @@
 $(document).ready(function() {
-
     fetchSpecialization();
-
     // FETCH ALL SPECIALIZATIONS - START
     function fetchSpecialization() {
         $.ajax({

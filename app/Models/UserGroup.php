@@ -14,18 +14,12 @@ class UserGroup extends Model
     protected $fillable = [
         'user_id',
         'group_id',
-        'ticap_id',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
     public function group() {
         return $this->belongsTo(Group::class, 'group_id', 'id');
-    }
-
-    public function ticap() {
-        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
     }
 }

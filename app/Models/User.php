@@ -51,43 +51,33 @@ class User extends Authenticatable
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }
-    
     public function userSpecialization() {
         return $this->hasOne(UserSpecialization::class, 'user_id', 'id');
     }
-
     public function candidate() {
         return $this->hasOne(Candidate::class, 'user_id', 'id');
     }
-
     public function officer() {
         return $this->hasOne(Officer::class, 'user_id', 'id');
     }
-
     public function votes() {
         return $this->hasMany(Vote::class, 'user_id', 'id');
     }
-
     public function userGroup() {
         return $this->hasOne(UserGroup::class, 'user_id', 'id');
     }
-    
     public function lists() {
         return $this->hasMany(TaskList::class, 'user_id', 'id');
     }
-
     public function tasks() {
         return $this->belongsToMany(Task::class, 'user_task', 'user_id', 'task_id');
     }
-
     public function tasksCreated() {
         return $this->hasMany(Task::class, 'user_id', 'id');
     }
-
     public function activities() {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
-
     public function scopeSearch($query, $term) {
         $term  = "%$term%";
         $query->where(function($query) use ($term){

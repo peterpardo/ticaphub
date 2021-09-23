@@ -15,16 +15,15 @@ class Group extends Model
         'name',
         'specialization_id',
         'school_id',
+        'ticap_id'
     ];
 
     public function userGroups() {
         return $this->hasMany(UserGroup::class, 'group_id', 'id');
     }
-
     public function specialization() {
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
     }
-
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }

@@ -8,12 +8,12 @@
             <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
         </div>
 
-  <section>
+  {{-- <section>
           <!---===================== FIRST ROW CONTAINING THE  STATS CARD STARTS HERE =============================-->
-  <div class="flex justify-around bg-gray-100 py-10 p-14">
+  <div class="flex flex-col justify-evenly lg:flex-row lg:w-full bg-gray-100 py-10 p-14">
     <!---== First Stats Container ====--->
-  <div class="container mx-auto pr-4">
-    <div class="w-72 bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
+  <div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
+    <div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
       <div class="h-20 bg-red-400 flex items-center justify-between">
         <p class="mr-0 text-white text-lg pl-5">Lorem</p>
       </div>
@@ -27,8 +27,8 @@
       <!---== First Stats Container ====--->
 
     <!---== Second Stats Container ====--->
-  <div class="container mx-auto pr-4">
-    <div class="w-72 bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
+  <div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
+    <div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
       <div class="h-20 bg-blue-500 flex items-center justify-between">
         <p class="mr-0 text-white text-lg pl-5">Lorem</p>
       </div>
@@ -42,8 +42,8 @@
     <!---== Second Stats Container ====--->
 
   <!---== Third Stats Container ====--->
-  <div class="container mx-auto pr-4">
-    <div class="w-72 bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
+  <div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
+    <div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
       <div class="h-20 bg-purple-400 flex items-center justify-between">
         <p class="mr-0 text-white text-lg pl-5">Lorem</p>
       </div>
@@ -57,8 +57,8 @@
   <!---== Third Stats Container ====--->
 
   <!---== Fourth Stats Container ====--->
-  <div class="container mx-auto pr-4">
-    <div class="w-72 bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
+  <div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
+    <div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
       <div class="h-20 bg-purple-400 flex items-center justify-between">
         <p class="mr-0 text-white text-lg pl-5">Lorem</p>
       </div>
@@ -136,5 +136,5 @@
       </span>
     </div>
   </div>
-  </section>
+  </section> --}}
 </x-app-layout>

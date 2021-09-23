@@ -1,0 +1,127 @@
+<div>
+    <div class="flex justify-between my-4">
+        <div>
+            <a href="{{ route('add-student') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">+ Student</a>
+            <a href="{{ route('add-admin') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+ Admin</a>
+            <a href="{{ route('add-panelist') }}" class="inline-block bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full">+ Panelist</a>
+        </div>
+        <button wire:click="resetUserBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" id="modal-btn">Reset Users</button>
+    </div>
+     {{-- STUDENT TABLE --}}
+     <input type="text" class="rounded mb-2" autocomplete="off" placeholder="search student name" wire:model.debounce.350ms="search">
+     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full">
+            <thead>
+            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                <th class="px-4 py-3">Student Name</th>
+                <th class="px-4 py-3">Student Number</th>
+                <th class="px-4 py-3">Email</th>
+                <th class="px-4 py-3">School</th>
+                <th class="px-4 py-3">Specialization</th>
+                <th class="px-4 py-3">Group</th>
+                <th class="px-4 py-3">Action</th>
+            </tr>
+            </thead>
+            <tbody class="w-auto bg-white">
+            @foreach($users as $user)
+            <tr class="text-gray-700">
+                <td class="px-4 py-3 border">
+                <div class="flex items-center text-sm">
+                    <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                    <img class="object-cover w-full h-full rounded-full" src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="" loading="lazy" />
+                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                    </div>
+                    <div>
+                    <p class="font-semibold text-black text-lg">{{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}</p>
+                    <p class="text-xs text-gray-600">
+                    @foreach($user->getRoleNames() as $role)
+                        {{ $role }} |
+                    @endforeach
+                    </p>
+                    </div>
+                </div>
+                </td>
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->student_number }}</td>
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->email }}</td>
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->school->name }}</td>
+                @if($user->hasRole('admin'))
+                <td class="px-4 py-3 text-md border">Faculty</td>
+                <td class="px-4 py-3 text-md border">Faculty</td>
+                @else
+                <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
+                <td class="px-4 py-3 text-md border">{{ $user->userGroup->group->name }}</td>
+                @endif
+                <td class="px-4 py-3 text-md border">
+                    <div class="flex flex-col">
+                        @if($user->hasRole('student'))
+                        <a href="/users/{{ $user->id }}/edit-user" class="inline-block text-center rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">Edit</a>
+                        @endif
+                        <button wire:click="selectUser({{ $user->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+        </div>
+        <div class="my-2 mx-1">
+            {{ $users->links() }}
+        </div>
+    </div>
+    {{-- STUDENT TABLE --}}
+
+    {{-- DELETE USERS MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="modalFormDelete">
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
+            <div >
+                <!--body-->
+                <div class="text-center p-5 flex-auto justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
+                    <p class="text-sm text-gray-500 px-8">Do you really want to delete the user? This process cannot be undone</p>
+                </div>
+                <!--footer-->
+                <div class="p-3 mt-2 text-center space-x-4 md:block">
+                    <button wire:click="closeModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                    <button wire:click="deleteUser" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- DELETE USERS MODAL --}}
+
+    {{-- RESET MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="resetFormModal">
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
+            <div >
+                <!--body-->
+                <div class="text-center p-5 flex-auto justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
+                    <p class="text-sm text-gray-500 px-8">Do you really want to reset all users? This process cannot be undone</p>
+                </div>
+                <!--footer-->
+                <div class="p-3 mt-2 text-center space-x-4 md:block">
+                    <button wire:click="closeResetModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                    <button wire:click="resetUsers" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- RESET MODAL --}}
+</div>

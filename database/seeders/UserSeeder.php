@@ -55,6 +55,9 @@ class UserSeeder extends Seeder
         $mina->userSpecialization()->create([
             'specialization_id' => 1,
         ]);
+        $mina->userGroup()->create([
+            'group_id' => 1
+        ]);
         $sana = User::create([
             'first_name' => 'Sana',
             'middle_name' => 'Sana',
@@ -66,7 +69,10 @@ class UserSeeder extends Seeder
             'school_id' => 1,
         ]);
         $sana->userSpecialization()->create([
-            'specialization_id' => 1,
+            'specialization_id' => 2,
+        ]);
+        $sana->userGroup()->create([
+            'group_id' => 4
         ]);
 
         // CREATE PERMISSIONS
@@ -128,7 +134,6 @@ class UserSeeder extends Seeder
         $chairman->givePermissionTo('add member');
         $chairman->givePermissionTo('add report');
       
-
         // OFFICER
         $officer = Role::create(['name' => 'officer']);
         $officer->givePermissionTo('access events');
@@ -146,43 +151,43 @@ class UserSeeder extends Seeder
         $mina->assignRole($student);
         $sana->assignRole($student);
 
-        // GENERATE USERS - FEU TECH ONLY
-        for ($x = 0; $x <= 40; $x++) {
+        // // GENERATE USERS - FEU TECH ONLY
+        // for ($x = 0; $x <= 40; $x++) {
             
-            $user = \App\Models\User::create([
-                'first_name' => Str::random(5),
-                'middle_name' => Str::random(5),
-                'last_name' => Str::random(5),
-                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
-                'student_number' => rand(1,999999999),
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'ticap_id' => 1,
-                'school_id' => 1,
-            ]);
-            $user->userSpecialization()->create([
-                'specialization_id' => rand(1,2),
-            ]);
-            $user->assignRole($student);
-        }      
-        // GENERATE USERS - FEU DILIMAN ONLY
-        for ($x = 0; $x <= 40; $x++) {
+        //     $user = \App\Models\User::create([
+        //         'first_name' => Str::random(5),
+        //         'middle_name' => Str::random(5),
+        //         'last_name' => Str::random(5),
+        //         'email' => Str::random(5) . "@" . Str::random(5) . ".com",
+        //         'student_number' => rand(1,999999999),
+        //         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        //         'remember_token' => Str::random(10),
+        //         'ticap_id' => 1,
+        //         'school_id' => 1,
+        //     ]);
+        //     $user->userSpecialization()->create([
+        //         'specialization_id' => rand(1,2),
+        //     ]);
+        //     $user->assignRole($student);
+        // }      
+        // // GENERATE USERS - FEU DILIMAN ONLY
+        // for ($x = 0; $x <= 40; $x++) {
             
-            $user = \App\Models\User::create([
-                'first_name' => Str::random(5),
-                'middle_name' => Str::random(5),
-                'last_name' => Str::random(5),
-                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
-                'student_number' => rand(1,999999999),
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-                'remember_token' => Str::random(10),
-                'ticap_id' => 1,
-                'school_id' => 2,
-            ]);
-            $user->userSpecialization()->create([
-                'specialization_id' => rand(1,2),
-            ]);
-            $user->assignRole($student);
-        }      
+        //     $user = \App\Models\User::create([
+        //         'first_name' => Str::random(5),
+        //         'middle_name' => Str::random(5),
+        //         'last_name' => Str::random(5),
+        //         'email' => Str::random(5) . "@" . Str::random(5) . ".com",
+        //         'student_number' => rand(1,999999999),
+        //         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        //         'remember_token' => Str::random(10),
+        //         'ticap_id' => 1,
+        //         'school_id' => 2,
+        //     ]);
+        //     $user->userSpecialization()->create([
+        //         'specialization_id' => rand(1,2),
+        //     ]);
+        //     $user->assignRole($student);
+        // }      
     }
 }

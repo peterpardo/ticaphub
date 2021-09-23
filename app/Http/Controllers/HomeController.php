@@ -21,27 +21,21 @@ class HomeController extends Controller
         $request->validate([
             'ticap' => 'required|unique:ticaps,name'
         ]);
-
         // INSERT TICAP NAME TO TICAPS TABLE
         $ticap = Ticap::create([
             'name' => $request->ticap,
         ]);
-
         // FIND ADMIN ID
         $admin = User::find(1);
-
         // SET TICAP_ID OF ADMIN TO PRESENT TICAP
         $admin->ticap_id = $ticap->id;
         $admin->save();
-        
         return redirect('dashboard');
     }
 
     public function dashboard() {
         $title = 'Dashboard';
-
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        
         return view('dashboard', [
             'title' => $title,
             'ticap' => $ticap->name
@@ -49,24 +43,17 @@ class HomeController extends Controller
     }
 
     public function users() {
-        
         // REDIRECTS TO SET OF INVITATION TO USERS
         $ticap = Ticap::find(Auth::user()->id);
         if(!$ticap->invitation_is_set){
             return redirect()->route('set-invitation');
         }
-
         $title = 'User Accounts';
-        
         $scripts = [
-            asset('js/modal.js'),
+            asset('js/useraccounts/deleteUserModal.js')
         ];
-        
-        $users = User::paginate(6);
-
         return view('user-accounts.users', [
             'title' => $title,
-            'users' => $users,
             'scripts' => $scripts,
         ]);
     }
@@ -75,8 +62,6 @@ class HomeController extends Controller
         $title = 'Officers and Committees';
         $ticap =Ticap::find(Auth::user()->ticap_id);
         $user = User::find(Auth::user()->id);
-        
-
         // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
         if ($user->hasRole('admin')) {
             if(!$ticap->invitation_is_set){
@@ -91,8 +76,6 @@ class HomeController extends Controller
                 return redirect()->route('set-positions');
             }
         }
-        
-
         // REDIRECT STUDENT WHETHER ELECTION HAS STARTED OR NOT AND HAS NOT YET VOTED
         if ($user->hasRole('student')) {
             if(
@@ -102,9 +85,7 @@ class HomeController extends Controller
                 return redirect()->route('vote');
             }
         }
-
         $officers = Officer::with(['user.candidate.position', 'user.candidate.specialization'])->get();
-
         return view('officers-and-committees.officers', [
             'title' => $title,
             'ticap' => $ticap,

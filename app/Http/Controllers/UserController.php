@@ -23,22 +23,18 @@ class UserController extends Controller
     public function invitationForm() {
         $user = User::find(1);
         $ticap = Ticap::find($user->ticap_id);
-        
         if($ticap->invitation_is_set) {
             return redirect()->route('users');
         }
-
         $title = 'User Accounts';
-
         $scripts = [
             asset('js/modal.js'),
             asset('js/useraccounts/addSpecialization.js'),
         ];
-
-        // return view('user-accounts.set-invitation', [
-        //     'title' => $title,{{  }}{{  }}{{  }}
-        //     'scripts' => $scripts,
-        // ]);
+        return view('user-accounts.set-invitation', [
+            'title' => $title,
+            'scripts' => $scripts,
+        ]);
     }
 
     public function setInvitation(Request $request) {
@@ -47,24 +43,20 @@ class UserController extends Controller
             'FEU_Alabang' => 'numeric',
             
         ]);
-
         if($request->FEU_Diliman != null) {
             $school = School::find($request->FEU_Diliman);
             $school->is_involved = 1;
             $school->save();
         } 
-        
         if($request->FEU_Alabang != null) {
             $school = School::find($request->FEU_Alabang);
             $school->is_involved = 1;
             $school->save();
         } 
-
         Auth::user()->ticap_id;
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $ticap->invitation_is_set = 1;
         $ticap->save();
-
         return redirect()->route('users');
     }
 
@@ -89,7 +81,6 @@ class UserController extends Controller
             Specialization::create([
                 'name' => Str::title($request->specialization)
             ]);
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Specialization Added SuccessFully',
@@ -101,7 +92,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'specialization_id' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -120,13 +110,10 @@ class UserController extends Controller
     // ADD PANELISTS FOR USERS ACCOUNT
     public function panelistForm() {
         $title = 'User Accounts';
-
         $schools = School::all();
-
         $scripts = [
             asset('js/modal.js'),
         ];
-        
         return view('user-accounts.add-panelist', [
             'title' => $title,
             'scripts' => $scripts,
@@ -136,7 +123,6 @@ class UserController extends Controller
 
     public function addPanelist(Request $request) {
         $ticap = Auth::user()->ticap_id;
-
         $request->validate([
             'first_name' => 'required',
             'middle_name' => 'required',
@@ -144,7 +130,6 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]); 
-    
         // CREATE USER
         $user = User::create([
             'first_name' => Str::title($request->first_name),
@@ -157,22 +142,18 @@ class UserController extends Controller
             'password' => Hash::make('123'),
             'school_id' => $request->school,
         ]);
-
         $request->session()->flash('msg', 'Account has been created!');
         $request->session()->flash('status', 'green');
         return back();
     }
 
-// ADD ADMIN FOR USER ACCOUNTS
+    // ADD ADMIN FOR USER ACCOUNTS
     public function adminForm() {
         $title = 'User Accounts';
-
         $schools = School::all();
-
         $scripts = [
             asset('js/modal.js'),
         ];
-        
         return view('user-accounts.add-admin', [
             'title' => $title,
             'scripts' => $scripts,
@@ -182,7 +163,6 @@ class UserController extends Controller
 
     public function addAdmin(Request $request) {
         $ticap = Auth::user()->ticap_id;
-
         // VALIDATION OF INPUT
         $request->validate([
             'first_name' => 'required',
@@ -191,7 +171,6 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]); 
-        
          // CREATE USER
          $user = User::create([
             'first_name' => Str::title($request->first_name),
@@ -204,7 +183,6 @@ class UserController extends Controller
             'password' => Hash::make('123'),
             'school_id' => $request->school,
         ]);
-
         $request->session()->flash('msg', 'Account has been created!');
         $request->session()->flash('status', 'green');
         return back();
@@ -213,25 +191,13 @@ class UserController extends Controller
     // ADD ADMIN FOR USER(STUDENTS) ACCOUNTS
     public function userForm() {
         $title = 'User Accounts';
-
-        $schools = School::all();
-        $roles = Role::all();
-        $specializations = Specialization::all();
-
-        $scripts = [
-            asset('js/modal.js'),
-        ];
-        
         return view('user-accounts.add-student', [
             'title' => $title,
-            'scripts' => $scripts,
-            'schools' => $schools,
-            'roles' => $roles,
-            'specializations' => $specializations,
         ]);
     }
     
     public function addUser(Request $request) {
+        dd($request->all());
         $request->validate([
             // 'role' => 'required',
             'school' => 'required',
@@ -243,14 +209,11 @@ class UserController extends Controller
             'student_number' => 'required|numeric|max:99999999999|unique:users,student_number',
             'group' => 'required',
         ]); 
-
         // GET PRESENT TICAP
         $ticap = Auth::user()->ticap_id;
-
         // GENERATE DEFAULT PASSWORD
         // EX: picab201811780
         $tempPassword = "picab" . $request->student_number;
-
         // CREATE USER
         $user = User::create([
             'first_name' => Str::title($request->first_name),
@@ -262,12 +225,10 @@ class UserController extends Controller
             'password' => Hash::make($tempPassword),
             'school_id' => $request->school,
         ]);
-
         // ADD USER WITH SCHOOL AND SPECIALIZATION
         $user->userSpecialization()->create([
             'specialization_id' => $request->specialization,
         ]);
-
         // CHECK IF GROUP ALREADY EXIST
         $groupName = Str::upper($request->group);
         if(!Group::where('name', $groupName)->exists()) {
@@ -277,7 +238,6 @@ class UserController extends Controller
                 'specialization_id' => $request->school,
                 'school_id' => $request->specialization,
             ]);
-
             $user->userGroup()->create([
                 'group_id' => $group->id,
             ]);
@@ -288,7 +248,6 @@ class UserController extends Controller
                 'group_id' => $group->id,
             ]);
         };
-
         // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
@@ -301,23 +260,18 @@ class UserController extends Controller
             'body' => "You are invited! Click the link below",
             'link' => $link,
         ];
-
         DB::table('register_users')->insert([
             'email' => $request->email,
             'token' => $token,
             'created_at' =>  date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
-
         dispatch(new RegisterUserJob($request->email, $details));
-        
         $request->session()->flash('msg', 'Email has been sent successfully');
         $request->session()->flash('status', 'green');
         return back();
     
     }
-
-    
 
     public function setPasswordForm(Request $request) {
         return view('user-accounts.set-password', [
@@ -331,59 +285,46 @@ class UserController extends Controller
         $request->validate([
             'password' => 'required|confirmed',
         ]);
-
         // CHECK IF EMAIL AND TOKEN EXISTS
         $user = DB::table('register_users')
                 ->where('email', $request->email)
                 ->where('token', $request->token)
                 ->exists();
-
         if(!$user){
             return back()->with('error', 'Current doesn\'t match the expected account.');
         } 
-        
         // DELETE REGISTER TOKEN
         DB::table('register_users')->where('token', $request->token)->delete();
-
         // UPDATE USER PASSWORD
         $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-        
-
         return redirect()->route('login');
-    
     }
 
     public function importUsers() {
         $title = 'User Accounts';
-
         return view('user-accounts.upload', [
             'title' => $title,
         ]);
     }
 
     public function importFile(Request $request) {
-
         return DB::transaction(function() use ($request){
             $request->validate([
                 'school' => 'required',
                 'specialization' => 'required',
                 'file' => 'required|mimes:csv',
             ]);
-
             $file = $request->file;
             $specialization = $request->specialization;
             $school = $request->school;
-
              // READ FILE
             $ctr = 1;
-
             if (($handle = fopen($file, "r")) !== FALSE) {
                 while (($row = fgetcsv($handle, 1000)) !== FALSE) {
                     if($ctr == 1){
                         $ctr++;
                         continue;
                     }
-
                     // HEADERS
                     $fname = trim($row[0]);
                     $mname = trim($row[1]);
@@ -391,19 +332,14 @@ class UserController extends Controller
                     $email = trim($row[3]);
                     $studentNumber = trim($row[4]);
                     $group = trim($row[5]);
-
                     // GENERATE RANDOM PASSWORD
                     $tempPassword = "picab" . $studentNumber;
-
                     // VALIDATE EMAIL AND STUDENT NUMBER
                     if(User::orWhere('email', $email)
                         ->orWhere('student_number', $studentNumber)
-                        ->exists() ){
-                        
-                        throw new GeneralException('Line ' . $ctr . ' - Email and Student Number must be unique');
-                        
+                        ->exists() ){     
+                        throw new GeneralException('Line ' . $ctr . ' - Email and Student Number must be unique'); 
                     }
-
                     // CREATE USER
                     $user = User::create([
                         'first_name' => Str::title($fname),
@@ -415,12 +351,10 @@ class UserController extends Controller
                         'ticap_id' => Auth::user()->ticap_id,
                         'school_id' => $school,
                     ]);
-
                     // ADD STUDENT WITH SPECIALIZATION
                     $user->userSpecialization()->create([
                         'specialization_id' => $specialization,
                     ]);
-
                     // CHECK IF GROUP EXISTS
                     $groupName = Str::upper($group);
                     if(!Group::where('name', $groupName)->exists()) {
@@ -441,10 +375,8 @@ class UserController extends Controller
 
                     $ctr++;
                 }
-
                 fclose($handle);
             }
-
             // SEND EMAILS
             if (($handle = fopen($file, "r")) !== FALSE) {
                 while (($row = fgetcsv($handle, 1000)) !== FALSE) {
@@ -452,10 +384,8 @@ class UserController extends Controller
                         $ctr++;
                         continue;
                     }
-
                     // GET EMAIL
                     $email = trim($row[3]);
-
                     // SEND LINK FOR CHANGING PASSWORD TO USER
                     $token = Str::random(60) . time();
                     $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
@@ -468,27 +398,47 @@ class UserController extends Controller
                         'body' => "You are invited! Click the link below",
                         'link' => $link,
                     ];
-
                     DB::table('register_users')->insert([
                         'email' => $email,
                         'token' => $token,
                         'created_at' =>  date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
-
                     dispatch(new RegisterUserJob($email, $details));
                 }
             }
-
             $request->session()->flash('msg', 'Email has been sent successfully');
             $request->session()->flash('status', 'green');
             return back();
-            
         });
     }
 
     public function resetUsers() {
         User::role('student')->delete();
         return back();
+    }
+
+    public function editUserForm($userId) {
+        $title = 'User Accounts';
+        return view('user-accounts.edit-user', [
+            'title' => $title,
+            'userId' => $userId,
+        ]);
+    }
+    public function editUser(Request $request, $userId) {
+        $request->validate([
+            'first_name' => 'required|string|max:30',
+            'middle_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'group' => 'required',
+        ]);
+        $user = User::find($userId);
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->save();
+        $user->userGroup->group_id = $request->group;
+        $user->userGroup->save();
+        return redirect()->route('users');
     }
 }

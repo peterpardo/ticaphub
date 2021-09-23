@@ -42,12 +42,12 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:30',
+            'middle_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'email' => 'required|string|email|max:100|unique:users,email',
             'specialization' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
-            'student_number' => 'required|numeric|unique:users',
+            'student_number' => 'required|numeric|unique:users,student_number',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'ticap' => 'required',
             'school' => 'required',
