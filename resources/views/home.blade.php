@@ -176,6 +176,27 @@
 				<button id="sButton1" onclick="sliderButton1()" class="bg-blue-400 rounded-full w-4 pb-2 " ></button>
 			<button id="sButton2" onclick="sliderButton2() " class="bg-blue-400 rounded-full w-4 p-2"></button>
 		  </div>
-		
 		</body>
+		<main class="rounded flex items-center p-5 w-auto h-auto bg-white my-5">
+			<div class="pt-16 grid grid-cols-2 gap-8">
+				<div class="flex flex-col justify-start">
+					<div class="flex flex-col w-full object-cover h-4/6 justify-items-start border rounded-lg overflow-hidden"
+						style="min-heigth:320px">
+						<img class="w-full h-full object-cover" src="https://i.ibb.co/KNxJKVh/206196728-119295477048972-4615482157495303098-n.png" alt="206196728-119295477048972-4615482157495303098-n" border="0">
+					</div>
+					
+					</div>
+					<div class="flex flex-col">
+						<div class="flex flex-col gap-4">
+							<h1 class="capitalize text-4xl font-extrabold">TICAP 7.0</h1>
+							<p class="text-lg text-gray-500	">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+								Voluptatibus voluptatum nisi maxime obcaecati impedit? Ratione error eum qui quidem? Veniam
+								accusamus ea repudiandae itaque, explicabo quidem perspiciatis. Culpa, asperiores deserunt.</p>
+							<div class="flex items-center gap-4 my-6 cursor-pointer ">
+								<div class="bg-blue-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">View more</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</main>
 </x-guest-layout>

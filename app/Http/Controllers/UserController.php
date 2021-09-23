@@ -111,38 +111,55 @@ class UserController extends Controller
     public function panelistForm() {
         $title = 'User Accounts';
         $schools = School::all();
-        $scripts = [
-            asset('js/modal.js'),
-        ];
         return view('user-accounts.add-panelist', [
             'title' => $title,
-            'scripts' => $scripts,
             'schools' => $schools,
         ]);
     }
 
     public function addPanelist(Request $request) {
         $ticap = Auth::user()->ticap_id;
+        // VALIDATION OF INPUT
         $request->validate([
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
         ]); 
-        // CREATE USER
+        // GENERATE DEFAULT PASSWORD
+        $tempPassword = "admin123";
+         // CREATE USER
         $user = User::create([
             'first_name' => Str::title($request->first_name),
             'middle_name' => Str::title($request->middle_name),
             'last_name' => Str::title($request->last_name),
             'email' => $request->email,
-            'student_number' => $request->student_number,
-            'password' => $request->password,
+            'password' => $tempPassword,
             'ticap_id' => $ticap,
-            'password' => Hash::make('123'),
             'school_id' => $request->school,
         ]);
-        $request->session()->flash('msg', 'Account has been created!');
+        // ASSIGN STUDENT ROLE
+        $user->assignRole('panelist');
+       // SEND LINK FOR CHANGING PASSWORD TO USER
+        $token = Str::random(60) . time();
+        $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+            'token' => $token, 
+            'ticap' => $ticap,
+            'email' => $request->email,
+        ]);
+        $details = [
+            'title' => 'Welcome to TICaP Hub ' . $request->email,
+            'body' => "You are invited! Click the link below",
+            'link' => $link,
+        ];
+        DB::table('register_users')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' =>  date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        dispatch(new RegisterUserJob($request->email, $details));
+        $request->session()->flash('message', 'Invitation has been sent successfully');
         $request->session()->flash('status', 'green');
         return back();
     }
@@ -151,12 +168,8 @@ class UserController extends Controller
     public function adminForm() {
         $title = 'User Accounts';
         $schools = School::all();
-        $scripts = [
-            asset('js/modal.js'),
-        ];
         return view('user-accounts.add-admin', [
             'title' => $title,
-            'scripts' => $scripts,
             'schools' => $schools,
         ]);
     }
@@ -169,21 +182,41 @@ class UserController extends Controller
             'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required',
         ]); 
+        // GENERATE DEFAULT PASSWORD
+        $tempPassword = "admin123";
          // CREATE USER
-         $user = User::create([
+        $user = User::create([
             'first_name' => Str::title($request->first_name),
             'middle_name' => Str::title($request->middle_name),
             'last_name' => Str::title($request->last_name),
             'email' => $request->email,
-            'student_number' => $request->student_number,
-            'password' => $request->password,
+            'password' => $tempPassword,
             'ticap_id' => $ticap,
-            'password' => Hash::make('123'),
             'school_id' => $request->school,
         ]);
-        $request->session()->flash('msg', 'Account has been created!');
+        // ASSIGN STUDENT ROLE
+        $user->assignRole('admin');
+       // SEND LINK FOR CHANGING PASSWORD TO USER
+        $token = Str::random(60) . time();
+        $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+            'token' => $token, 
+            'ticap' => $ticap,
+            'email' => $request->email,
+        ]);
+        $details = [
+            'title' => 'Welcome to TICaP Hub ' . $request->email,
+            'body' => "You are invited! Click the link below",
+            'link' => $link,
+        ];
+        DB::table('register_users')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' =>  date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        dispatch(new RegisterUserJob($request->email, $details));
+        $request->session()->flash('message', 'Invitation has been sent successfully');
         $request->session()->flash('status', 'green');
         return back();
     }
@@ -197,53 +230,59 @@ class UserController extends Controller
     }
     
     public function addUser(Request $request) {
-        dd($request->all());
         $request->validate([
-            // 'role' => 'required',
-            'school' => 'required',
-            'specialization' => 'required',
+            'id_number' => 'required|numeric|max:99999999999|unique:users,id_number',
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'student_number' => 'required|numeric|max:99999999999|unique:users,student_number',
+            'school' => 'required',
+            'specialization' => 'required',
             'group' => 'required',
         ]); 
         // GET PRESENT TICAP
         $ticap = Auth::user()->ticap_id;
         // GENERATE DEFAULT PASSWORD
-        // EX: picab201811780
         $tempPassword = "picab" . $request->student_number;
         // CREATE USER
         $user = User::create([
+            'id_number' => $request->id_number,
             'first_name' => Str::title($request->first_name),
             'middle_name' => Str::title($request->middle_name),
             'last_name' => Str::title($request->last_name),
             'email' => $request->email,
-            'student_number' => $request->student_number,
+            'school_id' => $request->school,
             'ticap_id' => $ticap,
             'password' => Hash::make($tempPassword),
-            'school_id' => $request->school,
         ]);
+        // ASSIGN STUDENT ROLE
+        $user->assignRole('student');
         // ADD USER WITH SCHOOL AND SPECIALIZATION
         $user->userSpecialization()->create([
             'specialization_id' => $request->specialization,
         ]);
         // CHECK IF GROUP ALREADY EXIST
-        $groupName = Str::upper($request->group);
-        if(!Group::where('name', $groupName)->exists()) {
+        $groupName = Str::upper(trim($request->group));
+        if(!Group::where('name', $groupName)
+        ->where('school_id', $request->school)
+        ->where('specialization_id', $request->specialization)
+        ->exists()) {
             // CREATE GROUP
             $group = Group::create([
                 'name' => $groupName,
                 'specialization_id' => $request->school,
                 'school_id' => $request->specialization,
+                'ticap_id' => $ticap,
             ]);
             $user->userGroup()->create([
                 'group_id' => $group->id,
             ]);
         } else {
             // ADD USER TO EXISTING GROUP
-            $group = Group::where('name', $groupName)->first();
+            $group = Group::where('name', $groupName)
+            ->where('school_id', $request->school)
+            ->where('specialization_id', $request->specialization)
+            ->first();
             $user->userGroup()->create([
                 'group_id' => $group->id,
             ]);
@@ -267,10 +306,9 @@ class UserController extends Controller
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         dispatch(new RegisterUserJob($request->email, $details));
-        $request->session()->flash('msg', 'Email has been sent successfully');
+        $request->session()->flash('message', 'Invitation has been sent successfully');
         $request->session()->flash('status', 'green');
         return back();
-    
     }
 
     public function setPasswordForm(Request $request) {
@@ -302,8 +340,12 @@ class UserController extends Controller
 
     public function importUsers() {
         $title = 'User Accounts';
-        return view('user-accounts.upload', [
+        $schools = School::all();
+        $specializations = Specialization::all();
+        return view('user-accounts.upload-student', [
             'title' => $title,
+            'schools' => $schools,
+            'specializations' => $specializations,
         ]);
     }
 
@@ -341,6 +383,7 @@ class UserController extends Controller
                         throw new GeneralException('Line ' . $ctr . ' - Email and Student Number must be unique'); 
                     }
                     // CREATE USER
+                    $ticap = Auth::user()->ticap_id;
                     $user = User::create([
                         'first_name' => Str::title($fname),
                         'middle_name' => Str::title($mname),
@@ -348,9 +391,11 @@ class UserController extends Controller
                         'email' => $email,
                         'student_number' => $studentNumber,
                         'password' => Hash::make($tempPassword),
-                        'ticap_id' => Auth::user()->ticap_id,
+                        'ticap_id' => $ticap,
                         'school_id' => $school,
                     ]);
+                    // ASSIGN STUDENT ROLE
+                    $user->assignRole('student');
                     // ADD STUDENT WITH SPECIALIZATION
                     $user->userSpecialization()->create([
                         'specialization_id' => $specialization,
@@ -362,6 +407,7 @@ class UserController extends Controller
                             'name' => $groupName,
                             'specialization_id' => $specialization,
                             'school_id' => $school,
+                            'ticap_id' => $ticap,
                         ]);
                         $user->userGroup()->create([
                             'group_id' => $group->id,

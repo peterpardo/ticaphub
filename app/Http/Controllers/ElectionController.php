@@ -42,9 +42,7 @@ class ElectionController extends Controller
                 'message' => 'Position Added SuccessFully',
             ]);
         }
-
     }
-
     public function deletePosition(Request $request) {
         $validator = Validator::make($request->all(), [
             'position' => 'required',
@@ -472,16 +470,13 @@ class ElectionController extends Controller
                     }
                 }
             }
-            
             return redirect()->route('new-election');
         }
-
         // SET ELECTION FINISHED FOR THE TICAP
         $ticap = Ticap::find(Auth::user()->id);
         $ticap->election_finished = 1;
         $ticap->has_new_election = 0;
         $ticap->save();
-
         // ASSIGNMENT OF ROLES TO ELECTED OFFICERS
         $officers = Officer::all();
         foreach($officers as $officer) {
@@ -491,9 +486,12 @@ class ElectionController extends Controller
                 $officer->user->assignRole('officer');
             }
         }
-
         return redirect()->route('officers');
+    }
 
+    public function appointForm() {
+        $title = 'Officer and Committes';
+        return view('officers-and-committees.committee-heads', ['title' => $title]);
     }
 
     public function test() {

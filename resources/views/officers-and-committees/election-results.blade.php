@@ -33,14 +33,14 @@
                         <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">
                             
                             <thead>
-                                <tr class="bg-gray-100 uppercase border-b border-gray-600">
+                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                                     <th class="px-4 py-3">Position</th>
                                     <th class="px-4 py-3">Officer</th>
                                     <th class="px-4 py-3">Status</th>
                                 </tr>
                             </thead>
                             
-                            <tbody class="bg-white">
+                            <tbody class="bg-transparent dark:bg-gray-600">
                                 @foreach(\App\Models\Position::all() as $position)
                                 <tr>
                                     

@@ -86,4 +86,7 @@ class User extends Authenticatable
                 ->orWhere('last_name', 'LIKE', $term);
         });
     }
+    public function committee() {
+        return $this->hasOne(Committee::class, 'user_id', 'id');
+    }
 }

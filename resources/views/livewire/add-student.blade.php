@@ -1,42 +1,56 @@
-
 <div>
     <h1 class="font-bold text-center text-3xl my-4">Add Student</h1>
     {{-- ADD STUDENT FORM --}}
     <div class="w-full">
+        <div class="text-center">
+            <a href="/users/invite-users" class="rounded bg-blue-500 hover:bg-blue-600 py-1 px-2 text-white">Import Students</a>
+        </div>
         <form 
-            action=""
+            action="/users/add-student"
             method="POST"
             class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
             @csrf
+            @if(session('status'))
+            <div class="text-white w-full rounded py-1 px-2 bg-green-500">{{ session('message') }}</div>
+            @endif
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Student Number</label>
-                <input type="text" name="student_number" class="rounded w-full" value="{{ old('student_number') }}" autocomplete="off">
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">ID Number</label>
+                <input type="text" name="id_number" class="rounded w-full text-black dark:text-gray-900" value="{{ old('id_number') }}" autocomplete="off" placeholder="Ex: 201811780">
+                @error('id_number')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="my-3">
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">First Name</label>
+                <input type="text" name="first_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('first_name') }}" autocomplete="off">
                 @error('first_name')
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">First Name</label>
-                <input type="text" name="first_name" class="rounded w-full" value="{{ old('first_name') }}" autocomplete="off">
-                @error('first_name')
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Middle Name</label>
+                <input type="text" name="middle_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('middle_name') }}" autocomplete="off">
+                @error('middle_name')
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Middle Name</label>
-                <input type="text" name="middle_name" class="rounded w-full" value="{{ old('middle_name') }}" autocomplete="off">
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Last Name</label>
+                <input type="text" name="last_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('last_name') }}" autocomplete="off">
+                @error('last_name')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
             </div>
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Last Name</label>
-                <input type="text" name="last_name" class="rounded w-full" value="{{ old('last_name') }}" autocomplete="off">
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Email</label>
+                <input type="email" name="email" class="rounded w-full text-black dark:text-gray-900" value="{{ old('email') }}" autocomplete="off">
+                @error('email')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
             </div>
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Email</label>
-                <input type="email" name="email" class="rounded w-full" value="{{ old('email') }}" autocomplete="off">
-            </div>
-            <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">School</label>
-                <select name="school" class="w-full rounded" wire:model="selectedSchool">
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">School</label>
+                <select name="school" class="w-full rounded font-semibold text-base text-gray-900 dark:text-gray-900" wire:model="selectedSchool">
                     <option value="">--select school--</option>
                     @foreach ($schools as $school)
                     @if($school->is_involved)
@@ -44,84 +58,39 @@
                     @endif
                     @endforeach
                 </select>
+                @error('school')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
             </div>
             @if($selectedSchool != "" && !is_null($selectedSchool) )
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Specialization</label>
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Specialization</label>
                 <select name="specialization" class="w-full rounded" wire:model="selectedSpec">
                     <option value="">--select specialization--</option>
                     @foreach ($specializations as $specialization)
                     <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
                     @endforeach
                 </select>
+                @error('specialization')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
             </div>
             @endif
             @if($selectedSpec != "" && !is_null($selectedSpec))
             <div class="my-3">
-                <label class="block font-semibold text-lg mb-2">Group</label>
-                <select name="group" class="rounded w-full">
-                    <option value="">--select group--</option>
-                    @foreach($groups as $group)
-                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                    @endforeach
-                </select>
+                <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Group</label>
+                <input type="text" name="group" class="rounded w-full text-black dark:text-gray-900" value="{{ old('group') }}" autocomplete="off">
+                @error('group')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                @enderror
             </div>
             @endif
-            <button type="submit" class="rounded bg-green-500 hover:bg-green-600 text-white px-2 py-1 w-full mb-2">Submit</button>
+            <div class="text-center">
+                <button type="submit" class="md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Submit</button>
+            </div>
         </form>
     </div>
     {{-- ADD STUDENT FORM --}}
-
-    {{-- UPLOAD STUDENTS MODAL --}}
-    {{-- <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="uploadFormModal">
-        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
-        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
-            <div>
-                <form 
-                    action="{{ route('import-users') }}"
-                    method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-2">
-                        @error('school')
-                        <div class="text-red-500"></div>
-                        @enderror
-                        <label for="school">School</label>
-                        <select name="school" id="school">
-                            @foreach($schools as $school)
-                            @if($school->is_involved)
-                            <option value="{{ $school->id }}">{{ $school->name }}</option>
-                            @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-2">
-                        @error('specialization')
-                        <div class="text-red-500"></div>
-                        @enderror
-                        <label for="specialization">School</label>
-                        <select name="specialization" id="specialization">
-                            @foreach($specializations as $specialization)
-                            <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="text-center mb-3">
-                        @error('file')
-                        <div class="text-red-500"></div>
-                        @enderror
-                        <label for="file" class="block">Upload File</label>
-                        <input type="file" name="file" id="file" class="border-2 border-black rounded mb-2" required/>
-                    </div>
-                    <div class="p-3 mt-2 text-center space-x-4 md:block">
-                        <button wire:click.prevent="closeModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
-                        <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Invite</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
-    {{-- UPLOAD STUDENTS MODAL --}}
 </div>
 
    

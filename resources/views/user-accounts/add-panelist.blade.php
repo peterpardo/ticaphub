@@ -1,83 +1,64 @@
-<x-app-layout :scripts="$scripts">
-
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
-
-    <div class="w-1/2 mx-auto">
-        <div class="w-full bg-grey-500">
-            <div class="container mx-auto py-8">
-                <div class="w-96 mx-auto bg-white rounded shadow flex flex-col justify-center items-center text-center">
-    
-                    <div class="mx-16 py-4 px-8 text-black text-xl font-bold border-b border-grey-500">Add Panelist
-                    </div>
-    
+<x-app-layout>
+    <x-page-title>{{ $title }}</x-page-title>
+    <div>
+        {{-- ADD ADMIN FORM --}}
+        <h1 class="font-bold text-center text-3xl my-4">Add Panelist</h1>
+        <div class="w-full">
             <form 
-            action="{{ route('add-panelist') }}" 
-            method="post">
-            @csrf
-                    
-            {{-- FLASH DATA --}}
-            @if(session('status'))
-            <div class="text-{{ session('status') }}-500">{{ session('msg') }}</div>
-            @endif
-
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="school">First Name</label>
-                        <input type="text" name="first_name" value="{{ old('first_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                        @error('first_name')
-                        <div class="text-red-500">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Middle Name</label>
-                        <input type="text" name="middle_name" value="{{ old('middle_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                        @error('middle_name')
-                        <div class="text-red-500">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                <div class="mb-2">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Last Name</label>
-                    <input type="text" name="last_name" value="{{ old('last_name') }}"  class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                action="{{ route('add-panelist') }}"
+                method="POST"
+                class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
+                @csrf
+                @if(session('status'))
+                <div class="text-white w-full rounded py-1 px-2 bg-green-500">{{ session('message') }}</div>
+                @endif
+                <div class="my-3">
+                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">First Name</label>
+                    <input type="text" name="first_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('first_name') }}" autocomplete="off">
+                    @error('first_name')
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Middle Name</label>
+                    <input type="text" name="middle_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('middle_name') }}" autocomplete="off">
+                    @error('middle_name')
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Last Name</label>
+                    <input type="text" name="last_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('last_name') }}" autocomplete="off">
                     @error('last_name')
-                    <div class="text-red-500">{{ $message }}</div>
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="mb-2">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" class=" border rounded w-72 py-2 px-3 text-grey-darker">
+                <div class="my-3">
+                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Email</label>
+                    <input type="email" name="email" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('email') }}" autocomplete="off">
                     @error('email')
-                    <div class="text-red-500">{{ $message }}</div>
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="mb-2">
-                    <label class="block text-grey-darker text-sm font-bold mb-2" for="school">Password</label>
-                    <input type="password" name="password" value="{{ old('password') }}" class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                    @error('password')
-                    <div class="text-red-500">{{ $message }}</div>
+                <div class="my-3">
+                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">School</label>
+                    <select name="school" class="w-full rounded font-semibold text-base text-gray-900 dark:text-gray-900" wire:model="selectedSchool">
+                        <option value="">--select school--</option>
+                        @foreach ($schools as $school)
+                        @if($school->is_involved)
+                        <option value="{{ $school->id }}">{{ $school->name }}</option>
+                        @endif
+                        @endforeach
+                    </select>
+                    @error('school')
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                     @enderror
                 </div>
-            
-                    <div class="mb-2">
-                        <label class="block text-grey-darker text-sm font-bold mb-2"  for="school">School</label>
-                        <select name="school" id="school" class=" border rounded w-72 py-2 px-3 text-grey-darker">
-                            @foreach($schools as $school)
-                                @if($school->is_involved)
-                                <option value="{{ $school->id }}">{{ $school->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-        
-                <button type="submit" class="bg-green-500 p-3 text-white rounded hover:bg-green-400 mb-2">Add Panelist</button>
-            </form>   
-    </div>         
-            </div>
+                <div class="text-center">
+                    <button type="submit" class="md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Submit</button>
+                </div>
+            </form>
         </div>
+        {{-- ADD ADMIN FORM --}}
     </div>
-
 </x-app-layout>

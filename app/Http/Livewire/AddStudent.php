@@ -23,6 +23,11 @@ class AddStudent extends Component
             'specializations' => $specializations,
         ]);
     }
+    public function updatedSelectedSchool($schoolId){
+        $this->groups = Group::where('specialization_id', $this->selectedSpec)
+            ->where('school_id', $schoolId)
+            ->get();
+    }
     public function updatedSelectedSpec($specId){
         $this->groups = Group::where('specialization_id', $specId)
             ->where('school_id', $this->selectedSchool)

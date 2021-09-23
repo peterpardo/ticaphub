@@ -1,21 +1,21 @@
 <div>
     <div class="flex justify-between my-4">
         <div>
-            <a href="{{ route('add-student') }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">+ Student</a>
-            <a href="{{ route('add-admin') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">+ Admin</a>
-            <a href="{{ route('add-panelist') }}" class="inline-block bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full">+ Panelist</a>
+            <a href="{{ route('add-student') }}" class="inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">+ Student</a>
+            <a href="{{ route('add-admin') }}" class="inline-block md:w-32 bg-indigo-600 dark:bg-indigo-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-indigo-500 dark:hover:bg-indigo-200 transition ease-in-out duration-300">+ Admin</a>
+            <a href="{{ route('add-panelist') }}" class="inline-block md:w-32 bg-yellow-600 dark:bg-yellow-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-yellow-500 dark:hover:bg-yellow-200 transition ease-in-out duration-300">+ Panelist</a>
         </div>
-        <button wire:click="resetUserBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" id="modal-btn">Reset Users</button>
+        <button wire:click="resetUserBtn" class="inline-block md:w-auto bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300" id="modal-btn">Reset Users</button>
     </div>
      {{-- STUDENT TABLE --}}
-     <input type="text" class="rounded mb-2" autocomplete="off" placeholder="search student name" wire:model.debounce.350ms="search">
+     <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="search student name" wire:model.debounce.350ms="search">
      <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
         <table class="w-full">
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
-                <th class="px-4 py-3">Student Number</th>
+                <th class="px-4 py-3">ID Number</th>
                 <th class="px-4 py-3">Email</th>
                 <th class="px-4 py-3">School</th>
                 <th class="px-4 py-3">Specialization</th>
@@ -42,12 +42,15 @@
                     </div>
                 </div>
                 </td>
-                <td class="px-4 py-3 text-md font-semibold border">{{ $user->student_number }}</td>
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->id_number }}</td>
                 <td class="px-4 py-3 text-md font-semibold border">{{ $user->email }}</td>
                 <td class="px-4 py-3 text-md font-semibold border">{{ $user->school->name }}</td>
                 @if($user->hasRole('admin'))
                 <td class="px-4 py-3 text-md border">Faculty</td>
                 <td class="px-4 py-3 text-md border">Faculty</td>
+                @elseif($user->hasRole('panelist'))
+                <td class="px-4 py-3 text-md border">Panelist</td>
+                <td class="px-4 py-3 text-md border">Panelist</td>
                 @else
                 <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $user->userGroup->group->name }}</td>

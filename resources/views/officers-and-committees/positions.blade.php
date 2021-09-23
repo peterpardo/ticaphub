@@ -1,7 +1,7 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
+    {{-- <x-page-title>
         {{ $title }}
-    </x-page-title>
+    </x-page-title> --}}
 
     <div>
 
@@ -14,13 +14,13 @@
         <section class="container p-6">
 
             <h1 class="font-bold text-xl mb-2">Position</h1>
-            <a class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500 mb-5" id="modal-btn">Add Position</a>
+            <a class="inline-block md:w-auto cursor-pointer bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300 mb-5" id="modal-btn">Add Position</a>
 
             {{-- <div class="w-full mb-3 overflow-hidden rounded-lg shadow-lg">
 
                 <div class="w-full overflow-y-auto"> --}}
 
-                    <table class="rounded-lg shadow-lg justify-center mx-auto">
+                    <table class="shadow-lg justify-center mx-auto h-full w-full">
 
                         <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
 
-                        <tbody class="bg-white"></tbody>
+                        <tbody class="bg-transparent dark:bg-gray-600"></tbody>
 
                     </table>
 
@@ -41,7 +41,7 @@
 
         <div class="text-center">
 
-            <a class="inline-block bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500 cursor-pointer" href="{{ route('set-candidates') }}">Set Candidates</a>
+            <a class="inline-block md:w-auto cursor-pointer bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300 mb-5" href="{{ route('set-candidates') }}">Set Candidates</a>
 
         </div>
             

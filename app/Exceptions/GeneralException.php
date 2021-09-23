@@ -45,7 +45,7 @@ class GeneralException extends Exception
     {
         // All instances of GeneralException redirect back with a flash message to show a bootstrap alert-error
 
-        $request->session()->flash('msg', $this->message);
+        $request->session()->flash('message', $this->message);
         $request->session()->flash('status', 'red');
 
         return back();

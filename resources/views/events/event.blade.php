@@ -1,7 +1,7 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
+    {{-- <x-page-title>
         {{ $title }}
-    </x-page-title>
+    </x-page-title> --}}
 
     <div>
         {{-- MESSAGE STATUS --}}
@@ -29,7 +29,7 @@
 
                 <input class="rounded" type="text" name="event_name" id="event_name" autocomplete="off" placholder="Ex: Webinar">
 
-                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add Event</button>
+                <button type="submit" class="md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Event</button>
             </form>
             {{-- ADD EVENT FORM --}}
 

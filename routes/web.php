@@ -37,6 +37,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
+    
     // ADMIN ROUTE
     Route::middleware(['admin'])->group(function(){
         // USER ACCOUNTS
@@ -77,7 +78,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
     // APPOINT COMMITTEE HEADS
-    // Route::get('/officers-and-committees/appoint-committee-head', [ElectionController:: class, 'appointForm'])->route('appoint');
+    Route::get('/officers-and-committees/appoint', [ElectionController::class, 'appointForm']);
     // EVENTS AND LISTS/TASKS
     Route::middleware(['officer'])->group(function(){
         Route::get('/events', [EventController::class, 'index'])->name('events');
