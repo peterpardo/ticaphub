@@ -262,6 +262,24 @@
               </a>
             </li>
             @endcan
+            @can('access awards')
+            <li>
+              <a href="{{ route('awards') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Project Assessment</span>
+              </a>
+            </li>
+            @endcan
+            <li>
+              <a href="{{ route('documentation') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                </span>
+                <span class="ml-2 text-sm tracking-wide truncate">Documentation</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -302,12 +320,12 @@
       }
     }
   </script>
-    @livewireScripts
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     @foreach($scripts as $script)
     <script src="{{ $script }}"></script>
     @endforeach
-    </body>
+    @livewireScripts
+  </body>
     
 </html>
 

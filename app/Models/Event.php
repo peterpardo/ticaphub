@@ -11,7 +11,6 @@ class Event extends Model
     use HasFactory;
 
     protected $table = 'events';
-
     protected $fillable = [
         'name',
         'ticap_id'
@@ -19,5 +18,11 @@ class Event extends Model
 
     public function lists() {
         return $this->hasMany(TaskList::class, 'event_id', 'id');
+    }
+    public function ticap() {
+        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
+    public function files() {
+        return $this->hasMany(File::class, 'event_id', 'id');
     }
 }

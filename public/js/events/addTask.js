@@ -9,32 +9,25 @@ $(document).ready(function() {
     const member = document.getElementById('member');
     const tagContainer = document.getElementById('tagContainer');
     const memberError = document.getElementById('memberError');
-   
-
     // ADD TASK FORM
     addTaskForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
         let tags = document.querySelectorAll('.tag');
         let members = [];
-
         // RETRIEVE ALL USER ID
         tags.forEach((tag) => {
             members.push(tag.dataset.id);
         });
-
         let data = {
             'title' : title.value,
             'description' : description.value,
             'members' : members,
         };
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    
         $.ajax({
             type: 'POST',
             url: `/events/${event.value}/list/${list.value}/add-task`,
@@ -54,14 +47,12 @@ $(document).ready(function() {
                 }
             }
         });
-    
     });
     // ADD TASK
 
     // LIVE SEARCH FOR USERS
     $('#member').on('keyup', function() {
         let input = $(this).val();
-
         if(input == ""){
             searchList.innerHTML = "";
         } else {
@@ -72,7 +63,6 @@ $(document).ready(function() {
                     'member':member.value,
                 },
                 success:function(data){
-                    
                     searchList.innerHTML = data;
                     searchList.childNodes.forEach((result) => {
                         memberError.textContent = '';
@@ -82,10 +72,8 @@ $(document).ready(function() {
                             member.value = "";
                             let user_id= result.dataset.id;
                             let user= result.innerHTML;
-
                             // CHECK IF TAG EXISTS
                             checkIfTagExists(user_id, user);
-            
                         });
                     });
                 }

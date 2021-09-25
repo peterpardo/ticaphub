@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AwardController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +39,10 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
-    
+    Route::get('/awards', [AwardController::class, 'index'])->name('awards');
+    // DOCUMENTATION
+    Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
+    Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
     // ADMIN ROUTE
     Route::middleware(['admin'])->group(function(){
         // USER ACCOUNTS
@@ -107,7 +112,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     Route::get('/search-member', [EventController::class, 'searchMember']);
     Route::get('/fetch-members/{taskId}', [EventController::class, 'fetchMembers']);
     Route::get('/fetch-activity/{taskId}', [EventController::class, 'fetchActivities']);
-    Route::get('/download-event-file/{fileName}', [EventController::class, 'downloadEventFile']);
+    Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
     Route::get('/fetch-files/{taskId}', [EventController::class, 'fetchFiles']);
     // STUDENT ROUTE
     Route::middleware(['student'])->group(function(){

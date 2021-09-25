@@ -27,4 +27,7 @@ class Specialization extends Model
     public function userSpecialization() {
         return $this->hasMany(UserProgram::class, 'specialization_id', 'id');
     }
+    public function awards(){
+        return $this->hasMany(Award::class, 'specialization_id', 'id');
+    }
 }

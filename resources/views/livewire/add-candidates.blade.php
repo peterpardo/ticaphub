@@ -14,6 +14,12 @@
                 @endif
                 @endforeach
             </select>
+            <select wire:model="bySpecialization" class="rounded ">
+                <option value="">--select specialization--</option>
+                @foreach($specializations as $specialization)
+                <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                @endforeach
+            </select>
             <select wire:model="byPosition" class="rounded ">
                 <option value="">--select position--</option>
                 @foreach($positions as $position)
@@ -43,7 +49,7 @@
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
-            <tbody class="bg-white">
+        <tbody class="bg-white">
             @foreach($users as $user)
             @if($user->hasRole('student'))
             <tr class="text-gray-700">
@@ -107,7 +113,7 @@
                 <td class="px-4 py-3 text-md border">{{ $candidate->specialization->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $candidate->position->name }}</td>
                 <td class="px-4 py-3 text-md border text-center">
-                    <button wire:click="deleteCandidate({{ $candidate->user->id }})" class="w-1/2 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                    <button wire:click="deleteCandidate({{ $candidate->user->id }})" class="rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
                 </td>
             </tr>
             @endforeach

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -146,20 +147,16 @@ class EventController extends Controller
             if($request->member == '') {
                 return response('');
             }
-
-            $member = $request->member;
-        
+            $member = trim($request->member);
             $data = User::role(['officer', 'chairman'])
                     ->where(function ($query)  use ($member){
                         $query->where('first_name', 'like', '%'.$member.'%')
                             ->orWhere('middle_name', 'like', '%'.$member.'%')
                             ->orWhere('last_name', 'like', '%'.$member.'%')
-                            ->orWhere('student_number', 'like', '%'.$member.'%'); 
+                            ->orWhere('id_number', 'like', '%'.$member.'%'); 
                     })
                     ->get();
-
             $output = '';
-        
             if($data){
                 foreach($data as $user){
                     $output .=  '<div class="rounded px-2 py-1 hover:bg-gray-100 border cursor-pointer" data-id="' . $user->id . '">
@@ -169,20 +166,17 @@ class EventController extends Controller
             } else {
                 $output .= '<div class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer">No Results</div>';
             }
-    
             return response($output);
         }
     }   
 
-    public function addTaskForm(Request $request, $eventId, $listId) {
+    public function addTaskForm($eventId, $listId) {
         $event = Event::find($eventId);
         $list = TaskList::find($listId);
         $title = "Manage Events";
-       
         $scripts = [
             asset('js/events/addTask.js'),
         ];
-
         return view('events.add-task', [
             'list' => $list,
             'title' => $title,
@@ -208,11 +202,9 @@ class EventController extends Controller
                 'url' => $url
             ]);
         }
-
         $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -226,16 +218,13 @@ class EventController extends Controller
                 'list_id' => $listId,
                 'user_id' => Auth::user()->id
             ]);
-
             // CHECK IF MEMBERS EXIST
             if($request->members){
                 foreach($request->members as $member){
                     $task->users()->attach($member);
                 }
             }
-
             $url = url('events/'.$eventId.'/list/'.$listId);
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Task Added Successfully',
@@ -277,16 +266,22 @@ class EventController extends Controller
                 'message' => 'Task Already Been Deleted'
             ]);
         }
+        // MARK AS READ IF USER VIEWED THE TASK
+        $task = Task::find($taskId);
+        foreach($task->users as $user) {
+            if($user->id == Auth::user()->id) {
+                $user->pivot->is_read = 1;
+                $user->pivot->save();
+            }
+        }
         $event = Event::find($eventId);
         $list = TaskList::find($listId);
         $lists = TaskList::all();
         $task = Task::find($taskId);
         $title = "Manage Events";
-       
         $scripts = [
             asset('js/events/addActivity.js'),
         ];
-
         return view('events.task-details', [
             'list' => $list,
             'title' => $title,
@@ -304,7 +299,6 @@ class EventController extends Controller
         ], [
             'description.required' => 'Activity Report is required'
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -317,25 +311,24 @@ class EventController extends Controller
                 'user_id' => Auth::user()->id,
                 'task_id' => $taskId,
             ]);
-
             // CHECK IF USER UPLOADED A FILE
             if($request->file('files')){
                 foreach($request->file('files') as $file){
+                    $extension = $file->extension();
                     $path = 'event-files/';
-                    $f = $file;
-                    $file_name = time().'_'.$f->getClientOriginalName();
-                    
+                    $file_path = Str::uuid() . '.' . $extension;
+                    $file_name = $file->getClientOriginalName();
                     // STORE EVENT FILES 
-                    $f->storeAs($path, $file_name, 'public');
+                    $file->storeAs($path, $file_path, 'public');
                     File::create([
                         'name' => $file_name,
+                        'path' => $file_path,
                         'task_id' => $taskId,
                         'event_id' => $eventId,
                         'activity_id' => $activity->id,
                     ]);
                 }
             }
-           
             return response()->json([
                 'status' => 200,
                 'message' => 'Activity Report added'
@@ -345,19 +338,17 @@ class EventController extends Controller
 
     public function fetchActivities($taskId){
         $activities  = Activity::with(['user', 'files'])->where('task_id', $taskId)->latest()->get();
-
         return response()->json([
             'activities' =>  $activities,
         ]);    
     }
 
-    public function downloadEventFile($fileName) {
-        return Storage::download('public/event-files/'.$fileName);
+    public function downloadEventFile($file) {  
+        return response()->download(storage_path('app/public/event-files/' . $file));
     }
 
     public function fetchFiles($taskId) {
         $files = File::where('task_id', $taskId)->get();
-
         return response()->json([
             'files' =>  $files,
         ]); 
@@ -369,12 +360,10 @@ class EventController extends Controller
         $lists = TaskList::all();
         $task = Task::find($taskId);
         $title = "Manage Events";
-       
         $scripts = [
             asset('js/events/updateTask.js'),
             asset('js/modal.js'),
         ];
-
         return view('events.update-task', [
             'list' => $list,
             'title' => $title,
@@ -389,7 +378,6 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -397,25 +385,15 @@ class EventController extends Controller
             ]);
         } else {
             // UPDATE TASK
-            // $task = Task::where('id', $taskId)->update([
-            //     'title' => $request->title,
-            //     'description' => $request->description
-            // ]);
-
             $task = Task::find($taskId);
             $task->title = $request->title;
             $task->description = $request->description;
-
             // REMOVE ALL MEMBERS FROM TASK
             $task->users()->detach();
-
             // INSERT NEW SET OF MEMBERS TO TASK
             $task->users()->attach($request->members);
-
             $task->save();
-
             $url = url('events/'.$eventId.'/list/'.$listId.'/task/'.$taskId);
-        
             return response()->json([
                 'status' => 200,
                 'url' => $url,
@@ -428,7 +406,6 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'list' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -437,9 +414,7 @@ class EventController extends Controller
         } else {
             // UPDATE LIST ID OF TASK
             Task::where('id', $taskId)->update(['list_id' => $request->list]);
-
             $url = url('events/'.$eventId);
-        
             return response()->json([
                 'status' => 200,
                 'url' => $url,
@@ -449,7 +424,6 @@ class EventController extends Controller
     
     public function fetchMembers($taskId) {
         $members = Task::find($taskId)->users()->with(['userSpecialization.specialization', 'school'])->get();
-
         return response()->json([
             'members' => $members
         ]);

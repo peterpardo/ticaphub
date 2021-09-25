@@ -70,7 +70,9 @@ class User extends Authenticatable
         return $this->hasMany(TaskList::class, 'user_id', 'id');
     }
     public function tasks() {
-        return $this->belongsToMany(Task::class, 'user_task', 'user_id', 'task_id');
+        return $this->belongsToMany(Task::class, 'user_task', 'user_id', 'task_id')
+        ->withPivot('is_read')
+        ->withTimestamps();
     }
     public function tasksCreated() {
         return $this->hasMany(Task::class, 'user_id', 'id');

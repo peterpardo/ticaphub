@@ -10,9 +10,9 @@ class File extends Model
     use HasFactory;
 
     protected $table = 'files';
-
     protected $fillable = [
         'name',
+        'path',
         'task_id',
         'event_id',
         'activity_id',

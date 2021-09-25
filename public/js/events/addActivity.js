@@ -120,7 +120,7 @@ $(document).ready(function() {
                     // CREATE FILE LIST
                     $(fileContainer).append(
                         `<ul class="list-disc list-inside">
-                            <li><a href="/download-event-file/${files[key].name}" class="hover:text-blue-600 text-blue-500">${files[key].name}</a></li>
+                            <li><a href="/event-files/${files[key].path}" class="hover:text-blue-600 text-blue-500">${files[key].name}</a></li>
                         </ul>`
                     );
                 }

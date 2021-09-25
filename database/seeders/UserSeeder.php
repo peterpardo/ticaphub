@@ -39,6 +39,7 @@ class UserSeeder extends Seeder
         ]);
         $mina->userSpecialization()->create([
             'specialization_id' => 1,
+            'school_id' => 1,
         ]);
         $mina->userGroup()->create([
             'group_id' => 1
@@ -55,6 +56,7 @@ class UserSeeder extends Seeder
         ]);
         $sana->userSpecialization()->create([
             'specialization_id' => 2,
+            'school_id' => 1,
         ]);
         $sana->userGroup()->create([
             'group_id' => 4
@@ -64,6 +66,7 @@ class UserSeeder extends Seeder
         // ADMIN / CHAIRMAN / OFFICERS
         Permission::create(['name' => 'access users']);
         Permission::create(['name' => 'access events']);
+        Permission::create(['name' => 'access awards']);
         Permission::create(['name' => 'view event']);
         Permission::create(['name' => 'add event']);
         Permission::create(['name' => 'delete event']);
@@ -88,6 +91,7 @@ class UserSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo('access users');
         $admin->givePermissionTo('access events');
+        $admin->givePermissionTo('access awards');
         $admin->givePermissionTo('add event');
         $admin->givePermissionTo('delete event');
         $admin->givePermissionTo('edit event');
@@ -107,6 +111,7 @@ class UserSeeder extends Seeder
         // CHAIRMAN
         $chairman = Role::create(['name' => 'chairman']);
         $chairman->givePermissionTo('access events');
+        $chairman->givePermissionTo('access awards');
         $chairman->givePermissionTo('view event');
         $chairman->givePermissionTo('add list');
         $chairman->givePermissionTo('edit list');
@@ -152,6 +157,7 @@ class UserSeeder extends Seeder
             ]);
             $user->userSpecialization()->create([
                 'specialization_id' => rand(1,2),
+                'school_id' => 1,
             ]);
             if($user->userSpecialization->specialization->id == 1){
                 $user->userGroup()->create([
