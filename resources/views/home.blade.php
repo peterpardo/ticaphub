@@ -146,10 +146,10 @@
 		  </script>
 		</head>
 		
-		<body>
+		<section class="">
 		  <div class="sliderAx h-auto">
 			  <div id="slider-1" class="container mx-auto">
-				<div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1422&q=80)">
+				<div class="bg-cover bg-center h-5/6 text-white py-24 px-10 object-fill" style="background-image: url(https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1422&q=80)">
 			   <div class="md:w-1/2">
 				<p class="font-bold text-sm uppercase">Lorem</p>
 				<p class="text-3xl font-bold">Hello Migs</p>
@@ -161,7 +161,7 @@
 			  </div>
 		
 			  <div id="slider-2" class="container mx-auto">
-				<div class="bg-cover bg-top  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://images.unsplash.com/photo-1544144433-d50aff500b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80)">
+				<div class="bg-cover bg-top h-5/6 text-white py-24 px-10 object-fill" style="background-image: url(https://images.unsplash.com/photo-1544144433-d50aff500b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80)">
 			   
 		  <p class="font-bold text-sm uppercase">Ipsum</p>
 				<p class="text-3xl font-bold">Hello Peter</p>
@@ -176,8 +176,8 @@
 				<button id="sButton1" onclick="sliderButton1()" class="bg-blue-400 rounded-full w-4 pb-2 " ></button>
 			<button id="sButton2" onclick="sliderButton2() " class="bg-blue-400 rounded-full w-4 p-2"></button>
 		  </div>
-		</body>
-		<main class="rounded flex items-center p-5 w-auto h-auto bg-white my-5">
+		</section>
+		<main class="flex items-center p-5 w-auto h-auto my-5">
 			<div class="pt-16 grid grid-cols-2 gap-8">
 				<div class="flex flex-col justify-start">
 					<div class="flex flex-col w-full object-cover h-4/6 justify-items-start border rounded-lg overflow-hidden"

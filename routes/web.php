@@ -62,7 +62,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/users/add-panelist', [UserController::class, 'panelistForm'])->name('add-panelist');
         Route::get('/users/{userId}/edit-user', [UserController::class, 'editUserForm']);
         Route::post('/users/{userId}/edit-user', [UserController::class, 'editUser']);
-        Route::post('/users', [UserController::class, 'resetUsers'])->name('reset-users');
+        // Route::post('/users', [UserController::class, 'resetUsers'])->name('reset-users');
         Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
         Route::post('/users/invite-users', [UserController::class, 'importFile']);
         // OFFICERS AND COMMITTEES

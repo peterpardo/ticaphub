@@ -27,13 +27,13 @@
         <div class="container">
             <table class="w-full shadow">
                 <thead>
-                    <tr class="bg-gray-100 uppercase border-b border-gray-600">
+                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Event</th>
                         <th class="px-4 py-3">Created At</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
                 </thead>
-                <tbody class="bg-white text-center">
+                <tbody class="bg-transparent dark:bg-gray-600 text-center">
                     @foreach($events as $event)
                     <tr>
                         <td class="px-4 py-3 border">{{ $event->name }}</td>

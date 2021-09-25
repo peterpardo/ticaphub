@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
+use App\Models\Event;
 use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
@@ -41,7 +42,6 @@ class UserController extends Controller
         $request->validate([
             'FEU_Diliman' => 'numeric',
             'FEU_Alabang' => 'numeric',
-            
         ]);
         if($request->FEU_Diliman != null) {
             $school = School::find($request->FEU_Diliman);
@@ -71,7 +71,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'specialization' => 'required|unique:specializations,name',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -458,12 +457,6 @@ class UserController extends Controller
             return back();
         });
     }
-
-    public function resetUsers() {
-        User::role('student')->delete();
-        return back();
-    }
-
     public function editUserForm($userId) {
         $title = 'User Accounts';
         return view('user-accounts.edit-user', [

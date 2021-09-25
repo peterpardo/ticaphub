@@ -1,16 +1,16 @@
 <div>
-    <div class="text-center my-2 font-semibold text-3xl">Create Awards</div>
-    <button wire:click="addAwardForm" class="bg-blue-500 hover:bg-blue-600 py-1 px-2 text-white rounded">Add Award</button>
+    <div class="text-left my-2 font-semibold text-3xl">Create Awards</div>
+    <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
     {{-- STUDENT TABLE --}}
     <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
     <input type="text" wire:model.debounce.350ms="search" class="rounded mb-2" placeholder="search award">
-    <select wire:model="selectedSchool" class="rounded">
+    <select wire:model="selectedSchool" class="rounded font-semibold text-base text-gray-900 dark:text-gray-900">
         <option value="">-- select school --</option>
         @foreach($schools as $school)
         <option value="{{ $school->id }}">{{ $school->name }}</option>
         @endforeach
     </select>
-    <select wire:model="selectedSpec" class="rounded">
+    <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-900 dark:text-gray-900">
         <option value="">-- select specialization --</option>
         @foreach($specializations as $spec)
         <option value="{{ $spec->id }}">{{ $spec->name }}</option>

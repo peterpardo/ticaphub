@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SpecializationSeeder::class,
             PositionSeeder::class,
             TicapSeeder::class,
+            EventSeeder::class,
             GroupSeeder::class,
             UserSeeder::class,
             CandidateSeeder::class,

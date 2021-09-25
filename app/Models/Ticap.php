@@ -29,4 +29,7 @@ class Ticap extends Model
     public function events() {
         return $this->hasMany(Event::class, 'ticap_id', 'id');
     }
+    public function archivedEvents() {
+        return $this->hasMany(TicapEvent::class, 'ticap_id', 'id');
+    }
 }
