@@ -15,11 +15,9 @@
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
-                <th class="px-4 py-3">ID Number</th>
                 <th class="px-4 py-3">Email</th>
-                <th class="px-4 py-3">School</th>
-                <th class="px-4 py-3">Specialization</th>
-                <th class="px-4 py-3">Group</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Role</th>
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
@@ -33,33 +31,30 @@
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
-                    <p class="font-semibold text-black text-lg">{{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}</p>
-                    <p class="text-xs text-gray-600">
-                    @foreach($user->getRoleNames() as $role)
-                        {{ $role }} |
-                    @endforeach
-                    </p>
+                        <p class="font-semibold text-black text-lg">
+                            {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
+                        </p>
                     </div>
                 </div>
                 </td>
-                <td class="px-4 py-3 text-md font-semibold border">{{ $user->id_number }}</td>
-                <td class="px-4 py-3 text-md font-semibold border">{{ $user->email }}</td>
-                <td class="px-4 py-3 text-md font-semibold border">{{ $user->school->name }}</td>
-                @if($user->hasRole('admin'))
-                <td class="px-4 py-3 text-md border">Faculty</td>
-                <td class="px-4 py-3 text-md border">Faculty</td>
-                @elseif($user->hasRole('panelist'))
-                <td class="px-4 py-3 text-md border">Panelist</td>
-                <td class="px-4 py-3 text-md border">Panelist</td>
+                <td class="px-4 py-3 text-md font-semibold border">
+                    {{ $user->email }}
+                </td>
+                <td class="px-4 py-3 text-md font-semibold border">
+                @if($user->email_verified)
+                <span class="bg-green-400 px-2 py-1 rounded text-white">email verified</span>
                 @else
-                <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
-                <td class="px-4 py-3 text-md border">{{ $user->userGroup->group->name }}</td>
+                <span class="bg-red-400 px-2 py-1 rounded text-white">not verified</span>
                 @endif
+                </td>
+                <td class="px-4 py-3 text-md font-semibold border">
+                @foreach($user->getRoleNames() as $role)
+                {{ $role }} |
+                @endforeach
+                </td>
                 <td class="px-4 py-3 text-md border">
-                    <div class="flex flex-col">
-                        @if($user->hasRole('student'))
-                        <a href="/users/{{ $user->id }}/edit-user" class="inline-block text-center rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">Edit</a>
-                        @endif
+                    <div class="flex flex-col w-1/2 mx-auto text-center">
+                        <a href="/users/{{ $user->id }}/edit-user" class="rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
                         <button wire:click="selectUser({{ $user->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
                     </div>
                 </td>
@@ -73,6 +68,19 @@
         </div>
     </div>
     {{-- STUDENT TABLE --}}
+
+    {{-- UPDATE USER MODAL --}}
+    {{-- <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="userFormModal">
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
+            <div>
+                <h1 class="text-center text-2xl font-bold">Edit User</h1>
+                @livewire('user-form')
+            </div>
+        </div>
+    </div> --}}
+    {{-- UPDATE USER MODAL --}}
 
     {{-- DELETE USERS MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="modalFormDelete">
@@ -94,7 +102,7 @@
                 <!--footer-->
                 <div class="p-3 mt-2 text-center space-x-4 md:block">
                     <button wire:click="closeModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
-                    <button wire:click="deleteUser" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Reset</button>
+                    <button wire:click="deleteUser" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Delete</button>
                 </div>
             </div>
         </div>

@@ -4,9 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Models\Event;
 use App\Models\Ticap;
-use App\Models\TicapEvent;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class UserTable extends Component
@@ -15,11 +15,15 @@ class UserTable extends Component
     public $selectedUser;
 
     public function selectUser($userId){
-        $this->dispatchBrowserEvent('openModal');
         $this->selectedUser = $userId;
+        $this->dispatchBrowserEvent('openModal');
     }
     public function deleteUser(){
-        User::where('id', $this->selectedUser)->delete();
+        $user = User::find($this->selectedUser);
+        // INVALIDATE REGISTRATION LINK SENT TO USER IF STILL NOT VERIFIED
+        DB::table('register_users')->where('email', $user->email)->delete();
+        $user->delete();
+        $this->emit('userDeleted');
         $this->dispatchBrowserEvent('closeModal');
     }
     public function closeModal(){
@@ -44,6 +48,8 @@ class UserTable extends Component
         }
         // DELETE ALL STUDENTS
         User::role('student')->delete();
+        // DELETE REGISTER_USERS TABLE
+        DB::table('register_users')->truncate();
         // DELETE ALL ADDED EVENTS
         Event::where('id', '!=', 1)
         ->where('id', '!=', 2)

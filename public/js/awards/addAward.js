@@ -15,6 +15,7 @@ $(document).ready(function() {
         $('#deleteAwardFormModal').removeClass('hidden');
         $('#deleteAwardFormModal').addClass('flex');
     });
+    // ALERTS
     Livewire.on('awardAdded', () => {
         alert('Award successfully added.');
     })

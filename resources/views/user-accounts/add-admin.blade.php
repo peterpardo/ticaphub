@@ -40,22 +40,9 @@
                     <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="my-3">
-                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">School</label>
-                    <select name="school" class="w-full rounded font-semibold text-base text-gray-900 dark:text-gray-900" wire:model="selectedSchool">
-                        <option value="">--select school--</option>
-                        @foreach ($schools as $school)
-                        @if($school->is_involved)
-                        <option value="{{ $school->id }}">{{ $school->name }}</option>
-                        @endif
-                        @endforeach
-                    </select>
-                    @error('school')
-                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Submit</button>
+                <div class="flex justify-evenly my-3">
+                    <a href="{{ route('users') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                    <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Add</button>
                 </div>
             </form>
         </div>

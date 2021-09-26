@@ -44,13 +44,13 @@ class HomeController extends Controller
 
     public function users() {
         // REDIRECTS TO SET OF INVITATION TO USERS
-        $ticap = Ticap::find(Auth::user()->id);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         if(!$ticap->invitation_is_set){
             return redirect()->route('set-invitation');
         }
         $title = 'User Accounts';
         $scripts = [
-            asset('js/useraccounts/deleteUserModal.js')
+            asset('js/useraccounts/users.js')
         ];
         return view('user-accounts.users', [
             'title' => $title,

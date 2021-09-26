@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\School;
 use App\Models\Specialization;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,22 +16,14 @@ class SpecializationSeeder extends Seeder
      */
     public function run()
     {
-
-        Specialization::create([
-            'name' => 'Web and Mobile Application'
-        ]);
-
-        Specialization::create([
-            'name' => 'Digital Arts'
-        ]);
-
-        // Specialization::create([
-        //     'name' => 'System Management and Business Analytics'
-        // ]);
-
-        // Specialization::create([
-        //     'name' => 'Animation and Game Development'
-        // ]);
-
+        $schools = School::where('is_involved', 1)->get();
+        foreach($schools as $school) {
+            $school->specializations()->create([
+                'name' => 'FEU TECH | Web and Mobile Application',
+            ]);
+            $school->specializations()->create([
+                'name' => 'FEU TECH | Digital Arts',
+            ]);
+        }
     }
 }

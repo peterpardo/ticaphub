@@ -13,6 +13,7 @@ class UserSpecialization extends Model
     protected $fillable = [
         'specialization_id',
         'school_id',
+        'id_number',
         'has_voted',
     ];
 

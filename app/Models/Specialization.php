@@ -13,6 +13,7 @@ class Specialization extends Model
 
     protected $fillable = [
         'name',
+        'school_id',
     ];
 
     public function groups() {

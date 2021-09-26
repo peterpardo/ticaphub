@@ -62,7 +62,7 @@
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
-            @if($selectedSchool != "" && !is_null($selectedSchool) )
+            @if(!is_null($selectedSchool))
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Specialization</label>
                 <select name="specialization" class="w-full rounded" wire:model="selectedSpec">
@@ -75,18 +75,30 @@
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
-            @endif
-            @if($selectedSpec != "" && !is_null($selectedSpec))
+            @endif  
+            @if(!is_null($selectedSpec))
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Group</label>
-                <input type="text" name="group" class="rounded w-full text-black dark:text-gray-900" value="{{ old('group') }}" autocomplete="off">
+                <input type="text" name="group" wire:model="selectedGroup" class="rounded w-full text-black dark:text-gray-900" value="{{ old('group') }}" autocomplete="off" placeholder="Enter group name">
+                @if($groups != null)
+                <ul class="my-2">
+                    <p class="font-semibold">Existing Groups</p>
+                    @foreach ($groups as $group)
+                    <li class="my-2">
+                        {{ $group->name }}
+                        <button wire:click.prevent="insertGroup('{{ $group->name }}')" class="text-white rounded bg-green-500 hover:bg-green-600 px-2 py-1">Select</button>
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
                 @error('group')
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
             @endif
-            <div class="text-center">
-                <button type="submit" class="md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Submit</button>
+            <div class="flex justify-evenly my-3">
+                <a href="{{ route('users') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Add</button>
             </div>
         </form>
     </div>

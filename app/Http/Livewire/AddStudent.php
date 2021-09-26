@@ -12,25 +12,25 @@ class AddStudent extends Component
 {
     public $selectedSpec = null;
     public $selectedSchool = null;
+    public $specializations = null;
     public $groups = null;
+    public $selectedGroup;
 
-    public function render()
-    {
-        $specializations = Specialization::all();
-        $schools = School::all();
-        return view('livewire.add-student', [
-            'schools' => $schools,
-            'specializations' => $specializations,
-        ]);
+    public function insertGroup($group) {
+        $this->selectedGroup = $group;
     }
     public function updatedSelectedSchool($schoolId){
-        $this->groups = Group::where('specialization_id', $this->selectedSpec)
-            ->where('school_id', $schoolId)
-            ->get();
+        $this->selectedSpec = null;
+        $this->specializations = Specialization::where('school_id', $schoolId)->get();
     }
     public function updatedSelectedSpec($specId){
-        $this->groups = Group::where('specialization_id', $specId)
-            ->where('school_id', $this->selectedSchool)
-            ->get();
+        $this->groups = Group::where('specialization_id', $specId)->get();
+    }
+    public function render()
+    {
+        $schools = School::where('is_involved', 1)->get();
+        return view('livewire.add-student', [
+            'schools' => $schools,
+        ]);
     }
 }

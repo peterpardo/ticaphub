@@ -22,9 +22,10 @@ class CreateUsersProgramTable extends Migration
                 ->nullable()
                 ->constrained('specializations')
                 ->onDelete('cascade');
-            $table->foreignId('school_id')
-                ->constrained('schools')
-                ->onDelete('cascade');
+            // $table->foreignId('school_id')
+            //     ->constrained('schools')
+            //     ->onDelete('cascade');
+            $table->integer('id_number');
             $table->boolean('has_voted')->default(0);
             $table->timestamps();
         });

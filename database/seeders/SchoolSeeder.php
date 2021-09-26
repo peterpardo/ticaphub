@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\School;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,18 +15,27 @@ class SchoolSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('schools')->insert([
-            'name' => 'FEU Tech',
+        $school = School::create([
+            'name' => 'FEU TECH',
             'is_involved' => 1,
         ]);
-
-        DB::table('schools')->insert([
-            'name' => 'FEU Diliman',
-            // 'is_involved' => 1,
+        $school->specializations()->create([
+            'name' => 'Web and Mobile Application',
         ]);
-
-        DB::table('schools')->insert([
-            'name' => 'FEU Alabang',
+        $school->specializations()->create([
+            'name' => 'Digital Arts',
+        ]);
+        $school->specializations()->create([
+            'name' => 'Animation and Game Development',
+        ]);
+        $school->specializations()->create([
+            'name' => 'System Management and Business Analytics',
+        ]);
+        School::create([
+            'name' => 'FEU DILIMAN',
+        ]);
+        School::create([
+            'name' => 'FEU ALABANG',
         ]);
     }
 }

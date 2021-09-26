@@ -1,7 +1,5 @@
-<x-app-layout>
-    <x-page-title>{{ $title }}</x-page-title>
-    @livewire('import-student')
-    {{-- <div class="w-1/2 mx-auto">
+<div>
+    <div class="w-1/2 mx-auto">
         <h1 class="text-center text-3xl font-semibold">Import Students</h1>
         <form 
             action="{{ route('import-users') }}"
@@ -13,7 +11,7 @@
             @endif
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">School</label>
-                <select name="school" class="w-full rounded">
+                <select name="school" wire:model='selectedSchool' class="w-full rounded">
                     <option value="">--select school--</option>
                     @foreach ($schools as $school)
                     @if($school->is_involved)
@@ -25,9 +23,10 @@
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
+            @if($selectedSchool != null)
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">Specialization</label>
-                <select name="specialization" class="w-full rounded">
+                <select name="specialization" wire:model="selectedSpec"class="w-full rounded">
                     <option value="">--select specialization--</option>
                     @foreach ($specializations as $specialization)
                     <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
@@ -37,6 +36,7 @@
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
+            @endif
             <div class="text-center mb-3">
                 <label for="file" class="block">Upload File</label>
                 <input type="file" name="file" id="file" class="border-2 border-black rounded mb-2" required/>
@@ -45,9 +45,9 @@
                 @enderror
             </div>
             <div class="p-3 mt-2 text-center space-x-4 md:block">
-                <a href="/users/add-student" id="closeUploadBtn" class="inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</a>
-                <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Invite</button>
+                <a href="{{ route('add-student') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Import</button>
             </div>
         </form>
-    </div> --}}
-</x-app-layout>
+    </div>
+</div>

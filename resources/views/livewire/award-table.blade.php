@@ -50,20 +50,20 @@
     </div>
     {{-- STUDENT TABLE --}}
 
-     {{-- RESET MODAL --}}
-     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="awardFormModal">
-        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
-        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
-            <!--content-->
-            <div >
-                @livewire('award-form')
-            </div>
+    {{-- UPDATE AWARD MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="awardFormModal">
+    <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+    <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+        <!--content-->
+        <div >
+            @livewire('award-form')
+        </div>
         </div>
     </div>
-    {{-- RESET MODAL --}}
+    {{-- UPDATE AWARD MODAL --}}
 
-    {{-- DELETE USERS MODAL --}}
-    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="deleteAwardFormModal">
+    {{-- DELETE AWARD MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="deleteSpecModal">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
@@ -87,5 +87,5 @@
             </div>
         </div>
     </div>
-    {{-- DELETE USERS MODAL --}}
+    {{-- DELETE AWARD MODAL --}}
 </div>
