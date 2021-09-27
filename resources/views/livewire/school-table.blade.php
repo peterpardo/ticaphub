@@ -52,7 +52,7 @@
     <h1 class="font-bold text-2xl my-4">Specializations</h1>
     <label class="font-semibold block mb-2">Add Specilization</label>
     @if(session('status'))
-    <div class="bg-{{ session('status') }}-500 rounded bg-green-500 px-2 py-1 text-white mb-2">{{ session('message') }}</div>
+    <span class="inline-block bg-{{ session('status') }}-500 rounded px-2 py-1 text-white mb-2">{{ session('message') }}</span>
     @endif
     <form wire:submit.prevent='addSpecialization' class="flex">
         <div class="mr-2">

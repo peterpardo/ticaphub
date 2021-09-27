@@ -24,35 +24,35 @@
             <tbody class="w-auto bg-white">
             @foreach($users as $user)
             <tr class="text-gray-700">
-                <td class="px-4 py-3 border">
+                <td class="px-4 border">
                 <div class="flex items-center text-sm">
                     <div class="relative w-8 h-8 mr-3 rounded-full md:block">
                     <img class="object-cover w-full h-full rounded-full" src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="" loading="lazy" />
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
-                        <p class="font-semibold text-black text-lg">
+                        <p class="font-semibold text-black text-md">
                             {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
                         </p>
                     </div>
                 </div>
                 </td>
-                <td class="px-4 py-3 text-md font-semibold border">
+                <td class="px-4 text-md font-semibold border">
                     {{ $user->email }}
                 </td>
-                <td class="px-4 py-3 text-md font-semibold border">
+                <td class="px-4 text-md font-semibold border">
                 @if($user->email_verified)
                 <span class="bg-green-400 px-2 py-1 rounded text-white">email verified</span>
                 @else
                 <span class="bg-red-400 px-2 py-1 rounded text-white">not verified</span>
                 @endif
                 </td>
-                <td class="px-4 py-3 text-md font-semibold border">
+                <td class="px-4 text-md font-semibold border">
                 @foreach($user->getRoleNames() as $role)
                 {{ $role }} |
                 @endforeach
                 </td>
-                <td class="px-4 py-3 text-md border">
+                <td class="px-4 text-md border">
                     <div class="flex flex-col w-1/2 mx-auto text-center">
                         <a href="/users/{{ $user->id }}/edit-user" class="rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
                         <button wire:click="selectUser({{ $user->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      

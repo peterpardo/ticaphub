@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
@@ -65,35 +66,39 @@ class ElectionController extends Controller
 
     public function setPositions() {
         $title = 'Officers and Committees';
-
         $ticap = Auth::user()->ticap_id;
-
         $ticap = Ticap::find($ticap)->first();
-
         $scripts = [
-            asset('js/modal.js'),
-            asset('js/officersandcommittees/addPosition.js'),
+            asset('js/officersandcommittees/positions.js'),
         ];
-
         return view('officers-and-committees.positions', [
             'title' => $title,
+            'ticap' => $ticap->name,
             'scripts' => $scripts,
-            'ticap' => $ticap->name
         ]);
     }
 
     public function fetchPositions(){
         $positions = Position::all();
-
         return response()->json([
             'positions' =>  $positions,
         ]);
     }
 
     public function setCandidates() {
+        // CHECK IF POSITIONS ARE ENOUGH FOR THE ELECTION
+        if(Position::all()->count() < 2 ){
+            session()->flash('status', 'red');
+            session()->flash('message', 'Add more positions for the election');
+            return back();
+        }
+        $scripts = [
+            asset('js/officersandcommittees/candidates.js'),
+        ];
         $title = 'Officers and Committees';
         return view('officers-and-committees.candidates', [
             'title' => $title,
+            'scripts' => $scripts,
         ]);
     }
 
@@ -131,7 +136,6 @@ class ElectionController extends Controller
             'student_name' => 'required|unique:candidates,user_id',
             'position' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -140,13 +144,11 @@ class ElectionController extends Controller
         } else {
             // INSERT USER AS CANDIDATE
             $user = User::find($request->student_name);
-
             $user->candidate()->create([
                 'position_id' => $request->position,
                 'specialization_id' => $user->userSpecialization->specialization_id,
                 'school_id' => $user->school->id
             ]);
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Position Added SuccessFully',
@@ -156,7 +158,6 @@ class ElectionController extends Controller
 
     public function fetchCandidates(){
         $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
-        
         return response()->json([
             'users' =>  $users,
         ]);
@@ -446,13 +447,6 @@ class ElectionController extends Controller
     }
 
     public function test() {
-        $user = User::find(4);
-
-        $user->candidate()->create([
-            'position_id' => 1,
-        ]);
         
-        dd($user->candidate->position->name);   
     }
-
 }

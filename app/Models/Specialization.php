@@ -16,6 +16,9 @@ class Specialization extends Model
         'school_id',
     ];
 
+    public function election() {
+        return $this->hasOne(Election::class, 'specialization_id', 'id');
+    }
     public function groups() {
         return $this->hasMany(Group::class, 'specialization_id', 'id');
     }

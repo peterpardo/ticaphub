@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSchoolIdColumnOnCandidatesTable extends Migration
+class AddElectionIdOnCandidatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddSchoolIdColumnOnCandidatesTable extends Migration
     public function up()
     {
         Schema::table('candidates', function (Blueprint $table) {
-            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            $table->foreignId('election_id')->constrained('elections')->onDelete('cascade');
         });
     }
 
@@ -26,7 +26,7 @@ class AddSchoolIdColumnOnCandidatesTable extends Migration
     public function down()
     {
         Schema::table('candidates', function (Blueprint $table) {
-            $table->dropColumn('school_id');
+            $table->dropColumn('election_id');
         });
     }
 }

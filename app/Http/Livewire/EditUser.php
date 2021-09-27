@@ -37,7 +37,7 @@ class EditUser extends Component
         $this->email = $this->user->email;
         if($this->user->hasRole('student')) {
             $this->selectedSpec = $this->user->userSpecialization->specialization->id;
-            $this->selectedSchool = $this->user->userSpecialization->school->id;
+            $this->selectedSchool = $this->user->userSpecialization->specialization->school->id;
             $this->id_number = $this->user->userSpecialization->id_number;
             $this->selectedGroup = $this->user->userGroup->group->id;
         }

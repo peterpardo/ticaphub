@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Election;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class SchoolTable extends Component
 {
@@ -28,7 +30,34 @@ class SchoolTable extends Component
     ];
     
     public function setInvitation() {
-        Ticap::find(Auth::user()->ticap_id)->update(['invitation_is_set' => 1]);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        // CREATE ELECTIONS
+        $schools = School::where('is_involved', 1)->get();
+        foreach($schools as $school) {
+            if($school->specializations->count() < 1) {
+                session()->flash('status', 'red');
+                session()->flash('message', $school->name . ' has no specializaions created');
+                return back();
+            }
+            if($school->id == 1){
+                // CREATE ELECTIONS PER SPECIALIZATION FOR FEU TECH
+                foreach($school->specializations as $spec) {
+                    $spec->election()->create([
+                        'name' => $school->name . ' | ' . $spec->name,
+                        'ticap_id' => $ticap->id
+                    ]);
+                }
+            } else {
+                // CREATE ONE ELECTION ONLY FOR FEU DILIMAN AND FEU ALABANG
+                Election::create([
+                    'name' => $school->name,
+                    'ticap_id' => $ticap->id
+                ]);
+            }
+        }
+        // SET INVITATION
+        $ticap->invitation_is_set = 1;
+        $ticap->save();
         return redirect()->route('users');
     }
     public function closeConfirmationModal() {
@@ -58,13 +87,14 @@ class SchoolTable extends Component
         $this->validate();
         $school = School::find($this->selectedSchool);
         $school->specializations()->create([
-            'name' => $this->specialization
+            'name' => Str::title($this->specialization)
         ]);
         session()->flash('status', 'green');
         session()->flash('message', 'Specialization successfully added');
         $this->reset();
     }
     public function removeSchool($id) {
+        Specialization::where('school_id', $id)->delete();
         School::find($id)->update(['is_involved' => 0]);
     }
     public function addSchool($id) {

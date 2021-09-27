@@ -11,6 +11,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +25,7 @@ use App\Http\Controllers\VoterController;
 
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
+Route::get('/test', [ElectionController::class, 'test']);
 // PASSWORD RESET FOR FIRST LOGIN
 Route::middleware(['guest'])->group(function(){
     Route::get('/users/set-password', [UserController::class, 'setPasswordForm'])->name('set-password');

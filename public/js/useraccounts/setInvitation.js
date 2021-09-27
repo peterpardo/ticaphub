@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // UPDATE MODAL
+    // CONFIRMATION MODAL
     window.addEventListener('closeConfModal', function() {
         $('#confirmationModal').addClass('hidden');
         $('#confirmationModal').removeClass('flex');

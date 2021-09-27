@@ -25,35 +25,51 @@ class GroupSeeder extends Seeder
             'specialization_id' => 2,
             'ticap_id' => 1
         ]);
-        Group::create([
-            'name' => 'Everglow',
-            'specialization_id' => 2,
-            'ticap_id' => 1
-        ]);
-        Group::create([
-            'name' => 'Envisioners',
-            'specialization_id' => 1,
-            'ticap_id' => 1
-        ]);
-        Group::create([
-            'name' => 'Twice',
-            'specialization_id' => 3,
-            'ticap_id' => 1
-        ]);
-        Group::create([
-            'name' => 'Blackpink',
-            'specialization_id' => 3,
-            'ticap_id' => 1
-        ]);
-        Group::create([
-            'name' => 'Red Velvet',
-            'specialization_id' => 4,
-            'ticap_id' => 1
-        ]);
-        Group::create([
-            'name' => 'ITZY',
-            'specialization_id' => 4,
-            'ticap_id' => 1
-        ]);
+        // Group::create([
+        //     'name' => 'Everglow',
+        //     'specialization_id' => 2,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'Envisioners',
+        //     'specialization_id' => 1,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'Twice',
+        //     'specialization_id' => 3,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'Blackpink',
+        //     'specialization_id' => 3,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'Red Velvet',
+        //     'specialization_id' => 4,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'ITZY',
+        //     'specialization_id' => 4,
+        //     'ticap_id' => 1
+        // ]);
+        // FEU DILIMAN
+        // Group::create([
+        //     'name' => 'Blackpink',
+        //     'specialization_id' => 5,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'Red Velvet',
+        //     'specialization_id' => 5,
+        //     'ticap_id' => 1
+        // ]);
+        // Group::create([
+        //     'name' => 'ITZY',
+        //     'specialization_id' => 6,
+        //     'ticap_id' => 1
+        // ]);
     }
 }

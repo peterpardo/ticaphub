@@ -15,6 +15,7 @@ class SchoolSeeder extends Seeder
      */
     public function run()
     {
+        // FEU TECH
         $school = School::create([
             'name' => 'FEU TECH',
             'is_involved' => 1,
@@ -31,11 +32,27 @@ class SchoolSeeder extends Seeder
         $school->specializations()->create([
             'name' => 'System Management and Business Analytics',
         ]);
-        School::create([
+        // // FEU DILIMAN
+        $school = School::create([
             'name' => 'FEU DILIMAN',
+            'is_involved' => 1,
         ]);
-        School::create([
+        $school->specializations()->create([
+            'name' => 'Twice',
+        ]);
+        $school->specializations()->create([
+            'name' => 'Blackpink',
+        ]);
+        // // FEU ALABANG
+        $school = School::create([
             'name' => 'FEU ALABANG',
+            'is_involved' => 1,
+        ]);
+        $school->specializations()->create([
+            'name' => 'Everglow',
+        ]);
+        $school->specializations()->create([
+            'name' => 'RedVelvet',
         ]);
     }
 }

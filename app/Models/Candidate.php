@@ -14,25 +14,18 @@ class Candidate extends Model
     protected $fillable = [
         'user_id',
         'position_id',
-        'specialization_id',
-        'school_id',
+        'election_id',
         'is_done'
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
     public function position() {
         return $this->belongsTo(Position::class, 'position_id', 'id');
     }
-
-    public function specialization() {
-        return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
-    }
-
-    public function school() {
-        return $this->belongsTo(School::class, 'school_id', 'id');
+    public function election() {
+        return $this->belongsTo(Election::class, 'election_id', 'id');
     }
 
 }

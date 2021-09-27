@@ -23,10 +23,9 @@ class User extends Authenticatable
         'middle_name',
         'last_name',
         'email',
-        'student_number',
         'password',
         'ticap_id',
-        'school_id',
+        'email_verified',
     ];
 
     /**
