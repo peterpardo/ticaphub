@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Election;
+use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -29,6 +31,10 @@ class StudentSeeder extends Seeder
             'specialization_id' => 1,
             'id_number' => 20181234
         ]);
+        $spec = Specialization::find($mina->userSpecialization->specialization->id);
+        $spec->election->userElections()->create([
+            'user_id' => $mina->id,
+        ]);
         // $mina->userGroup()->create([
         //     'group_id' => 1
         // ]);
@@ -44,6 +50,10 @@ class StudentSeeder extends Seeder
         $sana->userSpecialization()->create([
             'specialization_id' => 2,
             'id_number' => 20181234
+        ]);
+        $spec = Specialization::find($sana->userSpecialization->specialization->id);
+        $spec->election->userElections()->create([
+            'user_id' => $sana->id,
         ]);
         // $sana->userGroup()->create([
         //     'group_id' => 2
@@ -66,6 +76,25 @@ class StudentSeeder extends Seeder
                 'id_number' => rand(1,999999999),
             ]);
             $user->assignRole('student');
+             // ASSIGN STUDENT WHICH ELECTION TO VOTE
+            if($user->userSpecialization->specialization->school->id == 1) {
+                $spec = Specialization::find($user->userSpecialization->specialization->id);
+                $spec->election->userElections()->create([
+                    'user_id' => $user->id,
+                ]);
+            } else {
+                if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
+                    $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
+                    $election->userElections()->create([
+                        'user_id' => $user->id,
+                    ]);
+                } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
+                    $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
+                    $election->userElections()->create([
+                        'user_id' => $user->id,
+                    ]);
+                }
+            }
         }
     }
 }

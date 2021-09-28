@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Election;
 use App\Models\Officer;
+use App\Models\Position;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +19,26 @@ class NewElectionVoteSeeder extends Seeder
     {
         $officers = Officer::where('is_elected', 0)->get();
         $users = User::all();
+
+        $elections = Election::all();
+        $positions = Position::all();
+        foreach($elections as $election) {
+            if($election->officers()->where('is_elected', 0)->exists()) {
+                foreach($election->userElections as $userElection) {
+                    // FEUTECH WMA STUDENTS
+                    $c = [];
+                    foreach($election->officers->where('is_elected', 0) as $officer) {
+                        array_push($c, $officer->user->candidate->id);
+                    }
+                    $userElection->user->votes()->create([
+                        'candidate_id' => $c[array_rand($c)],
+                        'ticap_id' => 1
+                    ]);
+                    $userElection->has_voted = 1;
+                    $userElection->save();
+                }
+            }
+        }
 
         // FOR TESTING
         // DEFAULT POSITIONS (CHAIRMAN, CO-CHAIRMAN) 

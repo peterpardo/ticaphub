@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Position;
 use App\Models\Specialization;
 use App\Models\User;
@@ -17,63 +18,25 @@ class VoteSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all();
-        $candidates = Candidate::all();
-
-        // FOR TESTING
-        // DEFAULT POSITIONS (CHAIRMAN, CO-CHAIRMAN) 
-        // DEFAULT SPECIALIZATIONS (WMA, DA) 
-        $wmaChairman = [];
-        $wmaCo = [];
-
-        $daChairman = [];
-        $daCo = [];
-
-
-        foreach($candidates as $candidate){
-            if($candidate->position_id == 1 && $candidate->specialization_id == 1){
-                array_push($wmaChairman, $candidate->id);
-            }
-            if($candidate->position_id == 2 && $candidate->specialization_id == 1){
-                array_push($wmaCo, $candidate->id);
-            }
-            if($candidate->position_id == 1 && $candidate->specialization_id == 2){
-                array_push($daChairman, $candidate->id);
-            }
-            if($candidate->position_id == 2 && $candidate->specialization_id == 2){
-                array_push($daCo, $candidate->id);
-            }
-        }
-        
-        
-        foreach($users as $user){
-            if($user->hasRole('student') && !$user->userSpecialization->has_voted){
-                if($user->userSpecialization->specialization_id == 1){
-                    $user->votes()->create([
-                        'candidate_id' => $wmaChairman[array_rand($wmaChairman)],
-                        'ticap_id' => $user->ticap_id,
+        $elections = Election::all();
+        $positions = Position::all();
+        foreach($elections as $election) {
+            // FEUTECH WMA
+            foreach($election->userElections as $userElection) {
+                // FEUTECH WMA STUDENTS
+                foreach($positions as $position) {
+                    $c = [];
+                    foreach($election->candidates->where('position_id', $position->id) as $candidate) {
+                        array_push($c, $candidate->id);
+                    }
+                    $userElection->user->votes()->create([
+                        'candidate_id' => $c[array_rand($c)],
+                        'ticap_id' => 1
                     ]);
-                    $user->votes()->create([
-                        'candidate_id' => $wmaCo[array_rand($wmaCo)],
-                        'ticap_id' => $user->ticap_id,
-                    ]);
-                    $user->userSpecialization->has_voted = 1;
-                    $user->userSpecialization->save();
-                } 
-                if($user->userSpecialization->specialization_id == 2){
-                    $user->votes()->create([
-                        'candidate_id' => $daChairman[array_rand($daChairman)],
-                        'ticap_id' => $user->ticap_id,
-                    ]);
-                    $user->votes()->create([
-                        'candidate_id' => $daCo[array_rand($daCo)],
-                        'ticap_id' => $user->ticap_id,
-                    ]);
-                    $user->userSpecialization->has_voted = 1;
-                    $user->userSpecialization->save();
+                    $userElection->has_voted = 1;
+                    $userElection->save();
                 }
             }
         }
-
     }
 }

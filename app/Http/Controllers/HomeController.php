@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Officer;
+use App\Models\Position;
 use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
@@ -60,7 +62,7 @@ class HomeController extends Controller
 
     public function officers() {
         $title = 'Officers and Committees';
-        $ticap =Ticap::find(Auth::user()->ticap_id);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         $user = User::find(Auth::user()->id);
         // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
         if ($user->hasRole('admin')) {
@@ -68,6 +70,9 @@ class HomeController extends Controller
                 return redirect()->route('set-invitation');
             }
             // NO CANDIDATES EXISTS YET
+            if($ticap->election_review) {
+                return redirect()->route('election-result');
+            }
             if($ticap->election_has_started && !$ticap->election_finished && $ticap->has_new_election) {
                 return redirect()->route('new-election');
             }else if($ticap->election_has_started && !$ticap->election_finished && !$ticap->has_new_election) {
@@ -78,18 +83,22 @@ class HomeController extends Controller
         }
         // REDIRECT STUDENT WHETHER ELECTION HAS STARTED OR NOT AND HAS NOT YET VOTED
         if ($user->hasRole('student')) {
-            if(
-                $ticap->election_has_started && 
-                !$user->userSpecialization->has_voted
-            ) {
+            if($ticap->election_has_started && !$user->userElection->has_voted) {
                 return redirect()->route('vote');
             }
         }
-        $officers = Officer::with(['user.candidate.position', 'user.candidate.specialization'])->get();
+        // CHECK IF STUDENT IS FROM FEUTECH
+        if($user->userSpecialization->specialization->school->id == 1){
+            $election = Election::where('specialization_id', $user->userSpecialization->specialization->id)->first();
+        } else {
+            $election = Election::where('name', $user->userSpecialization->specialization->school->name)->first();
+        }
+        $positions = Position::all();
         return view('officers-and-committees.officers', [
             'title' => $title,
             'ticap' => $ticap,
-            'officers' => $officers,
+            'election' => $election,
+            'positions' => $positions,
             'user' => $user,
         ]);
     }

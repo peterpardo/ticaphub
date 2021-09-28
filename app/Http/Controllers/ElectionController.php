@@ -65,9 +65,17 @@ class ElectionController extends Controller
     }
 
     public function setPositions() {
+        $ticap = Ticap::find(Auth::user()->ticap_id)->first();
+        if($ticap->election_finished) {
+            return redirect()->route('officers');
+        } 
+        if($ticap->election_review) {
+            return redirect()->route('election-result');
+        }
+        if($ticap->election_has_started) {
+            return redirect()->route('election');
+        }
         $title = 'Officers and Committees';
-        $ticap = Auth::user()->ticap_id;
-        $ticap = Ticap::find($ticap)->first();
         $scripts = [
             asset('js/officersandcommittees/positions.js'),
         ];
@@ -86,6 +94,19 @@ class ElectionController extends Controller
     }
 
     public function setCandidates() {
+        $ticap = Ticap::find(Auth::user()->ticap_id)->first();
+        if($ticap->election_finished) {
+            return redirect()->route('officers');
+        } 
+        if($ticap->election_review) {
+            return redirect()->route('election-result');
+        }
+        if($ticap->election_has_started) {
+            return redirect()->route('election');
+        }
+        if($ticap->election_has_started) {
+            return back();
+        }
         // CHECK IF POSITIONS ARE ENOUGH FOR THE ELECTION
         if(Position::all()->count() < 2 ){
             session()->flash('status', 'red');
@@ -187,44 +208,23 @@ class ElectionController extends Controller
     }
 
     public function electionPanel() {
-        $positions = Position::all();
-        $specializations = Specialization::all();
-        $schools = School::where('is_involved', 1)->get();
-        // CHECK IF CANDIDATES EXIST
-        if (Candidate::all()->count() == 0) {
-            return back()->with([
-                'status' => 'red',
-                'message' => 'Add more candidates',
-            ]);
-        }
-        // CHECK IF CANDIDATES EXIST FOR EACH POSITION ON EACH SPECIALIZATION
-        foreach($schools as $school) {
-            foreach($specializations as $specialization) {
-                foreach($positions as $position){
-                    if($position->candidates->where('specialization_id', $specialization->id)->where('school_id', $school->id)->count() < 2){
-                        return back()->with([
-                            'status' => 'red',
-                            'message' => 'Please add more candidates for ' . $position->name . ' (' . $school->name . '|' . $specialization->name . ') '.' *min. of 2 candidates'
-                        ]);
-                    }
-                }
-            }
-        }
-        $title = 'Officers and Committees';
-        // UPDATE TO ELECTION HAS STARTED
-        $ticap = Auth::user()->ticap_id;
-        $ticap = Ticap::find($ticap);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         $ticap->election_has_started = 1;
         $ticap->save();
-        // GIVE VIEW ACCESS TO ALL MODELS RELATED TO USER
-        $users = User::with(['candidate.position', 'userSpecialization.specialization'])->get();
+        if($ticap->election_finished) {
+            return redirect()->route('officers');
+        }
+        if($ticap->election_review) {
+            return redirect()->route('election-result');
+        }
+        $title = 'Officers and Committees';
+        $scripts = [
+            asset('js/officersandcommittees/election.js'),
+        ];
         return view('officers-and-committees.election', [
             'title' => $title, 
             'ticap' => $ticap->name, 
-            'users' => $users,
-            'positions' => $positions,
-            'schools' => $schools,
-            'specializations' => $specializations,
+            'scripts' => $scripts, 
         ]);
     }
 
@@ -273,7 +273,6 @@ class ElectionController extends Controller
                                 ]);
                             }  
                         } 
-                        
                         // RUNS IF THERE ARE MORE THAN ONE RESULT
                         if(count($final) > 1){
                             foreach($final as $candidate_id){
@@ -312,25 +311,28 @@ class ElectionController extends Controller
     }
 
     public function electionResults(){
-        $officers = Officer::with(['user', 'user.candidate.position', 'user.candidate.specialization'])->get();
         $title = 'Officers and Committees';
-        $ticap = Ticap::find(Auth::user()->id)->first();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $scripts = [
+            asset('js/officersandcommittees/confirmElection.js'),
+        ];
         return view('officers-and-committees.election-results', [
             'title' => $title,
             'ticap' => $ticap->name,
-            'officers' => $officers,
+            'scripts' => $scripts,
         ]);
-
     }
 
     public function newElectionPanel() {
-        $officers = Officer::with(['user', 'user.candidate.position', 'user.candidate.specialization'])->get();
         $title = 'Officers and Committees';
         $ticap = Ticap::find(Auth::user()->id)->first();
+        $scripts = [
+            asset('js/officersandcommittees/newElection.js'),
+        ];
         return view('officers-and-committees.new-election', [
             'title' => $title,
             'ticap' => $ticap->name,
-            'officers' => $officers,
+            'scripts' => $scripts,
         ]);
     }
 

@@ -47,6 +47,9 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
+    public function userElection() {
+        return $this->hasOne(UserElection::class, 'user_id', 'id');
+    }
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }

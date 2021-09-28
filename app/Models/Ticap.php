@@ -14,6 +14,7 @@ class Ticap extends Model
         'name',
         'invitation_is_set',
         'election_has_started',
+        'election_review',
         'election_finished'
     ];
 

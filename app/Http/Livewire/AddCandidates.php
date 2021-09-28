@@ -23,6 +23,9 @@ class AddCandidates extends Component
     public $specializations;
     public $selectedPosition;
 
+    public function startElection() {
+        return redirect()->route('election');
+    }
     public function closeConfirmationModal() {
         $this->dispatchBrowserEvent('closeConfModal');
     }

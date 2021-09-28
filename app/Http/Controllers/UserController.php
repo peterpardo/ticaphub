@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
+use App\Models\Election;
 use App\Models\Event;
 use App\Models\Group;
 use App\Models\School;
@@ -255,6 +256,25 @@ class UserController extends Controller
             'specialization_id' => $request->specialization,
             'id_number' => $request->id_number,
         ]);
+        // ASSIGN STUDENT WHICH ELECTION TO VOTE
+        if($user->userSpecialization->specialization->school->id == 1) {
+            $spec = Specialization::find($user->userSpecialization->specialization->id);
+            $spec->election->userElections()->create([
+                'user_id' => $user->id,
+            ]);
+        } else {
+            if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
+                $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
+                $election->userElections()->create([
+                    'user_id' => $user->id,
+                ]);
+            } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
+                $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
+                $election->userElections()->create([
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
         // CHECK IF GROUP ALREADY EXIST
         $groupName = Str::upper(trim($request->group));
         if(!Group::where('name', $groupName)
@@ -278,6 +298,7 @@ class UserController extends Controller
                 'group_id' => $group->id,
             ]);
         };
+        dd('done');
         // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [

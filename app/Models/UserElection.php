@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vote extends Model
+class UserElection extends Model
 {
     use HasFactory;
 
-    protected $table = 'votes';
+    protected $table = 'user_election';
     protected $fillable = [
-        'candidate_id',
         'user_id',
-        'ticap_id',
+        'election_id',
+        'has_voted'
     ];
 
+    public function election() {
+        return $this->belongsTo(Election::class, 'election_id', 'id');
+    }
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function candidate() {
-        return $this->belongsTo(Candidate::class, 'candidate_id', 'id');
-    }
-    
 }

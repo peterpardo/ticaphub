@@ -79,7 +79,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/officers-and-committees/election', [ElectionController::class, 'electionPanel'])->name('election');
         Route::post('/officers-and-committees/election', [ElectionController::class, 'getElectionResults']);
         Route::get('/officers-and-committees/election-result', [ElectionController::class, 'electionResults'])->name('election-result');
-        Route::post('/officers-and-committees/election-result', [ElectionController::class, 'endElection']);
+        // Route::get('/officers-and-committees/end-election', [ElectionController::class, 'endElection'])->name('end-election');
         Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
