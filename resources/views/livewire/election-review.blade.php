@@ -65,24 +65,24 @@
                         <thead>
                             <tr>
                                 <th class="border-black border">Election</th>
-                                <th class="border-black border">No. of Students</th>
-                                <th class="border-black border">Has voted</th>
+                                <th class="border-black border">Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($elections as $election)
+                            @foreach($elections as $election)
                             <tr>
                                 <td class="border-black border">
                                     {{ $election->name }}
                                 </td>
                                 <td class="border-black border">
-                                    {{ $election->userElections->count()}}
-                                </td>
-                                <td class="border-black border">
-                                    {{ $election->userElections->where('has_voted', 1)->count() }}
+                                @if(!$election->officers()->where('is_elected', 0)->exists())
+                                    <span class="text-green-500">ok</span>
+                                @else
+                                    <span class="text-red-500">error</span>
+                                @endif
                                 </td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -135,7 +135,7 @@
                                         <ul>
                                             @foreach($positions as $position)
                                             @if($election->officers()->where('is_elected', 0)->where('position_id', $position->id)->exists())
-                                            <li>{{ $election->officers->where('is_elected', 0)->count() }}</li>
+                                            <li>{{ $election->officers->where('is_elected', 0)->where('position_id', $position->id)->count() }}</li>
                                             @endif
                                             @endforeach
                                         </ul>

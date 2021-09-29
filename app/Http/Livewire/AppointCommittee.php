@@ -10,33 +10,54 @@ class AppointCommittee extends Component
 {
     public $search;
     public $name;
+    public $committees;
+    public $commId;
+    public $listeners = [
+        'refreshParent' => '$refresh'
+    ];
 
-    public function render()
-    {
-        return view('livewire.appoint-committee', [
-            'users' => User::search(trim($this->search))
-                ->paginate(6),
-            'committees' => Committee::with(['user'])->get()
-        ]);
+    public function closeDeleteModal() {
+        $this->dispatchBrowserEvent('closeDeleteModal');
+    }
+    public function selectCommittee($commId, $action) {
+        $this->commId = $commId;
+        if($action == 'delete') {
+            $this->dispatchBrowserEvent('openDeleteModal');
+        } else {
+            $this->emit('getCommId', $commId);
+            $this->dispatchBrowserEvent('openUpdateModal');
+        }
     }
     public function appoint($userId) {
         $this->validate([
             'name' => 'required',
         ]);
         $user = User::find($userId);
-        $user->committee()->create([
-            'name' => $this->name,
-        ]);
-        $user->assignRole('officer');
-        $this->reset(['search', 'name']);
-        session()->flash('status', 'green');
-        session()->flash('message', 'Student successfully appointed.');
+        if($user->hasRole(['officer', 'chairman'])){
+            session()->flash('status', 'red');
+            session()->flash('message', 'Student already an officer.');
+        } else {
+            $user->committee()->create([
+                'name' => $this->name,
+            ]);
+            $user->assignRole('officer');
+            $this->reset();
+            session()->flash('status', 'green');
+            session()->flash('message', 'Student successfully appointed.');
+        }
     }
-    public function deleteCommittee($userId) {
-        Committee::where('user_id', $userId)->delete();
-        $user = User::find($userId);
+    public function deleteCommittee() {
+        $committee = Committee::find($this->commId);
+        $user = User::find($committee->user->id);
         $user->removeRole('officer');
-        session()->flash('status', 'green');
-        session()->flash('message', 'Committee successfully deleted.');
+        $committee->delete();
+        $this->emit('committeeDeleted');
+    }
+    public function render()
+    {
+        $this->committees = Committee::all();
+        return view('livewire.appoint-committee', [
+            'users' => User::role('student')->search(trim($this->search))->paginate(6),
+        ]);
     }
 }

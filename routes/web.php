@@ -26,6 +26,11 @@ use App\Http\Controllers\VoterController;
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/test', [ElectionController::class, 'test']);
+Route::get('/studentLogin', function () { return view('studentLogin'); })->name('studentLogin');
+Route::get('/schools', function () { return view('schools'); })->name('schools');
+Route::get('/specialization', function () { return view('specialization'); })->name('specialization');
+Route::get('/specialization/groupView', function () { return view('homepage.groupView'); })->name('groupView');
+Route::get('/specialization/viewSpecialization', function () { return view('homepage.viewSpecialization'); })->name('viewSpecialization');
 // PASSWORD RESET FOR FIRST LOGIN
 Route::middleware(['guest'])->group(function(){
     Route::get('/users/set-password', [UserController::class, 'setPasswordForm'])->name('set-password');
@@ -84,7 +89,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
     // APPOINT COMMITTEE HEADS
-    Route::get('/officers-and-committees/appoint', [ElectionController::class, 'appointForm']);
+    Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
     // EVENTS AND LISTS/TASKS
     Route::middleware(['officer'])->group(function(){
         Route::get('/events', [EventController::class, 'index'])->name('events');

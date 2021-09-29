@@ -11,11 +11,12 @@ use Livewire\Component;
 
 class AwardForm extends Component
 {
-    public $selectedSchool;
+    public $selectedSchool = null;
     public $selectedSpec;
     public $name;
     public $type;
     public $awardId;
+    public $specializations; 
     protected $listeners = [
         'closeAwardForm',
         'getAwardId'
@@ -33,6 +34,10 @@ class AwardForm extends Component
         'selectedSpec.required' => 'The Specialization is required.',
     ];
 
+    public function updatedSelectedSchool($schoolId) {
+        $this->selectedSpec = null;
+        $this->specializations = Specialization::where('school_id', $schoolId)->get();
+    }
     public function getAwardId($awardId) {
         $this->awardId = $awardId;
         $award = Award::find($awardId);
@@ -68,10 +73,8 @@ class AwardForm extends Component
     public function render()
     {
         $schools = School::where('is_involved', 1)->get();
-        $specializations = Specialization::all();
         return view('livewire.award-form', [
             'schools' => $schools,
-            'specializations' => $specializations,
         ]);
     }
 }

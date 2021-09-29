@@ -82,7 +82,7 @@
             <div >
                 @livewire('position-form')
             </div>
-            </div>
         </div>
-        {{-- UPDATE SPEC MODAL --}}
+    </div>
+    {{-- UPDATE SPEC MODAL --}}
 </div>

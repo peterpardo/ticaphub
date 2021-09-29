@@ -445,10 +445,16 @@ class ElectionController extends Controller
 
     public function appointForm() {
         $title = 'Officer and Committes';
-        return view('officers-and-committees.committee-heads', ['title' => $title]);
+        $scripts = [
+            asset('js/committees/committee.js')
+        ];
+        return view('officers-and-committees.committee-heads', [
+            'title' => $title,
+            'scripts' => $scripts,
+        ]);
     }
 
     public function test() {
-        
+       
     }
 }

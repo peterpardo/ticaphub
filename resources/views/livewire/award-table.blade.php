@@ -10,12 +10,14 @@
         <option value="{{ $school->id }}">{{ $school->name }}</option>
         @endforeach
     </select>
+    @if($selectedSchool != null)
     <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-900 dark:text-gray-900">
         <option value="">-- select specialization --</option>
         @foreach($specializations as $spec)
         <option value="{{ $spec->id }}">{{ $spec->name }}</option>
         @endforeach
     </select>
+    @endif
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
         <table class="w-full">

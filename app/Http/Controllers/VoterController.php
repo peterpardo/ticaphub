@@ -32,6 +32,7 @@ class VoterController extends Controller
                 'officers' => $officers,
                 'positions' => $positions,
                 'election' => $election,
+                'scripts' => $scripts,
             ]);
         } else {
             return view('officers-and-committees.vote', [
@@ -49,38 +50,41 @@ class VoterController extends Controller
         $fields = [];
         $positions = Position::all();
         $ticap = Ticap::find(Auth::user()->ticap_id);
+        // GET POSITIONS IN RE-ELECTION
         if($ticap->has_new_election) {
             $elections = Election::all();
             foreach($elections as $election) {
                 if($election->officers()->where('is_elected', 0)->exists()) {
                     $position = $election->officers()->where('is_elected', 0)->distinct()->pluck('position_id');
-                    echo $election->name . '<br>';
                     $pos = Position::find($position[0]);
-                    dd($pos) . '<br>';
+                    $name = str_replace(' ', '_', $pos->name);
+                    if(!array_key_exists($name, $fields)){
+                        $fields[$name] = 'required';
+                    }
                 }
             }
-        }
-        dd('error');
-        foreach($positions as $position) {
-            $name = str_replace(' ', '_', $position->name);
-            if(!array_key_exists($name, $fields)){
-                $fields[$name] = 'required';
+        } else {
+            foreach($positions as $position) {
+                $name = str_replace(' ', '_', $position->name);
+                if(!array_key_exists($name, $fields)){
+                    $fields[$name] = 'required';
+                }
             }
         }
         $request->validate($fields);
         $voter = User::find(Auth::user()->id);
         // DYNAMIC INSERTION OF VOTES TO CANDIDATES
-        foreach($request->all() as $key => $value) {
-            // SKIP _TOKEN FIELD NAME
-            if($key == '_token') {
-                continue;
-            } 
-            $user = User::find($voter->id);
-            $user->votes()->create([
-                'candidate_id' => $value,
-                'ticap_id' => $user->ticap_id,
-            ]);
-        }
+        // foreach($request->all() as $key => $value) {
+        //     // SKIP _TOKEN FIELD NAME
+        //     if($key == '_token') {
+        //         continue;
+        //     } 
+        //     $user = User::find($voter->id);
+        //     $user->votes()->create([
+        //         'candidate_id' => $value,
+        //         'ticap_id' => $user->ticap_id,
+        //     ]);
+        // }
         $voter->userElection->has_voted = 1;
         $voter->userElection->save();
         return redirect()->route('officers');  

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Election;
+use App\Models\Officer;
 use App\Models\Position;
 use App\Models\Ticap;
 use App\Models\Vote;
@@ -13,6 +14,24 @@ class ElectionReview extends Component
 {
     public $elections;
 
+    public function endElection() {
+        // SET ELECTION FINISHED FOR THE TICAP
+        $ticap = Ticap::find(Auth::user()->id);
+        $ticap->election_finished = 1;
+        $ticap->has_new_election = 0;
+        $ticap->election_review = 0;
+        $ticap->save();
+        // ASSIGNMENT OF ROLES TO ELECTED OFFICERS
+        $officers = Officer::all();
+        foreach($officers as $officer) {
+            if($officer->position->name == 'Chairman'){
+                $officer->user->assignRole('chairman');
+            } else {
+                $officer->user->assignRole('officer');
+            }
+        }
+        return redirect()->route('officers');
+    }
     public function startNewElection() {
         foreach($this->elections as $election) {
             if($election->officers()->where('is_elected', 0)->exists()){

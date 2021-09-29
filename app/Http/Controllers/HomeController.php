@@ -69,15 +69,15 @@ class HomeController extends Controller
             if(!$ticap->invitation_is_set){
                 return redirect()->route('set-invitation');
             }
-            // NO CANDIDATES EXISTS YET
             if($ticap->election_review) {
                 return redirect()->route('election-result');
             }
-            if($ticap->election_has_started && !$ticap->election_finished && $ticap->has_new_election) {
+            if($ticap->election_has_started && !$ticap->election_has_started && $ticap->has_new_election) {
                 return redirect()->route('new-election');
-            }else if($ticap->election_has_started && !$ticap->election_finished && !$ticap->has_new_election) {
+            }
+            if($ticap->election_has_started && !$ticap->election_has_started) {
                 return redirect()->route('election');
-            }else if(!$ticap->election_has_started) {
+            }elseif(!$ticap->election_has_started){
                 return redirect()->route('set-positions');
             }
         }
@@ -87,17 +87,20 @@ class HomeController extends Controller
                 return redirect()->route('vote');
             }
         }
-        // CHECK IF STUDENT IS FROM FEUTECH
-        if($user->userSpecialization->specialization->school->id == 1){
-            $election = Election::where('specialization_id', $user->userSpecialization->specialization->id)->first();
-        } else {
-            $election = Election::where('name', $user->userSpecialization->specialization->school->name)->first();
-        }
+        $elections = Election::all();
         $positions = Position::all();
+        // CHECK IF STUDENT IS FROM FEUTECH
+        if($user->hasRole('student')) {
+            if($user->userSpecialization->specialization->school->id == 1){
+                $elections = Election::where('specialization_id', $user->userSpecialization->specialization->id)->get();
+            } else {
+                $elections = Election::where('name', $user->userSpecialization->specialization->school->name)->get();
+            }
+        }
         return view('officers-and-committees.officers', [
             'title' => $title,
             'ticap' => $ticap,
-            'election' => $election,
+            'elections' => $elections,
             'positions' => $positions,
             'user' => $user,
         ]);

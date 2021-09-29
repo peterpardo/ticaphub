@@ -17,6 +17,78 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/homeburgermenu.js') }}" defer></script>
     </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  html,
+body {
+  font-family: "Rubik", sans-serif;
+}
+
+/* navigation 
+ - show navigation always on the large screen devices with (min-width:1024)
+*/
+
+@media (min-width: 1024px) {
+  .top-navbar {
+    display: inline-flex !important;
+  }
+}
+</style>
+
+<nav class="flex items-center bg-red-800 p-3 flex-wrap">
+      <a href="{{ route ('home') }}" class="p-2 mr-4 inline-flex items-center">
+        <img class="w-7 h-7" src="https://scontent.fcrk1-4.fna.fbcdn.net/v/t1.15752-9/242875367_1221841901629666_5837732975797936657_n.png?_nc_cat=104&ccb=1-5&_nc_sid=ae9488&_nc_eui2=AeF8qonOvTOcNpY2cfPzFkvs9fEXyaZenfH18RfJpl6d8WYEeeAgnt76wyZEx-ZEkyPf_wNFQ_AaYTsqxhbX9w8K&_nc_ohc=p_PgkF3v9CsAX-tiz2f&_nc_ht=scontent.fcrk1-4.fna&oh=4cc615dd35648743fb1bd4307b17a9f5&oe=617800CC" alt="">
+        <span  class="text-xl text-white font-bold uppercase tracking-wide"
+          >TICaP HUB</span>
+      </a>
+      <button
+        class="text-white inline-flex p-3 hover:bg-white-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
+        data-target="#navigation">
+        <i class="material-icons">menu</i>
+      </button>
+      <div
+        class="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
+        id="navigation">
+        <div
+          class="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
+          <a
+            href="{{ route ('home') }}"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
+            <span>Home</span>
+          </a>
+          <a
+            href=""
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
+            <span>About Us</span>
+          </a>
+          <a
+          href="{{ route ('schools') }}"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
+            <span>Project Exhibit</span>
+          </a>
+		  @auth
+		  <a class="lg:inline-flex md:ml-5 bg-red-700 lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-400 hover:text-white" href="{{ route('dashboard') }}">Go to Dashboard</a>
+	  @else
+		  <a class="lg:inline-flex md:ml-5 bg-red-700 lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-400 hover:text-white" href="{{ route('login') }}">Sign in</a>
+	  @endauth
+        </div>
+      </div>
+    </nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {
+  $(".nav-toggler").each(function(_, navToggler) {
+    var target = $(navToggler).data("target");
+    $(navToggler).on("click", function() {
+      $(target).animate({
+        height: "toggle"
+      });
+    });
+  });
+});
+</script>
     <body class="bg-gray-100">
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}

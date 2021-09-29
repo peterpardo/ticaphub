@@ -11,14 +11,19 @@ use Livewire\Component;
 class AwardTable extends Component
 {
     public $selectedAward;
-    public $selectedSchool;
-    public $selectedSpec;
+    public $selectedSchool = null;
+    public $selectedSpec = null;
+    public $specializations;
     public $selectedType;
     public $search;
     protected $listeners = [
         'refreshParent' => '$refresh'
     ];
    
+    public function updatedSelectedSchool($schoolId) {
+        $this->selectedSpec = null;
+        $this->specializations = Specialization::where('school_id', $schoolId)->get();
+    }
     public function openDeleteModal($awardId) {
         $this->selectedAward = $awardId;
         $this->dispatchBrowserEvent('openDeleteModal');
@@ -51,7 +56,6 @@ class AwardTable extends Component
             })
             ->orderBy('updated_at', 'desc')
             ->paginate(6),
-            'specializations' => Specialization::all(),
             'schools' => School::where('is_involved', 1)->get(),
         ]);
     }

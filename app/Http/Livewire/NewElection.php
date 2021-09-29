@@ -18,27 +18,35 @@ class NewElection extends Component
     public function getElectionResults() {
         $candidateVoteCount = [];
         foreach($this->elections as $election) {
-            if($election->officers()->where('is_elected', 0)->exists()) {
-                foreach($this->positions as $position) {
-                    foreach($election->candidates->where('position_id', $position->id) as $candidate) {
+            foreach($this->positions as $position) {
+                if($election->officers()->where('is_elected', 0)->where('position_id', $position->id)->exists()) {
+                    foreach($election->officers->where('is_elected', 0)->where('position_id', $position->id) as $officer) {
+                        $candidate = $officer->user->candidate;
                         $candidateVoteCount[$candidate->id] = $candidate->votes->count();
                     }
                     $electedOfficer = array_keys($candidateVoteCount, max($candidateVoteCount));
-                    dd($electedOfficer);
                     if(count($electedOfficer) == 1) {
-                        // $loser = array_keys($electedOfficer, min($electedOfficer));
                         $candidate = Candidate::find($electedOfficer[0]);
-                        Officer::where('candidate_id', $candidate->id)->update(['is_elected' => 1]);
+                        Officer::where('user_id', $candidate->user->id)->update(['is_elected' => 1]);
+                        foreach($candidateVoteCount as $candidateId => $votes) {
+                            if($electedOfficer[0] == $candidateId) {
+                                continue;
+                            }
+                            $c = Candidate::find($candidateId);
+                            if(Officer::where('user_id', $c->user->id)->exists()){
+                                Officer::where('user_id', $c->user->id)->delete();
+                            }
+                        }
                     }  else {
-                        foreach($electedOfficer as $candidate_id){
-                            // INSERT CANDIDATE TO OFFICERS TABLE WITH (IS_ELECTED = FALSE)
-                            $candidate = Candidate::find($candidate_id);
-                            if($candidate->user->officer == null || !$candidate->user->officer->exists()){
-                                $candidate->user->officer()->create([
-                                    'position_id' => $candidate->position->id,
-                                    'ticap_id' => $candidate->user->ticap_id,
-                                    'election_id' => $election->id,
-                                ]);
+                        foreach($electedOfficer as $candidateId){
+                            foreach($candidateVoteCount as $id => $votes){
+                                if($id == $candidateId){
+                                    continue;
+                                }
+                                $c = Candidate::find($id);
+                                if(Officer::where('user_id', $c->user->id)->exists()){
+                                    Officer::where('user_id', $c->user->id)->delete();
+                                }
                             }
                         }
                     }
@@ -58,16 +66,16 @@ class NewElection extends Component
     }
     public function confirmElection() {
          // VALIDATE ELECTION
-        //  foreach($this->elections as $election) {
-        //     if($election->officers()->where('is_elected', 1)->exists()) {
-        //         $userCount = $election->userElections->count() / 2;
-        //         if($election->userElections->where('has_voted', 1)->count() < (int)round($userCount)){
-        //             session()->flash('status', 'red');
-        //             session()->flash('message', $election->name . ' - has LESS THAN HALF the votes needed to proceed.');
-        //             return back();
-        //         }
-        //     }
-        // }
+         foreach($this->elections as $election) {
+            if($election->officers()->where('is_elected', 1)->exists()) {
+                $userCount = $election->userElections->count() / 2;
+                if($election->userElections->where('has_voted', 1)->count() < (int)round($userCount)){
+                    session()->flash('status', 'red');
+                    session()->flash('message', $election->name . ' - has LESS THAN HALF the votes needed to proceed.');
+                    return back();
+                }
+            }
+        }
         $this->dispatchBrowserEvent('openConfModal');
     }
     public function render()

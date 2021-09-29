@@ -1,6 +1,4 @@
-<x-app-layout>
+<x-app-layout :scripts="$scripts">
     <x-page-title>{{ $title }}</x-page-title>
-    <div>
-        @livewire('appoint-committee')
-    </div>
+    @livewire('appoint-committee')
 </x-app-layout>

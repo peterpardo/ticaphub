@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :scripts="$scripts">
     <x-page-title>
         {{ $title }}
     </x-page-title>
@@ -39,7 +39,7 @@
         </div>
         @endforeach
         <div class="text-center">
-            <button type="submit" id="openConfModal" class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Submit Vote</butt>
+            <a id="openConfModal" class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Submit Vote</a>
         </div>
     </form>
    

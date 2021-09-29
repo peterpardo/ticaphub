@@ -52,7 +52,6 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'event_id' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -61,7 +60,6 @@ class EventController extends Controller
         } else {
             // DELETE EVENT
             Event::find($request->event_id)->delete();
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Event Deleted Successfully',
@@ -72,11 +70,9 @@ class EventController extends Controller
     public function viewEvent($eventId) {
         $event = Event::find($eventId);
         $title = 'Manage Events';
-        
         $scripts = [
             asset('js/events/list.js'),
         ];
-
         return view('events.list', [
             'title' => $title,
             'event' => $event,
@@ -128,11 +124,9 @@ class EventController extends Controller
         $event = Event::find($eventId);
         $list = TaskList::find($listId);
         $title = "Manage Events";
-       
         $scripts = [
             asset('js/events/deleteTask.js'),
         ];
-
         return view('events.tasks', [
             'list' => $list,
             'title' => $title,

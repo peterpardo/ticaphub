@@ -49,7 +49,7 @@
                         <tr>
                             <td class="px-4 py-3 border">{{ $list->title }}</td>
                             <td class="px-4 py-3 border">{{ $list->user->first_name }} {{ $list->user->middle_name }} {{ $list->user->last_name }}</td>
-                            <td class="px-4 py-3 border">{{ $list->user->school->name }}</td>
+                            <td class="px-4 py-3 border">{{ $list->user->userSpecialization->specialization->school->name }}</td>
                             <td class="px-4 py-3 border">
                                 @if($list->user->hasRole('admin'))
                                     Faculty

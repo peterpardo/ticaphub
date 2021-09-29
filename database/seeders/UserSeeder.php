@@ -49,7 +49,8 @@ class UserSeeder extends Seeder
         // ADMIN / CHAIRMAN / OFFICERS
         Permission::create(['name' => 'access users']);
         Permission::create(['name' => 'access events']);
-        Permission::create(['name' => 'access awards']);
+        Permission::create(['name' => 'access asessment']);
+        Permission::create(['name' => 'access documents']);
         Permission::create(['name' => 'view event']);
         Permission::create(['name' => 'add event']);
         Permission::create(['name' => 'delete event']);
@@ -74,7 +75,8 @@ class UserSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo('access users');
         $admin->givePermissionTo('access events');
-        $admin->givePermissionTo('access awards');
+        $admin->givePermissionTo('access asessment');
+        $admin->givePermissionTo('access documents');
         $admin->givePermissionTo('add event');
         $admin->givePermissionTo('delete event');
         $admin->givePermissionTo('edit event');
@@ -90,11 +92,12 @@ class UserSeeder extends Seeder
         $admin->givePermissionTo('move task');
         $admin->givePermissionTo('add member');
         $admin->givePermissionTo('add report');
+        $admin->givePermissionTo('appoint committee head');
         
         // CHAIRMAN
         $chairman = Role::create(['name' => 'chairman']);
         $chairman->givePermissionTo('access events');
-        $chairman->givePermissionTo('access awards');
+        $chairman->givePermissionTo('access asessment');
         $chairman->givePermissionTo('view event');
         $chairman->givePermissionTo('add list');
         $chairman->givePermissionTo('edit list');
