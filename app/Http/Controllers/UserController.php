@@ -379,26 +379,32 @@ class UserController extends Controller
                         continue;
                     }
                     // HEADERS
-                    $fname = trim($row[0]);
-                    $mname = trim($row[1]);
-                    $lname = trim($row[2]);
-                    $email = trim($row[3]);
-                    $id_number = trim($row[4]);
-                    $group = trim($row[5]);
+                    $fields = [];
+                    $fields['first_name'] = trim($row[0]);
+                    $fields['middle_name'] = trim($row[1]);
+                    $fields['last_name'] = trim($row[2]);
+                    $fields['email'] = trim($row[3]);
+                    $fields['id_number'] = trim($row[4]);
+                    $fields['group'] = trim($row[5]);
+                    foreach($fields as $key => $value) {
+                        if($value == null || $value == "") {
+                            throw new GeneralException('Line ' . $ctr . ' - ' . $key . ' is missing.'); 
+                        }
+                    }
                     // GENERATE RANDOM PASSWORD
-                    $tempPassword = "picab" . $email;
+                    $tempPassword = "picab" . $fields['email'];
                     // VALIDATE EMAIL AND STUDENT NUMBER
-                    if(User::where('email', $email)->exists() ){     
+                    if(User::where('email', $fields['email'])->exists() ){     
                         throw new GeneralException('Line ' . $ctr . ' - Email must be unique'); 
                     }
                     // CREATE USER
                     $ticap = Auth::user()->ticap_id;
                     $user = User::create([
-                        'first_name' => Str::title($fname),
-                        'middle_name' => Str::title($mname),
-                        'last_name' => Str::title($lname),
+                        'first_name' => Str::title($fields['first_name']),
+                        'middle_name' => Str::title($fields['middle_name']),
+                        'last_name' => Str::title($fields['last_name']),
                         'password' => Hash::make($tempPassword),
-                        'email' => $email,
+                        'email' => $fields['email'],
                         'ticap_id' => $ticap,
                     ]);
                     // ASSIGN STUDENT ROLE
@@ -406,10 +412,10 @@ class UserController extends Controller
                     // ADD STUDENT WITH SPECIALIZATION
                     $user->userSpecialization()->create([
                         'specialization_id' => $specialization,
-                        'id_number' => $id_number,
+                        'id_number' => $fields['id_number'],
                     ]);
                     // CHECK IF GROUP EXISTS
-                    $groupName = Str::upper($group);
+                    $groupName = Str::upper($fields['group']);
                     if(!Group::where('name', $groupName)->exists()) {
                         $group = Group::create([
                             'name' => $groupName,

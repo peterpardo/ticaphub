@@ -1,63 +1,23 @@
 <x-guest-layout>
     <div class="container mx-auto w-8/12">
-
         <h1 class="text-center text-5xl my-5 font-black">Specializations</h1>
-        
         <div class="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2 w-auto md:w-9/12 mx-auto">
-
-            <a href="{{ route ('groupView') }}">
-            <div class="w-auto bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-                <div class="overflow-x-hidden rounded-2xl relative">
-                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="https://images.unsplash.com/photo-1632871975364-e6d471ece9e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=465&q=80">                  
-                </div>
-                <div class="mt-4 pl-2 mb-2 flex justify-center ">
-                  <div class="text-center">
-                    <h1 class="text-3xl font-bold text-gray-800 uppercase dark:text-white">ITAGD</h1>
+          @foreach($specializations as $specialization)
+            <a href="/specializations/{{ $specialization->id }}/groups">
+              <div class="w-auto bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
+                  <div class="overflow-x-hidden rounded-2xl relative">
+                    <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="https://images.unsplash.com/photo-1632871975364-e6d471ece9e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=465&q=80">                  
                   </div>
-                </div>
+                  <div class="mt-4 pl-2 mb-2 flex justify-center ">
+                    <div class="text-center">
+                      <h1 class="text-3xl font-bold text-gray-800 uppercase dark:text-white">{{ $specialization->name }}</h1>
+                    </div>
+                  </div>
               </div> 
             </a>
-
-            <a href="{{ route ('groupView') }}">
-            <div class="w-auto bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-                <div class="overflow-x-hidden rounded-2xl relative">
-                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="https://images.unsplash.com/photo-1632871975364-e6d471ece9e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=465&q=80}">                  
-                </div>
-                <div class="mt-4 pl-2 mb-2 flex justify-center ">
-                  <div class="text-center">
-                    <h1 class="text-3xl font-bold text-gray-800 uppercase dark:text-white">ITSMBA</h1>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <a href="{{ route ('groupView') }}">
-            <div class="w-auto bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-                <div class="overflow-x-hidden rounded-2xl relative">
-                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="https://images.unsplash.com/photo-1632871975364-e6d471ece9e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=465&q=80">                  
-                </div>
-                <div class="mt-4 pl-2 mb-2 flex justify-center ">
-                  <div class="text-center">
-                    <h1 class="text-3xl font-bold text-gray-800 uppercase dark:text-white">ITWMA</h1>
-                  </div>
-                </div>
-              </div>
-            </a>
-
-            <a href="{{ route ('groupView') }}">
-            <div class="w-auto bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-                <div class="overflow-x-hidden rounded-2xl relative">
-                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="https://images.unsplash.com/photo-1632871975364-e6d471ece9e5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=465&q=80">                  
-                </div>
-                <div class="mt-4 pl-2 mb-2 flex justify-center ">
-                  <div class="text-center">
-                    <h1 class="text-3xl font-bold text-gray-800 uppercase dark:text-white">ITDA</h1>
-                  </div>
-                </div>
-              </div>
-            </a>
+            @endforeach
         </div>
-    </div>
+      </div>
 </x-guest-layout>
 
 {{-- BACKUP --}}

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Election;
+use App\Models\Group;
 use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -35,9 +36,14 @@ class StudentSeeder extends Seeder
         $spec->election->userElections()->create([
             'user_id' => $mina->id,
         ]);
-        // $mina->userGroup()->create([
-        //     'group_id' => 1
-        // ]);
+        $mina->userGroup()->create([
+            'group_id' => 1
+        ]);
+        if(!$mina->userGroup->group->groupExhibit()->exists()) {
+            $mina->userGroup->group->groupExhibit()->create([
+                'ticap_id' => 1,
+            ]);
+        }
         $sana = User::create([
             'first_name' => 'Sana',
             'middle_name' => 'Sana',
@@ -55,12 +61,17 @@ class StudentSeeder extends Seeder
         $spec->election->userElections()->create([
             'user_id' => $sana->id,
         ]);
-        // $sana->userGroup()->create([
-        //     'group_id' => 2
-        // ]);
+        $sana->userGroup()->create([
+            'group_id' => 2
+        ]);
+        if(!$sana->userGroup->group->groupExhibit()->exists()) {
+            $sana->userGroup->group->groupExhibit()->create([
+                'ticap_id' => 1,
+            ]);
+        }
         $mina->assignRole('student');
         $sana->assignRole('student');
-        for ($x = 0; $x <= 200; $x++) {
+        for ($x = 0; $x < 44; $x++) {
             $user = \App\Models\User::create([
                 'first_name' => Str::random(5),
                 'middle_name' => Str::random(5),
@@ -71,10 +82,21 @@ class StudentSeeder extends Seeder
                 'ticap_id' => 1,
                 'email_verified' => 1,
             ]);
-            $user->userSpecialization()->create([
-                'specialization_id' => rand(1,8),
-                'id_number' => rand(1,999999999),
-            ]);
+            $flag = false;
+            while(!$flag) {
+                $spec = Specialization::find(rand(1,4));
+                if($spec->userSpecializations->count() < 12) {
+                    $user->userSpecialization()->create([
+                        'specialization_id' => $spec->id,
+                        'id_number' => rand(1,999999999),
+                    ]);
+                    $flag = true;
+                }
+            }
+            // $user->userSpecialization()->create([
+            //     'specialization_id' => rand(1,4),
+            //     'id_number' => rand(1,999999999),
+            // ]);
             $user->assignRole('student');
              // ASSIGN STUDENT WHICH ELECTION TO VOTE
             if($user->userSpecialization->specialization->school->id == 1) {
@@ -82,19 +104,35 @@ class StudentSeeder extends Seeder
                 $spec->election->userElections()->create([
                     'user_id' => $user->id,
                 ]);
-            } else {
-                if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
-                    $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
-                    $election->userElections()->create([
-                        'user_id' => $user->id,
-                    ]);
-                } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
-                    $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
-                    $election->userElections()->create([
-                        'user_id' => $user->id,
-                    ]);
+                $flag = false;
+                while (!$flag) {
+                    $group = Group::find(rand(1,12));
+                    if($group->userGroups->count() < 4) {
+                        $user->userGroup()->create([
+                            'group_id' => $group->id
+                        ]);
+                        if(!$user->userGroup->group->groupExhibit()->exists()) {
+                            $user->userGroup->group->groupExhibit()->create([
+                                'ticap_id' => 1,
+                            ]);
+                        }
+                        $flag = true;
+                    }
                 }
             }
+            // else {
+            //     if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
+            //         $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
+            //         $election->userElections()->create([
+            //             'user_id' => $user->id,
+            //         ]);
+            //     } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
+            //         $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
+            //         $election->userElections()->create([
+            //             'user_id' => $user->id,
+            //         ]);
+            //     }
+            // }
         }
     }
 }

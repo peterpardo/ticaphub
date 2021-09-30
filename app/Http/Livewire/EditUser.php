@@ -19,15 +19,13 @@ class EditUser extends Component
     public $last_name;
     public $email;
     public $id_number;
+    public $specs;
+    public $groups;
     protected $rules = [
         'first_name' => 'required',
         'middle_name' => 'required',
         'last_name' => 'required',
         'email' => 'required',
-    ];
-    protected $messages = [
-        'selectedSchool.required' => 'The School is required.',
-        'selectedSpec.required' => 'The Specialization is required.',
     ];
 
     public function mount() {
@@ -41,6 +39,15 @@ class EditUser extends Component
             $this->id_number = $this->user->userSpecialization->id_number;
             $this->selectedGroup = $this->user->userGroup->group->id;
         }
+    }
+    public function updatedSelectedSchool($schoolId) {
+        $this->selectedSpec = null;
+        $this->selectedGroup = null;
+        $this->specs = Specialization::where('school_id', $schoolId)->get();
+    }
+    public function updatedSelectedSpec($specId) {
+        $this->selectedGroup = null;
+        $this->groups = Group::where('specialization_id', $specId)->get();
     }
     public function updateUser() {
         $this->validate();
@@ -61,14 +68,16 @@ class EditUser extends Component
                 'id_number' => 'required',
                 'selectedSpec' => 'required',
                 'selectedSchool' => 'required',
+                'selectedGroup' => 'required',
             ], [
                 'selectedSchool.required' => 'The :attribute is required.',
                 'selectedSpec.required' => 'The :attribute is required.',
+                'selectedGroup.required' => 'The :attribute is required.',
             ], [
                 'selectedSpec' => 'Specialization',       
                 'selectedSchool' => 'School',       
+                'selectedGroup' => 'Group',       
             ]);
-            $user->userSpecialization->school_id = $this->selectedSchool;
             $user->userSpecialization->specialization_id = $this->selectedSpec;
             $user->userSpecialization->id_number = $this->id_number;
             $user->userSpecialization->save();
@@ -81,13 +90,11 @@ class EditUser extends Component
 
     public function render()
     {   
-        $schools = School::all();
-        $specs = Specialization::all();
-        $groups = Group::all();
+        $schools = School::where('is_involved', 1)->get();
+        $this->specs = Specialization::where('school_id', $this->selectedSchool)->get();
+        $this->groups = Group::where('specialization_id', $this->selectedSpec)->get();
         return view('livewire.edit-user', [
             'schools' => $schools,
-            'specs' => $specs,
-            'groups' => $groups,
         ]);
     }
     

@@ -51,6 +51,7 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'access events']);
         Permission::create(['name' => 'access asessment']);
         Permission::create(['name' => 'access documents']);
+        Permission::create(['name' => 'access group exhibit']);
         Permission::create(['name' => 'view event']);
         Permission::create(['name' => 'add event']);
         Permission::create(['name' => 'delete event']);
@@ -123,6 +124,7 @@ class UserSeeder extends Seeder
         $panelist->givePermissionTo('evaluate');
         // STUDENT
         $student = Role::create(['name' => 'student']);
+        $student->givePermissionTo('access group exhibit');
         // ASSIGN ROLE
         $user->assignRole($admin);
         $admin2->assignRole($admin);

@@ -36,6 +36,9 @@
                     <option value="{{ $school->id }}">{{ $school->name }}</option>
                     @endforeach
                 </select>
+                @error('selectedSchool')
+                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                @enderror
             </div>
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">Specialization</label>
@@ -44,6 +47,9 @@
                     <option value="{{ $spec->id }}">{{ $spec->name }}</option>
                     @endforeach
                 </select>
+                @error('selectedSpec')
+                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                @enderror
             </div>
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">Group</label>
@@ -52,6 +58,9 @@
                     <option value="{{ $group->id }}">{{ $group->name }}</option>
                     @endforeach
                 </select>
+                @error('selectedGroup')
+                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                @enderror
             </div>
             @endif
             <div class="flex justify-evenly my-3">

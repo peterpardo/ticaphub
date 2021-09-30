@@ -9,11 +9,12 @@
     </div>
   </div> --}}
 
+  {{-- BANNER --}}
 <div class="text-gray-600 body-font">
     <div class="container px-5 py-5 mx-auto flex flex-wrap">
       <div class="lg:w-2/3 mx-auto">
         <div class="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4 shadow-md">
-          <img alt="gallery" class="rounded w-full object-cover h-full object-center block absolute inset-0" src="https://scontent.fcrk1-3.fna.fbcdn.net/v/t1.6435-9/160950630_369557754442105_837620697662940079_n.png?_nc_cat=100&ccb=1-5&_nc_sid=e3f864&_nc_eui2=AeFkNjiZb7gzWI43J5qjeDLBz1rYixdMUKTPWtiLF0xQpET6WYGFUhbWzGRa4rcH_Ycd0GvZv_d2IADnXG9gVOhR&_nc_ohc=4LS-dDQLDD0AX8G9Jpv&_nc_ht=scontent.fcrk1-3.fna&oh=a6a14ea8b02271216e41cc610a3c4a9b&oe=6177C967">
+          <img alt="gallery" class="rounded w-full object-cover h-full object-center block absolute inset-0" src="{{ Storage::url($group->groupExhibit->banner_path) }}">
         </div>
       </div>
     </div>
@@ -73,14 +74,15 @@
   </div>
 </div>
 
+{{-- PROJECT TITLE AND DESCRIPTION --}}
 <div class="container mx-auto w-9/12 bg-white dark:bg-gray-800 rounded shadow-md">
   <div class="container px-5 py-5 mx-auto">
       <div class="items-center lg:flex">
           <div class="lg:w-1/2">
-              <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">TICAP Hub</h2>
+              <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $group->groupExhibit->title }}</h2>
 
               <p class="mt-4 text-gray-500 dark:text-gray-400 lg:max-w-md">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, nisi quae! Id sapiente et rerum earum, tempora sequi, optio eveniet velit nihil assumenda quam magni atque libero ea quisquam recusandae!
+                  {{ $group->groupExhibit->description }}
               </p>
 
           </div>

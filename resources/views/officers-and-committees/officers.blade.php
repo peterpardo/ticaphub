@@ -18,13 +18,13 @@
                         @foreach($positions as $position)
                         <tr>
                             <td class="border">{{ $position->name }}</td>
-                            <td class="border">
-                                <ul>
+                            @if($ticap->election_finished)
                                 @foreach($election->officers->where('position_id', $position->id) as $officer)
-                                    <li class="py-2">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</li>
+                                <td class="border">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</td>
                                 @endforeach
-                                </ul>
-                            </td>
+                            @else
+                                <td class="border">None</td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>

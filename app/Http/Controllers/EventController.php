@@ -23,7 +23,6 @@ class EventController extends Controller
         $scripts = [
             asset('js/events/event.js'),
         ];
-
         return view('events.event', [
             'title' => $title,
             'scripts' => $scripts,

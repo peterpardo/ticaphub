@@ -9,7 +9,7 @@ class PositionForm extends Component
 {   
     public $position;
     public $positionId;
-    public $listeners = [
+    protected $listeners = [
         'getPositionId',
         'closeUpdateModal'
     ];

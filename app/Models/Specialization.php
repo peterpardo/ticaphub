@@ -28,8 +28,8 @@ class Specialization extends Model
     public function candidates() {
         return $this->hasMany(Candidate::class, 'specialization_id', 'id');
     }
-    public function userSpecialization() {
-        return $this->hasMany(UserProgram::class, 'specialization_id', 'id');
+    public function userSpecializations() {
+        return $this->hasMany(UserSpecialization::class, 'specialization_id', 'id');
     }
     public function awards(){
         return $this->hasMany(Award::class, 'specialization_id', 'id');

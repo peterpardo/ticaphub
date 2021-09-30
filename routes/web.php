@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
-
+use App\Models\Group;
+use App\Models\School;
+use App\Models\Specialization;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +30,22 @@ use App\Http\Controllers\VoterController;
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/test', [ElectionController::class, 'test']);
 Route::get('/studentLogin', function () { return view('studentLogin'); })->name('studentLogin');
-Route::get('/schools', function () { return view('schools'); })->name('schools');
-Route::get('/specialization', function () { return view('specialization'); })->name('specialization');
-Route::get('/specialization/groupView', function () { return view('homepage.groupView'); })->name('groupView');
-Route::get('/specialization/viewSpecialization', function () { return view('homepage.viewSpecialization'); })->name('viewSpecialization');
+Route::get('/schools', function () { 
+    $schools = School::where('is_involved', 1)->get();
+    return view('schools', ['schools' => $schools]);
+})->name('schools');
+Route::get('/schools/{schoolId}/specializations', function ($schoolId) { 
+    $specializations = Specialization::where('school_id', $schoolId)->get();
+    return view('specialization', ['specializations' => $specializations]); 
+});
+Route::get('/specializations/{specId}/groups', function ($specId) { 
+    $groups = Group::where('specialization_id', $specId)->get();
+    return view('homepage.groupView', ['groups' => $groups]); 
+});
+Route::get('/group/{groupId}', function ($groupId) { 
+    $group = Group::find($groupId);
+    return view('homepage.viewSpecialization', ['group' => $group]); 
+});
 // PASSWORD RESET FOR FIRST LOGIN
 Route::middleware(['guest'])->group(function(){
     Route::get('/users/set-password', [UserController::class, 'setPasswordForm'])->name('set-password');
@@ -124,6 +139,9 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     Route::middleware(['student'])->group(function(){
         Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
         Route::post('/officers-and-committees/vote', [VoterController::class, 'getVote']);
+        Route::get('/group-exhibit', [StudentController::class, 'index'])->name('exhibit');
+        Route::get('/group-exhibit/{groupId}/update', [StudentController::class, 'updateForm']);
+        Route::post('/group-exhibit/{groupId}/update', [StudentController::class, 'update']);
     });
 });
 
