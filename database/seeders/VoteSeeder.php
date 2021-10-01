@@ -21,9 +21,7 @@ class VoteSeeder extends Seeder
         $elections = Election::all();
         $positions = Position::all();
         foreach($elections as $election) {
-            // FEUTECH WMA
             foreach($election->userElections as $userElection) {
-                // FEUTECH WMA STUDENTS
                 foreach($positions as $position) {
                     $c = [];
                     foreach($election->candidates->where('position_id', $position->id) as $candidate) {

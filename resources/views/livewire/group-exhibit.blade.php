@@ -117,8 +117,11 @@
             </div>
         </div>
         {{-- <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
-            <h1 class="font-bold text-lg mb-2">Files</h1>
+            <h1 class="font-bold text-lg mb-2">Gallery</h1>
         </div> --}}
+        <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
+            <h1 class="font-bold text-lg mb-2">Files</h1>
+        </div>
     </div>
     
     {{-- UPDATE GROUP MODAL --}}

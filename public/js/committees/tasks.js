@@ -1,9 +1,10 @@
 $(document).ready(function() {
     const deleteTaskBtns = document.querySelectorAll('.deleteTaskBtn');
-    const modal = document.getElementById('modal-overlay');
-    const closeBtn = document.querySelector('.close-btn');
+    const modal = document.getElementById('deleteModal');
+    const closeBtn = document.querySelector('.closeDeleteModal');
     const deleteTaskForm = document.getElementById('deleteTaskForm');
 
+    
     // CLOSE DELETE EVENT MODAL
     closeBtn.addEventListener("click", function () {
         modal.classList.add("hidden");
@@ -13,6 +14,8 @@ $(document).ready(function() {
     // DELETE TASK
     deleteTaskBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
+            console.log('yow');
+            console.log($(deleteTaskForm).attr('action'));
             e.preventDefault();
             // SHOW DELETE TASK MODAL
             modal.classList.remove("hidden");
@@ -36,11 +39,7 @@ $(document).ready(function() {
                     dataType: "json",
                     success: function (response) {
                         alert(response.message);
-                        if(response.url == null){
-                            window.location.reload();
-                        } else {
-                            location.href = response.url;
-                        }
+                        window.location.reload();
                     }
                 });
             });

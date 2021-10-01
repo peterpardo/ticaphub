@@ -22,6 +22,8 @@
                                 @foreach($election->officers->where('position_id', $position->id) as $officer)
                                 <td class="border">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</td>
                                 @endforeach
+                            @elseif($ticap->election_has_started)
+                                <td class="border">Waiting for results</td>
                             @else
                                 <td class="border">None</td>
                             @endif

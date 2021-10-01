@@ -23,11 +23,11 @@ class PositionSeeder extends Seeder
         Position::create([
             'name' => 'Committee Lead',
         ]);
-        Position::create([
-            'name' => 'Treasurer',
-        ]);
-        Position::create([
-            'name' => 'Secretary',
-        ]);
+        // Position::create([
+        //     'name' => 'Treasurer',
+        // ]);
+        // Position::create([
+        //     'name' => 'Secretary',
+        // ]);
     }
 }

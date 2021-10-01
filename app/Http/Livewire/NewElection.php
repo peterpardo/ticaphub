@@ -38,15 +38,13 @@ class NewElection extends Component
                             }
                         }
                     }  else {
-                        foreach($electedOfficer as $candidateId){
-                            foreach($candidateVoteCount as $id => $votes){
-                                if($id == $candidateId){
-                                    continue;
-                                }
-                                $c = Candidate::find($id);
-                                if(Officer::where('user_id', $c->user->id)->exists()){
-                                    Officer::where('user_id', $c->user->id)->delete();
-                                }
+                        foreach($candidateVoteCount as $id => $votes){
+                            if(in_array($id, $electedOfficer)){
+                                continue;
+                            }
+                            $c = Candidate::find($id);
+                            if(Officer::where('user_id', $c->user->id)->exists()){
+                                Officer::where('user_id', $c->user->id)->delete();
                             }
                         }
                     }

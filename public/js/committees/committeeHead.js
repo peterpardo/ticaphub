@@ -1,16 +1,15 @@
 $(document).ready(function() {
-    const addTaskForm = document.getElementById('addTaskForm');
     const title = document.getElementById('title');
     const description = document.getElementById('description');
-    const event = document.getElementById('event');
-    const list = document.getElementById('list');
-    const message = document.getElementById('message');
+    const addTaskForm = document.getElementById('addTaskForm');
     const searchList = document.getElementById('searchList');
     const member = document.getElementById('member');
     const tagContainer = document.getElementById('tagContainer');
     const memberError = document.getElementById('memberError');
-    // ADD TASK FORM
-    addTaskForm.addEventListener('submit', (e) => {
+    const committee = document.getElementById('committee');
+
+     // ADD TASK FORM
+     addTaskForm.addEventListener('submit', (e) => {
         e.preventDefault();
         let tags = document.querySelectorAll('.tag');
         let members = [];
@@ -30,7 +29,7 @@ $(document).ready(function() {
         });
         $.ajax({
             type: 'POST',
-            url: `/events/${event.value}/list/${list.value}/add-task`,
+            url: `/committee/${committee.value}/add-task`,
             data: data,
             dataType: "json",
             success: function (response) {
@@ -58,9 +57,10 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 method:"GET",
-                url:"/search-member",
+                url:"/search-committee",
                 data:{
                     'member':member.value,
+                    'committee':committee.value,
                 },
                 success:function(data){
                     searchList.innerHTML = data;
@@ -92,10 +92,8 @@ $(document).ready(function() {
         <button class="deleteTagBtn w-6 h-8 inline-block align-middle text-gray-500 bg-blue-200 focus:outline-none">
           <svg class="w-6 h-6 fill-current mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M15.78 14.36a1 1 0 0 1-1.42 1.42l-2.82-2.83-2.83 2.83a1 1 0 1 1-1.42-1.42l2.83-2.82L7.3 8.7a1 1 0 0 1 1.42-1.42l2.83 2.83 2.82-2.83a1 1 0 0 1 1.42 1.42l-2.83 2.83 2.83 2.82z"/></svg>
         </button>`;
-
         const deleteTagBtn = div.querySelector('.deleteTagBtn');
         deleteTagBtn.addEventListener('click', deleteTag);
-
         tagContainer.append(div);
     }
     // CREATE TAG
@@ -104,7 +102,6 @@ $(document).ready(function() {
     function checkIfTagExists(id, user){
         let tags = document.querySelectorAll('.tag');
         let memberInserted = false;
-
         tags.forEach((tag) => {
             if(id == tag.dataset.id){
                 memberError.textContent = "Member already inserted";
@@ -112,10 +109,8 @@ $(document).ready(function() {
                 setTimeout(function(){
                     memberError.innerHTML = '';
                 }, 2000);
-                
             } 
         });
-        
         if(!memberInserted){ createTag(id, user); }
     }
     // CHECK IF TAG EXISTS
@@ -126,80 +121,4 @@ $(document).ready(function() {
         element.remove();
     }
     // DELETE TAG
-
-    // // FETCH TASK
-    // function fetchTasks() {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: `/fetch-tasks/${list.value}`,
-    //         dataType: "json",
-    //         success: function (response) {
-    //             tasks = response.tasks
-    //             taskLists.innerHTML = '';
-    //             for(let key in tasks){
-    //                 let created_at = new Date(tasks[key].created_at).toLocaleString();
-
-    //                 $(taskLists).append(`
-    //                     <tr>
-    //                         <td class="px-4 py-3 border">${tasks[key].title}</td>
-    //                         <td class="px-4 py-3 border">${tasks[key].description}</td>
-    //                         <td class="px-4 py-3 border">${tasks[key].task_creator.first_name} ${tasks[key].task_creator.middle_name} ${tasks[key].task_creator.last_name}</td>
-    //                         <td class="px-4 py-3 border">${created_at}</td>
-    //                         <td class="px-4 py-3 text-ms font-semibold border">
-    //                             <a href="/events/${event.value}/list/${list.value}/task/${tasks[key].id}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
-    //                             <button data-id="${tasks[key].id}" class="removeTaskBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
-    //                         </td>
-    //                     </tr>
-    //                 `);
-    //             }
-
-    //             // // REMOVE TASK BUTTON
-    //             let removeTaskBtn = document.querySelectorAll(".removeTaskBtn")
-
-    //             removeTaskBtn.forEach((btn) => {
-    //                 btn.addEventListener('click', (e) => {
-    //                     e.preventDefault();
-                        
-    //                     let data = {
-    //                         'task_id' : btn.dataset.id,
-    //                     };
-
-    //                     $.ajaxSetup({
-    //                         headers: {
-    //                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                         }
-    //                     });
-                    
-    //                     $.ajax({
-    //                         type: 'POST',
-    //                         url: '/delete-task',
-    //                         data: data,
-    //                         dataType: "json",
-    //                         success: function (response) {
-    //                             if(response.status == 200) {
-    //                                 message.innerHTML = "";
-    //                                 message.innerHTML =
-    //                                 `<span class="inline-block text-green-500">${response.message}</span>`;
-    //                                 title.value = "";
-    //                                 description.value = "";
-    //                                 tagContainer.innerHTML = "";
-
-    //                                 fetchTasks();
-
-    //                                 setTimeout(function(){
-    //                                     message.innerHTML = '';
-    //                                 }, 2000);
-    //                             } 
-
-    //                         }
-    //                     });
-    //                 });
-    //             });
-    //             // REMOVE TASK BUTTON
-    //         }
-    //     });
-    // };
-    // // FETCH TASK
-
-
 });

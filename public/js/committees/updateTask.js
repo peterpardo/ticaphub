@@ -3,11 +3,9 @@ $(document).ready(function() {
     const member = document.getElementById('member');
     const memberList = document.getElementById('memberList');
     const memberError = document.getElementById('memberError');
-    const event = document.getElementById('event');
-    const list = document.getElementById('list');
     const task = document.getElementById('task');
+    const committee = document.getElementById('committee');
     const message = document.getElementById('message');
-    const moveTaskForm = document.getElementById('moveTaskForm');
     fetchMembers();
     $('#updateTaskForm').on('submit', function(e) {
         e.preventDefault();
@@ -20,6 +18,7 @@ $(document).ready(function() {
         let data = {
             'title' : $('#title').val(),
             'description' : $('#description').val(),
+            'status' : $('#status').val(),
             'members' : members,
         };
         $.ajaxSetup({
@@ -28,8 +27,8 @@ $(document).ready(function() {
             }
         });
         $.ajax({
-            type: 'POST',
-            url: `/events/${event.value}/list/${list.value}/task/${task.value}/update-task`,
+            type: $('#updateTaskForm').attr('method'),
+            url: $('#updateTaskForm').attr('action'),
             data: data,
             dataType: "json",
             success: function (response) {
@@ -41,6 +40,7 @@ $(document).ready(function() {
                         `<span class="inline-block text-red-500">${value}</span>`;
                     });
                 } else {
+                    alert(response.message);
                     window.location.href = response.url;
                 }
             }
@@ -55,9 +55,10 @@ $(document).ready(function() {
         } else {
             $.ajax({
                 method:"GET",
-                url:"/search-member",
+                url:"/search-committee",
                 data:{
                     'member':member.value,
+                    'committee':committee.value,
                 },
                 success:function(data){
                     // DISPLAY SEARCH LIST
@@ -84,7 +85,7 @@ $(document).ready(function() {
     function fetchMembers() {
         $.ajax({
             type: 'GET',
-            url: `/fetch-members/${task.value}`,
+            url: `/fetch-committee/${task.value}`,
             dataType: "json",
             success: function (response) {
                 members = response.members
@@ -142,44 +143,12 @@ $(document).ready(function() {
         memberContainer.setAttribute('data-id' , id);
         memberContainer.innerHTML = user;
         // DELETE MEMBER BTN
-        const deleteBtn = document.createElement('button');
-        deleteBtn.setAttribute('class' , 'deleteMemberBtn text-white bg-red-500 hover:bg-red-600 rounded px-2 ml-2');
+        const deleteBtn = document.createElement('a');
+        deleteBtn.setAttribute('class' , 'deleteMemberBtn inline-block  text-white bg-red-500 hover:bg-red-600 rounded px-2 ml-2');
         deleteBtn.innerHTML = '&times;';
         memberContainer.appendChild(deleteBtn);
         // APPEND MEMBER TO THE CONTAINER
         memberList.appendChild(memberContainer);
     }
     // ADD MEMBER
-
-    // MOVE TASK
-    moveTaskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: $(moveTaskForm).attr('action'),
-            method: $(moveTaskForm).attr('method'),
-            data: new FormData(moveTaskForm),
-            dataType: "json",
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                if(response.status == 400){
-                    modal.classList.add('hidden');
-                    moveTaskError.innerHTML = '';
-                    let err = response.errors;
-                    for(let key in err) {
-                        alert(err[key]);
-                    }
-                } else {
-                    alert('Task Successfully Moved');
-                    location.href = response.url;
-                }
-            }
-        });
-    });
-    // MOVE TASK
 });

@@ -93,4 +93,12 @@ class User extends Authenticatable
     public function committee() {
         return $this->hasOne(Committee::class, 'user_id', 'id');
     }
+    public function committeeMember() {
+        return $this->hasOne(CommitteeMember::class, 'user_id', 'id');
+    }
+    public function committeeTasks() {
+        return $this->belongsToMany(CommitteeTask::class, 'member_task', 'user_id', 'task_id')
+            ->withPivot('is_read')
+            ->withTimestamps();
+    }
 }

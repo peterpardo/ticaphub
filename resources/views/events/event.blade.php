@@ -41,7 +41,9 @@
                         <td class="px-4 py-3 border">
                             <a href="/events/{{ $event->id }}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
                             @can('delete event')
-                            <button id="modalBtn" data-id="{{ $event->id }}" class="deleteEventBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
+                                @if($event->name != 'Awardings' && $event->name != 'Project Exhibit')
+                                <button id="modalBtn" data-id="{{ $event->id }}" class="deleteEventBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
+                                @endif
                             @endcan
                         </td>
                     </tr>

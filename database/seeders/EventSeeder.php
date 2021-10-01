@@ -16,7 +16,7 @@ class EventSeeder extends Seeder
     public function run()
     {
         Event::create([
-            'name' => 'Webinar',
+            'name' => 'Project Exhibit',
             'ticap_id' => Ticap::latest()->pluck('id')->first()
         ]);
         Event::create([
@@ -24,7 +24,7 @@ class EventSeeder extends Seeder
             'ticap_id' => Ticap::latest()->pluck('id')->first()
         ]);
         Event::create([
-            'name' => 'Project Exhibit',
+            'name' => 'Webinar',
             'ticap_id' => Ticap::latest()->pluck('id')->first()
         ]);
     }

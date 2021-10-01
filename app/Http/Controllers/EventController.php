@@ -34,13 +34,11 @@ class EventController extends Controller
         $request->validate([
             'event_name' => 'required'
         ]);
-
         // INSERT EVENT
         Event::create([
             'name' => $request->event_name,
             'ticap_id' => Auth::user()->ticap_id
         ]);
-
         return back()->with([
             'status' => 'green',
             'message' => 'Event Successfully Created'
@@ -84,13 +82,11 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required'
         ]);
-
         $event->lists()->create([
             'title' => $request->title,
             'user_id' => Auth::user()->id,
             'event_id' => $event->id
         ]);
-
         return back()->with([
             'status' => 'green',
             'message' => 'List Successfully Created'
@@ -102,7 +98,6 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'list_id' => 'required',
         ]);
-
         if($validator->fails()){
             return response()->json([
                 'status' => 400,
@@ -111,7 +106,6 @@ class EventController extends Controller
         } else {
             // DELETE LIST
             TaskList::find($request->list_id)->delete();
-
             return response()->json([
                 'status' => 200,
                 'message' => 'List Deleted SuccessFully',
@@ -145,15 +139,14 @@ class EventController extends Controller
                     ->where(function ($query)  use ($member){
                         $query->where('first_name', 'like', '%'.$member.'%')
                             ->orWhere('middle_name', 'like', '%'.$member.'%')
-                            ->orWhere('last_name', 'like', '%'.$member.'%')
-                            ->orWhere('id_number', 'like', '%'.$member.'%'); 
+                            ->orWhere('last_name', 'like', '%'.$member.'%');
                     })
                     ->get();
             $output = '';
             if($data){
                 foreach($data as $user){
                     $output .=  '<div class="rounded px-2 py-1 hover:bg-gray-100 border cursor-pointer" data-id="' . $user->id . '">
-                                    <span class="font-semibold">' . $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name . '</span> | ' . $user->school->name . ' | '. $user->userSpecialization->specialization->name . 
+                                    <span class="font-semibold">' . $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name . '</span>' . 
                                 '</div>';
                 }
             } else {
@@ -236,19 +229,20 @@ class EventController extends Controller
 
     public function deleteTask(Request $request, $eventId, $listId){
         // CHECK IF TASK ALREADY BEEN DELETED
-        if(!Task::where('id', $request->task_id)->exists()){
-            $url = url('events/'.$eventId.'/list/'.$listId);
+        if(Task::where('id', $request->task_id)->exists()){
+            Task::where('id', $request->task_id)->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Task Deleted Successfully',
+            ]);
+        }
+        dd('ddoesnt esxost');
+        $url = url('events/'.$eventId.'/list/'.$listId);
             return response()->json([
                 'status' => 200,
                 'message' => 'Task Already Been Deleted',
                 'url' => $url
             ]);
-        }
-        Task::find($request->task_id)->delete();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Task Deleted Successfully',
-        ]);
     }
 
     public function viewTask($eventId, $listId, $taskId){
@@ -416,7 +410,7 @@ class EventController extends Controller
     }
     
     public function fetchMembers($taskId) {
-        $members = Task::find($taskId)->users()->with(['userSpecialization.specialization', 'school'])->get();
+        $members = Task::find($taskId)->users()->get();
         return response()->json([
             'members' => $members
         ]);

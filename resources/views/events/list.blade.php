@@ -6,7 +6,6 @@
         <a href="/events" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-4xl font-bold">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
-        {{-- ADD LIST FORM--}}
         @can('add list')
         <div class="container p-3 rounded mb-2">
             <form 
@@ -26,17 +25,12 @@
             </form>
         </div>
         @endcan
-        {{-- ADD LIST FORM--}}
-
-        {{-- KANBAN LAYOUT (TEMPORARY TABLE)--}}
         <div class="container">
             <table class="w-full shadow">
                 <thead>
                     <tr class="bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">List</th>
                         <th class="px-4 py-3">Created By</th>
-                        <th class="px-4 py-3">School</th>
-                        <th class="px-4 py-3">Specialization</th>
                         <th class="px-4 py-3">Position</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
@@ -49,14 +43,6 @@
                         <tr>
                             <td class="px-4 py-3 border">{{ $list->title }}</td>
                             <td class="px-4 py-3 border">{{ $list->user->first_name }} {{ $list->user->middle_name }} {{ $list->user->last_name }}</td>
-                            <td class="px-4 py-3 border">{{ $list->user->userSpecialization->specialization->school->name }}</td>
-                            <td class="px-4 py-3 border">
-                                @if($list->user->hasRole('admin'))
-                                    Faculty
-                                @else
-                                {{ $list->user->userSpecialization->specialization->name }}
-                                @endif
-                            </td>
                             <td class="px-4 py-3 border">
                                 @if($list->user->hasRole('admin'))
                                     Faculty
@@ -76,7 +62,6 @@
                 </tbody>
             </table>
         </div>
-        {{-- KANBAN LAYOUT (TEMPORARY TABLE)--}}
     </div>
 
     {{-- DELETE LIST MODAL --}}

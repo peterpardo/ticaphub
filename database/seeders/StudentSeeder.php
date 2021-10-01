@@ -94,7 +94,7 @@ class StudentSeeder extends Seeder
                 }
             }
             // $user->userSpecialization()->create([
-            //     'specialization_id' => rand(1,4),
+            //     'specialization_id' => rand(1,8),
             //     'id_number' => rand(1,999999999),
             // ]);
             $user->assignRole('student');
@@ -119,20 +119,19 @@ class StudentSeeder extends Seeder
                         $flag = true;
                     }
                 }
+            } else {
+                if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
+                    $election = Election::where('name', 'FEU DILIMAN')->first();
+                    $election->userElections()->create([
+                        'user_id' => $user->id,
+                    ]);
+                } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
+                    $election = Election::where('name', 'FEU ALABANG')->first();
+                    $election->userElections()->create([
+                        'user_id' => $user->id,
+                    ]);
+                }
             }
-            // else {
-            //     if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
-            //         $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
-            //         $election->userElections()->create([
-            //             'user_id' => $user->id,
-            //         ]);
-            //     } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
-            //         $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
-            //         $election->userElections()->create([
-            //             'user_id' => $user->id,
-            //         ]);
-            //     }
-            // }
         }
     }
 }

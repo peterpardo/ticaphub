@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AwardController;
+use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\EventController;
@@ -103,13 +104,13 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
         Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
     });
-    // APPOINT COMMITTEE HEADS
-    Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
     // EVENTS AND LISTS/TASKS
     Route::middleware(['officer'])->group(function(){
         Route::get('/events', [EventController::class, 'index'])->name('events');
         Route::post('/events/add-event', [EventController::class, 'addEvent']);
         Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
+        // APPOINT COMMITTEE HEADS
+        Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
         Route::middleware(['event'])->group(function() {
             Route::get('/events/{eventId}', [EventController::class, 'viewEvent']);
             Route::post('/events/{eventId}/add-list', [EventController::class, 'addList']);
@@ -142,7 +143,18 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/group-exhibit', [StudentController::class, 'index'])->name('exhibit');
         Route::get('/group-exhibit/{groupId}/update', [StudentController::class, 'updateForm']);
         Route::post('/group-exhibit/{groupId}/update', [StudentController::class, 'update']);
+        // ASSIGN TASK TO COMMITTEE MEMBERS
+        Route::get('/committee/{commId}', [CommitteeController::class, 'index']);
+        Route::get('/committee/{commId}/add-task', [CommitteeController::class, 'addTaskForm']);
+        Route::post('/committee/{commId}/add-task', [CommitteeController::class, 'addTask']);
+        Route::get('/committee/{commId}/task/{taskId}/view-task', [CommitteeController::class, 'viewTask']);
+        Route::get('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTaskForm']);
+        Route::post('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTask']);
+        Route::post('/committee/{commId}/delete-task', [CommitteeController::class, 'deleteTask']);
+        Route::get('/committee/{commId}/add-member', [CommitteeController::class, 'addCommitteeMember']);
     });
+    Route::get('/search-committee', [CommitteeController::class, 'searchCommittee']);
+    Route::get('/fetch-committee/{taskId}', [CommitteeController::class, 'fetchCommittee']);
 });
 
 require __DIR__.'/auth.php';

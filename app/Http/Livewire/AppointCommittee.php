@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Committee;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class AppointCommittee extends Component
 {
@@ -38,9 +39,10 @@ class AppointCommittee extends Component
             session()->flash('message', 'Student already an officer.');
         } else {
             $user->committee()->create([
-                'name' => $this->name,
+                'name' => Str::title($this->name),
             ]);
             $user->assignRole('officer');
+            $user->givePermissionTo('assign task to student');
             $this->reset();
             session()->flash('status', 'green');
             session()->flash('message', 'Student successfully appointed.');

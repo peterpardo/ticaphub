@@ -444,6 +444,14 @@ class ElectionController extends Controller
     }
 
     public function appointForm() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $user = User::find(Auth::user()->id);
+        if(!$ticap->election_finished) {
+            return redirect()->route('officers');
+        }
+        if(!$user->hasPermissionTo('appoint committee head')){
+            return redirect()->route('dashboard');
+        }
         $title = 'Officer and Committes';
         $scripts = [
             asset('js/committees/committee.js')
@@ -455,6 +463,81 @@ class ElectionController extends Controller
     }
 
     public function test() {
-       
+        $elections = Election::all();
+        $positions = Position::all();
+        $ctr = 1;
+        foreach($elections as $election) {
+            if($ctr < 5){
+                foreach($positions as $position) {
+                    $users = User::wherehas('userSpecialization', function($q) use ($election){
+                        $q->where('specialization_id', $election->specialization->id);
+                    })->get();
+                    dd($users);
+                    $positionCount = 0;
+                    foreach($users as $user) {
+                        if(!Candidate::where('user_id', $user->id)->exists()) {
+                            if($positionCount < 3){
+                                $election->candidates()->create([
+                                    'user_id' => $user->id,
+                                    'position_id' => $position->id,
+                                ]);
+                                $positionCount++;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } 
+            $ctr++;
+            // else {
+            //     if($election->id == 5) {
+            //         foreach($positions as $position) {
+            //             $users = User::wherehas('userSpecialization', function($q) {
+            //                 $q->wherehas('specialization', function($q) {
+            //                     $q->where('school_id', 2);
+            //                 });
+            //             })->get();
+            //             $positionCount = 0;
+            //             foreach($users as $user) {
+            //                 if(!Candidate::where('user_id', $user->id)->exists()) {
+            //                     if($positionCount < 3){
+            //                         $election->candidates()->create([
+            //                             'user_id' => $user->id,
+            //                             'position_id' => $position->id,
+            //                         ]);
+            //                         $positionCount++;
+            //                     } else {
+            //                         break;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     } elseif($election->id == 6) {
+            //         foreach($positions as $position) {
+            //             $users = User::wherehas('userSpecialization', function($q) {
+            //                 $q->wherehas('specialization', function($q) {
+            //                     $q->where('school_id', 3);
+            //                 });
+            //             })->get();
+            //             $positionCount = 0;
+            //             foreach($users as $user) {
+            //                 if(!Candidate::where('user_id', $user->id)->exists()) {
+            //                     if($positionCount < 3){
+            //                         $election->candidates()->create([
+            //                             'user_id' => $user->id,
+            //                             'position_id' => $position->id,
+            //                         ]);
+            //                         $positionCount++;
+            //                     } else {
+            //                         break;
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            
+        }
     }
 }

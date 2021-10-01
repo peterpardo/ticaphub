@@ -80,11 +80,9 @@
       <div class="items-center lg:flex">
           <div class="lg:w-1/2">
               <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $group->groupExhibit->title }}</h2>
-
               <p class="mt-4 text-gray-500 dark:text-gray-400 lg:max-w-md">
                   {{ $group->groupExhibit->description }}
               </p>
-
           </div>
 
           <div class="mt-8 lg:mt-0 lg:w-2/3">
