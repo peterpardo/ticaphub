@@ -27,4 +27,7 @@ class Award extends Model
     public function ticap(){
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
     }
+    public function awardRubric() {
+        return $this->hasOne(AwardRubric::class, 'award_id', 'id');
+    }
 }

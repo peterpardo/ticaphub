@@ -1,7 +1,5 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     {{-- @livewire('tasks', ['list' => $list, 'event' => $event]) --}}
 
     <div>
@@ -17,7 +15,7 @@
         @if ($list->tasks->count() == 0)
             <div class="bg-gray-200 rounded py-5 block text-center">No Task created</div>
         @else
-            <table class="w-full shadow">
+            <table class="w-full shadow text-gray-800">
                 <thead>
                     <tr class="bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Title</th>

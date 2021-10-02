@@ -1,7 +1,5 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div>
         <a href="/events/{{ $event->id }}/list/{{ $list->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-5xl font-bold mb-4">{{ $event->name }}</h1>
@@ -19,7 +17,7 @@
                         <div id="message"></div>
                         <div class="my-2">
                             <label for="title" class="block font-semibold mb-2">Title</label>
-                            <input class="rounded w-full xl:w-3/4" type="text" name="title" id="title" autocomplete="off">
+                            <input class="text-gray-800 rounded w-full xl:w-3/4" type="text" name="title" id="title" autocomplete="off">
                         </div>
                         {{-- <div class="my-2 relative">
                             <label for="title" class="block font-semibold">Officers</label>
@@ -38,7 +36,7 @@
                             <input type="hidden" id="members" name="members[]" value="">
                             <div class="relative">
                               <div id="memberError" class="text-red-500"></div>
-                              <input type="text" name="member" id="member" autocomplete="off" class="rounded w-full xl:w-3/4" placeholder="Search officer">
+                              <input type="text" name="member" id="member" autocomplete="off" class="text-gray-800 rounded w-full xl:w-3/4" placeholder="Search officer">
                               <div id="searchList" class="absolute bg-white rounded z-40 max-h-40 overflow-auto"></div>
                             </div>
                             {{-- TAG CONTAINER --}}
@@ -51,7 +49,7 @@
                     {{-- RIGHT SIDE --}}
                     <div class="flex-1">
                         <label for="description" class="block font-semibold mb-2">Description</label>
-                        <textarea id="description" class="resize-none w-full h-40 rounded"></textarea>
+                        <textarea id="description" class="text-gray-800 resize-none w-full h-40 rounded"></textarea>
                     </div>
                     {{-- RIGHT SIDE --}}
                 </div>

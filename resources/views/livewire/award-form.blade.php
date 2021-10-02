@@ -1,6 +1,6 @@
 <div>
     <form wire:submit.prevent="addAward">
-        <div class="flex flex-col">
+        <div class="flex flex-col text-gray-800">
             <div class="m-2">
                 <label class="block font-semibold">Award Name</label>
                 <input wire:model="name" type="text" class="rounded w-full">

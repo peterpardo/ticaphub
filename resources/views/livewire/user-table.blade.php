@@ -8,12 +8,12 @@
         <button wire:click="resetUserBtn" class="inline-block md:w-auto bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300" id="modal-btn">Reset Users</button>
     </div>
      {{-- STUDENT TABLE --}}
-     <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="search student name" wire:model.debounce.350ms="search">
+     <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-white-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="Search Student" wire:model.debounce.350ms="search">
      <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
-        <table class="w-full">
+        <table class="table-auto w-full">
             <thead>
-            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
                 <th class="px-4 py-3">Email</th>
                 <th class="px-4 py-3">Status</th>
@@ -21,7 +21,7 @@
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
-            <tbody class="w-auto bg-white">
+            <tbody class="w-auto bg-white text-center">
             @foreach($users as $user)
             <tr class="text-gray-700">
                 <td class="px-4 border">
@@ -31,7 +31,7 @@
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>
-                        <p class="font-semibold text-black text-md">
+                        <p class="font-semibold text-black text-md text-center">
                             {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
                         </p>
                     </div>
@@ -54,8 +54,8 @@
                 </td>
                 <td class="px-4 text-md border">
                     <div class="flex flex-col w-1/2 mx-auto text-center">
-                        <a href="/users/{{ $user->id }}/edit-user" class="rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
-                        <button wire:click="selectUser({{ $user->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
+                        <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
+                        <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
                     </div>
                 </td>
             </tr>
@@ -123,7 +123,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
-                    <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
+                    <h2 class="text-xl font-bold py-4 text-gray-800">Are you sure?</h3>
                     <p class="text-sm text-gray-500 px-8">Do you really want to reset all users? This process cannot be undone</p>
                 </div>
                 <!--footer-->

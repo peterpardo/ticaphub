@@ -1,18 +1,15 @@
 <x-app-layout :scripts="$scripts">
-    {{-- <x-page-title>
-        {{ $title }}
-    </x-page-title> --}}
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div>
         @can('add event')
         <div class="container mb-2">
-            <h1 class="font-bold text-3xl my-3">Create Event</h1>
             {{-- ADD EVENT FORM --}}
             <form 
                 action="/events/add-event"
                 method="POST">
                 @csrf
-                <label for="event_name" class="block font-semibold mb-2">Event Name</label>
-                <input class="rounded" type="text" name="event_name" id="event_name" autocomplete="off" placholder="Ex: Webinar">
+                <label for="event_name" class="block font-semibold">Event Name</label>
+                <input class="rounded text-gray-800" type="text" name="event_name" id="event_name" autocomplete="off" placeholder="Ex: Webinar">
                 <button type="submit" class="md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Event</button>
                 @error('event_name')
                 <span class="text-red-500 block">{{ $message }}</span>

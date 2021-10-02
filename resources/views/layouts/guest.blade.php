@@ -58,15 +58,15 @@ body {
             <span>Home</span>
           </a>
           <a
-            href=""
-            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
-            <span>About Us</span>
-          </a>
-          <a
           href="{{ route ('schools') }}"
             class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
             <span>Project Exhibit</span>
           </a>
+          <a
+          href=""
+          class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
+          <span>About Us</span>
+        </a>
 		  @auth
 		  <a class="lg:inline-flex md:ml-5 bg-red-700 lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-400 hover:text-white" href="{{ route('dashboard') }}">Go to Dashboard</a>
 	  @else

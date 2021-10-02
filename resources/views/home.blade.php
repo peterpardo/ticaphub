@@ -108,10 +108,8 @@
 					</div>
 					<div class="flex flex-row items-center">
 						<div class="flex flex-col">
-							<h1 class="capitalize text-4xl font-extrabold">TICAP 7.0</h1>
-							<p class="w-auto text-lg text-gray-500 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-								Voluptatibus voluptatum nisi maxime obcaecati impedit? Ratione error eum qui quidem? Veniam
-								accusamus ea repudiandae itaque, explicabo quidem perspiciatis. Culpa, asperiores deserunt.</p>
+							<h1 class="capitalize text-4xl font-extrabold mb-3">Technology Innovation in Capstone Project (TICAP)</h1>
+							<p class="w-auto text-lg text-gray-500 text-justify">A research presentation and conference for project deployment, turn over and software packaging of capstone projects.</p>
 							<div class="flex items-center my-6 cursor-pointer">
 								<div class="bg-red-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">Contact Us</div>
 							</div>

@@ -1,17 +1,20 @@
 <div>
     <div class="text-left my-2 font-semibold text-3xl">Create Awards</div>
-    <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
-    {{-- STUDENT TABLE --}}
+    <div class="flex justify-between">
+        <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
+        <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Proceed</a>
+    </div>
+    {{-- AWARD TABLE --}}
     <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
-    <input type="text" wire:model.debounce.350ms="search" class="rounded mb-2" placeholder="search award">
-    <select wire:model="selectedSchool" class="rounded font-semibold text-base text-gray-900 dark:text-gray-900">
+    <input type="text" wire:model.debounce.350ms="search" class="text-gray-800 rounded mb-2" placeholder="search award">
+    <select wire:model="selectedSchool" class="rounded font-semibold text-base text-gray-800">
         <option value="">-- select school --</option>
         @foreach($schools as $school)
         <option value="{{ $school->id }}">{{ $school->name }}</option>
         @endforeach
     </select>
     @if($selectedSchool != null)
-    <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-900 dark:text-gray-900">
+    <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-800">
         <option value="">-- select specialization --</option>
         @foreach($specializations as $spec)
         <option value="{{ $spec->id }}">{{ $spec->name }}</option>
@@ -20,7 +23,7 @@
     @endif
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
-        <table class="w-full">
+        <table class="table-auto w-full text-gray-800">
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Award Name</th>
@@ -38,8 +41,8 @@
                 <td class="px-4 py-3 text-md border">{{ $award->school->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $award->specialization->name }}</td>
                 <td class="px-4 py-3 text-md border text-center">
-                    <button wire:click="editAward({{ $award->id }})" class="w-1/2 my-1 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
-                    <button wire:click="openDeleteModal({{ $award->id }})" class="w-1/2 my-1 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                    <button wire:click="editAward({{ $award->id }})" class="w-24 my-1 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                    <button wire:click="openDeleteModal({{ $award->id }})" class="w-24 my-1 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
                 </td>
             </tr>
             @endforeach
@@ -50,7 +53,7 @@
             {{ $awards->links() }}
         </div>
     </div>
-    {{-- STUDENT TABLE --}}
+    {{-- AWARD TABLE --}}
 
     {{-- UPDATE AWARD MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="awardFormModal">

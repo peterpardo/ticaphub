@@ -1,5 +1,4 @@
 <x-app-layout>
-    <x-page-title>{{ $title }}</x-page-title>
     <div>
         {{-- ADD ADMIN FORM --}}
         <h1 class="font-bold text-center text-3xl my-4">Add Panelist</h1>
@@ -41,7 +40,7 @@
                     @enderror
                 </div>
                 <div class="flex justify-evenly my-3">
-                    <a href="{{ route('users') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                    <a href="{{ route('users') }}" class="inline-block text-gray-800 rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
                     <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Add</button>
                 </div>
             </form>

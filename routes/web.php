@@ -62,7 +62,12 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
+    // PROJECT ASSESSMENT
     Route::get('/awards', [AwardController::class, 'index'])->name('awards');
+    Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
+    Route::get('/create-rubric', [AwardController::class, 'createRubric'])->name('rubric');
+    Route::post('/create-rubric', [AwardController::class, 'addRubric']);
+    Route::get('/set-rubrics/{awardId}/add-rubric', [AwardController::class, 'addRubric']);
     // DOCUMENTATION
     Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
     Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);

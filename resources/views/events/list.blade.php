@@ -1,7 +1,5 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div>
         <a href="/events" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-4xl font-bold">{{ $event->name }}</h1>
@@ -14,7 +12,7 @@
             @csrf
                 <h1 class="font-bold text-2xl my-3">Create List</h1>
                 <label for="title" class="font-semibold mb-2 block">Title</label>
-                <input class="rounded" type="text" name="title" id="title">
+                <input class="rounded text-gray-800" type="text" name="title" id="title">
                 <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add List</button>
                 @error('title')
                     <span class="text-red-500 block">{{ $message }}</span>
@@ -26,7 +24,7 @@
         </div>
         @endcan
         <div class="container">
-            <table class="w-full shadow">
+            <table class="w-full shadow text-gray-800">
                 <thead>
                     <tr class="bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">List</th>

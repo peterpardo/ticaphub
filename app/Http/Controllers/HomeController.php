@@ -38,9 +38,11 @@ class HomeController extends Controller
     public function dashboard() {
         $title = 'Dashboard';
         $ticap = Ticap::find(Auth::user()->ticap_id);
+        $user = User::find(Auth::user()->id);
         return view('dashboard', [
             'title' => $title,
-            'ticap' => $ticap->name
+            'ticap' => $ticap->name,
+            'user' => $user
         ]);
     }
 

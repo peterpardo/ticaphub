@@ -1,7 +1,5 @@
 <x-app-layout :scripts="$scripts">
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div>
         <a href="/events/{{ $event->id }}/list/{{ $list->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-5xl font-bold mb-4">{{ $event->name }}</h1>
@@ -10,7 +8,7 @@
         <input type="hidden" name="list" id="list" value="{{ $list->id }}">
         <input type="hidden" name="task" id="task" value="{{ $task->id }}">
         {{-- MAIN DIV --}}
-        <div class="flex flex-col xl:flex-row w-full my-5 shadow rounded-lg bg-white p-2">
+        <div class="flex flex-col xl:flex-row w-full my-5 shadow rounded-lg bg-white p-2 text-gray-800">
             {{-- LEFT SIDE --}}
             <div class="flex flex-col my-1 xl:flex-1 xl:mx-2">
                 <div class="flex my-2">

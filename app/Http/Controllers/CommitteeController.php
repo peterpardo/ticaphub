@@ -6,6 +6,7 @@ use App\Models\Committee;
 use App\Models\CommitteeTask;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CommitteeController extends Controller
@@ -159,6 +160,14 @@ class CommitteeController extends Controller
         ]);
     }
     public function viewTask($commId, $taskId) {
+        // MARK AS READ IF USER VIEWED THE TASK
+        $task = CommitteeTask::find($taskId);
+        foreach($task->users as $user) {
+            if($user->id == Auth::user()->id) {
+                $user->pivot->is_read = 1;
+                $user->pivot->save();
+            }
+        }
         $committee = Committee::find($commId);
         $task = CommitteeTask::find($taskId);
         $title = $committee->name . " Committee";

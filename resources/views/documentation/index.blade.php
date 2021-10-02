@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-page-title>{{ $title }}</x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
         <table class="w-full">

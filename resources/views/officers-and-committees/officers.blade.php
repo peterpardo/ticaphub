@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-page-title>{{ $title }}</x-page-title>
+    <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <h1 class="font-bold text-4xl mb-2 text-center">{{ $ticap->name }}</h1>
     <h1 class="text-center text-2xl mb-3">Election of Officers</h1>
     <div class="flex flex-wrap justify-evenly w-full">
@@ -9,7 +9,7 @@
             <div>
                 <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">    
                     <thead>
-                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                        <tr class="text-md text-center font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
                             <th class="px-4 py-3">Officer</th>
                         </tr>
