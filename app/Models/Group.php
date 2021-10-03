@@ -25,4 +25,7 @@ class Group extends Model
     public function specialization() {
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
     }
+    public function files() {
+        return $this->hasMany(GroupFile::class, 'group_id', 'id');
+    }
 }

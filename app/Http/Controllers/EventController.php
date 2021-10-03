@@ -64,6 +64,15 @@ class EventController extends Controller
         }
     }
 
+    public function programFlow($eventId) {
+        $title = "Manage Events";
+        $event = Event::find($eventId);
+        return view('events.program-flow', [
+            'title' => $title,
+            'event' => $event,
+        ]);
+    }
+
     public function viewEvent($eventId) {
         $event = Event::find($eventId);
         $title = 'Manage Events';

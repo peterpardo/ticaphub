@@ -50,6 +50,12 @@ class VoterController extends Controller
         $fields = [];
         $positions = Position::all();
         $ticap = Ticap::find(Auth::user()->ticap_id);
+        // CHECK IF ELECTION IN REVIEW OR FINISHED
+        if($ticap->election_review || $ticap->election_finished) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Election already done. Wait for the results.');
+            return redirect()->route('officers');
+        }
         // GET POSITIONS IN RE-ELECTION
         if($ticap->has_new_election) {
             $elections = Election::all();
@@ -73,20 +79,10 @@ class VoterController extends Controller
         }
         $request->validate($fields);
         $voter = User::find(Auth::user()->id);
-        // DYNAMIC INSERTION OF VOTES TO CANDIDATES
-        // foreach($request->all() as $key => $value) {
-        //     // SKIP _TOKEN FIELD NAME
-        //     if($key == '_token') {
-        //         continue;
-        //     } 
-        //     $user = User::find($voter->id);
-        //     $user->votes()->create([
-        //         'candidate_id' => $value,
-        //         'ticap_id' => $user->ticap_id,
-        //     ]);
-        // }
         $voter->userElection->has_voted = 1;
         $voter->userElection->save();
+        session()->flash('status', 'green');
+        session()->flash('message', 'Vote submitted. Wait for the results.');
         return redirect()->route('officers');  
     }
 }

@@ -25,4 +25,7 @@ class Event extends Model
     public function files() {
         return $this->hasMany(File::class, 'event_id', 'id');
     }
+    public function programFlows() {
+        return $this->hasMany(ProgramFlow::class, 'event_id', 'id');
+    }
 }

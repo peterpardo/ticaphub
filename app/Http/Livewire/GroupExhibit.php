@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Group;
+use App\Models\GroupFile;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -22,13 +23,24 @@ class GroupExhibit extends Component
     public $updateVideo = false;
     public $currentVideo;
     public $video;
-    public $listeners = [
-        'refreshParent' => '$refresh'
+    public $uploadedFiles = [];
+    protected $rules = [
+        'uploadedFiles.*' => 'required|max:25000'
+    ];
+    protected $messages = [
+        'uploadedFiles.*.max' => 'File size is too large (max: 25mb)',
+        'uploadedFiles.*.required' => 'File/s is/are required',
     ];
     
     public function mount() {
         $this->currentBanner = $this->group->groupExhibit->banner_path;
         $this->currentVideo = $this->group->groupExhibit->video_path;
+    }
+    public function render() {
+        $files = GroupFile::where('group_id', $this->group->id)->orderBy('created_at', 'desc')->get();
+        return view('livewire.group-exhibit', [
+            'files' => $files
+        ]);
     }
     public function saveVideo() {
         $this->validate([
@@ -36,7 +48,6 @@ class GroupExhibit extends Component
         ]);
         if($this->group->groupExhibit->video_path != null) {
             unlink(storage_path('app/public/' . $this->group->groupExhibit->video_path));
-            $this->group->groupExhibit->save();
         }
         $path = 'group-files/';
         $extension = $this->video->extension();
@@ -122,8 +133,54 @@ class GroupExhibit extends Component
         $this->emit('getGroupId', $groupId);
         $this->dispatchBrowserEvent('openUpdateModal');
     }
-    public function render()
-    {
-        return view('livewire.group-exhibit');
+
+    public function updated($uploadedFiles){
+        $this->validateOnly($uploadedFiles);
+    }
+
+    public function upload() {
+        $this->validate([
+            'uploadedFiles.*' => 'required|max:25000'
+        ]);
+        foreach($this->uploadedFiles as $uploadedFile) {
+            $path = 'group-files/';
+            $extension = $uploadedFile->extension();
+            $fileName = Str::uuid() . '.' . $extension;
+            $originalName = $uploadedFile->getClientOriginalName();
+            $uploadedFile->storeAs($path, $fileName, 'public');
+            $this->group->files()->create([
+                'name' => $originalName,
+                'path' => $path . $fileName,
+            ]);
+        }
+        session()->flash('fileMsg', 'File successfully uploaded');
+        $this->emit('resetFileUpload');
+        $this->uploadedFiles = [];
+    }
+    
+    public function cancelUpload() {
+        $this->emit('resetFileUpload');
+        $this->uploadedFiles = [];
+    }
+
+    public function selectFile($fileId, $action) {
+        $this->fileId = $fileId;
+        if($action == 'delete') {
+            $this->dispatchBrowserEvent('openDeleteModal');
+        } else {
+            $file = GroupFile::find($fileId);
+            return response()->download(storage_path('app/public/'. $file->path));
+        }
+    }
+
+    public function closeDeleteModal() {
+        $this->dispatchBrowserEvent('closeDeleteModal');
+    }
+
+    public function deleteFile() {
+        $file = GroupFile::find($this->fileId);
+        unlink(storage_path('app/public/' . $file->path));
+        $file->delete();
+        session()->flash('fileMsg', 'File successfully deleted');
     }
 }

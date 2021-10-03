@@ -114,6 +114,7 @@ Route::middleware(['auth', 'set.ticap'])->group(function(){
         Route::get('/events', [EventController::class, 'index'])->name('events');
         Route::post('/events/add-event', [EventController::class, 'addEvent']);
         Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
+        Route::get('/events/{eventId}/program-flow', [EventController::class, 'programFlow']);
         // APPOINT COMMITTEE HEADS
         Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
         Route::middleware(['event'])->group(function() {

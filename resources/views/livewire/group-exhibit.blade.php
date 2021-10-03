@@ -46,7 +46,7 @@
             @elseif($banner)
             <img src="{{ $banner->temporaryUrl() }}">
             @else
-            <div class="bg-gray-500 text-white px-2 py-1 rounded">No input displayed on exhibit</div>
+                <div class="bg-gray-100 rounded py-4 text-center block">No Banner Uploaded</div>
             @endif
             @if($updateBanner)
                 <input type="file" wire:model="banner" class="rounded mt-2">
@@ -74,7 +74,7 @@
                 <source src="{{ $video->temporaryUrl() }}">
             </video>
             @else
-            <div class="bg-gray-500 text-white px-2 py-1 rounded">No input displayed on exhibit</div>
+                <div class="bg-gray-100 rounded py-4 text-center block">No Video Uploaded</div>
             @endif
             @if($updateVideo)
                 <input type="file" wire:model="video" class="rounded mt-2 block">
@@ -87,13 +87,8 @@
                     <button wire:click="saveVideo" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
                 </div>
             @else
-                {{-- @if($group->groupExhibit->video_path)
-                <div class="border rounded px-2 py-1">{{ $group->groupExhibit->video_path }}</div>
-                @else
-                <div class="bg-gray-500 text-white px-2 py-1 rounded">No input displayed on exhibit</div>
-                @endif --}}
                 <div class="flex justify-end">
-                    <button wire:click="updateVideo" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Edit Video</button>
+                    <button wire:click="updateVideo" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Video</button>
                 </div>
             @endif
         </div>
@@ -116,22 +111,72 @@
                 </ul>
             </div>
         </div>
-        {{-- <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
-            <h1 class="font-bold text-lg mb-2">Gallery</h1>
-        </div> --}}
         <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
             <h1 class="font-bold text-lg mb-2">Files</h1>
+            <input type="file" wire:model="uploadedFiles" class="border mb-2" id="uploadedFiles" multiple>
+            @if($uploadedFiles)
+                <button wire:click="upload" class="bg-green-500 hover:bg-green-600 text-white rounded px-2 py-1 mb-2">Upload</button>
+                <button wire:click="cancelUpload" class="shadow hover:bg-gray-100 rounded px-2 py-1 mb-2">Cancel</button>
+            @endif
+            @error('uploadedFiles.*')
+                <span class="bg-red-500 text-white block px-2 py-1 rounded mb-2">{{ $message }}</span>
+            @enderror
+            @if(session('fileMsg'))
+                <span class="bg-green-500 text-white block px-2 py-1 rounded mb-2">{{ session('fileMsg') }}</span>
+            @endif
+            <span wire:loading wire:target="uploadedFiles" class="text-green-500">Uploading...</span>
+            @if($files->count() == 0) 
+                <div class="bg-gray-100 rounded py-4 text-center block">No Files Uploaded</div>
+            @else
+                <table class="w-full text-center">
+                    <thead>
+                        <tr>
+                            <td class="border bg-gray-100">Name</td>
+                            <td class="border bg-gray-100">Created at</td>
+                            <td class="border bg-gray-100">Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($files as $file)
+                        <tr>
+                            <td class="border px-2 py-2">{{ $file->name }}</td>
+                            <td class="border px-2 py-2">{{ $file->created_at->diffForHumans() }}</td>
+                            <td class="border px-2 py-2">
+                                <button wire:click="selectFile({{ $file->id }}, 'download')" class="rounded bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white">Download</button>
+                                <button wire:click="selectFile({{ $file->id }}, 'delete')" class="rounded bg-red-500 hover:bg-red-600 px-2 py-1 text-white">Delete</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
-    
-    {{-- UPDATE GROUP MODAL --}}
-    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="updateGroupModal">
+
+    {{-- DELETE POSITION MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="deleteFileModal">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
             <div >
-                @livewire('group-exhibit-form')
+                <!--body-->
+                <div class="text-center p-5 flex-auto justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 flex items-center text-red-500 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
+                    <p class="text-sm text-gray-500 px-8">Do you really want to delete the file? This process cannot be undone.</p>
+                </div>
+                <!--footer-->
+                <div class="p-3 mt-2 text-center space-x-4 md:block">
+                    <button wire:click="closeDeleteModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                    <button wire:click="deleteFile" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Delete</button>
+                </div>
             </div>
         </div>
     </div>
-    {{-- UPDATE GROUP MODAL --}}
+    {{-- DELETE POSITION MODAL --}}
 </div>

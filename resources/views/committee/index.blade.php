@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
             <tbody class="bg-white">
-                @foreach ($committee->tasks as $task)
+                @foreach ($committee->tasks()->orderBy('updated_at', 'desc')->get() as $task)
                     <tr class="text-gray-700">
                         <td class="px-4 py-3 text-md font-semibold border">{{ $task->title }}</td>
                         <td class="px-4 py-3 text-md font-semibold border">{{ $task->updated_at->diffForHumans() }}</td>

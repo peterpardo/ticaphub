@@ -9,8 +9,6 @@ use App\Models\Position;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
-
-;
 use App\Models\User;
 use App\Models\UserSpecialization;
 use App\Models\Vote;

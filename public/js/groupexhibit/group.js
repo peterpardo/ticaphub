@@ -1,12 +1,17 @@
 $(document).ready(function() {
-     // UPDATE MODAL
-     window.addEventListener('openUpdateModal', function() {
-        $('#updateGroupModal').addClass('flex');
-        $('#updateGroupModal').removeClass('hidden');
+     // DELETE MODAL
+     window.addEventListener('openDeleteModal', function() {
+        $('#deleteFileModal').addClass('flex');
+        $('#deleteFileModal').removeClass('hidden');
     });
-    window.addEventListener('closeUpdateModal', function() {
-        $('#updateGroupModal').removeClass('flex');
-        $('#updateGroupModal').addClass('hidden');
+    window.addEventListener('closeDeleteModal', function() {
+        $('#deleteFileModal').removeClass('flex');
+        $('#deleteFileModal').addClass('hidden');
+    });
+    //  RESET FILE INPUT
+    Livewire.on('resetFileUpload', function() {
+        const files = document.getElementById('uploadedFiles');
+        files.value = "";
     });
     // ALERTS
     Livewire.on('groupExhibitDeleted', function() {

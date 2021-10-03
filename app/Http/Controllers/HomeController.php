@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use App\Models\Election;
+use App\Models\Event;
 use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
@@ -42,7 +43,12 @@ class HomeController extends Controller
         return view('dashboard', [
             'title' => $title,
             'ticap' => $ticap->name,
-            'user' => $user
+            'user' => $user,
+            'students' => User::role('student')->get(),
+            'panelists' => User::role('panelist')->get(),
+            'officers' => User::role('officer')->get(),
+            'admins' => User::role('admin')->get(),
+            'events' => Event::all(),
         ]);
     }
 

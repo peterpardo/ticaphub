@@ -97,7 +97,7 @@
         </select>
     </div>
     @if($candidates->count() == 0)
-    <div class="bg-gray-300 rounded px-4 py-2 text-center mx-auto">No candidates found</div>
+        <div class="bg-gray-100 rounded py-6 text-center">No candidates found</div>
     @else
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">

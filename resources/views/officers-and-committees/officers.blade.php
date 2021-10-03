@@ -5,7 +5,10 @@
     <div class="flex flex-wrap justify-evenly w-full">
     @foreach($elections as $election)
         <div class="w-2/5">
-            <h1 class="text-xl font-semibold">{{ $election->name }}</h1>
+            @if(session('status'))
+                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-1 rounded text-white">{{ session('message') }}</div>
+            @endif
+            <h1 class="text-xl text-center font-semibold">{{ $election->name }}</h1>
             <div>
                 <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">    
                     <thead>
