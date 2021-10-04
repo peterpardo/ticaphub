@@ -1,13 +1,13 @@
 <div>
     {{-- SEARCH FOR CANDIDATES --}}
-    <div class="mb-2">
+    <div class="mb-2 text-gray-800">
         <div class="flex justify-between">
-            <div class="font-semibold text-2xl">Nominate Students</div>
+            <div class="font-semibold text-2xl dark:text-gray-50">Nominate Students</div>
             <button wire:click="confirmCandidates" class="inline-block bg-green-600 py-2 px-10 rounded mr-10 text-white hover:bg-green-500">Start Election</button>
         </div>
         <div class="flex justify-between">
             <div class="flex-1">
-                <h1 class="font-semibold">Select Position</h1>
+                <h1 class="font-semibold dark:text-gray-50">Select Position</h1>
                 <select wire:model="selectedPosition" class="rounded ">
                     <option value="">--select position--</option>
                     @foreach($positions as $position)
@@ -17,7 +17,7 @@
                 <input type="text" class="rounded my-2" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
             </div>
             <div class="my-2 flex-1">
-                <h1 class="font-semibold">Filters</h1>
+                <h1 class="font-semibold dark:text-gray-50">Filters</h1>
                 <select wire:model="selectedSchool" class="rounded ">
                     <option value="">--select school--</option>
                     @foreach($schools as $school)
@@ -87,8 +87,8 @@
 
     {{-- CANDIDATES TABLE --}}
     <div class="font-semibold text-2xl my-3">Candidates</div>
-    <div class="mb-3">
-        <label class="block font-semibold">Filter</label>
+    <div class="mb-3 text-gray-800">
+        <label class="block font-semibold dark:text-gray-50">Filter</label>
         <select wire:model="selectedElection" class="rounded">    
             <option value="">-- select election --</option>
             @foreach ($elections as $election)
@@ -97,7 +97,7 @@
         </select>
     </div>
     @if($candidates->count() == 0)
-        <div class="bg-gray-100 rounded py-6 text-center">No candidates found</div>
+    <div class="bg-gray-300 rounded px-4 py-2 text-center mx-auto dark:text-gray-800">No candidates found</div>
     @else
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">

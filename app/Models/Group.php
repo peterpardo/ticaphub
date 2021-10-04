@@ -16,6 +16,9 @@ class Group extends Model
         'ticap_id'
     ];
 
+    public function ticap() {
+        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
     public function groupExhibit() {
         return $this->hasOne(GroupExhibit::class, 'group_id', 'id');
     }

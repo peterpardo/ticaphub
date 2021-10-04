@@ -20,7 +20,7 @@ class Officer extends Model
     ];
 
     public function election() {
-        return $this->belongsTo(Officer::class, 'election_id', 'id');
+        return $this->belongsTo(Election::class, 'election_id', 'id');
     }
     public function user(){
         return $this->belongsTo(User::class, 'user_id', 'id');

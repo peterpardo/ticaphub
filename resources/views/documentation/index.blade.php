@@ -20,7 +20,11 @@
                     {{ $ticap->created_at->format('F j, Y, g:i a') }}
                 </td>
                 <td class="px-4 py-3 text-md font-semibold border">
-                    <a href="documentation/{{ $ticap->id }}" class="inline-block bg-green-500 hover:bg-green-600 text-white rounded px-2 py-1">View files</a>
+                    @if($ticap->is_done)
+                        <a href="documentation/{{ $ticap->id }}" class="inline-block bg-green-500 hover:bg-green-600 text-white rounded px-2 py-1">View files</a>
+                    @else
+                        <div class="inline-block bg-gray-100 shadow rounded px-2 py-1">On going</div>
+                    @endif
                 </td>
             @endforeach
             </tbody>

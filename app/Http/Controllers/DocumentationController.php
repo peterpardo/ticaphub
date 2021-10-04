@@ -15,6 +15,7 @@ class DocumentationController extends Controller
             'ticaps' => $ticaps,
         ]);
     }
+
     public function ticapFiles($ticapId) {
         $title = 'Documentation';
         $ticap = Ticap::find($ticapId);

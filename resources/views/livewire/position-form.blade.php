@@ -1,7 +1,7 @@
-<div>
+<div class="text-gray-800">
     <h1 class="font-bold text-center text-3xl">Update Position</h1>
     <form wire:submit.prevent="updatePosition">
-            <div class="m-2">
+            <div class="m-2 ">
                 <label class="block font-semibold">Position Name</label>
                 <input wire:model="position" type="text" class="rounded w-full">
                 @error('position')

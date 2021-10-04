@@ -10,9 +10,11 @@ use App\Models\Position;
 use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -29,7 +31,7 @@ class HomeController extends Controller
             'name' => $request->ticap,
         ]);
         // FIND ADMIN ID
-        $admin = User::find(1);
+    $admin = User::find(1);
         // SET TICAP_ID OF ADMIN TO PRESENT TICAP
         $admin->ticap_id = $ticap->id;
         $admin->save();
@@ -38,8 +40,14 @@ class HomeController extends Controller
 
     public function dashboard() {
         $title = 'Dashboard';
-        $ticap = Ticap::find(Auth::user()->ticap_id);
         $user = User::find(Auth::user()->id);
+        if($user->ticap_id == null) {
+            $ticap = 'No TICaP is set';
+        } else {
+            $ticap = Ticap::find($user->ticap_id);
+        }
+        // $ticap = Ticap::find(Auth::user()->ticap_id);
+        // $user = User::find(Auth::user()->id);
         return view('dashboard', [
             'title' => $title,
             'ticap' => $ticap->name,

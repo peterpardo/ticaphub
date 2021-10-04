@@ -422,6 +422,12 @@ class UserController extends Controller
                             'specialization_id' => $specialization,
                             'ticap_id' => $ticap,
                         ]);
+                        // CREATE DEFAULT GROUP EXHIBIT
+                        if(!$group->groupExhibit()->exists()) {
+                            $group->groupExhibit()->create([
+                                'ticap_id' => $ticap,
+                            ]);
+                        }
                         $user->userGroup()->create([
                             'group_id' => $group->id,
                         ]);

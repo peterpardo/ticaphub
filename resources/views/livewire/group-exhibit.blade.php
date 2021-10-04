@@ -49,7 +49,8 @@
                 <div class="bg-gray-100 rounded py-4 text-center block">No Banner Uploaded</div>
             @endif
             @if($updateBanner)
-                <input type="file" wire:model="banner" class="rounded mt-2">
+                <input type="file" wire:model="banner" class="rounded mt-2 block">
+                <span wire:loading wire:target="banner" class="text-green-500">Uploading...</span>
                 <div class="flex justify-end">
                     <button wire:click="closeBanner" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
                     <button wire:click="saveBanner" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>

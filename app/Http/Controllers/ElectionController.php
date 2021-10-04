@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
-use App\Models\Election;
 use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
@@ -14,11 +13,11 @@ use App\Models\UserSpecialization;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
+use PDF;
+
 
 class ElectionController extends Controller
 {
@@ -460,82 +459,15 @@ class ElectionController extends Controller
         ]);
     }
 
+    public function generateOfficers() {
+        $data = [
+            'officers' => Officer::orderBy('election_id', 'asc')->get(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.officers', $data);
+        return $pdf->download(time().'-officers.pdf');
+    }
     public function test() {
-        $elections = Election::all();
-        $positions = Position::all();
-        $ctr = 1;
-        foreach($elections as $election) {
-            if($ctr < 5){
-                foreach($positions as $position) {
-                    $users = User::wherehas('userSpecialization', function($q) use ($election){
-                        $q->where('specialization_id', $election->specialization->id);
-                    })->get();
-                    dd($users);
-                    $positionCount = 0;
-                    foreach($users as $user) {
-                        if(!Candidate::where('user_id', $user->id)->exists()) {
-                            if($positionCount < 3){
-                                $election->candidates()->create([
-                                    'user_id' => $user->id,
-                                    'position_id' => $position->id,
-                                ]);
-                                $positionCount++;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                }
-            } 
-            $ctr++;
-            // else {
-            //     if($election->id == 5) {
-            //         foreach($positions as $position) {
-            //             $users = User::wherehas('userSpecialization', function($q) {
-            //                 $q->wherehas('specialization', function($q) {
-            //                     $q->where('school_id', 2);
-            //                 });
-            //             })->get();
-            //             $positionCount = 0;
-            //             foreach($users as $user) {
-            //                 if(!Candidate::where('user_id', $user->id)->exists()) {
-            //                     if($positionCount < 3){
-            //                         $election->candidates()->create([
-            //                             'user_id' => $user->id,
-            //                             'position_id' => $position->id,
-            //                         ]);
-            //                         $positionCount++;
-            //                     } else {
-            //                         break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     } elseif($election->id == 6) {
-            //         foreach($positions as $position) {
-            //             $users = User::wherehas('userSpecialization', function($q) {
-            //                 $q->wherehas('specialization', function($q) {
-            //                     $q->where('school_id', 3);
-            //                 });
-            //             })->get();
-            //             $positionCount = 0;
-            //             foreach($users as $user) {
-            //                 if(!Candidate::where('user_id', $user->id)->exists()) {
-            //                     if($positionCount < 3){
-            //                         $election->candidates()->create([
-            //                             'user_id' => $user->id,
-            //                             'position_id' => $position->id,
-            //                         ]);
-            //                         $positionCount++;
-            //                     } else {
-            //                         break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-            
-        }
+
     }
 }

@@ -6,7 +6,7 @@
     <div class="flex justify-between">
         <form wire:submit.prevent='addPosition' class='mb-5'>
             <div class="mb-2">
-                <input type="text" wire:model='newPosition' class="rounded" placeholder="New Position Name">
+                <input type="text" wire:model='newPosition' class="text-gray-800 rounded" placeholder="New Position Name">
                 <button class="text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
             </div>
             @error('newPosition')
@@ -54,7 +54,7 @@
             <!--content-->
             <div >
                 <!--body-->
-                <div class="text-center p-5 flex-auto justify-center">
+                <div class="text-center p-5 flex-auto justify-center text-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>

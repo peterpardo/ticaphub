@@ -18,10 +18,12 @@ class EnsureTicapIsSet
      */
     public function handle(Request $request, Closure $next)
     {   
-        $user = User::find(1);
+        $user = User::find(Auth::user()->id);
 
-        if (Auth::user()->id == 1 && $user->ticap_id == null) {
-            return redirect()->route('set-ticap-name');
+        if ($user->hasRole('admin') && $user->ticap_id == null) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Set TICaP first');
+            return redirect()->route('dashboard');
         } 
 
         return $next($request);

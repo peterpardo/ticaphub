@@ -2,6 +2,11 @@
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <h1 class="font-bold text-4xl mb-2 text-center">{{ $ticap->name }}</h1>
     <h1 class="text-center text-2xl mb-3">Election of Officers</h1>
+    @can('generate report')
+        @if($ticap->election_finished)
+            <a href="/generate-officers" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded my-3">Generate Report</a>
+        @endif
+    @endcan
     <div class="flex flex-wrap justify-evenly w-full">
     @foreach($elections as $election)
         <div class="w-2/5">

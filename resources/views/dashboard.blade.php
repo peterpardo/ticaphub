@@ -7,7 +7,6 @@
   <div>
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
   </div>
-
 <section>
     {{-- <!---===================== FIRST ROW CONTAINING THE  STATS CARD STARTS HERE =============================-->
 <div class="flex flex-col justify-evenly lg:flex-row lg:w-full bg-gray-100 py-10 p-14 rounded">
@@ -70,8 +69,8 @@
 </div>
 </div>
 <!---== Fourth Stats Container ====---> --}}
-<!-- Statistics Cards -->
-@if($user->hasRole('admin'))
+ <!-- Statistics Cards -->
+ @if($user->hasRole('admin'))
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
   <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
   <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
@@ -117,14 +116,22 @@
   </div>
   </div>
   </section>
+ @endif
+@if(session('status'))
+  <div class="bg-green-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
-
+@if($user->ticap_id == null)
+  <div class="bg-gray-100 py-5 px-2 rounded">
+    <span>No TICaP has been created yet: </span>
+    <a href="{{ route('set-ticap-name') }}" class="inline-block text-white bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</a>
+  </div>
+@else
 {{-- FOR STUDENTS AND OFFICERS ONLY --}}
 <!-- ./Statistics Cards -->
 @if(!$user->hasRole('admin'))
   @if($user->committeeMember()->exists())
     @livewire('committee-notification', ['user' => $user])
-  @else
+  @elseif($user->hasRole('officer'))
     @livewire('task-notification', ['user' => $user])
   @endif
 @endif
@@ -132,19 +139,20 @@
 {{-- PROGRAM FLOW OF EVENTS --}}
 <h1 class="font-bold text-2xl mb-3">Event Programs</h1>
 @foreach ($events as $event)
-  <h1 class="font-semibold text-xl mb-1">{{ $event->name }}</h1>
-  @if(!$event->programFlows()->exists())
-    <div class="bg-gray-100 text-center py-6 rounded">No Uploaded Program Flow</div>
-  @else
-    <div class="flex flex-wrap justify-center">
-      @foreach ($event->programFlows as $program)
-        <div class="w-1/2">
-          <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
-        </div>
-      @endforeach  
-    </div>
-  @endif
+<h1 class="font-semibold text-xl mb-1">{{ $event->name }}</h1>
+@if(!$event->programFlows()->exists())
+  <div class="bg-gray-100 text-center py-6 rounded text-gray-800">No Uploaded Program Flow</div>
+@else
+  <div class="flex flex-wrap justify-center">
+    @foreach ($event->programFlows as $program)
+      <div class="w-1/2">
+        <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
+      </div>
+    @endforeach  
+  </div>
+@endif
 @endforeach
 {{-- PROGRAM FLOW OF EVENTS --}}
+@endif
 
 </x-app-layout>
