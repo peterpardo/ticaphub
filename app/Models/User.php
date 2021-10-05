@@ -101,4 +101,7 @@ class User extends Authenticatable
             ->withPivot('is_read')
             ->withTimestamps();
     }
+    public function specializationPanelist() {
+        return $this->hasOne(SpecializationPanelist::class, 'user_id',' id');
+    }
 }

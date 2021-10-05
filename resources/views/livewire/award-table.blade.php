@@ -4,23 +4,32 @@
         <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
         <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Proceed</a>
     </div>
+    
     {{-- AWARD TABLE --}}
     <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
-    <input type="text" wire:model.debounce.350ms="search" class="text-gray-800 rounded mb-2" placeholder="search award">
-    <select wire:model="selectedSchool" class="rounded font-semibold text-base text-gray-800">
-        <option value="">-- select school --</option>
-        @foreach($schools as $school)
-        <option value="{{ $school->id }}">{{ $school->name }}</option>
-        @endforeach
-    </select>
-    @if($selectedSchool != null)
-    <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-800">
-        <option value="">-- select specialization --</option>
-        @foreach($specializations as $spec)
-        <option value="{{ $spec->id }}">{{ $spec->name }}</option>
-        @endforeach
-    </select>
-    @endif
+    <div class="flex justify-between">
+        <div class="flex-1">
+            <span class="block font-semibold">Search</span>
+            <input type="text" wire:model.debounce.350ms="search" class="text-gray-800 rounded mb-2" placeholder="search award">
+        </div>
+        <div class="flex-1">
+            <span class="block font-semibold">Filter</span>
+            <select wire:model="selectedSchool" class="rounded font-semibold text-base text-gray-800">
+                <option value="">-- select school --</option>
+                @foreach($schools as $school)
+                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                @endforeach
+            </select>
+            @if($selectedSchool != null)
+            <select wire:model="selectedSpec" class="rounded font-semibold text-base text-gray-800">
+                <option value="">-- select specialization --</option>
+                @foreach($specializations as $spec)
+                <option value="{{ $spec->id }}">{{ $spec->name }}</option>
+                @endforeach
+            </select>
+            @endif
+        </div>
+    </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
         <table class="table-auto w-full text-gray-800">

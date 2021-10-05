@@ -134,5 +134,20 @@ class UserSeeder extends Seeder
         $user->assignRole($admin);
         $admin2->assignRole($admin);
         $admin3->assignRole($admin);
+
+        // PANELIST
+        for($i = 0; $i < 12; $i++) {
+            $user = User::create([
+                'first_name' => Str::random(5),
+                'middle_name' => Str::random(5),
+                'last_name' => Str::random(5),
+                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
+                'password' => Hash::make('123'), // password
+                'remember_token' => Str::random(10),
+                'ticap_id' => 1,
+                'email_verified' => 1,
+            ]);
+            $user->assignRole('panelist');
+        }
     }
 }

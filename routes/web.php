@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function(){
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function(){
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
+        Route::post('/documentation/delete-ticap', [DocumentationController::class, 'deleteTicap']);
         Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
         Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
     });
@@ -75,6 +76,10 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/create-rubric', [AwardController::class, 'createRubric'])->name('rubric');
         Route::post('/create-rubric', [AwardController::class, 'addRubric']);
         Route::get('/set-rubrics/{awardId}/add-rubric', [AwardController::class, 'addRubric']);
+        Route::get('/set-panelist', [AwardController::class, 'setPanelist']);
+        Route::get('/set-panelist/assign', [AwardController::class, 'assignPanelist']);
+        Route::post('/set-panelist/assign', [AwardController::class, 'assign']);
+        Route::get('/fetch-panelists', [AwardController::class, 'fetchPanelists']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             UserSeeder::class,
             // StudentSeeder::class,
+            // PanelistSeeder::class,
             // CandidateSeeder::class,
             // VoteSeeder::class,
         ]);

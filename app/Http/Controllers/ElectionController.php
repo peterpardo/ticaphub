@@ -7,6 +7,7 @@ use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
 use App\Models\Specialization;
+use App\Models\SpecializationPanelist;
 use App\Models\Ticap;
 use App\Models\User;
 use App\Models\UserSpecialization;
@@ -62,7 +63,7 @@ class ElectionController extends Controller
     }
 
     public function setPositions() {
-        $ticap = Ticap::find(Auth::user()->ticap_id)->first();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         if($ticap->election_finished) {
             return redirect()->route('officers');
         } 
@@ -468,6 +469,6 @@ class ElectionController extends Controller
         return $pdf->download(time().'-officers.pdf');
     }
     public function test() {
-
+        
     }
 }
