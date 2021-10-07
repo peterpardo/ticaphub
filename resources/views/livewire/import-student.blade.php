@@ -1,6 +1,6 @@
 <div>
     <div class="w-1/2 mx-auto">
-        <h1 class="text-center text-3xl font-semibold">Import Students</h1>
+        {{ <h1  }}class="text-center text-3xl font-semibold">Import Students</h1>
         <form 
             action="{{ route('import-users') }}"
             method="POST"
@@ -43,6 +43,10 @@
                 @error('file')
                 <div class="text-red-500"></div>
                 @enderror
+            </div>
+            <div class="text-xs text-center">
+                <p class="font-thin italic">The file type must be CSV</p>
+                <p class="font-thin italic">Download <a href="/download"><span  class="text-blue-700">here </span></a>for an example format.</p>
             </div>
             <div class="p-3 mt-2 text-center space-x-4 md:block">
                 <a href="{{ route('add-student') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>

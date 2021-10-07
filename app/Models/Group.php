@@ -31,4 +31,16 @@ class Group extends Model
     public function files() {
         return $this->hasMany(GroupFile::class, 'group_id', 'id');
     }
+    public function awards() {
+        return $this->belongsToMany(Award::class, 'group_award', 'group_id', 'award_id')->withPivot('total_grade');
+    }
+    public function groupGrades() {
+        return $this->hasMany(GroupGrade::class, 'group_id', 'id');
+    }
+    public function studentChoiceAward() {
+        return $this->hasOne(StudentChoiceAward::class, 'group_id', 'id');
+    }
+    public function studentVotes() {
+        return $this->hasMany(StudentChoiceVote::class, 'group_id', 'id');
+    }
 }

@@ -116,7 +116,7 @@
             <!--content-->
             <div >
                 <!--body-->
-                <div class="text-center p-5 flex-auto justify-center">
+                <div class="text-center p-5 flex-auto justify-center text-gray-800">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
                     <p class="text-sm text-gray-500 px-8 mb-5">Do you want to start the TICaP with these settings? You will not be able to change it once you proceed.</p>
                     <h1 class="font-bold text-center mb-2">TICaP Settings</h1>

@@ -8,7 +8,7 @@
         <span class="text-white bg-green-500 w-auto px-2 py-1 rounded shadow">NEW</span>
         @endif
         <div class="lg:flex shadow rounded-lg border-gray-400 my-5 cursor-pointer">
-            <div class="bg-blue-500 dark:bg-gray-800  rounded-lg lg:w-2/12 py-4 block h-full shadow-inner">
+            <div class="bg-red-500 dark:bg-gray-800  rounded-lg lg:w-2/12 py-4 block h-full shadow-inner">
                 <div class="text-center tracking-wide">
                     <div class="text-white font-bold text-4xl ">{{ $task->created_at->format('M') }}</div>
                     <div class="text-white font-normal text-2xl">{{ $task->created_at->format('j') }}</div>
@@ -35,7 +35,7 @@
                     <span class="tracking-wider text-gray-600 bg-gray-200 px-2 text-sm rounded leading-loose mx-2 font-semibold">
                         {{ $task->updated_at->diffForHumans() }}
                     </span>
-                    <a href="/committee/{{ $task->committee->id }}/task/{{ $task->id }}/view-task" class="text-center py-1 px-2 rounded mt-4 mx-2 bg-blue-500 text-white">View more</a>
+                    <a href="/committee/{{ $task->committee->id }}/task/{{ $task->id }}/view-task" class="text-center py-1 px-2 rounded mt-4 mx-2 bg-red-500 text-white">View more</a>
                 </div>
             </div>
         </div>

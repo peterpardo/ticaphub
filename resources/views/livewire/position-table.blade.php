@@ -10,7 +10,7 @@
                 <button class="text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
             </div>
             @error('newPosition')
-            <span class="bg-red-500 text-white px-2 py-1 rounded inline-block">{{ $message }}</span>
+            <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">{{ $message }}</span>
             @enderror
         </form>
         <div>

@@ -12,7 +12,7 @@
                 <input class="rounded text-gray-800" type="text" name="event_name" id="event_name" autocomplete="off" placeholder="Ex: Webinar">
                 <button type="submit" class="md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Event</button>
                 @error('event_name')
-                <span class="text-red-500 block">{{ $message }}</span>
+                <div class="text-red-500 block">{{ $message }}</div>
                 @enderror
                 @if(session('status'))
                     <div class="text-{{ session('status') }}-500 mb-2">{{ session('message') }}</div>
@@ -56,7 +56,7 @@
                 <!--content-->
                 <div >
                     <!--body-->
-                    <div class="text-center p-5 flex-auto justify-center">
+                    <div class="text-center p-5 flex-auto justify-center text-gray-800">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 -m-1 flex items-center text-red-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>

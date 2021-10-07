@@ -32,8 +32,8 @@
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Award Name</th>
                 <th class="px-4 py-3">Award Type</th>
-                <th class="px-4 py-3">School</th>
                 <th class="px-4 py-3">Specialization</th>
+                <th class="px-4 py-3">Status</th>
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
@@ -42,8 +42,15 @@
             <tr class="text-gray-700">
                 <td class="px-4 py-3 text-xl font-bold border">{{ $award->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $award->type }}</td>
-                <td class="px-4 py-3 text-md border">{{ $award->school->name }}</td>
-                <td class="px-4 py-3 text-md border">{{ $award->specialization->name }}</td>
+                <td class="px-4 py-3 text-md border">{{ $award->specialization->name }} ({{ $award->school->name }})</td>
+
+                <td class="px-4 py-3 text-md border">
+                    @if($award->awardRubric()->exists())
+                        <span class="text-green-500">rubric is set</span>
+                    @else
+                        <span class="text-red-500">empty</span>
+                    @endif
+                </td>
                 <td class="px-4 py-3 text-md border text-center">
                     <button wire:click="selectAward({{ $award->id }})" class="inline-block my-1 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Set Rubric</button>
                 </td>

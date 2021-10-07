@@ -21,6 +21,8 @@ class CreateTicapNamesTable extends Migration
             $table->boolean('election_review')->default(0);
             $table->boolean('has_new_election')->default(0);
             $table->boolean('election_finished')->default(0);
+            $table->boolean('awards_is_set')->default(0);
+            $table->boolean('evaluation_finished')->default(0);
             $table->boolean('is_done')->default(0);
             $table->timestamps();
         });

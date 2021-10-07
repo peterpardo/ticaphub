@@ -14,6 +14,7 @@ class StudentChoiceAward extends Model
         'name',
         'specialization_id',
         'ticap_id',
+        'group_id',
     ];
 
     public function specialization() {
@@ -21,5 +22,8 @@ class StudentChoiceAward extends Model
     }
     public function ticap() {
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
+    public function group() {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
     }
 }

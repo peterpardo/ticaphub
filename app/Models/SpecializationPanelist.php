@@ -12,7 +12,8 @@ class SpecializationPanelist extends Model
     protected $table = 'specialization_panelist';
     protected $fillable = [
         'user_id',
-        'specialization_id'
+        'specialization_id',
+        'is_done'
     ];
 
     public function specialization() {

@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\PanelistController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
+use App\Http\Livewire\AwardForm;
 use App\Models\Group;
 use App\Models\Officer;
 use App\Models\School;
@@ -69,7 +71,16 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
     });
     Route::middleware(['set.ticap'])->group(function() {
+        // OFFICERS AND COMMITTEES
         Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
+        // PANELISTS ROUTE
+        Route::get('/evaluate-groups', [PanelistController::class, 'index'])->name('evaluate-groups');
+        Route::post('/evaluate-groups', [PanelistController::class, 'computeGrades']);
+        Route::get('/review-grades', [PanelistController::class, 'reviewGrades'])->name('review-grades');
+        Route::post('/review-grades', [PanelistController::class, 'submitGrades']);
+        Route::get('/change-grades', [PanelistController::class, 'changeGrades'])->name('change-grades');
+        Route::post('/change-grades', [PanelistController::class, 'updateGrades']);
+        Route::get('/results-panel', [PanelistController::class, 'resultsPanel'])->name('results-panel');
         // PROJECT ASSESSMENT
         Route::get('/awards', [AwardController::class, 'index'])->name('awards');
         Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
@@ -80,6 +91,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/set-panelist/assign', [AwardController::class, 'assignPanelist']);
         Route::post('/set-panelist/assign', [AwardController::class, 'assign']);
         Route::get('/fetch-panelists', [AwardController::class, 'fetchPanelists']);
+        Route::get('/award-review', [AwardController::class, 'awardReview']);
+        Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
+        Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS
@@ -93,6 +107,10 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/users', [HomeController::class, 'users'])->name('users');
             Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
             Route::post('/users/add-student', [UserController::class, 'addUser']);
+             
+            // DOWNLOAD CSV FILE
+            Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});
+
             Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
             Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
             Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);

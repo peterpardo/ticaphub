@@ -1,12 +1,14 @@
 <div>
-    <div class="text-left my-2 font-semibold text-3xl">Create Awards</div>
-    <div class="flex justify-between">
+    <div class="text-left my-1 font-semibold text-3xl">Create Awards</div>
+    <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
+    <div class="flex justify-between mb-2">
         <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
         <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Proceed</a>
     </div>
-    
+    <div class="rounded bg-gray-300 black px-2 py-2 my-1">
+        Notice: "STUDENT CHOICE AWARD" is created by default for each specialization
+    </div>
     {{-- AWARD TABLE --}}
-    <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
     <div class="flex justify-between">
         <div class="flex-1">
             <span class="block font-semibold">Search</span>

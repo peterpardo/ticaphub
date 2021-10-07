@@ -1,8 +1,5 @@
 <x-app-layout>
-  <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-  {{-- <x-page-title>
-      {{ $title }}
-  </x-page-title> --}}
+  <x-page-title>{{ $title }}</x-page-title>
 
   <div>
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>

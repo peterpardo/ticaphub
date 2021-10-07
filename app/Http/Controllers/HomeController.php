@@ -44,13 +44,11 @@ class HomeController extends Controller
         if($user->ticap_id == null) {
             $ticap = 'No TICaP is set';
         } else {
-            $ticap = Ticap::find($user->ticap_id);
+            $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
         }
-        // $ticap = Ticap::find(Auth::user()->ticap_id);
-        // $user = User::find(Auth::user()->id);
         return view('dashboard', [
             'title' => $title,
-            'ticap' => $ticap->name,
+            'ticap' => $ticap,
             'user' => $user,
             'students' => User::role('student')->get(),
             'panelists' => User::role('panelist')->get(),
@@ -91,7 +89,7 @@ class HomeController extends Controller
             if($ticap->election_has_started && !$ticap->election_has_started && $ticap->has_new_election) {
                 return redirect()->route('new-election');
             }
-            if($ticap->election_has_started && !$ticap->election_has_started) {
+            if($ticap->election_has_started && !$ticap->election_finished) {
                 return redirect()->route('election');
             }elseif(!$ticap->election_has_started){
                 return redirect()->route('set-positions');

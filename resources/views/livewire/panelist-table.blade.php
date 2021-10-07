@@ -3,7 +3,7 @@
     <div class="text-center my-2 font-semibold text-3xl">Set Panelists</div>
     <div class="flex justify-between">
         <a href="/set-panelist/assign" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Insert Panelist</a>
-        <a href="#" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Proceed to Next Page</a>
+        <a href="/award-review" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Review Award Settings</a>
     </div>
     @if(session('status'))
         <div class="bg-{{ session('status') }}-500 px-2 py-1 rounded text-white mb-2">{{ session('message') }}</div>

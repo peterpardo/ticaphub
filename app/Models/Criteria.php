@@ -19,4 +19,7 @@ class Criteria extends Model
     public function rubric() {
         return $this->belongsTo(Rubric::class, 'rubric_id', 'id');
     }
+    public function groupGrades() {
+        return $this->hasMany(GroupGrade::class, 'criteria_id', 'id');
+    }
 }

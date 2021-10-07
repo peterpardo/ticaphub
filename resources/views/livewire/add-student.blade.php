@@ -1,7 +1,7 @@
 <div>
     <h1 class="font-bold text-center text-3xl my-4">Add Student</h1>
     {{-- ADD STUDENT FORM --}}
-    <div class="w-full">
+    <div class="w-full text-gray-800">
         <div class="text-center">
             <a href="/users/invite-users" class="rounded bg-blue-500 hover:bg-blue-600 py-1 px-2 text-white">Import Students</a>
         </div>
@@ -17,35 +17,35 @@
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">ID Number</label>
                 <input type="text" name="id_number" class="rounded w-full text-black dark:text-gray-900" value="{{ old('id_number') }}" autocomplete="off" placeholder="Ex: 201811780">
                 @error('id_number')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">First Name</label>
                 <input type="text" name="first_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('first_name') }}" autocomplete="off">
                 @error('first_name')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Middle Name</label>
                 <input type="text" name="middle_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('middle_name') }}" autocomplete="off">
                 @error('middle_name')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Last Name</label>
                 <input type="text" name="last_name" class="rounded w-full text-black dark:text-gray-900" value="{{ old('last_name') }}" autocomplete="off">
                 @error('last_name')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Email</label>
                 <input type="email" name="email" class="rounded w-full text-black dark:text-gray-900" value="{{ old('email') }}" autocomplete="off">
                 @error('email')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
@@ -59,7 +59,7 @@
                     @endforeach
                 </select>
                 @error('school')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             @if(!is_null($selectedSchool))
@@ -72,7 +72,7 @@
                     @endforeach
                 </select>
                 @error('specialization')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             @endif  
@@ -92,7 +92,7 @@
                 </ul>
                 @endif
                 @error('group')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                  <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             @endif

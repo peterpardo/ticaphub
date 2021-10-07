@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Award;
 use App\Models\Candidate;
 use App\Models\Officer;
 use App\Models\Position;
@@ -469,6 +470,11 @@ class ElectionController extends Controller
         return $pdf->download(time().'-officers.pdf');
     }
     public function test() {
-        
+        // INSERT RUBRIC TO EACH AWARDS
+        foreach(Award::all() as $award) {
+            $award->awardRubric()->create([
+                'rubric_id' => 1
+            ]);
+        }
     }
 }

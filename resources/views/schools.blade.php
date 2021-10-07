@@ -1,7 +1,7 @@
 <x-guest-layout>
   <div class="container mx-auto w-7/12">
       <h1 class="text-center text-5xl my-5 font-black">Schools</h1>
-      <div class="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2 h-screen justify-center">
+      <div class="grid grid-cols-1 md:grid-cols-2 mx-auto justify-items-center">
         @foreach($schools as $school)
         <a href="/schools/{{ $school->id }}/specializations">
           <div class="w-72 bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">

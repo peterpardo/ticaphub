@@ -1,6 +1,6 @@
 <x-guest-layout>
   <div class="container mx-auto w-8/12 my-5">
-    <div class="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2 w-auto md:w-9/12 mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 mx-auto justify-items-center">
       @foreach($groups as $group)
       <div class="w-72 h-64 bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
           <div class="overflow-x-hidden rounded-2xl relative">

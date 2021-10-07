@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Set Ticap Title</title>
 </head>
-<section class="">
+<section class="container m-auto">
     <div class="flex h-screen justify-center items-center">
                 <form 
-                class="text-center bg-white rounded shadow px-6 py-6 m-auto"
+                class="bg-white text-center rounded-lg px-44 py-24 shadow-lg m-auto"
                 action="{{ route('set-ticap-name') }}"
                 method="post">
                 @csrf
@@ -19,7 +19,7 @@
                 @enderror
                 <div class="m-auto">
                     <div class="text-center">
-                        <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Set TICaP Name</label>
+                        <label class="font-semibold text-base text-gray-800 dark:text-gray-900">Set TICaP Name</label>
                     </div>
                     <input type="text" name="ticap" class="rounded w-full text-black dark:text-gray-900">
                 </div>
@@ -29,7 +29,6 @@
             </form>
         </div>
         </div>
-    
 </section>
 </html>
 </x-app-layout>

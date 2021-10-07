@@ -1,7 +1,7 @@
 <x-guest-layout>
-  <div class="container mx-auto w-7/12">
-      <h1 class="text-center text-5xl my-5 font-black">Specializations</h1>
-      <div class="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2 w-auto md:w-9/12 mx-auto h-auto">
+  <h1 class="text-center text-5xl my-5 font-black">Specializations</h1>
+  <div class="w-7/12 mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 mx-auto justify-items-center sm:w-full">
         @foreach($specializations as $specialization)
           <a href="/specializations/{{ $specialization->id }}/groups">
             <div class="w-72 h-64 bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">

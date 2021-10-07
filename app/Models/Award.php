@@ -30,4 +30,10 @@ class Award extends Model
     public function awardRubric() {
         return $this->hasOne(AwardRubric::class, 'award_id', 'id');
     }
+    public function groups() {
+        return $this->belongsToMany(Group::class, 'group_award', 'award_id', 'group_id')->withPivot('total_grade');
+    }
+    public function groupGrades() {
+        return $this->hasMany(GroupGrade::class, 'award_id', 'id');
+    }
 }

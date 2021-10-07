@@ -131,4 +131,62 @@ class AwardController extends Controller
             'panelists' => $panelists
         ]);
     }
+
+    public function awardReview() {
+        $title = 'Project Assessment';
+        $specs = Specialization::all();
+        return view('awards.award-review', [
+            'title' => $title,
+            'specs' => $specs
+        ]);
+    }
+
+    public function confirmAwards() {
+        $specs = Specialization::all();
+
+        // CHECK IF AWARDS IS EMPTY
+        foreach($specs as $spec) {
+            if(!$spec->awards()->exists() || $spec->awards->count() == 0) {
+                session()->flash('status', 'red');
+                session()->flash('message', $spec->name . ' (' . $spec->school->name . ') has no awards set');
+                return back();
+            } else {
+                // CHECK IF AWARD HAS A RUBRIC
+                foreach($spec->awards as $award) {
+                    if(!$award->awardRubric()->exists()) {
+                        session()->flash('status', 'red');
+                        session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - ' . $award->name . ' has no rubric set');
+                        return back();
+                    }
+                }
+            }
+        }
+        
+        // CHECK IF SPECIALIZATION HAS PANELISTS (MIN. OF 2)
+        foreach($specs as $spec) {
+            if(!$spec->panelists()->exists() || $spec->panelists->count() < 2) {
+                session()->flash('status', 'red');
+                session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - lacks panelist/s (min. of 2)');
+                return back();
+            }
+        }
+
+        Ticap::where('id', Auth::user()->ticap_id)->update(['awards_is_set' => 1]);
+        return redirect()->route('assessment-panel');
+    }
+
+    public function assessmentPanel() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        if(!$ticap->awards_is_set) {
+            return redirect()->route('awards');
+        }
+        $title = 'Project Assessment';
+        $panelists = SpecializationPanelist::all();
+        $specs = Specialization::all();
+        return view('awards.assessment-panel', [
+            'title' => $title,
+            'panelists' => $panelists,
+            'specs' => $specs,
+        ]);
+    }
 }

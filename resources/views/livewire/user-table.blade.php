@@ -42,9 +42,10 @@
                 </td>
                 <td class="px-4 text-md font-semibold border">
                 @if($user->email_verified)
-                <span class="bg-green-400 px-2 py-1 rounded text-white">email verified</span>
+                <span class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100">email verified</span>
+                
                 @else
-                <span class="bg-red-400 px-2 py-1 rounded text-white">not verified</span>
+                <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">not verified</span>
                 @endif
                 </td>
                 <td class="px-4 text-md font-semibold border">
@@ -52,8 +53,8 @@
                 {{ $role }} |
                 @endforeach
                 </td>
-                <td class="px-4 text-md border">
-                    <div class="flex flex-col w-1/2 mx-auto text-center">
+                <td class="px-4 text-md border text-center">
+                    <div class="grid grid-rows-1 mx-auto w-full justify-center text-center">
                         <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
                         <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
                     </div>

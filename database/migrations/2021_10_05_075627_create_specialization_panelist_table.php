@@ -17,6 +17,9 @@ class CreateSpecializationPanelistTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('specialization_id')->constrained('specializations')->onDelete('cascade');
+            $table->boolean('evaluation_review')->default(0);
+            $table->boolean('update_evaluation')->default(0);
+            $table->boolean('is_done')->default(0);
             $table->timestamps();
         });
     }

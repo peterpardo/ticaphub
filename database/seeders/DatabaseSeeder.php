@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             GroupSeeder::class,
             UserSeeder::class,
+            // RubricSeeder::class,
             // StudentSeeder::class,
             // PanelistSeeder::class,
             // CandidateSeeder::class,

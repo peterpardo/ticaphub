@@ -6,7 +6,7 @@
                 <label class="block font-semibold text-lg mb-2 text-gray-800">First Name</label>
                 <input type="text" wire:model="first_name" class="rounded w-full text-gray-800 dark:text-gray-900">
                 @error('first_name')
-                <div class="bg-red-500 rounded w-full text-gray-800 dark:text-gray-900 py-1 px-2 mt-1">{{ $message }}</div>
+                <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
             <div class="my-3">
