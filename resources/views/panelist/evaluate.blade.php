@@ -7,7 +7,9 @@
         action="{{ route('evaluate-groups') }}" 
         method="post">
         @csrf
-    <button type="submit" class="rounded bg-green-500 hover:bg-green-600 px-2 py-1 text-white">Compute and Review</button>
+    <div class="text-right">
+        <button type="submit" class="rounded bg-green-500 hover:bg-green-600 px-2 py-1 text-white">Compute and Review</button>
+    </div>
     {{-- AWARDS W/ RUBRICS --}}
     @foreach($user->specializationPanelist->specialization->awards as $award)
         <div class="my-5 py-2 px-2 rounded shadow-md overflow-x-scroll whitespace-nowrap">

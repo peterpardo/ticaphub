@@ -15,7 +15,11 @@ class Ticap extends Model
         'invitation_is_set',
         'election_has_started',
         'election_review',
-        'election_finished'
+        'election_finished',
+        'awards_is_set',
+        'evaluation_finished',
+        'is_done',
+        'finalize_award',
     ];
 
     public function candidates() {

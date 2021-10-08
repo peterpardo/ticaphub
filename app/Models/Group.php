@@ -32,7 +32,8 @@ class Group extends Model
         return $this->hasMany(GroupFile::class, 'group_id', 'id');
     }
     public function awards() {
-        return $this->belongsToMany(Award::class, 'group_award', 'group_id', 'award_id')->withPivot('total_grade');
+        return $this->belongsToMany(Award::class, 'group_award', 'group_id', 'award_id')
+            ->withPivot('total_grade');
     }
     public function groupGrades() {
         return $this->hasMany(GroupGrade::class, 'group_id', 'id');
@@ -42,5 +43,11 @@ class Group extends Model
     }
     public function studentVotes() {
         return $this->hasMany(StudentChoiceVote::class, 'group_id', 'id');
+    }
+    public function groupWinners() {
+        return $this->hasMany(GroupWinner::class, 'group_id', 'id');
+    }
+    public function individualWinners() {
+        return $this->hasMany(IndividualWinner::class, 'group_id', 'id');
     }
 }

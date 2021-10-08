@@ -80,7 +80,8 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/review-grades', [PanelistController::class, 'submitGrades']);
         Route::get('/change-grades', [PanelistController::class, 'changeGrades'])->name('change-grades');
         Route::post('/change-grades', [PanelistController::class, 'updateGrades']);
-        Route::get('/results-panel', [PanelistController::class, 'resultsPanel'])->name('results-panel');
+        Route::get('/set-individual-awards', [PanelistController::class, 'setIndividualAwards'])->name('set-individual-awards');
+        Route::post('/set-individual-awards', [PanelistController::class, 'setAward']);
         // PROJECT ASSESSMENT
         Route::get('/awards', [AwardController::class, 'index'])->name('awards');
         Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
@@ -94,6 +95,8 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/award-review', [AwardController::class, 'awardReview']);
         Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
         Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
+        Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
+        Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS

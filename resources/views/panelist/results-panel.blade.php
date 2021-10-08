@@ -1,7 +1,5 @@
 <x-app-layout>
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <h1 class="font-bold text-xl mb-2 text-center">{{ $ticap->name }}</h1>
-    <h1 class="font-semibold text-xl mb-2">{{ $user->specializationPanelist->specialization->name }}</h1>
     <table class="w-full mb-3">
         <thead>
             <tr>
@@ -25,9 +23,5 @@
         </tbody>
     </table>
     <h1 class="text-xl font-semibold mb-2">Results</h1>
-    @if($ticap->evaluation_finished)
-    done
-    @else 
-        <div class="bg-gray-100 py-5 text-center rounded">Waiting for Results</div>
-    @endif
+    <div class="bg-gray-100 py-5 text-center rounded">Waiting for Results</div>
 </x-app-layout>

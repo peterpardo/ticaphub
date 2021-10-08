@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Award;
 use App\Models\Criteria;
+use App\Models\Group;
 use App\Models\Rubric;
 use App\Models\Specialization;
 use App\Models\SpecializationPanelist;
+use App\Models\StudentChoiceVote;
 use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -177,15 +179,102 @@ class AwardController extends Controller
 
     public function assessmentPanel() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
+
         if(!$ticap->awards_is_set) {
             return redirect()->route('awards');
         }
+
         $title = 'Project Assessment';
         $panelists = SpecializationPanelist::all();
         $specs = Specialization::all();
+        $scripts = [
+            asset('/js/awards/generate-results.js')
+        ];
         return view('awards.assessment-panel', [
             'title' => $title,
             'panelists' => $panelists,
+            'specs' => $specs,
+            'scripts' => $scripts,
+        ]);
+    }
+    
+    public function generateResults() {
+        $panelists = User::role('panelist')->get();
+        $awards = Award::all();
+        foreach($panelists as $panelist) {
+            if(!$panelist->specializationPanelist->is_done) {
+                return back()->with('error', 'Some panelists are not yet done evaluating');
+            }
+        }
+        foreach($awards as $award) {
+            echo '<strong>' . $award->specialization->name . '</strong><br>';
+            echo $award->name . '<br>';
+            $winners = [];
+            foreach($award->groups()->orderByPivot('total_grade', 'desc')->get() as $group) {
+                echo $group->name . ' - '. $group->pivot->total_grade . '<br>';
+                $winners[$group->id] = $group->pivot->total_grade;
+            }
+            $final = array_keys($winners, max($winners));
+            echo 'winners: ';
+            foreach($final as $winner) {
+                echo $award->groups()->where('group_id', $winner)->pluck('name')->first() . ', ';
+                if($award->type == 'individual') {
+                    $award->individualWinners()->create([
+                        'group_id' => $winner,
+                    ]);
+                }
+                if($award->type == 'group') {
+                    $award->groupWinners()->create([
+                        'group_id' => $winner,
+                    ]);
+                }
+            }
+            echo '<br><br>';
+        }
+        echo 'WINNERS:<br>';
+        foreach($awards as $award) {
+            if($award->type == 'group') {
+                echo $award->name . '<br>';
+                foreach($award->groupWinners as $groupWinner) {
+                    echo $groupWinner->group->name . '<br>';
+                }
+            }
+            if($award->type == 'individual') {
+                echo $award->name . '<br>';
+                foreach($award->individualWinners as $indiWinner) {
+                    echo $indiWinner->group->name . '<br>';
+                }
+            }
+        }
+        
+        echo 'STUDENT CHOICE AWARDS <br>';
+        $specs = Specialization::all();
+        foreach($specs as $spec) {
+            $votes = [];
+            echo $spec->name . '<br>';
+            foreach($spec->groups as $group) {
+                $count = StudentChoiceVote::where('group_id', $group->id)->count();
+                $votes[$group->id] = $count;
+            }
+            $final = array_keys($votes, max($votes));
+            foreach($final as $groupId) {
+                echo $groupId . '<br>';
+                $spec->studentChoiceAwards()->create([
+                    'name' => 'Student Choice Award - ' . $spec->name,
+                    'ticap_id' => Auth::user()->ticap_id,
+                    'group_id' => $groupId,
+                ]);
+            }
+        }
+        Ticap::where('id', Auth::user()->ticap_id)->update(['finalize_award' => 1]);
+        return redirect()->route('review-results');
+    }
+
+    public function reviewResults() {
+        $title = 'Project Assessment';
+        $specs = Specialization::all();
+        return view('awards.review-results', [
+            'title' => $title,
             'specs' => $specs,
         ]);
     }

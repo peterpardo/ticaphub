@@ -23,7 +23,7 @@ class PanelistController extends Controller
             return redirect()->route('dashboard');
         }
         if($user->specializationPanelist->is_done) {
-            return redirect()->route('results-panel');
+            return redirect()->route('set-individual-awards');
         }
         if($user->specializationPanelist->evaluation_review) {
             return redirect()->route('review-grades');
@@ -75,7 +75,6 @@ class PanelistController extends Controller
                     if($validator->fails()) {
                         return redirect('evaluate-groups')->withErrors($validator)->withInput();
                     }
-                    // echo $crit->name . ' - ' . $grades[$crit->id] . '<br>';
                     $group->groupGrades()->create([
                         'criteria_id' => $crit->id,
                         'grade' => $grades[$crit->id],
@@ -108,7 +107,7 @@ class PanelistController extends Controller
         ];
 
         if($user->specializationPanelist->is_done) {
-            return redirect()->route('results-panel');
+            return redirect()->route('set-individual-awards');
         }
         if($user->specializationPanelist->update_evaluation) {
             return redirect()->route('change-grades');
@@ -130,7 +129,7 @@ class PanelistController extends Controller
         $user->specializationPanelist->is_done = 1;
         $user->specializationPanelist->save();
 
-        return redirect()->route('results-panel');
+        return redirect()->route('set-individual-awards');
     }
 
     public function changeGrades() {
@@ -139,7 +138,7 @@ class PanelistController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
 
         if($user->specializationPanelist->is_done) {
-            return redirect()->route('results-panel');
+            return redirect()->route('set-individual-awards');
         }
         if(!$user->specializationPanelist->evaluation_review) {
             if(!$user->specializationPanelist->update_evaluation) {
@@ -213,21 +212,36 @@ class PanelistController extends Controller
         return redirect()->route('review-grades');
     }
 
-    public function resultsPanel() {
+    public function setIndividualAwards() {
         $title = 'Evaluate Capstone Groups';
         $user = User::find(Auth::user()->id);
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $panelists = SpecializationPanelist::where('specialization_id', $user->specializationPanelist->specialization->id)->get();
+        $spec = Specialization::find($user->specializationPanelist->specialization->id);
         
         if(!$user->specializationPanelist->is_done) {
             return redirect()->route('dashboard');
         }
 
-        return view('panelist.results-panel', [
+        return view('panelist.set-individual-awards', [
             'title' => $title,
             'user' => $user,
             'ticap' => $ticap,
             'panelists' => $panelists,
+            'spec' => $spec,
         ]);
+    }
+
+    public function setAward(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'group.*' => 'required'
+        ],  [
+            'group.*.required' => 'This field has no input yet.' 
+        ]);
+
+        if($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+        dd('stop');
     }
 }
