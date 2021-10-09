@@ -104,4 +104,10 @@ class User extends Authenticatable
     public function specializationPanelist() {
         return $this->hasOne(SpecializationPanelist::class, 'user_id', 'id');
     }
+    public function panelistGrades() {
+        return $this->hasMany(PanelistGrade::class, 'user_id', 'id');
+    }
+    public function individualCandidates() {
+        return $this->hasMany(IndividualAwardCandidate::class, 'user_id', 'id');
+    }
 }

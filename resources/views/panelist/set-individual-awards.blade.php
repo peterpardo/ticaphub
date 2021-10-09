@@ -28,7 +28,8 @@
 
     @if($ticap->finalize_award)
         <div class="px-2 text-center py-5 mb-2 rounded bg-green-100 ">
-            <p>Evaluation is finished. Please set the the individual awards to finalize the results.</p>
+            <p class="mb-2">Evaluation is finished. Please set the the individual awards to finalize the results.</p>
+            <p><strong>Note:</strong> All panelists must unanimously choose one individual winner</p>
         </div>
         <h1 class="font-semibold mb-2 text-lg text-center">Set Individual Award Winners</h1>
         <form action="{{ route('set-individual-awards') }}" method="post">
@@ -50,7 +51,7 @@
                         <td class="border text-md px-2 py-1">
                             <ul>
                                 <li>
-                                    <select name="group[{{ $winner->group->id }}]" class="rounded w-full">
+                                    <select name="groups[{{ $winner->group->id }}]" class="rounded w-full">
                                         <option value="">-- select student --</option>
                                         @foreach($winner->group->userGroups as $userGroup)
                                         <option value="{{ $userGroup->user->id }}">{{ $userGroup->user->first_name }} {{ $userGroup->user->middle_name }} {{ $userGroup->user->last_name }}</option>
@@ -58,7 +59,7 @@
                                     </select>
                                 </li>
                                 <li>
-                                    @error('group.' . $winner->group->id)
+                                    @error('groups.' . $winner->group->id)
                                         <span class="text-red-500">{{ $message }}</span>
                                     @enderror
                                 </li>

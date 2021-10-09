@@ -50,4 +50,10 @@ class Group extends Model
     public function individualWinners() {
         return $this->hasMany(IndividualWinner::class, 'group_id', 'id');
     }
+    public function panelistGrades() {
+        return $this->hasMany(PanelistGrade::class, 'group_id', 'id');
+    }
+    public function individualCandidates() {
+        return $this->hasMany(IndividualAwardCandidate::class, 'group_id', 'id');
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupAwardTable extends Migration
+class CreatePanelistGradesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateGroupAwardTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_award', function (Blueprint $table) {
+        Schema::create('panelist_grades', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
-            $table->foreignId('award_id')->constrained('awards')->onDelete('cascade');
             $table->double('total_grade')->default(0);
+            $table->foreignId('award_id')->constrained('awards')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateGroupAwardTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_award');
+        Schema::dropIfExists('panelist_grades');
     }
 }

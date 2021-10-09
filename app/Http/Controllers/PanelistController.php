@@ -22,6 +22,9 @@ class PanelistController extends Controller
         if(!$ticap->awards_is_set) {
             return redirect()->route('dashboard');
         }
+        if($user->specializationPanelist->has_chosen_user) {
+            return redirect()->route('results-panel');
+        }
         if($user->specializationPanelist->is_done) {
             return redirect()->route('set-individual-awards');
         }
@@ -46,9 +49,9 @@ class PanelistController extends Controller
         ], [
             'awards.*.*.*.required' => 'This field has no grade yet.' 
         ]);
-        foreach(Group::all() as $group) {
-            $group->awards()->detach();
-        }
+        // foreach(Group::all() as $group) {
+        //     $group->awards()->detach();
+        // }
         foreach($request->awards as $awardId => $groups) {
             $award = Award::find($awardId);
             echo 'AWARD - ' . $award->name . '<br>';
@@ -75,24 +78,32 @@ class PanelistController extends Controller
                     if($validator->fails()) {
                         return redirect('evaluate-groups')->withErrors($validator)->withInput();
                     }
-                    $group->groupGrades()->create([
-                        'criteria_id' => $crit->id,
-                        'grade' => $grades[$crit->id],
-                        'award_id' => $award->id,
-                    ]);
+                    // STORE GRADES
+                    // $group->groupGrades()->create([
+                    //     'criteria_id' => $crit->id,
+                    //     'grade' => $grades[$crit->id],
+                    //     'award_id' => $award->id,
+                    //     'user_id' => $user->id,
+                    // ]);
                     $totalGrade += $grades[$crit->id];
                 }
-                foreach($group->groupGrades as $groupGrade) {
+                // STORE TOTAL GRADE
+                // $group->panelistGrades()->create([
+                //     'total_grade' => $totalGrade,
+                //     'award_id' => $award->id,
+                //     'user_id' => $user->id
+                // ]);
+                foreach($group->groupGrades->where('award_id', $award->id)->where('user_id', $user->id) as $groupGrade) {
                     echo $groupGrade->criteria->name . ' - ' . $groupGrade->grade . '<br>';
                 }
-                echo '<br>';
-                $group->awards()->attach($award->id);
-                echo 'Total Grade: ' . $totalGrade . '<br>';
-                echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
-                $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
-                echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
+                // $group->awards()->attach($award->id);
+                echo 'Total Grade: ' . $totalGrade . '<br><br>';
+                // echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
+                // $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
+                // echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
             }
         }
+        // dd('stop');
         $user->specializationPanelist->evaluation_review = 1;
         $user->specializationPanelist->save();
         return redirect()->route('review-grades');
@@ -106,6 +117,9 @@ class PanelistController extends Controller
             asset('/js/panelists/confirm-grades.js')
         ];
 
+        if($user->specializationPanelist->has_chosen_user) {
+            return redirect()->route('results-panel');
+        }
         if($user->specializationPanelist->is_done) {
             return redirect()->route('set-individual-awards');
         }
@@ -137,6 +151,9 @@ class PanelistController extends Controller
         $user = User::find(Auth::user()->id);
         $ticap = Ticap::find(Auth::user()->ticap_id);
 
+        if($user->specializationPanelist->has_chosen_user) {
+            return redirect()->route('results-panel');
+        }
         if($user->specializationPanelist->is_done) {
             return redirect()->route('set-individual-awards');
         }
@@ -191,19 +208,19 @@ class PanelistController extends Controller
                     if($validator->fails()) {
                         return redirect('change-grades')->withErrors($validator)->withInput();
                     }
-                    $group->groupGrades()->where('criteria_id', $crit->id)->where('award_id', $award->id)->update([
+                    $group->groupGrades()->where('criteria_id', $crit->id)->where('award_id', $award->id)->where('user_id', $user->id)->update([
                         'grade' => $grades[$crit->id],
                     ]);
                     $totalGrade += $grades[$crit->id];
                 }
-                foreach($group->groupGrades as $groupGrade) {
+                $group->panelistGrades()->where('award_id', $award->id)->where('user_id', $user->id)->update(['total_grade' => $totalGrade]);
+                foreach($group->groupGrades->where('award_id', $award->id)->where('user_id', $user->id) as $groupGrade) {
                     echo $groupGrade->criteria->name . ' - ' . $groupGrade->grade . '<br>';
                 }
-                echo '<br>';
-                echo 'Total Grade: ' . $totalGrade . '<br>';
-                echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
-                $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
-                echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
+                echo 'Total Grade: ' . $totalGrade . '<br><br>';
+                // echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
+                // $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
+                // echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
             }
         }
         $user->specializationPanelist->evaluation_review = 1;
@@ -219,6 +236,9 @@ class PanelistController extends Controller
         $panelists = SpecializationPanelist::where('specialization_id', $user->specializationPanelist->specialization->id)->get();
         $spec = Specialization::find($user->specializationPanelist->specialization->id);
         
+        if($user->specializationPanelist->has_chosen_user) {
+            return redirect()->route('results-panel');
+        }
         if(!$user->specializationPanelist->is_done) {
             return redirect()->route('dashboard');
         }
@@ -234,14 +254,44 @@ class PanelistController extends Controller
 
     public function setAward(Request $request) {
         $validator = Validator::make($request->all(), [
-            'group.*' => 'required'
+            'groups.*' => 'required'
         ],  [
-            'group.*.required' => 'This field has no input yet.' 
+            'groups.*.required' => 'This field has no input yet.' 
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
-        dd('stop');
+        
+        $panelist = User::find(Auth::user()->id);
+        foreach($request->groups as $group => $user) {
+            echo $group . ' - ' . $user . '<br>';
+            $g = Group::find($group);
+            if(!$g->individualCandidates()->where('user_id', $user)->exists()) {
+                $g->individualCandidates()->create([
+                    'user_id' => $user,
+                ]);
+            }
+        }
+        $panelist->specializationPanelist->has_chosen_user = 1;
+        $panelist->specializationPanelist->save();
+        
+        return redirect()->route('results-panel');
+    }
+
+    public function resultsPanel() {
+        $title = 'Evaluate Capstone Groups';
+        $user = User::find(Auth::user()->id);
+        $ticap = Ticap::find($user->ticap_id);
+
+        if(!$user->specializationPanelist->has_chosen_user) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('panelist.results-panel', [
+            'title' => $title,
+            'user' => $user,
+            'ticap' => $ticap,
+        ]);
     }
 }

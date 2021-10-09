@@ -43,4 +43,7 @@ class Award extends Model
     public function individualWinners() {
         return $this->hasMany(IndividualWinner::class, 'award_id', 'id');
     }
+    public function panelistGrades() {
+        return $this->hasMany(PanelistGrade::class, 'award_id', 'id');
+    }
 }

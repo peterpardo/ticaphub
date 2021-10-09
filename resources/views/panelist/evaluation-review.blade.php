@@ -32,7 +32,7 @@
                     <tr>
                         <td class="px-2 py-2 text-lg border font-bold bg-gray-100">Total</td>
                         @foreach($user->specializationPanelist->specialization->groups as $group)
-                            <td class="px-2 py-2 text-lg border font-bold bg-gray-100">{{  $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade }}</td>
+                            <td class="px-2 py-2 text-lg border font-bold bg-gray-100">{{  $group->panelistGrades->where('award_id', $award->id)->pluck('total_grade')->first() }}</td>
                         @endforeach
                     </tr>
             </tbody>

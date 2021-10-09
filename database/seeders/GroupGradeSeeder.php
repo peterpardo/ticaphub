@@ -18,23 +18,28 @@ class GroupGradeSeeder extends Seeder
     {
         $specs = Specialization::all();
         $panelists = User::role('panelist')->get();
-        $gs = Group::all();
-        foreach($gs as $g) {
-            $g->awards()->detach();
-        }
-        // WMA
-        // BEST CAPSTONE PROJECT
-            // CYBER ACE
-            // LSMR
-            // ENVISIONER
-        // BEST GROUP PRESENTER
-            // CYBER ACE
-            // LSMR
-            // ENVISIONER    
+
         foreach($specs as $spec) {
             foreach($spec->awards as $award) {
-                foreach($spec->groups as $group) {
-                    $group->awards()->attach($award->id, ['total_grade' => rand(98, 100)]);
+                foreach($spec->panelists as $panelist) {
+                    foreach($spec->groups as $group) {
+                        $total = 0;
+                        foreach($award->awardRubric->rubric->criteria as $crit) {
+                            $grade = rand(15, $crit->percentage);
+                            $total += $grade;
+                            $group->groupGrades()->create([
+                                'criteria_id' => $crit->id,
+                                'grade' => rand(10 , $crit->percentage),
+                                'user_id' => $panelist->user->id,
+                                'award_id' => $award->id
+                            ]);
+                        }
+                        $group->panelistGrades()->create([
+                            'total_grade' => $total,
+                            'award_id' => $award->id,
+                            'user_id' => $panelist->user->id
+                        ]);
+                    }
                 }
             }
         }
@@ -42,10 +47,8 @@ class GroupGradeSeeder extends Seeder
         // PANELISTS
         foreach($panelists as $panelist) {
             $panelist->specializationPanelist->is_done = 1;
+            $panelist->specializationPanelist->evaluation_review = 1;
             $panelist->specializationPanelist->save();
         }
-
-
-        
     }
 }

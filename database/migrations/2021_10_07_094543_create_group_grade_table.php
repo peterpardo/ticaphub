@@ -17,8 +17,9 @@ class CreateGroupGradeTable extends Migration
             $table->id();
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('criteria_id')->constrained('criteria')->onDelete('cascade');
-            $table->integer('grade');
+            $table->double('grade');
             $table->foreignId('award_id')->constrained('awards')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

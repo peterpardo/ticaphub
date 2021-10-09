@@ -37,7 +37,7 @@
                                     <ul>
                                         <li>
                                             @php
-                                                $val  = old('awards.'.$award->id.'.'.$group->id.'.'.$crit->id) ?? $group->groupGrades->where('criteria_id', $crit->id)->where('award_id', $award->id)->pluck('grade')->first(); 
+                                                $val  = old('awards.'.$award->id.'.'.$group->id.'.'.$crit->id) ?? $group->groupGrades->where('criteria_id', $crit->id)->where('award_id', $award->id)->where('user_id', $user->id)->pluck('grade')->first(); 
                                             @endphp
                                             <input type="number" class="border rounded" name="awards[{{ $award->id }}][{{ $group->id }}][{{ $crit->id }}]" placeholder="input grade" value="{{ $val }}">
                                         </li>

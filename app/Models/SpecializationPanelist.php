@@ -13,7 +13,10 @@ class SpecializationPanelist extends Model
     protected $fillable = [
         'user_id',
         'specialization_id',
-        'is_done'
+        'is_done',
+        'update_evaluation',
+        'evaluation_review',
+        'has_chosen_user',
     ];
 
     public function specialization() {
