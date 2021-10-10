@@ -20,7 +20,7 @@
                     <td class="border text-md px-2 py-1">{{ $award->name }}</td>
                     <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
                     @if($winner->user != null)
-                        <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
+                        <td class="border text-md px-2 py-1">{{ $winner->user->first_name }} {{ $winner->user->middle_name }} {{ $winner->user->last_name }}</td>
                     @else
                         <td class="border text-md px-2 py-1"><span class="text-red-500">processing</span></td>
                     @endif

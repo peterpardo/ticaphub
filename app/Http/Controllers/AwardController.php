@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class AwardController extends Controller
 {
@@ -293,6 +294,7 @@ class AwardController extends Controller
 
     public function reviewResults() {
         $title = 'Project Assessment';
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         $specs = Specialization::all();
         $scripts = [
             asset('/js/awards/finalize.js')
@@ -300,14 +302,75 @@ class AwardController extends Controller
         return view('awards.review-results', [
             'title' => $title,
             'specs' => $specs,
+            'ticap' => $ticap,
             'scripts' => $scripts,
         ]);
     }
 
     public function finalizeEvaluation() {
-        $groups = Group::all();
+        $specs = Specialization::All();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $withError = 0;
+        foreach($specs as $spec){
+            // RUNS IF SOME PANELISTS HASNT CHOSEN A USER
+            // if($spec->panelists()->where('has_chosen_user', 0)->exists()) {
+            //     session()->flash('error', 'Some panelists still haven\'t chosen a winner.');
+            //     return back();
+            // }
+            // SET PANELIST TO HAS CHOSE USER (TESTING)
+            foreach($spec->panelists as $panelist) {
+                $panelist->has_chosen_user = 1;
+                $panelist->save();
+            }
+            echo '<strong>' . $spec->name . '</strong><br>';
+            foreach($spec->awards->where('type', 'individual') as $award) {
+                echo '<strong>' . $award->name . '</strong><br>';
+                foreach($award->individualWinners as $winner) {
+                    if($winner->user_id == null) {
+                        echo $winner->group->name . '<br>';
+                        $user = []; 
+                        foreach($winner->group->individualCandidates as $candidate) {
+                            array_push($user, $candidate->user->id);
+                        }
+                        // LET PANELISTS VOTE AGAIN FOR INDIVIDUAL AWARDS IF THEY DIDNT CHOOSE THE SAME USER
+                        if(count(array_unique($user)) > 1) {
+                            echo 'more than 1 user<br>';
+                            // $winner->group->individualCandidates()->delete();
+                            foreach($spec->panelists as $panelist) {
+                                $panelist->has_chosen_user = 0;
+                                $panelist->save();
+                            }
+                            $withError = 1;
+                        } else {
+                            $winner->user_id = $user[0];
+                            $winner->save();
+                            echo 'winner : ' . $user[0] . '<br>';
+                        }
+                    }
+                }
+            }
+            echo '<br>';
+        }
+        if($withError) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Some panelists picked different individual winners. Wait for panelists to choose again.');
+            return back();
+        } else {
+            $ticap->evaluation_finished = 1;
+            $ticap->save();
+            session()->flash('status', 'green');
+            session()->flash('message', 'Congratulations! Evaluation has successfully finished.');
+            return back();
+        }
+    }
 
-        // dd($group->individualCandidates);
-        dd('finalize');
+    public function generateAwards() {
+        // dd('pasok');
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.awards', $data);
+        return $pdf->download(time().'-awardees.pdf');
     }
 }

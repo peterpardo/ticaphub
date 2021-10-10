@@ -99,6 +99,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
         Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
         Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
+        Route::get('/generate-awards', [AwardController::class, 'generateAwards']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS

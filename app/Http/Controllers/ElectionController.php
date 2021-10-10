@@ -472,42 +472,44 @@ class ElectionController extends Controller
         return $pdf->download(time().'-officers.pdf');
     }
     public function test() {
-        $winners = IndividualWinner::all();
-        $specs = Specialization::all();
-
-        foreach($specs as $spec) {
-            echo '<strong>' . $spec->name . '</strong><br>';
-            foreach($spec->awards as $award) {
-                if($award->type == 'individual') {
-                    echo $award->name . '<br>';
-                    foreach($award->individualWinners as $winner) {
-                        $users = [];
-                        echo $winner->group->name . '<br>';
-                        foreach($winner->group->userGroups as $userGroup) {
-                            array_push($users, $userGroup->user->id);
-                        }
-                        for($i = 0; $i < $spec->panelists->count(); $i++) {
-                            $key = array_rand($users);
-                            echo 'panelist ' . $i+1 . ' : ' . $users[$key] . '<br>';
-                        }
-                    }
-                }
-            }
-        }
-        dd($winners);
-        foreach($winners as $winner) {
-            $users = [];
-            echo $winner->group->specialization->name . '<br>';
-            echo $winner->group->name . '<br>';
-            foreach($winner->group->userGroups as $userGroup) {
-                echo $userGroup->user->id . '<br>';
-                array_push($users, $userGroup->user->id);
-            }   
-            $key = array_rand($users);
-            $x = $winner->group->individualCandidates()->create([
-                'user_id' => $users[$key]
-            ]);
-            echo '<br>';
-        }
+        // $winners = IndividualWinner::all();
+        // $specs = Specialization::all();
+        // foreach($specs as $spec) {
+        //     echo '<strong>' . $spec->name . '</strong><br>';
+        //     foreach($spec->awards as $award) {
+        //         if($award->type == 'individual') {
+        //             echo $award->name . '<br>';
+        //             foreach($award->individualWinners as $winner) {
+        //                 $users = [];
+        //                 echo $winner->group->name . '<br>';
+        //                 foreach($winner->group->userGroups as $userGroup) {
+        //                     array_push($users, $userGroup->user->id);
+        //                 }
+        //                 for($i = 0; $i < $spec->panelists->count(); $i++) {
+        //                     $key = array_rand($users);
+        //                     $winner->group->individualCandidates()->create([
+        //                         'user_id' => $users[$key]
+        //                     ]);
+        //                     echo 'panelist ' . $i+1 . ' : ' . $users[$key] . '<br>';
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // dd($winners);
+        // foreach($winners as $winner) {
+        //     $users = [];
+        //     echo $winner->group->specialization->name . '<br>';
+        //     echo $winner->group->name . '<br>';
+        //     foreach($winner->group->userGroups as $userGroup) {
+        //         echo $userGroup->user->id . '<br>';
+        //         array_push($users, $userGroup->user->id);
+        //     }   
+        //     $key = array_rand($users);
+        //     $x = $winner->group->individualCandidates()->create([
+        //         'user_id' => $users[$key]
+        //     ]);
+        //     echo '<br>';
+        // }
     }
 }
