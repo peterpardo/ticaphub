@@ -298,7 +298,6 @@ class UserController extends Controller
                 'group_id' => $group->id,
             ]);
         };
-        dd('done');
         // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
@@ -369,7 +368,6 @@ class UserController extends Controller
             ]);
             $file = $request->file;
             $specialization = $request->specialization;
-            $school = $request->school;
              // READ FILE
             $ctr = 1;
             if (($handle = fopen($file, "r")) !== FALSE) {

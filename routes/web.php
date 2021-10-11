@@ -100,6 +100,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
         Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
         Route::get('/generate-awards', [AwardController::class, 'generateAwards']);
+        Route::get('/generate-panelists', [AwardController::class, 'generatePanelists']);
+        Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
+        Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS

@@ -5,7 +5,7 @@
         <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
         <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Proceed</a>
     </div>
-    <div class="rounded bg-gray-300 black px-2 py-2 my-1">
+    <div class="rounded bg-gray-200 black text-center py-5 my-1">
         Notice: "STUDENT CHOICE AWARD" is created by default for each specialization
     </div>
     {{-- AWARD TABLE --}}
@@ -52,8 +52,12 @@
                 <td class="px-4 py-3 text-md border">{{ $award->school->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $award->specialization->name }}</td>
                 <td class="px-4 py-3 text-md border text-center">
+                    @if($award->name == 'Best Group Presenter' || $award->name == 'Best Capstone Project' || $award->name == 'Best Project Adviser')
+                        <div class="bg-gray-100 rounded py-2 text-center">Can't be edited</div>
+                    @else
                     <button wire:click="editAward({{ $award->id }})" class="w-24 my-1 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
                     <button wire:click="openDeleteModal({{ $award->id }})" class="w-24 my-1 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                    @endif
                 </td>
             </tr>
             @endforeach

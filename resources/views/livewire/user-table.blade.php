@@ -128,11 +128,12 @@
                     <p class="text-sm text-gray-500 px-8 mb-2">Do you really want to reset all users? Resetting all the users will have the following effect:</p>
                     <ul class="list-inside list-decimal text-left text-sm text-gray-500">
                         <li><span class="font-semibold text-black">Uploaded files from the events</span> will be archived</li>
-                        <li><span class="font-semibold text-black">Uploaded files from each capston group</span> will be archived</li>
-                        <li><span class="font-semibold text-black">List of officers</span> will be generated and archived</li>
-                        <li><span class="font-semibold text-black">List of committees</span> will be generated and archived</li>
-                        <li><span class="font-semibold text-black">Created rubrics for each award</span> will be archived</li>
-                        <li><span class="font-semibold text-black">Capstone group winners</span> will be archived (including all the certificates)</li>
+                        <li><span class="font-semibold text-black">Uploaded files from each capstone group</span> will be archived</li>
+                        <li><span class="font-semibold text-black">List of officers</span> will be archived</li>
+                        <li><span class="font-semibold text-black">List of committees</span> will be archived</li>
+                        <li><span class="font-semibold text-black">List of panelists</span> will be archived</li>
+                        <li><span class="font-semibold text-black">Graded rubrics for each award</span> will be archived</li>
+                        <li><span class="font-semibold text-black">Capstone group winners</span> will be archived</li>
                     </ul>
                 </div>
                 <!--footer-->

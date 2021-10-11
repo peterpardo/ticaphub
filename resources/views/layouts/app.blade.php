@@ -13,6 +13,7 @@
         @livewireStyles
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
         {{-- <script src="{{ asset('js/myscript.js') }}" defer></script> --}}
     </head>
 

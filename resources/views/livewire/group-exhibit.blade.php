@@ -13,7 +13,7 @@
                 @if($group->groupExhibit->title)
                 <div class="border rounded px-2 py-2">{{ $group->groupExhibit->title }}</div>
                 @else
-                <div class="bg-gray-500 text-white px-2 py-1 rounded">No input displayed on exhibit</div>
+                    <div class="bg-gray-100 rounded py-4 text-center block">No Title Inserted</div>
                 @endif
                 <div class="flex justify-end">
                     <button wire:click="updateTitle" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Title</button>
@@ -32,7 +32,7 @@
                 @if($group->groupExhibit->description)
                 <div class="border rounded px-2 py-2">{{ $group->groupExhibit->description }}</div>
                 @else
-                <div class="bg-gray-500 text-white px-2 py-1 rounded">No input displayed on exhibit</div>
+                    <div class="bg-gray-100 rounded py-4 text-center block">No Description Inserted</div>
                 @endif
                 <div class="flex justify-end">
                     <button wire:click="updateDesc" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Description</button>
@@ -112,6 +112,30 @@
                 </ul>
             </div>
         </div>
+
+        <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
+            <div class="mb-2">
+                <h1 class="font-bold text-lg mb-2">Livestream Link</h1>
+                @if($updateLink)
+                    <textarea wire:model="link" class="w-full resize-none rounded"></textarea>
+                    <div class="flex justify-end">
+                        <button wire:click="closeLink" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
+                        <button wire:click="saveLink" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
+                    </div>
+                @else
+                    @if($group->groupExhibit->link)
+                        <p>{{ $group->groupExhibit->link }}</p>
+                        <div class="fb-video" data-href="{{ $group->groupExhibit->link }}" data-width="500" data-show-text="false"></div>
+                    @else
+                        <div class="bg-gray-100 rounded py-4 text-center block">No Link Inserted</div>
+                    @endif
+                    <div class="flex justify-end">
+                        <button wire:click="updateLink" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Link</button>
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
             <h1 class="font-bold text-lg mb-2">Files</h1>
             <input type="file" wire:model="uploadedFiles" class="border mb-2" id="uploadedFiles" multiple>

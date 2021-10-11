@@ -1,6 +1,7 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <div class="text-right">
+    <div class="flex justify-between">
+        <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded text-white">Download Rubrics</a>
         <button id="openModal" class="inline-block bg-green-500 hover:bg-green-600 px-2 py-1 rounded text-white">Generate Results</button>
     </div>
     @if(session('error'))

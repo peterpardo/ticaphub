@@ -21,6 +21,7 @@ class AwardController extends Controller
     public function index() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
         if(!$ticap->invitation_is_set) {
+            session()->flash('error', 'Manage settings for TICaP first');
             return redirect()->route('set-invitation');
         }
         $title = 'Project Assessment';
@@ -163,13 +164,18 @@ class AwardController extends Controller
                     }
                 }
             }
-        }
-        
-        // CHECK IF SPECIALIZATION HAS PANELISTS (MIN. OF 2)
-        foreach($specs as $spec) {
+
+            // CHECK IF SPECIALIZATION HAS PANELISTS (MIN. OF 2)
             if(!$spec->panelists()->exists() || $spec->panelists->count() < 2) {
                 session()->flash('status', 'red');
                 session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - lacks panelist/s (min. of 2)');
+                return back();
+            }
+
+            // CHECK IF EACH SPECIALIZATION HAS 2 OR MORE GROUPS
+            if($spec->groups->count() < 2) {
+                session()->flash('status', 'red');
+                session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - needs two or more capstone groups');
                 return back();
             }
         }
@@ -372,5 +378,35 @@ class AwardController extends Controller
         ];
         $pdf = PDF::loadView('reports.awards', $data);
         return $pdf->download(time().'-awardees.pdf');
+    }
+
+    public function generatePanelists() {
+        // dd('pasok');
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.panelists', $data);
+        return $pdf->download(time().'-panelists.pdf');
+    }
+
+    public function generateGradedRubrics() {
+        // dd('pasok');
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.graded-rubrics', $data);
+        return $pdf->download(time().'-graded-rubrics.pdf');
+    }
+
+    public function generateRubrics() {
+        // dd('pasok');
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.rubrics', $data);
+        return $pdf->download(time().'-rubrics.pdf');
     }
 }

@@ -81,6 +81,7 @@ class HomeController extends Controller
         // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
         if ($user->hasRole('admin')) {
             if(!$ticap->invitation_is_set){
+                session()->flash('error', 'Manage settings for TICaP first');
                 return redirect()->route('set-invitation');
             }
             if($ticap->election_review) {

@@ -20,4 +20,7 @@ $(document).ready(function() {
     Livewire.on('groupExhibitUpdated', function() {
         alert('Group Exhibit successfully updated.');
     });
+    Livewire.on('reloadPage', function() {
+        location.reload();
+    });
 });

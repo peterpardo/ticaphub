@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Group;
 use App\Models\Officer;
 use App\Models\ProgramFlow;
+use App\Models\Specialization;
 use App\Models\TaskList;
 use App\Models\Ticap;
 use App\Models\User;
@@ -97,6 +98,62 @@ class UserTable extends Component
                 }
             }
         } 
+        
+        // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 
+        $path = 'public/reports/' . Str::uuid() . '.pdf';
+        $fileName = 'rubrics';
+        $ticap->archivedRubrics()->create([
+            'name' => $fileName,
+            'path' => $path,
+        ]);
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.rubrics', $data);
+        Storage::put($path, $pdf->output());
+
+        // GENERATE AND DOCUMENT THE PDF FILE FOR GRADED RUBRICS 
+        $path = 'public/reports/' . Str::uuid() . '.pdf';
+        $fileName = 'graded-rubrics';
+        $ticap->archivedGradedRubrics()->create([
+            'name' => $fileName,
+            'path' => $path,
+        ]);
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.graded-rubrics', $data);
+        Storage::put($path, $pdf->output());
+
+        // GENERATE AND DOCUMENT THE PDF FILE FOR PANELISTS 
+        $path = 'public/reports/' . Str::uuid() . '.pdf';
+        $fileName = 'panelists';
+        $ticap->archivedPanelists()->create([
+            'name' => $fileName,
+            'path' => $path,
+        ]);
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.panelists', $data);
+        Storage::put($path, $pdf->output());
+
+        // GENERATE AND DOCUMENT THE PDF FILE FOR AWARDEES 
+        $path = 'public/reports/' . Str::uuid() . '.pdf';
+        $fileName = 'awardees';
+        $ticap->archivedAwardees()->create([
+            'name' => $fileName,
+            'path' => $path,
+        ]);
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.awards', $data);
+        Storage::put($path, $pdf->output());
         
         // GENERATE AND DOCUMENT THE PDF FILE FOR OFFICERS 
         $path = 'public/reports/' . Str::uuid() . '.pdf';

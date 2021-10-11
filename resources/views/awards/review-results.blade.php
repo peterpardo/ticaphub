@@ -5,8 +5,10 @@
             <button id="openModal" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1">Finalize Evaluation</button>
         </div>
     @else
-        <div class="text-right">
-            <a href="/generate-awards" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Generate Awardee Report</a>
+        <div class="flex justify-end">
+            <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Generate Awardee Report</a>
+            <a href="/generate-panelists" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Panelists</a>
+            <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Download Graded Rubrics</a>
         </div>
     @endif
     <h1 class="font-semibold mb-2 text-2xl text-center">Individual Award Winners</h1>

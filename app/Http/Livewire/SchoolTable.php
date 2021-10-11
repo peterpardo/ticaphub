@@ -79,6 +79,13 @@ class SchoolTable extends Component
                 'school_id' => $spec->school->id,
                 'ticap_id' => $ticap->id,
             ]);
+            // BEST PROJECT ADVISER
+            $spec->awards()->create([
+                'name' => 'Best Project Adviser',
+                'type' => 'individual',
+                'school_id' => $spec->school->id,
+                'ticap_id' => $ticap->id,
+            ]);
         }
 
         // SET INVITATION

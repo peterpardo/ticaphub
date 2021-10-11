@@ -50,6 +50,7 @@
                     </tr>
                 </table>
             @endif
+
             <h1 class="font-semibold text-2xl my-2">Capstone Groups</h1>
             @if($ticap->archivedGroups()->count() == 0)
                 <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
@@ -69,6 +70,87 @@
                     </tr>
                 </table>
             @endif
+
+            <h1 class="font-semibold text-2xl my-2">Awardees</h1>
+            @if($ticap->archivedAwardees()->count() == 0)
+                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="border px-3 py-2 font-semibold">File Name</td>
+                            <td class="border px-3 py-2 font-semibold">Actions</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedAwardees->name }}.pdf</td>
+                        <td class="border px-3 py-2">
+                            <a href="{{ Storage::url($ticap->archivedAwardees->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
+                        </td>
+                    </tr>
+                </table>
+            @endif
+
+            <h1 class="font-semibold text-2xl my-2">Rubrics</h1>
+            @if($ticap->archivedRubrics()->count() == 0)
+                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="border px-3 py-2 font-semibold">File Name</td>
+                            <td class="border px-3 py-2 font-semibold">Actions</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedRubrics->name }}.pdf</td>
+                        <td class="border px-3 py-2">
+                            <a href="{{ Storage::url($ticap->archivedRubrics->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
+                        </td>
+                    </tr>
+                </table>
+            @endif
+
+            <h1 class="font-semibold text-2xl my-2">Panelists</h1>
+            @if($ticap->archivedPanelists()->count() == 0)
+                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="border px-3 py-2 font-semibold">File Name</td>
+                            <td class="border px-3 py-2 font-semibold">Actions</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedPanelists->name }}.pdf</td>
+                        <td class="border px-3 py-2">
+                            <a href="{{ Storage::url($ticap->archivedPanelists->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
+                        </td>
+                    </tr>
+                </table>
+            @endif
+
+            <h1 class="font-semibold text-2xl my-2">Graded Rubrics</h1>
+            @if($ticap->archivedGradedRubrics()->count() == 0)
+                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <td class="border px-3 py-2 font-semibold">File Name</td>
+                            <td class="border px-3 py-2 font-semibold">Actions</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedGradedRubrics->name }}.pdf</td>
+                        <td class="border px-3 py-2">
+                            <a href="{{ Storage::url($ticap->archivedGradedRubrics->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
+                        </td>
+                    </tr>
+                </table>
+            @endif
+
             <h1 class="font-semibold text-2xl my-2">Capstone Group Files</h1>
             @foreach($ticap->archivedExhibits as $exhibit)
                 <div>{{ $exhibit->name }}</div>

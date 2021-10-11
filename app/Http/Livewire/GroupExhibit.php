@@ -17,6 +17,9 @@ class GroupExhibit extends Component
     public $title;
     public $updateDesc  = false;
     public $desc;
+    public $updateLink  = false;
+    public $currentLink;
+    public $link;
     public $updateBanner  = false;
     public $currentBanner;
     public $banner;
@@ -35,6 +38,7 @@ class GroupExhibit extends Component
     public function mount() {
         $this->currentBanner = $this->group->groupExhibit->banner_path;
         $this->currentVideo = $this->group->groupExhibit->video_path;
+        $this->currentLink = $this->group->groupExhibit->link;
     }
     public function render() {
         $files = GroupFile::where('group_id', $this->group->id)->orderBy('created_at', 'desc')->get();
@@ -182,5 +186,22 @@ class GroupExhibit extends Component
         unlink(storage_path('app/public/' . $file->path));
         $file->delete();
         session()->flash('fileMsg', 'File successfully deleted');
+    }
+
+    public function closeLink() {
+        $this->updateLink = false;
+    }
+    public function saveLink() {
+        $this->group->groupExhibit->link = $this->link;
+        $this->group->groupExhibit->save();
+        $this->emit('groupExhibitUpdated');
+        $this->updateLink = false;
+        $this->emit('reloadPage');
+    }
+    public function updateLink() {
+        if($this->group->groupExhibit()->exists()) {
+            $this->link = $this->group->groupExhibit->link;
+        }
+        $this->updateLink = true;
     }
 }

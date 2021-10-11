@@ -55,4 +55,16 @@ class Ticap extends Model
     public function archivedCommittees() {
         return $this->hasOne(TicapCommittee::class, 'ticap_id', 'id');
     }
+    public function archivedAwardees() {
+        return $this->hasOne(TicapAwardee::class, 'ticap_id', 'id');
+    }
+    public function archivedPanelists() {
+        return $this->hasOne(TicapPanelist::class, 'ticap_id', 'id');
+    }
+    public function archivedGradedRubrics() {
+        return $this->hasOne(TicapGradedRubric::class, 'ticap_id', 'id');
+    }
+    public function archivedRubrics() {
+        return $this->hasOne(TicapRubric::class, 'ticap_id', 'id');
+    }
 }

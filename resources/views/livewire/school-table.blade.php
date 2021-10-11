@@ -1,4 +1,8 @@
 <div>
+    {{-- FLASH MESSAGE --}}
+    @if(session('error'))
+        <div class="bg-red-200 text-center rounded py-5">{{ session('error') }}</div>
+    @endif
     {{-- SCHOOLS --}}
     <div class="flex justify-between my-5">
         <h1 class="font-bold text-2xl">Schools</h1>
