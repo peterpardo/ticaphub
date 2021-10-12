@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
@@ -12,8 +11,10 @@ use App\Models\UserSpecialization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EventController extends Controller
 {
@@ -28,6 +29,13 @@ class EventController extends Controller
             'scripts' => $scripts,
             'events' => $events,
         ]);
+    }
+
+    public function downloadCode($eventId) {
+        // $path = public_path('assets/qrcode.svg');
+        $url = url('/studentLogin/'. $eventId);
+        QrCode::generate($url, public_path('assets/qrcode.svg'));
+        return response()->download(public_path('assets/qrcode.svg'));
     }
 
     public function addEvent(Request $request) {

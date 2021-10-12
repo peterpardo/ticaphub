@@ -20,7 +20,7 @@
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
         <table class="table-fixed w-full mb-3">
             <thead>
-                <tr>
+                <tr class="text-gray-800">
                     <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
                     <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
                     <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
@@ -51,7 +51,7 @@
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
         <table class="table-fixed w-full mb-3">
             <thead>
-                <tr>
+                <tr class="text-gray-800">
                     <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
                     <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
                 </tr>
@@ -75,7 +75,7 @@
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
         <table class="table-fixed w-full mb-3">
             <thead>
-                <tr>
+                <tr class="text-gray-800">
                     <td class="border bg-gray-100 text-lg px-2 py-1">Specialization</td>
                     <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
                 </tr>

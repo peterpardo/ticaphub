@@ -2,7 +2,7 @@
 	<section class="">
 	  <div class="sliderAx h-auto">
 		  <div id="slider-1" class="">
-			<div class="bg-contain bg-center h-full text-white py-24 px-10 w-full object-scale-down" style="background-image: url({{ asset('assets/slider1.png') }})">
+			<div class="bg-cover bg-center h-full text-white py-24 px-10 w-full object-scale-down" style="background-image: url({{ asset('assets/slider1.png') }})">
 			<div class="">
 			<p class="font-bold text-sm uppercase">TICAP 9.0</p>
 			<p class="text-3xl font-bold">MEET THE SPEAKERS</p>
@@ -14,7 +14,7 @@
 		  </div>
 	
 		  <div id="slider-2" class="">
-			<div class="bg-contain bg-center h-full text-white py-24 px-10 w-full object-scale-down" style="background-image: url({{ asset('assets/slider2.png') }})">
+			<div class="bg-cover bg-center h-full text-white py-24 px-10 w-full object-scale-down" style="background-image: url({{ asset('assets/slider2.png') }})">
 			<div class="">
 				<p class="font-bold text-sm uppercase">Ipsum</p>
 				<p class="text-3xl font-bold">Hello Lorem</p>

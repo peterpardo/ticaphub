@@ -13,8 +13,6 @@ use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use PDF;
 
 class AwardController extends Controller
@@ -432,12 +430,12 @@ class AwardController extends Controller
     }
 
     public function generateCertificates() {
-        dd('generate certificates');
-        // $data = [
-        //     'specs' => Specialization::all(),
-        //     'ticap' => Ticap::find(Auth::user()->ticap_id)
-        // ];
-        // $pdf = PDF::loadView('reports.rubrics', $data);
-        // return $pdf->download(time().'-rubrics.pdf');
+        // dd('generate certificates');
+        $data = [
+            'specs' => Specialization::all(),
+            'ticap' => Ticap::find(Auth::user()->ticap_id)
+        ];
+        $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
+        return $pdf->download(time().'-certificates.pdf');
     }
 }

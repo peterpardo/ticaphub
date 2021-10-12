@@ -27,6 +27,7 @@
                     <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Event</th>
                         <th class="px-4 py-3">Created At</th>
+                        <th class="px-4 py-3">QR Code</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
                 </thead>
@@ -36,6 +37,11 @@
                         <td class="px-4 py-3 border">{{ $event->name }}</td>
                         <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
                         <td class="px-4 py-3 border">
+                            {{-- {{ QrCode::format('png')->generate(url('/studentLogin/'. $event->id), public_path('assets/qrcode.png')) }} --}}
+                            {{ QrCode::generate(url('/studentLogin/'. $event->id)) }}
+                        </td>
+                        <td class="px-4 py-3 border">
+                            <a href="/download-qr-code/{{ $event->id }}" class="bg-green-500 hover:bg-green-600 rounded inline-block text-white px-2 py-1">Download QR Code</a>
                             <a href="/events/{{ $event->id }}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
                             @can('delete event')
                                 @if($event->name != 'Awardings' && $event->name != 'Project Exhibit')

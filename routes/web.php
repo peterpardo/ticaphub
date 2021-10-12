@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Auth;
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/test', [ElectionController::class, 'test']);
-Route::get('/studentLogin', function () { return view('studentLogin'); })->name('studentLogin');
+Route::get('/studentLogin/{eventId}', function () { return view('studentLogin'); })->name('studentLogin');
 Route::get('/schools', function () { 
     $schools = School::where('is_involved', 1)->get();
     return view('schools', ['schools' => $schools]);
@@ -150,6 +150,7 @@ Route::middleware(['auth'])->group(function(){
         // EVENTS AND LISTS/TASKS
         Route::middleware(['officer'])->group(function(){
             Route::get('/events', [EventController::class, 'index'])->name('events');
+            Route::get('/download-qr-code', [EventController::class, 'downloadCode']);
             Route::post('/events/add-event', [EventController::class, 'addEvent']);
             Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
             Route::get('/events/{eventId}/program-flow', [EventController::class, 'programFlow']);
