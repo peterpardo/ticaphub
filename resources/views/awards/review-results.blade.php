@@ -5,10 +5,11 @@
             <button id="openModal" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1">Finalize Evaluation</button>
         </div>
     @else
-        <div class="flex justify-end">
+        <div class="flex justify-end my-2">
             <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Generate Awardee Report</a>
             <a href="/generate-panelists" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Panelists</a>
-            <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Download Graded Rubrics</a>
+            <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Graded Rubrics</a>
+            <a href="/generate-certificates" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Generate Certificates</a>
         </div>
     @endif
     <h1 class="font-semibold mb-2 text-2xl text-center">Individual Award Winners</h1>
@@ -17,55 +18,55 @@
     @endif
     @foreach($specs as $spec)
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
-        @foreach ($spec->awards->where('type', 'individual') as $award)
-            <table class="table-fixed w-full mb-3">
-                <thead>
-                    <tr>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table-fixed w-full mb-3">
+            <thead>
+                <tr>
+                    <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
+                    <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
+                    <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($spec->awards->where('type', 'individual') as $award)
                     @foreach($award->individualWinners as $winner)
                     <tr>
                         <td class="border text-md px-2 py-1">{{ $award->name }}</td>
                         <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                        @if($spec->panelists()->where('has_chosen_user', 0)->exists())
+                        @if(($winner->name != null && $ticap->evaluation_finished) || $award->name == 'Best Project Adviser')
+                            <td class="border text-md px-2 py-1">{{ $winner->name }}</td>
+                        @elseif($spec->panelists()->where('has_chosen_user', 0)->exists())
                             <td class="border text-md px-2 py-1"><span class="text-red-500">panelists still choosing</span></td>
-                        @elseif($winner->user_id != null && $ticap->evaluation_finished)
-                            <td class="border text-md px-2 py-1">{{ $winner->user->first_name }} {{ $winner->user->middle_name }} {{ $winner->user->last_name }}</td>
                         @else
                             <td class="border text-md px-2 py-1"><span class="text-green-500">done choosing</span></td>
                         @endif
                     </tr>
                     @endforeach
-                </tbody>
-            </table>
-        @endforeach
+                @endforeach
+            </tbody>
+        </table>
     @endforeach
 
     <h1 class="text-center font-semibold text-2xl mb-2">Group Award Winners</h1>
     @foreach($specs as $spec)
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
-        @foreach ($spec->awards->where('type', 'group') as $award)
-            <table class="table-fixed w-full mb-3">
-                <thead>
-                    <tr>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table-fixed w-full mb-3">
+            <thead>
+                <tr>
+                    <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
+                    <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($spec->awards->where('type', 'group') as $award)
                     @foreach($award->groupWinners as $winner)
                     <tr>
                         <td class="border text-md px-2 py-1">{{ $award->name }}</td>
                         <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
                     </tr>
                     @endforeach
-                </tbody>
-            </table>
-        @endforeach
+                @endforeach
+            </tbody>
+        </table>
     @endforeach
 
     

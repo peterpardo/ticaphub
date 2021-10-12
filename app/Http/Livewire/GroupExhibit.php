@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Group;
 use App\Models\GroupFile;
+use App\Models\Ticap;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -17,8 +19,9 @@ class GroupExhibit extends Component
     public $title;
     public $updateDesc  = false;
     public $desc;
+    public $updateAdviser  = false;
+    public $adviser;
     public $updateLink  = false;
-    public $currentLink;
     public $link;
     public $updateBanner  = false;
     public $currentBanner;
@@ -42,8 +45,10 @@ class GroupExhibit extends Component
     }
     public function render() {
         $files = GroupFile::where('group_id', $this->group->id)->orderBy('created_at', 'desc')->get();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         return view('livewire.group-exhibit', [
-            'files' => $files
+            'files' => $files,
+            'ticap' => $ticap
         ]);
     }
     public function saveVideo() {
@@ -203,5 +208,21 @@ class GroupExhibit extends Component
             $this->link = $this->group->groupExhibit->link;
         }
         $this->updateLink = true;
+    }
+
+    public function closeAdviser() {
+        $this->updateAdviser = false;
+    }
+    public function saveAdviser() {
+        $this->group->adviser = $this->adviser;
+        $this->group->save();
+        $this->emit('groupExhibitUpdated');
+        $this->updateAdviser = false;
+    }
+    public function updateAdviser() {
+        if($this->group->adviser) {
+            $this->adviser = $this->group->adviser;
+        }
+        $this->updateAdviser = true;
     }
 }

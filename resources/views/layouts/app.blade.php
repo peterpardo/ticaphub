@@ -319,7 +319,7 @@
                 <span class="inline-flex justify-center items-center ml-4">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                 </span>
-                <span class="ml-2 text-sm tracking-wide truncate">{{ Auth::user()->userGroup->group->name . ' Exibit' }}</span>
+                <span class="ml-2 text-sm tracking-wide truncate">{{ Auth::user()->userGroup->group->name . ' Exhibit' }}</span>
               </a>
             </li>
             @endcan

@@ -1,6 +1,6 @@
 <div>
     <div class="w-1/2 mx-auto">
-        {{ <h1  }}class="text-center text-3xl font-semibold">Import Students</h1>
+         <h1 class="text-center text-3xl font-semibold">Import Students</h1>
         <form 
             action="{{ route('import-users') }}"
             method="POST"
@@ -41,7 +41,7 @@
                 <label for="file" class="block">Upload File</label>
                 <input type="file" name="file" id="file" class="border-2 border-black rounded mb-2" required/>
                 @error('file')
-                <div class="text-red-500"></div>
+                <div class="text-red-500">{{ $message }}</div>
                 @enderror
             </div>
             <div class="text-xs text-center">

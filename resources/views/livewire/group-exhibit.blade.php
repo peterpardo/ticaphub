@@ -103,6 +103,27 @@
                     <li class="my-1">{{ $group->specialization->name }}</li>
                 </ul>
             </div>
+            <div>
+                <h1 class="font-bold text-lg mb-2">Project Adviser</h1>
+                @if($updateAdviser)
+                    <input type="text" wire:model="adviser" class="rounded w-full block">
+                    <div class="flex justify-end">
+                        <button wire:click="closeAdviser" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
+                        <button wire:click="saveAdviser" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
+                    </div>
+                @else
+                    @if($group->adviser)
+                    <div class="border rounded px-2 py-2">{{ $group->adviser }}</div>
+                    @else
+                        <div class="bg-gray-100 rounded py-4 text-center block">No Adviser Set</div>
+                    @endif
+                    @if(!$ticap->awards_is_set)
+                        <div class="flex justify-end">
+                            <button wire:click="updateAdviser" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Adviser</button>
+                        </div>
+                    @endif
+                @endif
+            </div>
             <div class="mb-2">
                 <h1 class="font-bold text-lg">Members</h1>
                 <ul>

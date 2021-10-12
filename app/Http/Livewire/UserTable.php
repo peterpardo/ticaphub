@@ -219,6 +219,7 @@ class UserTable extends Component
         
         // DELETE REGISTER_USERS TABLE
         DB::table('register_users')->truncate();
+        
         // DELETE ALL ADDED EVENTS
         Event::where('id', '!=', 1)
         ->where('id', '!=', 2)

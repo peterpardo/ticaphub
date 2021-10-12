@@ -4,9 +4,11 @@
         <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded text-white">Download Rubrics</a>
         <button id="openModal" class="inline-block bg-green-500 hover:bg-green-600 px-2 py-1 rounded text-white">Generate Results</button>
     </div>
+
     @if(session('error'))
-    <div class="bg-red-500 py-3 text-center text-white rounded my-1">{{ session('error') }}</div>
+        <div class="bg-red-500 py-3 text-center text-white rounded my-1">{{ session('error') }}</div>
     @endif
+    
     <h1 class="font-bold text-xl my-3 text-center">List of Panelists</h1>
     <table class="w-full mb-3">
         <thead>

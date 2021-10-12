@@ -58,13 +58,6 @@ class SchoolTable extends Component
         
         // CREATE DEFUALT AWARDS
         foreach(Specialization::all() as $spec) {
-            // STUDENT CHOICE AWARD
-            // if(!$spec->studentChoiceAward()->exists()) {
-            //     $spec->studentChoiceAward()->create([
-            //         'name' => 'Student Choice Award',
-            //         'ticap_id' => $ticap->id
-            //     ]);
-            // }
             // BEST CAPSTONE PROJECT AWARD
             $spec->awards()->create([
                 'name' => 'Best Capstone Project',
@@ -78,14 +71,7 @@ class SchoolTable extends Component
                 'type' => 'individual',
                 'school_id' => $spec->school->id,
                 'ticap_id' => $ticap->id,
-            ]);
-            // BEST PROJECT ADVISER
-            $spec->awards()->create([
-                'name' => 'Best Project Adviser',
-                'type' => 'individual',
-                'school_id' => $spec->school->id,
-                'ticap_id' => $ticap->id,
-            ]);
+            ]); 
         }
 
         // SET INVITATION

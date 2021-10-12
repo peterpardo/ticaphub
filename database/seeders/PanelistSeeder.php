@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Group;
 use App\Models\Specialization;
 use App\Models\SpecializationPanelist;
 use App\Models\User;
@@ -36,6 +37,12 @@ class PanelistSeeder extends Seeder
                 ]);
                 $count = 1;
             }    
+        }
+
+        $groups = Group::all();
+        foreach($groups as $group) {
+            $group->adviser = Str::random(5) . ' ' . Str::random(5);
+            $group->save();
         }
     }
 }

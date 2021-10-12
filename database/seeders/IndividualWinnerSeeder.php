@@ -22,18 +22,20 @@ class IndividualWinnerSeeder extends Seeder
                 $panelist->has_chosen_user = 1;
                 $panelist->save();
             }
-            foreach($spec->awards as $award) {
+            foreach($spec->awards->where('name', '!=', 'Best Project Adviser') as $award) {
                 if($award->type == 'individual') {
                     foreach($award->individualWinners as $winner) {
-                        $users = [];
-                        foreach($winner->group->userGroups as $userGroup) {
-                            array_push($users, $userGroup->user->id);
-                        }
-                        for($i = 0; $i < $spec->panelists->count(); $i++) {
-                            $key = array_rand($users);
-                            $winner->group->individualCandidates()->create([
-                                'user_id' => $users[$key]
-                            ]);
+                        if($winner->name == null) {
+                            $users = [];
+                            foreach($winner->group->userGroups as $userGroup) {
+                                array_push($users, $userGroup->user->id);
+                            }
+                            for($i = 0; $i < $spec->panelists->count(); $i++) {
+                                $key = array_rand($users);
+                                $winner->group->individualCandidates()->create([
+                                    'user_id' => $users[$key]
+                                ]);
+                            }
                         }
                     }
                 }

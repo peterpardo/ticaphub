@@ -34,7 +34,7 @@
         <h1 class="font-semibold mb-2 text-lg text-center">Set Individual Award Winners</h1>
         <form action="{{ route('set-individual-awards') }}" method="post">
         @csrf
-        @foreach ($spec->awards->where('type', 'individual') as $award)
+        @foreach ($spec->awards->where('type', 'individual')->where('name', '!=', 'Best Project Adviser') as $award)
             <table class="table-fixed w-full mb-3">
                 <thead>
                     <tr>

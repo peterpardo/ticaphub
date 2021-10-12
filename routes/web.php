@@ -103,6 +103,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/generate-panelists', [AwardController::class, 'generatePanelists']);
         Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
         Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
+        Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
             // USER ACCOUNTS

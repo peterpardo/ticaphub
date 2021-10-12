@@ -69,4 +69,32 @@
         </table>
     </div>
 
+    {{-- GROUP PROJECT ADVISERS --}}
+    <h1 class="mb-2 text-center font-semibold text-xl">Group Project Advisers</h1>
+    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <table class="w-full table-fixed">
+            <thead>
+                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <th class="px-4 py-3">Specializations</th>
+                    <th class="px-4 py-3">Group</th>
+                    <th class="px-4 py-3">Project Adviser</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+            @foreach($specs as $spec)
+                @foreach($spec->groups as $group)
+                    <tr class="text-gray-700">
+                        <td class="px-4 py-3 text-md font-bold border">{{ $spec->name . ' (' . $spec->school->name . ')'}}</td>
+                        <td class="px-4 py-3 text-md border">{{ $group->name }}</td>
+                        @if($group->adviser)
+                            <td class="px-4 py-3 text-md border"><span class="font-bold">{{ $group->adviser }}</span></td>
+                        @else
+                            <td class="px-4 py-3 text-md border"><span class="text-red-500">not yet set</span></td>
+                        @endif
+                    </tr>
+                @endforeach
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </x-app-layout>
