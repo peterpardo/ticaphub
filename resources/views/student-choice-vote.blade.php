@@ -1,4 +1,3 @@
-{{-- <x-guest-layout> --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -25,16 +24,14 @@
             </a>
         </nav>
         
-        @livewire('attendance-form', ['eventId' => $event->id])
+        @livewire('student-choice-vote-form', ['groupId' => $groupId])
         @livewireScripts
 
         {{-- SCRIPTS --}}
         <script>
-            Livewire.on('confirmAttendance', () => {
-                alert('Attendance successfully submitted');
+            Livewire.on('confirmVote', () => {
+                alert('Vote successfully submitted');
             });
         </script>
     </body>
 </html>
-
-{{-- </x-guest-layout> --}}

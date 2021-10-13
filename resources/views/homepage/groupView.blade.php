@@ -10,8 +10,18 @@
             <div class="text-center">
               <h1 class="text-base font-bold text-gray-800 uppercase dark:text-white">{{ $group->name }}</h1>
               <div class="text-center">
+                @php
+                  $admin = \App\Models\User::find(1);
+                  $showExhibit = false;
+                  if($admin->ticap_id) {
+                    $ticap = \App\Models\Ticap::find($admin->ticap_id);
+                    $showExhibit = $ticap->evaluation_finished;
+                  }
+                @endphp
                 <a href="/group/{{ $group->id }}" class="inline-block rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">View</a>
-                <a href="#" class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Vote</a>
+                @if(!$showExhibit)
+                  <a href="/student-choice-award/{{ $group->id }}" class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Vote</a>
+                @endif
               </div>
             </div>
           </div>

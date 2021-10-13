@@ -37,7 +37,6 @@
 }
 
 h1 {
-
     font-weight: 400;
     font-size: 48px;
     color: green;
@@ -73,6 +72,57 @@ h1 {
 
 </head>
 <body>
+    <div class="certificate-container">
+        <div class="certificate">
+            <div class="water-mark-overlay"></div>
+            <div class="certificate-header">
+            </div>
+            <div class="certificate-body">
+               
+                <p class="certificate-title"><strong>FEU TECH (Technology Innovation in Capstone Project)</strong></p>
+                <h1>Certificate of Canton</h1>
+                <div class="about-certificate">
+                    <p>
+                        This certificate is presented to
+                    </p>
+                </div>
+                <p class="student-name">Miguel Bryan Briola Pajarillo</p>
+                <div class="certificate-content">
+                  
+                    <p class="topic-title">
+                        Top performer of the eating contest of Pancit Canton
+                    </p>
+                    <div class="text-center">
+                        <p class="topic-description text-muted">Awarded this 69th Day of August via Zoom video conference</p>
+                    </div>
+                </div>
+                <div class="certificate-footer text-muted">
+                    <div class="">
+                        <div class="">
+                            <p>Director: Alena Gumamela Golpeo</p>
+                        </div>
+                        <div class="">
+                            <div class="">
+                                <div class="">
+                                    <p>
+                                        Head by:<br>
+                                        John Carl Arriesgado
+                                    </p>
+                                </div>
+                                <div class="">
+                                    <p>
+                                        Adviser by:<br>
+                                        Peter Raymond Pardo
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="certificate-container">
         <div class="certificate">
             <div class="water-mark-overlay"></div>

@@ -40,4 +40,7 @@ class Specialization extends Model
     public function panelists() {
         return $this->hasMany(SpecializationPanelist::class, 'specialization_id', 'id');
     }
+    public function attendance() {
+        return $this->hasMany(Attendance::class, 'specialization_id', 'id');
+    } 
 }

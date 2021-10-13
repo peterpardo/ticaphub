@@ -59,7 +59,17 @@
 {{-- https://dummyimage.com/600x360 --}}
 
 <div class="text-center my-3">
-  <button type="submit" class="md:w-32 bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300">Vote</button>
+  @php
+    $admin = \App\Models\User::find(1);
+    $showExhibit = false;
+    if($admin->ticap_id) {
+      $ticap = \App\Models\Ticap::find($admin->ticap_id);
+      $showExhibit = $ticap->evaluation_finished;
+    }
+  @endphp
+  @if(!$showExhibit)
+    <a href="/student-choice-award/{{ $group->id }}" class="md:w-32 bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300">Vote</a>
+  @endif
 </div>
 </section>
 

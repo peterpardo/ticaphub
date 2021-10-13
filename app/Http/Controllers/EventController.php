@@ -32,8 +32,7 @@ class EventController extends Controller
     }
 
     public function downloadCode($eventId) {
-        // $path = public_path('assets/qrcode.svg');
-        $url = url('/studentLogin/'. $eventId);
+        $url = url('/attendance/'. $eventId);
         QrCode::generate($url, public_path('assets/qrcode.svg'));
         return response()->download(public_path('assets/qrcode.svg'));
     }
@@ -433,19 +432,11 @@ class EventController extends Controller
         ]);
     }
 
-    // public function deleteOfficerFromTask(Request $request, $taskId) {
-    //     Task::find($taskId)->users()->where('user_id', $request->officer)->delete();
-    //     return response()->json([
-    //         'status' => 200,
-    //         'message' => 'Officer Successfully Removed'
-    //     ]);
-    // }
+    public function attendance($eventId) {
+        $event = Event::find($eventId);
 
-    // public function addOfficerToTask(Request $request, $taskId) {
-    //     Task::find($taskId)->users()->attach($request->officer);
-    //     return response()->json([
-    //         'status' => 200,
-    //         'message' => 'Officer Successfully Added'
-    //     ]);
-    // }
+        return view('studentLogin', [
+            'event' => $event,
+        ]);
+    }
 }

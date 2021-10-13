@@ -19,6 +19,7 @@ use App\Models\Officer;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -35,8 +36,11 @@ use Illuminate\Support\Facades\Auth;
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/test', [ElectionController::class, 'test']);
-Route::get('/studentLogin/{eventId}', function () { return view('studentLogin'); })->name('studentLogin');
 Route::get('/schools', function () { 
+    $admin = User::find(1);
+    if($admin->ticap_id == null) {
+        return redirect('/');
+    }
     $schools = School::where('is_involved', 1)->get();
     return view('schools', ['schools' => $schools]);
 })->name('schools');
@@ -52,6 +56,11 @@ Route::get('/group/{groupId}', function ($groupId) {
     $group = Group::find($groupId);
     return view('homepage.viewSpecialization', ['group' => $group]); 
 });
+
+// ATTENDANCE FOR GUESTS
+Route::get('/attendance/{eventId}', [EventController::class, 'attendance']);
+// STUDENT CHOICE AWARD VOTE FORM
+Route::get('/student-choice-award/{groupId}', [AwardController::class, 'studentChoiceVote']);
 // PASSWORD RESET FOR FIRST LOGIN
 Route::middleware(['guest'])->group(function(){
     Route::get('/users/set-password', [UserController::class, 'setPasswordForm'])->name('set-password');

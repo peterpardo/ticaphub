@@ -57,11 +57,22 @@ body {
             class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
             <span>Home</span>
           </a>
-          <a
-          href="{{ route ('schools') }}"
-            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
-            <span>Project Exhibit</span>
-          </a>
+          {{-- CHECK IF TICAP EXISTS --}}
+          @php
+              $admin = \App\Models\User::find(1);
+              $showExhibit = false;
+              if($admin->ticap_id) {
+                $ticap = \App\Models\Ticap::find($admin->ticap_id);
+                $showExhibit = $ticap->awards_is_set;
+              }
+          @endphp
+          @if($showExhibit)
+            <a
+            href="{{ route ('schools') }}"
+              class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
+              <span>Project Exhibit</span>
+            </a>
+          @endif
           <a
           href=""
           class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">

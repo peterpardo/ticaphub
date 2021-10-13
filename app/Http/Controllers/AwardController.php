@@ -393,6 +393,12 @@ class AwardController extends Controller
         }
     }
 
+    public function studentChoiceVote($groupId) {
+        return view('student-choice-vote', [
+            'groupId' => $groupId
+        ]);
+    }
+
     public function generateAwards() {
         $data = [
             'specs' => Specialization::all(),
