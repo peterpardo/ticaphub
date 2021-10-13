@@ -15,8 +15,8 @@ class CreateGroupExhibitTable extends Migration
     {
         Schema::create('group_exhibit', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->default('Project Title');
-            $table->text('description')->default('Project Description');
+            $table->string('title')->nullable()->default('Project Title');
+            $table->text('description')->nullable()->default('Project Description');
             $table->string('banner_name')->nullable();
             $table->string('banner_path')->nullable();
             $table->string('video_name')->nullable();
