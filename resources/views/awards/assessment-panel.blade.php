@@ -5,8 +5,8 @@
         <button id="openModal" class="inline-block bg-green-500 hover:bg-green-600 px-2 py-1 rounded text-white">Generate Results</button>
     </div>
 
-    @if(session('error'))
-        <div class="bg-red-500 py-3 text-center text-white rounded my-1">{{ session('error') }}</div>
+    @if(session('status'))
+        <div class="bg-{{ session('status') }}-500 py-3 text-center text-white rounded my-1">{{ session('message') }}</div>
     @endif
     
     <h1 class="font-bold text-xl my-3 text-center">List of Panelists</h1>

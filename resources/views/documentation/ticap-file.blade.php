@@ -152,20 +152,25 @@
             @endif
 
             <h1 class="font-semibold text-2xl my-2">Capstone Group Files</h1>
-            @foreach($ticap->archivedExhibits as $exhibit)
-                <div>{{ $exhibit->name }}</div>
-                @if($exhibit->files()->count() == 0)
-                    <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-                @else
-                <ul class="list-inside list-disc">
-                    @foreach ($exhibit->files as $file)
-                    <li>
-                        <a href="{{ Storage::url($file->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
-                    </li>
-                    @endforeach
-                </ul>
-                @endif
-            @endforeach
+            @if($ticap->archivedExhibits->count() == 0) 
+                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+            @else
+                @foreach($ticap->archivedExhibits as $exhibit)
+                    @if($exhibit->files()->count() == 0)
+                        <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+                    @else
+                    <div>{{ $exhibit->name }}</div>
+                    <ul class="list-inside list-disc">
+                        @foreach ($exhibit->files as $file)
+                        <li>
+                            <a href="{{ Storage::url($file->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
+                @endforeach
+            @endif
+           
         </div>
     </div>
 </x-app-layout>

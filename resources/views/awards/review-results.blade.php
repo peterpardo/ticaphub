@@ -8,7 +8,7 @@
         <div class="flex justify-end my-2">
             <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Generate Awardee Report</a>
             <a href="/generate-panelists" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Panelists</a>
-            <a href="/generate-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Graded Rubrics</a>
+            <a href="/generate-graded-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Graded Rubrics</a>
             <a href="/generate-certificates" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Generate Certificates</a>
         </div>
     @endif

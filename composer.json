@@ -17,6 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.18",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "spatie/laravel-google-calendar": "^3.4",
         "spatie/laravel-permission": "^4.4"
     },
     "require-dev": {

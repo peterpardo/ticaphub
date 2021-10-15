@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             TicapSeeder::class,
             EventSeeder::class,
-            GroupSeeder::class,
+            // GroupSeeder::class,
             UserSeeder::class,
             // RubricSeeder::class,
             // StudentSeeder::class,

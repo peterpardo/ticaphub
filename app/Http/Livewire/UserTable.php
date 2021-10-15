@@ -68,134 +68,156 @@ class UserTable extends Component
             }
         }
 
-        // ARCHIVE CAPSTONE GROUP FILES
-        foreach($ticap->groups as $group) {
-            // ARCHIVE GROUP NAME
-            $archivedExhibit = $ticap->archivedExhibits()->create([
-                'name' => $group->name
-            ]);
-            // ARCHIVE GROUP BANNER
-            if($group->groupExhibit->banner_name != null && $group->groupExhibit->banner_path != null) {
-                $archivedExhibit->files()->create([
-                    'name' => $group->groupExhibit->banner_name,
-                    'path' => $group->groupExhibit->banner_path,
+        // ARCHIVE CAPSTONE GROUP FILES IF GROUPS EXISTS
+        if($ticap->groups->count() != 0) {
+            foreach($ticap->groups as $group) {
+                // ARCHIVE GROUP NAME
+                $archivedExhibit = $ticap->archivedExhibits()->create([
+                    'name' => $group->name
                 ]);
-            }
-            if($group->groupExhibit->video_name != null && $group->groupExhibit->video_path != null) {
-                // ARCHIVE GROUP VIDEO
-                $archivedExhibit->files()->create([
-                    'name' => $group->groupExhibit->video_name,
-                    'path' => $group->groupExhibit->video_path,
-                ]);
-            }
-            // ARCHIVE OTHER GROUP FILES
-            if($group->files()->count() > 0) {
-                foreach($group->files as $file) {
+                // ARCHIVE GROUP BANNER
+                if($group->groupExhibit->banner_name != null && $group->groupExhibit->banner_path != null) {
                     $archivedExhibit->files()->create([
-                        'name' => $file->name,
-                        'path' => $file->path,
+                        'name' => $group->groupExhibit->banner_name,
+                        'path' => $group->groupExhibit->banner_path,
                     ]);
                 }
-            }
-        } 
+                if($group->groupExhibit->video_name != null && $group->groupExhibit->video_path != null) {
+                    // ARCHIVE GROUP VIDEO
+                    $archivedExhibit->files()->create([
+                        'name' => $group->groupExhibit->video_name,
+                        'path' => $group->groupExhibit->video_path,
+                    ]);
+                }
+                // ARCHIVE OTHER GROUP FILES
+                if($group->files()->count() > 0) {
+                    foreach($group->files as $file) {
+                        $archivedExhibit->files()->create([
+                            'name' => $file->name,
+                            'path' => $file->path,
+                        ]);
+                    }
+                }
+            } 
+
+            //  GENERATE AND DOCUMENT CAPSTONE GROUPS
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'capstone-groups';
+            $ticap->archivedGroups()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'groups' => Group::orderBy('specialization_id', 'asc')->get(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.groups', $data);
+            Storage::put($path, $pdf->output());
+        }
         
-        // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'rubrics';
-        $ticap->archivedRubrics()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'specs' => Specialization::all(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.rubrics', $data);
-        Storage::put($path, $pdf->output());
+        // ARCHIVE PROJECT ASSESSMENT FILES IF AWARDS IS SET
+        if($ticap->awards_is_set) {
+             // GENERATE AND DOCUMENT THE PDF FILE FOR CERTIFICATES 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'certificates';
+            $ticap->archivedCertificates()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'specs' => Specialization::all(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.certificate', $data);
+            Storage::put($path, $pdf->output());
 
-        // GENERATE AND DOCUMENT THE PDF FILE FOR GRADED RUBRICS 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'graded-rubrics';
-        $ticap->archivedGradedRubrics()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'specs' => Specialization::all(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.graded-rubrics', $data);
-        Storage::put($path, $pdf->output());
+            // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'rubrics';
+            $ticap->archivedRubrics()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'specs' => Specialization::all(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.rubrics', $data);
+            Storage::put($path, $pdf->output());
 
-        // GENERATE AND DOCUMENT THE PDF FILE FOR PANELISTS 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'panelists';
-        $ticap->archivedPanelists()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'specs' => Specialization::all(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.panelists', $data);
-        Storage::put($path, $pdf->output());
+            // GENERATE AND DOCUMENT THE PDF FILE FOR GRADED RUBRICS 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'graded-rubrics';
+            $ticap->archivedGradedRubrics()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'specs' => Specialization::all(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.graded-rubrics', $data);
+            Storage::put($path, $pdf->output());
 
-        // GENERATE AND DOCUMENT THE PDF FILE FOR AWARDEES 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'awardees';
-        $ticap->archivedAwardees()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'specs' => Specialization::all(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.awards', $data);
-        Storage::put($path, $pdf->output());
-        
-        // GENERATE AND DOCUMENT THE PDF FILE FOR OFFICERS 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'officers';
-        $ticap->archivedOfficers()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'officers' => Officer::orderBy('election_id', 'asc')->get(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.officers', $data);
-        Storage::put($path, $pdf->output());
+            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELISTS 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'panelists';
+            $ticap->archivedPanelists()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'specs' => Specialization::all(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.panelists', $data);
+            Storage::put($path, $pdf->output());
 
-        // GENERATE AND DOCUMENT THE PDF FILE FOR COMMITTEES 
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'committees';
-        $ticap->archivedCommittees()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'committees' => Committee::orderBy('user_id', 'asc')->get(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.committees', $data);
-        Storage::put($path, $pdf->output());
-         
-        //  GENERATE AND DOCUMENT CAPSTONE GROUPS
-        $path = 'public/reports/' . Str::uuid() . '.pdf';
-        $fileName = 'capstone-groups';
-        $ticap->archivedGroups()->create([
-            'name' => $fileName,
-            'path' => $path,
-        ]);
-        $data = [
-            'groups' => Group::orderBy('specialization_id', 'asc')->get(),
-            'ticap' => Ticap::find(Auth::user()->ticap_id)
-        ];
-        $pdf = PDF::loadView('reports.groups', $data);
-        Storage::put($path, $pdf->output());
+            // GENERATE AND DOCUMENT THE PDF FILE FOR AWARDEES 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'awardees';
+            $ticap->archivedAwardees()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'specs' => Specialization::all(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.awards', $data);
+            Storage::put($path, $pdf->output());
+        }
+       
+        if($ticap->election_finished) {
+            // GENERATE AND DOCUMENT THE PDF FILE FOR OFFICERS 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'officers';
+            $ticap->archivedOfficers()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'officers' => Officer::orderBy('election_id', 'asc')->get(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.officers', $data);
+            Storage::put($path, $pdf->output());
+
+            // GENERATE AND DOCUMENT THE PDF FILE FOR COMMITTEES 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'committees';
+            $ticap->archivedCommittees()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'committees' => Committee::orderBy('user_id', 'asc')->get(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.committees', $data);
+            Storage::put($path, $pdf->output());
+        }
+       
 
         // DELETE ALL STUDENTS
         $users = User::role('student')->get();

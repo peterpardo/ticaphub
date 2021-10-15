@@ -118,7 +118,7 @@
   <div class="bg-green-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
 @if($user->ticap_id == null)
-  <div class="bg-gray-100 py-5 px-2 rounded">
+  <div class="bg-gray-100 py-5 px-2 rounded text-gray-800 text-center">
     <span>No TICaP has been created yet: </span>
     <a href="{{ route('set-ticap-name') }}" class="inline-block text-white bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</a>
   </div>

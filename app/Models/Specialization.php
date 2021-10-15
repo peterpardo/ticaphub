@@ -37,6 +37,9 @@ class Specialization extends Model
     public function studentChoiceAwards() {
         return $this->hasMany(StudentChoiceAward::class, 'specialization_id', 'id');
     }
+    public function studentVotes() {
+        return $this->hasMany(StudentChoiceVote::class, 'specialization_id', 'id');
+    }
     public function panelists() {
         return $this->hasMany(SpecializationPanelist::class, 'specialization_id', 'id');
     }

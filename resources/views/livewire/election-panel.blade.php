@@ -13,7 +13,7 @@
                 <div class="mb-3">
                     <p>{{ \App\Models\UserElection::all()->where('election_id', $election->id)->where('has_voted', 1)->count() }} out of   {{ \App\Models\UserElection::all()->where('election_id', $election->id)->count() }} has voted</p>
                 </div>
-                <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">
+                <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3 text-gray-800">
                     <thead>
                         <tr class="bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>

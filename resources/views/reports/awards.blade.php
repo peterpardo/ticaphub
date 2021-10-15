@@ -52,26 +52,26 @@
         </table>
 
         <h4>Individual Awards</h4>
-        @foreach($spec->awards->where('type', 'individual') as $award)
-            <table>
-                <thead>
-                    <tr>
-                        <td>Award</td>
-                        <td>Group</td>
-                        <td>Awardee</td>
-                    </tr>
-                </thead>
-                <tbody>
+        <table>
+            <thead>
+                <tr>
+                    <td>Award</td>
+                    <td>Group</td>
+                    <td>Awardee</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($spec->awards->where('type', 'individual') as $award)
                     @foreach($award->individualWinners as $winner)
                         <tr>
                             <td>{{ $award->name}}</td>
                             <td>{{ $winner->group->name}}</td>
-                            <td>{{ $winner->user->last_name . ', ' . $winner->user->first_name . ' ' . $winner->user->middle_name}}</td>
+                            <td>{{ $winner->name }}</td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
-        @endforeach
+                @endforeach
+            </tbody>
+        </table>
 
         <h4>Group Awards</h4>
         @foreach($spec->awards->where('type', 'group') as $award)

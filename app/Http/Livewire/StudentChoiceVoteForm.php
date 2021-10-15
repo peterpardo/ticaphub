@@ -17,10 +17,12 @@ class StudentChoiceVoteForm extends Component
             'name' => 'required',
             'email' => 'required',
         ]);
+        $group = Group::find($this->groupId);
         // StudentChoiceVote::create([
         //     'name' => $this->name,
         //     'email' => $this->email,
-        //     'group_id' => $this->groupId
+        //     'group_id' => $group->id,
+        //     'specialization_id' => $group->specialization->id
         // ]);
         $this->emit('confirmVote');
         return redirect('/');

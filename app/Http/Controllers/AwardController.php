@@ -221,18 +221,29 @@ class AwardController extends Controller
         $panelists = User::role('panelist')->get();
         $specs = Specialization::all();
         $gs = Group::all();
+        // CHECK IF SOME PANELISTS NOT DONE EVALUATING
         foreach($panelists as $panelist) {
             if(!$panelist->specializationPanelist->is_done) {
-                return back()->with('status', 'red');
-                return back()->with('message', 'Some panelists are not yet done evaluating');
+                session()->flash('status', 'red');
+                session()->flash('message', 'Some panelists are not yet done evaluating');
+                return back();
             }
         }
         foreach($gs as $g) {
             $g->awards()->detach();
         }
+
+        // CHECK IF STUDENT CHOICE VOTES HAS VOTES
+        foreach($specs as $spec) {
+            if($spec->studentVotes->count() < 1) {
+                session()->flash('status', 'red');
+                session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - has no votes yet for the Student Choice Award' );
+                return back();
+            }
+        }
+
         // COMPUTATION OF GRADES
         foreach($specs as $spec) {
-            echo '<strong>' . $spec->name . '</strong><br>';
             // CREATE BEST PROJECT ADVISER AWARD
             $bestAdviser = $spec->awards()->create([
                 'name' => 'Best Project Adviser',
@@ -241,31 +252,20 @@ class AwardController extends Controller
                 'ticap_id' => Auth::user()->ticap_id,
             ]);
             foreach($spec->awards->where('name', '!=', 'Best Project Adviser') as $award) {
-                echo '<strong>' . $award->name . '</strong><br>';
                 foreach($spec->groups as $group) {
-                    echo $group->name . '<br>';
-                    foreach($group->panelistGrades->where('award_id', $award->id) as $panelistGrade) {
-                        echo 'panelist : '. $panelistGrade->user->first_name . ' ' . $panelistGrade->user->middle_name . ' ' . $panelistGrade->user->last_name . ' - ';
-                        echo '<strong>' . $panelistGrade->total_grade . '</strong><br>';
-                    }
                     $total = round($group->panelistGrades->where('award_id', $award->id)->avg('total_grade'), 3);
                     $group->awards()->attach($award->id, ['total_grade' => $total]);
-                    echo '<strong>Total Average Grade : ' . $total . '</strong><br>';
-                    echo '<br>';
                 }
                 // DETERMINE WINNERS FOR EACH AWARDS
                 $winners = [];
                 foreach($award->groups()->orderByPivot('total_grade', 'desc')->get() as $group) {
-                    echo $group->name . ' - '. $group->pivot->total_grade . '<br>';
                     $winners[$group->id] = $group->pivot->total_grade;
                 }
 
-                $final = array_keys($winners, max($winners));
-                echo '<strong>Winners: ';
                 // SET WINNERS
+                $final = array_keys($winners, max($winners));
                 foreach($final as $winner) {
                     $group = $award->groups()->where('group_id', $winner)->first();
-                    echo $group->name . '<br>';
                     if($award->type == 'individual') {
                         $award->individualWinners()->create([
                             'group_id' => $winner,
@@ -276,7 +276,6 @@ class AwardController extends Controller
                             'group_id' => $winner,
                         ]);
                         if($award->name == 'Best Capstone Project') {
-                            echo 'Best Project Adviser - ' . $group->adviser . '<br><br>';
                             $awardee = $bestAdviser->individualWinners()->create([
                                 'group_id' => $winner,
                             ]);
@@ -285,24 +284,19 @@ class AwardController extends Controller
                         }
                     }
                 }
-                echo '</strong>';
-                echo '<br>';
             }
-            echo '<br><br>';
         }
         
-        echo 'STUDENT CHOICE AWARDS <br>';
+        // STUDENT CHOICE AWARD
         $specs = Specialization::all();
         foreach($specs as $spec) {
             $votes = [];
-            echo $spec->name . '<br>';
             foreach($spec->groups as $group) {
                 $count = StudentChoiceVote::where('group_id', $group->id)->count();
                 $votes[$group->id] = $count;
             }
             $final = array_keys($votes, max($votes));
             foreach($final as $groupId) {
-                echo $groupId . '<br>';
                 $spec->studentChoiceAwards()->create([
                     'name' => 'Student Choice Award - ' . $spec->name,
                     'ticap_id' => Auth::user()->ticap_id,

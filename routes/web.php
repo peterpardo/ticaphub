@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PanelistController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
@@ -35,6 +36,7 @@ use Illuminate\Support\Facades\Auth;
 
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
+Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');
 Route::get('/test', [ElectionController::class, 'test']);
 Route::get('/schools', function () { 
     $admin = User::find(1);
@@ -72,6 +74,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function(){
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
@@ -159,7 +162,7 @@ Route::middleware(['auth'])->group(function(){
         // EVENTS AND LISTS/TASKS
         Route::middleware(['officer'])->group(function(){
             Route::get('/events', [EventController::class, 'index'])->name('events');
-            Route::get('/download-qr-code', [EventController::class, 'downloadCode']);
+            Route::get('/download-qr-code/{eventId}', [EventController::class, 'downloadCode']);
             Route::post('/events/add-event', [EventController::class, 'addEvent']);
             Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
             Route::get('/events/{eventId}/program-flow', [EventController::class, 'programFlow']);
