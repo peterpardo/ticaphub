@@ -11,15 +11,15 @@ class ScheduleController extends Controller
     public function index() {
         $title = 'Schedules';
 
-        $event = new Event;
-        $event->name = 'Test event';
-        $event->startDateTime = Carbon::now();
-        $event->endDateTime = Carbon::now()->addHour();
+        // $event = new Event;
+        // $event->name = 'Test event';
+        // $event->startDateTime = Carbon::now();
+        // $event->endDateTime = Carbon::now()->addHour();
         // $event->save();
-        dd($event);
+        // dd($event);
 
-        // return view('schedules.index', [
-        //     'title' => $title
-        // ]);
+        return view('schedules.index', [
+            'title' => $title
+        ]);
     }
 }
