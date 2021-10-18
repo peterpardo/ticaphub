@@ -20,7 +20,9 @@ class AuthController extends Controller
 
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
-            return response('Bad Credentials', 401);
+            return response([
+                'message' => 'Bad credentials'
+            ], 401);
         }
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -30,12 +32,14 @@ class AuthController extends Controller
             'token' => $token,
         ];
 
-        return $response;
+        return response($response, 201);
     }
 
-    public function logout() {
+    public function logout(Request $request) {
         auth()->user()->tokens()->delete();
 
-        return 'Logged out';
+        return [
+            'message' => 'Logged out'
+        ];
     }
 }
