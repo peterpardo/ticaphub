@@ -75,6 +75,8 @@ Route::middleware(['auth'])->group(function(){
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+    Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
+    Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function(){
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
