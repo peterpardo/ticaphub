@@ -11,8 +11,10 @@ class ScheduleController extends Controller
 {
     public function index() {
         $title = 'Schedules';
+        $events = Event::get();
         return view('schedules.index', [
-            'title' => $title
+            'title' => $title,
+            'events' => $events
         ]);
     }
 
@@ -40,11 +42,11 @@ class ScheduleController extends Controller
         // $client->setSubject('monditech123@gmail.com');
 
         if($startTime > $endTime) {
-            session()->flash('status', 'green');
+            session()->flash('status', 'red');
             session()->flash('message', 'end time is invalid.');
             return back();
         }
-        dd($endTime);
+        // dd($endTime);
         
         $event = new Event;
         $event->name = $request->name;
@@ -58,6 +60,6 @@ class ScheduleController extends Controller
 
         session()->flash('status', 'green');
         session()->flash('message', 'Schedule successfullly created');
-        return back();
+        return redirect()->route('schedules');
     }
 }

@@ -15,25 +15,25 @@
             @endif
             <h1 class="text-xl text-center font-semibold">{{ $election->name }}</h1>
             <div>
-                <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">    
+                <table class="table-auto w-full">    
                     <thead>
-                        <tr class="text-md text-center font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
                             <th class="px-4 py-3">Officer</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-transparent dark:bg-gray-600">
+                    <tbody class="w-auto bg-white text-center">
                         @foreach($positions as $position)
-                        <tr>
-                            <td class="border">{{ $position->name }}</td>
+                        <tr class="text-gray-900">
+                            <td class="px-4 border">{{ $position->name }}</td>
                             @if($ticap->election_finished)
                                 @foreach($election->officers->where('position_id', $position->id) as $officer)
-                                <td class="border">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</td>
+                                <td class="px-4 border">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</td>
                                 @endforeach
                             @elseif($ticap->election_has_started)
-                                <td class="border">Waiting for results</td>
+                                <td class="px-4 border">Waiting for results</td>
                             @else
-                                <td class="border">None</td>
+                                <td class="px-4 border">None</td>
                             @endif
                         </tr>
                         @endforeach

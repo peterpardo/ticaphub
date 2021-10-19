@@ -1,6 +1,6 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <div>
+    <div class="">
         @can('add event')
         <div class="container mb-2">
             {{-- ADD EVENT FORM --}}
@@ -21,8 +21,8 @@
             {{-- ADD EVENT FORM --}}
         </div>
         @endcan
-        <div class="container">
-            <table class="w-full shadow">
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <table class="table-auto w-full shadow">
                 <thead>
                     <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Event</th>
@@ -31,9 +31,9 @@
                         <th class="px-4 py-3">Actions</th>
                     </tr>   
                 </thead>
-                <tbody class="bg-transparent dark:bg-gray-600 text-center">
+                <tbody class="w-auto bg-white text-center dark:text-gray-800">
                     @foreach($events as $event)
-                    <tr>
+                    <tr class="">
                         <td class="px-4 py-3 border">{{ $event->name }}</td>
                         <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
                         <td class="px-4 py-3 border">

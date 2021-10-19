@@ -24,23 +24,23 @@
                     <td class="px-4 py-3 text-md font-semibold border">
                         {{ $school->name }}
                     </td>
-                    <td class="px-4 py-3 text-md font-semibold border">
+                    <td class="text-center px-4 py-3 text-md font-semibold border">
                         @if($school->is_involved)
-                        <span class="bg-green-400 px-2 py-1 rounded text-white">included</span>
+                        <span class="bg-green-400 px-4 py-1 rounded text-white">included</span>
                         @else
-                        <span class="bg-red-400 px-2 py-1 rounded text-white">not included</span>
+                        <span class="bg-red-400 px-4 py-1 rounded text-white">not included</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 text-md border">
                         <div class="flex flex-col w-1/2 mx-auto text-center">
                             @if($school->is_involved)
                                 @if($school->id == 1)
-                                <span class="inline-block rounded shadow px-2 py-1 my-0.5 text-white bg-green-500">Included</span>  
+                                <span class="inline-block rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500">Included</span>  
                                 @else
-                                <button wire:click="removeSchool({{ $school->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Remove</button>  
+                                <button wire:click="removeSchool({{ $school->id }})" class="rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Remove</button>  
                                 @endif
                             @else
-                            <button wire:click="addSchool({{ $school->id }})" class="rounded shadow px-2 py-1 my-0.5 text-white bg-green-500 hover:bg-green-600">Add</button>  
+                            <button wire:click="addSchool({{ $school->id }})" class="rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500 hover:bg-green-600">Add</button>  
                             @endif                                         
                         </div>
                     </td>

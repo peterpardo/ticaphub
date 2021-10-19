@@ -13,7 +13,7 @@
                 @if($group->groupExhibit->title)
                 <div class="border rounded px-2 py-2">{{ $group->groupExhibit->title }}</div>
                 @else
-                    <div class="bg-gray-100 rounded py-4 text-center block">No Title Inserted</div>
+                    <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Title Inserted</div>
                 @endif
                 <div class="flex justify-end">
                     <button wire:click="updateTitle" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Title</button>
@@ -32,7 +32,7 @@
                 @if($group->groupExhibit->description)
                 <div class="border rounded px-2 py-2">{{ $group->groupExhibit->description }}</div>
                 @else
-                    <div class="bg-gray-100 rounded py-4 text-center block">No Description Inserted</div>
+                    <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Description Inserted</div>
                 @endif
                 <div class="flex justify-end">
                     <button wire:click="updateDesc" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Description</button>
@@ -46,7 +46,7 @@
             @elseif($banner)
             <img src="{{ $banner->temporaryUrl() }}">
             @else
-                <div class="bg-gray-100 rounded py-4 text-center block">No Banner Uploaded</div>
+                <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Banner Uploaded</div>
             @endif
             @if($updateBanner)
                 <input type="file" wire:model="banner" class="rounded mt-2 block">
@@ -75,7 +75,7 @@
                 <source src="{{ $video->temporaryUrl() }}">
             </video>
             @else
-                <div class="bg-gray-100 rounded py-4 text-center block">No Video Uploaded</div>
+                <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Video Uploaded</div>
             @endif
             @if($updateVideo)
                 <input type="file" wire:model="video" class="rounded mt-2 block">
@@ -115,7 +115,7 @@
                     @if($group->adviser)
                     <div class="border rounded px-2 py-2">{{ $group->adviser }}</div>
                     @else
-                        <div class="bg-gray-100 rounded py-4 text-center block">No Adviser Set</div>
+                        <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Adviser Set</div>
                     @endif
                     @if(!$ticap->awards_is_set)
                         <div class="flex justify-end">
@@ -148,7 +148,7 @@
                         <p>{{ $group->groupExhibit->link }}</p>
                         <div class="fb-video" data-href="{{ $group->groupExhibit->link }}" data-width="500" data-show-text="false"></div>
                     @else
-                        <div class="bg-gray-100 rounded py-4 text-center block">No Link Inserted</div>
+                        <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Link Inserted</div>
                     @endif
                     <div class="flex justify-end">
                         <button wire:click="updateLink" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Link</button>
@@ -172,7 +172,7 @@
             @endif
             <span wire:loading wire:target="uploadedFiles" class="text-green-500">Uploading...</span>
             @if($files->count() == 0) 
-                <div class="bg-gray-100 rounded py-4 text-center block">No Files Uploaded</div>
+                <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Files Uploaded</div>
             @else
                 <table class="w-full text-center">
                     <thead>

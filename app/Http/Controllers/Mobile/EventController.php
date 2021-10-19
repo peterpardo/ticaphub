@@ -34,7 +34,9 @@ class EventController extends Controller
             'ticap_id' => Auth::user()->ticap_id, 
         ]);
 
-        return 'Event has been created';
+        return response([
+            'message' => 'Event has been created.'
+        ]);
     }
 
     public function updateEvent(Request $request, $eventId) {
@@ -44,13 +46,17 @@ class EventController extends Controller
 
         Event::find($eventId)->update(['name' => $request->name]);
 
-        return 'Event has been updated.';
+        return response([
+            'message' => 'Event has been updated.'
+        ]);
     }
 
     public function deleteEvent($eventId) {
         Event::find($eventId)->delete();
 
-        return 'Event has been deleted.';
+        return response([
+            'message' => 'Event has been deleted.'
+        ]);
     }
 
     public function createList(Request $request, $eventId) {
@@ -65,7 +71,9 @@ class EventController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        return 'List has been created.';
+        return response([
+            'message' => 'List has been created.'
+        ]);
     }
 
     // public function showList($eventId, $listId) {
@@ -83,13 +91,17 @@ class EventController extends Controller
 
         TaskList::where('id', $listId)->update(['title' => $request->title]);
 
-        return 'List has been updated.';
+        return response([
+            'message' => 'List has been updated.'
+        ]);
     }
 
     public function deleteList($eventId, $listId) {
         TaskList::find($listId)->delete();
 
-        return 'List has been deleted.';
+        return response([
+            'message' => 'List has been deleted.'
+        ]);
     }
 
     public function createTask(Request $request, $eventId, $listId) {
@@ -111,7 +123,9 @@ class EventController extends Controller
             }
         }
 
-        return 'Task has been created.';
+        return response([
+            'message' => 'Task has been created.'
+        ]);
     }
 
     public function showTask($eventId, $listId, $taskId) {
@@ -138,13 +152,17 @@ class EventController extends Controller
             }
         }
 
-        return 'Task has been updated.';
+        return response([
+            'message' => 'Task has been updated.'
+        ]);
     }
 
     public function deleteTask($eventId, $listId, $taskId) {
         Task::find($taskId)->delete();
 
-        return 'Task has been deleted.';
+        return response([
+            'message' => 'Task has been deleted.'
+        ]);
     }
 
     public function createActivity(Request $request, $eventId, $listId, $taskId) {

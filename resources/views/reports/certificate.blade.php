@@ -10,7 +10,7 @@
        border: 15px solid green;
        padding: 25px;
        height: 84.1%;
-       width: auto;
+       /* width: auto; */
        position: relative;
    }
    
@@ -78,6 +78,12 @@
    .topic-description {
        text-align: center;
    }
+
+   .flex-around{
+       display: flex;
+       justify-content: space-evenly;
+       margin-top: 8em;
+   }
 </style>
 
 <!DOCTYPE html>
@@ -115,14 +121,14 @@
                             <div class="certificate-footer text-muted">
                                 <div class="">
                                     <div class="">
-                                        <p>Dr. Ace C. Lagma<br>IT Director</p>
-                                    </div>
-                                    <div class="">
-                                        <div class="">
+                                        <div class="flex-around">
                                             <div class="">
                                                 <p>
                                                     <p>Mr. Hientjie N. Vicente<br>WMA/SMBA Course Adviser</p>
                                                 </p>
+                                            </div>
+                                            <div class="">
+                                                <p>Dr. Ace C. Lagman<br>IT Director</p>
                                             </div>
                                             <div class="">
                                                 <p>
@@ -136,7 +142,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @endforeach 
 
             @foreach($award->individualWinners as $winner)
                 <div class="certificate-container">
@@ -185,6 +191,6 @@
                 </div>
             @endforeach
         @endforeach
-    @endforeach
+    @endforeach 
 </body>
 </html>
