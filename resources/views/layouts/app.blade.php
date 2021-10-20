@@ -194,21 +194,33 @@
               </button>
             </li>
             <li>
-              <div class="block w-px h-6 mx-3 bg-gray-400 dark:bg-gray-700"></div>
+              <div class="block w-px h-6 mx-3  bg-gray-400 dark:bg-gray-700"></div>
             </li>
-            <li>
-              <form 
-              method="POST" 
-              action="{{ route('logout') }}">
-              @csrf
-                <span class="inline-flex mr-1">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                  <a class="mx-1 flex items-center mr-4 hover:text-red-100 w-" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                </span>
-              </a>
-            </form>        
-            </li>
-          </ul>
+            <!-- component -->
+<style>
+  .dropdown:hover > .dropdown-content {
+    display: block;
+  }
+  </style>
+  
+  <div class="dropdown inline-block relative">
+    <button class="text-white font-semibold py-3 px-9 rounded inline-flex items-center">
+      <span>Menu</span>
+    </button>
+    <ul class="dropdown-content absolute hidden text-white text-sm text-left pt-1">
+      <li><a class="bg-red-800 hover:bg-red-600 py-2 px-10 block whitespace-no-wrap dark:bg-gray-800 dark:hover:bg-gray-600" href="{{ route('profile.update') }}">Manage Profile</a></li>
+      <li>
+        <form 
+        method="POST" 
+        action="{{ route('logout') }}">
+        @csrf
+            <a class="rounded-b bg-red-800 hover:bg-red-600 py-2 px-10 block whitespace-no-wrap dark:bg-gray-800 dark:hover:bg-gray-600" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+        </a>
+      </form>   
+      </li>
+    </ul>
+  </div>
+        </ul>
         </div>
       </div>
       <!-- ./Header -->

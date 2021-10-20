@@ -76,14 +76,6 @@ class EventController extends Controller
         ]);
     }
 
-    // public function showList($eventId, $listId) {
-    //     $list = TaskList::where('id', $listId)->with(['tasks'])->get();
-
-    //     return response([
-    //         'list' => $list,
-    //     ]);
-    // }
-
     public function updateList(Request $request, $eventId, $listId) {
         $request->validate([
             'title' => 'required|string'
@@ -138,6 +130,7 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
+            'list' => 'required',
         ]);
 
         $task = Task::find($taskId);
@@ -146,10 +139,16 @@ class EventController extends Controller
 
         $task->users()->detach();
 
+        // if members are changed
         if($request->members){
             foreach($request->members as $member){
                 $task->users()->attach($member);
             }
+        }
+
+        // if task is moved to another list
+        if($request->list) {
+            $task->list_id = $request->list;
         }
 
         return response([

@@ -51,7 +51,7 @@
             </tbody>
         </table>
         </div>
-        <div class="my-2 mx-1">
+        <div class="my-2 mx-1 bg-white rounded">
             {{ $users->links() }}
         </div>
     </div>

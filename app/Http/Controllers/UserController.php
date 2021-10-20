@@ -503,4 +503,27 @@ class UserController extends Controller
         $user->userGroup->save();
         return redirect()->route('users');
     }
+
+    public function PUpdate(){
+        if(Auth::user()){
+            $user = User::find(Auth::user()->id);
+            if($user){
+                return view('user-accounts.update-user',compact('user'));
+            }
+        }
+    }
+
+    public function UpdateProfile(Request $request){
+        $user = User::find(Auth::user()->id);
+        if($user){
+            $user->first_name = $request['first_name'];
+            $user->middle_name = $request['middle_name'];
+            $user->last_name = $request['last_name'];
+
+            $user->save();
+            return Redirect()->back()->with('success','User Profile is updated sucessfully!');
+        } else {
+            return Redirect()->back();
+        }
+    }
 }

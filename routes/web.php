@@ -34,6 +34,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// UPDATE NAMES
+Route::get('/users/profile', [UserController::class, 'PUpdate'])->name('profile.update');
+Route::post('/users/profile/update', [UserController::class, 'UpdateProfile'])->name('update.user.profile');
+
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');

@@ -36,7 +36,7 @@
         <div class="w-full overflow-x-auto">
         <table class="table-auto w-full text-gray-800">
             <thead>
-            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Award Name</th>
                 <th class="px-4 py-3">Award Type</th>
                 <th class="px-4 py-3">School</th>
@@ -44,7 +44,7 @@
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
-        <tbody class="w-auto bg-white text-center">
+        <tbody class="bg-white">
             @foreach($awards as $award)
             <tr class="text-gray-700">
                 <td class="px-4 py-3 text-xl font-bold border">{{ $award->name }}</td>
@@ -64,7 +64,7 @@
             </tbody>
         </table>
         </div>
-        <div class="my-2 mx-1">
+        <div class="my-2 mx-1 bg-white rounded">
             {{ $awards->links() }}
         </div>
     </div>
