@@ -47,19 +47,19 @@ class ScheduleController extends Controller
             return back();
         }
         
-        $google_client = new \Google_Client();
-        $google_client->setAuthConfig(storage_path('app/google-calendar/service-account-credentials.json'));
-        $google_client->setAccessType( 'offline' );
-        $google_client->setSubject('monditech123@gmail.com');
-        $google_client->setApplicationName("TICaP HUB");
-        $google_client->setScopes([\Google_Service_Calendar::CALENDAR, \Google_Service_Calendar::CALENDAR_EVENTS]);
+        // $google_client = new \Google_Client();
+        // $google_client->setAuthConfig(storage_path('app/google-calendar/service-account-credentials.json'));
+        // $google_client->setAccessType( 'offline' );
+        // $google_client->setSubject('monditech123@gmail.com');
+        // $google_client->setApplicationName("TICaP HUB");
+        // $google_client->setScopes([\Google_Service_Calendar::CALENDAR, \Google_Service_Calendar::CALENDAR_EVENTS]);
         $event = new Event;
         $event->name = $request->name;
         $event->startDateTime = $startTime;
         $event->endDateTime = $endTime;
-        $event->addAttendee([
-            'email' => 'peterpardo123@gmail.com'
-        ]);
+        // $event->addAttendee([
+        //     'email' => 'peterpardo123@gmail.com'
+        // ]);
         $event->save();
         dd('stop');
 
