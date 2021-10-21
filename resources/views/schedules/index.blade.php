@@ -1,6 +1,6 @@
 <x-app-layout>
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <a href="/schedules/create" class="inline-block bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mb-2">Create Schedule/Event</a>
+    {{-- <a href="/schedules/create" class="inline-block bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mb-2">Create Schedule/Event</a> --}}
     @if(session('status'))
         <div class="bg-{{ session('status') }}-300 rounded px-2 py-5 text-center text-white">{{ session('message') }}</div>
     @endif
@@ -14,17 +14,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($events as $event)
+            {{-- @foreach($events as $event)
             <tr>
                 <td class="px-2 py-4 border">{{ $event->name }}</td>
-                <td class="px-2 py-4 border">{{ date_format(date_timezone_set($event->startDateTime, timezone_open('Asia/Manila')), 'F j, Y (l) - G:ia') }}</td>
-                <td class="px-2 py-4 border">{{ date_format(date_timezone_set($event->endDateTime, timezone_open('Asia/Manila')), 'F j, Y (l) - G:ia') }}</td>
+                <td class="px-2 py-4 border">{{$event->startDateTime->diffForHumans() }}</td>
+                <td class="px-2 py-4 border">{{$event->endDateTime->diffForHumans() }}</td>
                 <td class="px-2 py-4 border text-center">
                     <a href="/schedules/{{ $event->id }}" class="inline-block px-2 py-1 bg-blue-500 rounded text-white">Edit</a>
                     <button data-id="{{ $event->id }}" class="openDeleteModal px-2 py-1 bg-red-500 rounded text-white">Delete</button>
                 </td>
             </tr>
-            @endforeach
+            @endforeach --}}
         </tbody>
     </table>
 

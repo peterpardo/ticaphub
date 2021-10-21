@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Mobile;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Event;
+use App\Models\File;
 use App\Models\Task;
 use App\Models\TaskList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -135,7 +137,6 @@ class EventController extends Controller
 
         $task = Task::find($taskId);
         $task->update($request->all());
-        $task->save();
 
         $task->users()->detach();
 
@@ -150,6 +151,8 @@ class EventController extends Controller
         if($request->list) {
             $task->list_id = $request->list;
         }
+
+        $task->save();
 
         return response([
             'message' => 'Task has been updated.'
@@ -167,6 +170,8 @@ class EventController extends Controller
     public function createActivity(Request $request, $eventId, $listId, $taskId) {
         $request->validate([
             'description' => 'required|string',
+        ], [
+            'description.required' => 'Activity report is required.'
         ]);
 
         $activity = Activity::create([
@@ -175,7 +180,27 @@ class EventController extends Controller
             'task_id' => $taskId
         ]);
 
-        return $activity;
+        if($request->file('files')){
+            foreach($request->file('files') as $file){
+                $extension = $file->extension();
+                $path = 'event-files/';
+                $file_path = Str::uuid() . '.' . $extension;
+                $file_name = $file->getClientOriginalName();
+ 
+                $file->storeAs($path, $file_path, 'public');
+                File::create([
+                    'name' => $file_name,
+                    'path' => $file_path,
+                    'task_id' => $taskId,
+                    'event_id' => $eventId,
+                    'activity_id' => $activity->id,
+                ]);
+            }
+        }
+
+        return response([
+            'message' => 'Activity has been created.'
+        ]);
     }
 
 }
