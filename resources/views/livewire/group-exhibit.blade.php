@@ -41,7 +41,7 @@
         </div>
         <div>
             <h1 class="font-bold text-lg mb-2">Banner Image</h1>
-            @if($currentBanner)
+            @if($currentBanner && $banner == null)
             <img src="{{ Storage::url($currentBanner) }}">
             @elseif($banner)
             <img src="{{ $banner->temporaryUrl() }}">
@@ -66,7 +66,7 @@
         </div>
         <div>
             <h1 class="font-bold text-lg mb-2">Project Video</h1>
-            @if($currentVideo)
+            @if($currentVideo && $video == null)
             <video class="w-full" controls loop autoplay muted>
                 <source src="{{ Storage::url($currentVideo) }}">
             </video>

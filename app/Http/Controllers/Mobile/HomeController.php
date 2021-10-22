@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function home() {
-        $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles'])->get();
+        $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles'])->first();
 
         return $user;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Google\Client;
 use Illuminate\Http\Request;
@@ -11,8 +12,10 @@ class ScheduleController extends Controller
 {
     public function index() {
         $title = 'Schedules';
+        $schedules = Schedule::all();
         return view('schedules.index', [
             'title' => $title,
+            'schedules' => $schedules,
         ]);
     }
 
@@ -28,34 +31,27 @@ class ScheduleController extends Controller
         $request->validate([
             'name' => 'required',
             'start_date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
+            'end_date' => 'required',
         ]);
-        // dd($request->start_date->diffForHumans());
-        // dd($request->all());
-        $startTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('start_time'));
-        $endTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('end_time'));
-        // dd(date_format($startTime, 'F j Y'));
-        dd(date_format(Carbon::tomorrow(), 'F j Y'));
-        dd(Carbon::tomorrow());
-        dd(date('Y-m-d H:i:s', strtotime($startTime)));
-
-
-        if($startTime > $endTime) {
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        if($startDate > $endDate) {
             session()->flash('status', 'red');
-            session()->flash('message', 'end time is invalid.');
-            return back();
+            session()->flash('message', 'End date is invalid.');
+            return back()->withInput();
         }
-
-        // $event = new Event;
-        // $event->name = $request->name;
-        // $event->startDateTime = $startTime;
-        // $event->endDateTime = $endTime;
-        // // $event->addAttendee([
-        // //     'email' => 'peterpardo123@gmail.com'
-        // // ]);
-        // $event->save('insertEvent', ['sendNotifications' => true]);
-        // $event->save();
+        Schedule::create([
+            'name' => $request->name,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ]);
+        // dd($request->all());
+        // $startTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('start_time'));
+        // $endTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('end_time'));
+        // dd(date_format($startTime, 'F j Y'));
+        // dd(date_format(Carbon::tomorrow(), 'F j Y'));
+        // dd(Carbon::tomorrow());
+        // dd(date('Y-m-d H:i:s', strtotime($startTime)));
 
         session()->flash('status', 'green');
         session()->flash('message', 'Schedule successfullly created');
