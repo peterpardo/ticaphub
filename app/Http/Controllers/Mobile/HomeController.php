@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,5 +14,11 @@ class HomeController extends Controller
         $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles'])->first();
 
         return $user;
+    }
+
+    public function showTask($taskId) {
+        $task = Task::find($taskId);
+
+        return $task->event_id;
     }
 }

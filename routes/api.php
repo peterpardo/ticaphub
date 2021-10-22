@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Home Page
     Route::get('/home', [HomeController::class, 'home']);
+    Route::get('/home/{taskId}', [HomeController::class, 'showTask']);
 
     // Events
     Route::get('/events', [EventController::class, 'getEvents']);
