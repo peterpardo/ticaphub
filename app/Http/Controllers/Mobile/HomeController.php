@@ -19,6 +19,8 @@ class HomeController extends Controller
     public function showTask($taskId) {
         $task = Task::find($taskId);
 
-        return $task->event_id;
+        return response([
+            'event_id' => $task->event_id,
+        ]);
     }
 }
