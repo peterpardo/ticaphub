@@ -21,7 +21,7 @@ class EventController extends Controller
     }
 
     public function showEvent($eventId) {
-        $event = Event::where('id', $eventId)->with(['lists', 'lists.tasks'])->get();
+        $event = Event::where('id', $eventId)->with(['lists', 'lists.tasks'])->first();
 
         return $event;
     }
@@ -123,7 +123,7 @@ class EventController extends Controller
     }
 
     public function showTask($eventId, $listId, $taskId) {
-        $task = Task::where('id', $taskId)->with(['activities', 'activities.user', 'activities.files', 'taskCreator', 'users'])->get();
+        $task = Task::where('id', $taskId)->with(['activities', 'activities.user', 'activities.files', 'taskCreator', 'users'])->first();
 
         return $task;
     }
