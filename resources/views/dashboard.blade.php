@@ -120,7 +120,7 @@
   <h1 class="font-bold text-2xl">Schedules</h1>
   <div class="flex flex-col">
     <div class="mb-2">
-      @if($user->schedules()->count() == 0)
+      @if($user->schedules->count() == 0)
           <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
       @else
           @foreach(\App\Models\Schedule::all() as $sched)
@@ -139,12 +139,11 @@
                       </div>
                   </div>
               </div>
-          @endforeach
-      @endif
+            @endforeach
+        @endif
     </div> 
   </div>
 @endif
-
 
 @if(session('status'))
   <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
