@@ -116,7 +116,7 @@
  @endif
 
 {{-- SCHEDULES --}}
-<h1 class="font-bold text-2xl">Schedules</h1>
+{{-- <h1 class="font-bold text-2xl">Schedules</h1>
 <div class="flex flex-col">
   <div class="mb-2">
     @if($user->schedules->count() == 0)
@@ -141,7 +141,7 @@
         @endforeach
     @endif
   </div> 
-</div>
+</div> --}}
 
 
 @if(session('status'))
