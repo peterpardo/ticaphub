@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // 
     ];
 
     /**
@@ -25,15 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule->call(function () {
-            $scheds = ModelsSchedule::all();
-            foreach($scheds as $sched) {
-                if(\Carbon\Carbon::parse($sched->start_date) < \Carbon\Carbon::today()) {
-                    $sched->delete();
-                }
-            }
-        })->daily();
+        $schedule->command('schedule:delete')->dailyAt('16:00')->withoutOverlapping();
     }
 
     /**
