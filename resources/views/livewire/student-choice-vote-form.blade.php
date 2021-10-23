@@ -2,7 +2,11 @@
     <section class="container my-14 max-w-4xl p-6 mx-auto bg-white rounded-md shadow-lg dark:bg-gray-800">
         <h2 class="text-2xl font-semibold text-gray-700 capitalize dark:text-white text-center">{{ $group->name }}</h2>
         <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">Student Choice Award</h2>
-        
+
+        @if(session('status'))
+            <div class="bg-{{ session('status') }}-500 text-center py-5 rounded text-white">{{ session('message') }}</div>
+        @endif
+
         <form 
             wire:submit.prevent='confirmVote'
             class="container mx-auto">

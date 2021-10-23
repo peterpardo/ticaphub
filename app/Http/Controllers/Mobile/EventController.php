@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Event;
 use App\Models\File;
+use App\Models\Officer;
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -203,4 +205,10 @@ class EventController extends Controller
         ]);
     }
 
+    public function getOfficers() {
+        $officers = User::role(['officer', 'chairman'])->get();
+
+        return $officers;
+    }
+    
 }

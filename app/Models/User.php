@@ -110,4 +110,7 @@ class User extends Authenticatable
     public function individualCandidates() {
         return $this->hasMany(IndividualAwardCandidate::class, 'user_id', 'id');
     }
+    public function schedules() {
+        return $this->belongsToMany(Schedule::class, 'user_schedule', 'user_id', 'schedule_id');
+    }
 }

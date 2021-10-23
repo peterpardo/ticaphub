@@ -94,7 +94,7 @@ $(document).ready(function() {
                     if(activities[key].files.length >= 1){
                         for(let k in activities[key].files){
                             $(fileList).append(
-                                `<li><a href="/download-event-file/${activities[key].files[k].name}" class="hover:text-blue-600 text-blue-500">${activities[key].files[k].name}</a></li>`
+                                `<li><a href="/event-files/${activities[key].files[k].path}" class="hover:text-blue-600 text-blue-500">${activities[key].files[k].name}</a></li>`
                             );
                         }
                     }

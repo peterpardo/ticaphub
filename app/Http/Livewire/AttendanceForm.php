@@ -16,8 +16,8 @@ class AttendanceForm extends Component
     public $mname;
     public $email;
     protected $rules = [
-        'fname' => 'required',
-        'lname' => 'required',
+        'fname' => 'required|string',
+        'lname' => 'required|string',
         'email' => 'required|email|unique:attendance,email',
         'selectedSpec' => 'required',
     ];
@@ -26,6 +26,7 @@ class AttendanceForm extends Component
         'lname.required' => 'Last name is required',
         'email.required' => 'Email is required',
         'email.email' => 'Email must be valid',
+        'email.unique' => 'Email must be unique',
         'selectedSpec.required' => 'Specialization is required',
     ];
 

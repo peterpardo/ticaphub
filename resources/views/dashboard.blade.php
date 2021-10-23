@@ -114,6 +114,36 @@
   </div>
   </section>
  @endif
+
+{{-- SCHEDULES --}}
+<h1 class="font-bold text-2xl">Schedules</h1>
+<div class="flex flex-col">
+  <div class="mb-2">
+    @if($user->schedules->count() == 0)
+        <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
+    @else
+        @foreach(\App\Models\Schedule::all() as $sched)
+            <div class="p-2 my-1 shadow rounded relative">
+                <div>
+                    <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
+                    <div class="text-gray-500">
+                        <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
+                        <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
+                        <span class="block"><span class="font-semibold">Attendees:</span>
+                        <div class="divide-x-2 inline-block">
+                            @foreach($sched->attendees as $attendee)
+                                <span class="inline-block pl-1">{{ $attendee->name }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+  </div> 
+</div>
+
+
 @if(session('status'))
   <div class="bg-green-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
@@ -123,6 +153,7 @@
     <a href="{{ route('set-ticap-name') }}" class="inline-block text-white bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</a>
   </div>
 @else
+
 {{-- FOR STUDENTS AND OFFICERS ONLY --}}
 <!-- ./Statistics Cards -->
 @if(!$user->hasRole('admin'))

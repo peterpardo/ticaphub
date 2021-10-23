@@ -31,7 +31,7 @@ class HomeController extends Controller
             'name' => $request->ticap,
         ]);
         // FIND ADMIN ID
-    $admin = User::find(1);
+        $admin = User::find(1);
         // SET TICAP_ID OF ADMIN TO PRESENT TICAP
         $admin->ticap_id = $ticap->id;
         $admin->save();

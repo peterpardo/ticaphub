@@ -16,5 +16,10 @@ class Schedule extends Model
         'end_date',
     ];
 
-    
+    public function attendees() {
+        return $this->hasMany(Attendee::class, 'schedule_id', 'id');
+    }
+    public function users() {
+        return $this->belongsToMany(User::class, 'user_schedule', 'schedule_id', 'user_id');
+    }
 }

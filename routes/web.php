@@ -78,9 +78,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
     Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
+    Route::get('/schedules/{schedId}', [ScheduleController::class, 'editSchedule']);
+    Route::post('/schedules/{schedId}', [ScheduleController::class, 'updateSchedule']);
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function(){
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
@@ -115,6 +118,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
         Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
         Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
+        Route::get('/check-attendance', [AwardController::class, 'checkAttendance']);
         Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
         Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
         Route::get('/generate-awards', [AwardController::class, 'generateAwards']);

@@ -216,6 +216,22 @@ class AwardController extends Controller
             'scripts' => $scripts,
         ]);
     }
+
+    public function checkAttendance() {
+        $title = 'Project Assessment';
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+
+        if($ticap->finalize_award) {
+            return redirect()->route('review-results');
+        }
+        if(!$ticap->awards_is_set) {
+            return redirect()->route('awards');
+        }
+
+        return view('awards.attendance', [
+            'title' => $title
+        ]);
+    }
     
     public function generateResults() {
         $panelists = User::role('panelist')->get();
