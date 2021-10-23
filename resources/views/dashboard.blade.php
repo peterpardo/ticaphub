@@ -120,7 +120,7 @@
   <h1 class="font-bold text-2xl">Schedules</h1>
   <div class="flex flex-col">
     <div class="mb-2">
-      @if($user->schedules->count() == 0)
+      @if($user->schedules()->count() == 0)
           <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
       @else
           @foreach(\App\Models\Schedule::all() as $sched)
