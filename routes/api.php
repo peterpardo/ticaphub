@@ -49,4 +49,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/events/{eventId}/lists/{listId}/tasks/{taskId}', [EventController::class, 'updateTask']);
     Route::post('/events/{eventId}/lists/{listId}/tasks/{taskId}', [EventController::class, 'createActivity']);
     Route::get('/officers', [EventController::class, 'getOfficers']);
+    Route::get('/download/{path}', [EventController::class, 'download']);
 });

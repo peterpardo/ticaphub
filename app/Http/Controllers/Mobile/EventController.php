@@ -211,4 +211,7 @@ class EventController extends Controller
         return $officers;
     }
     
+    public function download($path) {
+        return response()->download(storage_path('app/public/event-files/' . $path));
+    }
 }
