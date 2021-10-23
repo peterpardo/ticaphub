@@ -123,7 +123,7 @@
       @if($user->schedules->count() == 0)
           <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
       @else
-          @foreach(\App\Models\Schedule::all() as $sched)
+          @foreach(\app\Models\Schedule::all() as $sched)
               <div class="p-2 my-1 shadow rounded relative">
                   <div>
                       <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
@@ -149,6 +149,7 @@
 @if(session('status'))
   <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
+
 @if($user->ticap_id == null)
   <div class="bg-gray-100 py-5 px-2 rounded text-gray-800 text-center">
     <span>No TICaP has been created yet: </span>
