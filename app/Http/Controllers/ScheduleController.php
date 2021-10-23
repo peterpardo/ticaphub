@@ -3,15 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Models\Ticap;
 use App\Models\User;
 use Carbon\Carbon;
 use Google\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\GoogleCalendar\Event;
 
 class ScheduleController extends Controller
 {
     public function index() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+
+        if(!$ticap->invitation_is_set) {
+            session()->flash('error', 'Manage settings for TICaP first');
+            return redirect()->route('set-invitation');
+        }
+
+        if(Auth::user()->ticap_id == null) {
+            session()->flashh('status', 'red');
+            session()->flashh('message', 'Create TICaP first.');
+            return redirect()->route('dashboard');
+        }
+
         $title = 'Schedules';
         $scripts = [
             asset('js/schedules/schedules.js'),
