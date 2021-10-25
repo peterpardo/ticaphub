@@ -55,6 +55,7 @@
                                 </div>
                             </div>
                         </div>
+                        <a href="/schedules/{{ $sched->id }}" class="inline-block absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Edit Schedule</a>
                         <button wire:click.prevent='deleteSched({{ $sched->id }})' class="font-bold text-4xl hover:text-red-600 cursor-pointer text-red-500 absolute top-0 right-2">&times;</button>
                     </div>
                 @endforeach
@@ -86,6 +87,7 @@
                                 </div>
                             </div>
                         </div>
+                        <a href="/schedules/{{ $sched->id }}" class="inline-block absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Edit Schedule</a>
                         <button wire:click.prevent='deleteSched({{ $sched->id }})' class="font-bold text-4xl hover:text-red-600 cursor-pointer text-red-500 absolute top-0 right-2">&times;</button>
                     </div>
                 @endforeach
