@@ -7,7 +7,7 @@
                 <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $today)->orWhere('end_date', $today)->get() as $sched)
-                    <div class="p-2 ml-5 my-1 shadow rounded relative">
+                    <div class="p-2 my-1 shadow rounded relative">
                         <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
                         <div class="text-gray-500">
                             <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
@@ -37,7 +37,7 @@
                 <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $tomorrow)->get() as $sched)
-                    <div class="p-2 ml-5 my-1 shadow rounded relative">
+                    <div class="p-2 my-1 shadow rounded relative">
                         <div>
                             <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
                             <div class="text-gray-500">
@@ -68,7 +68,7 @@
                 <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->get() as $sched)
-                    <div class="p-2 ml-5 my-1 shadow rounded relative">
+                    <div class="p-2 my-1 shadow rounded relative">
                         <div>
                             <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
                             <div class="text-gray-500">
