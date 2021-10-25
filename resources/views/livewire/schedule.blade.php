@@ -10,7 +10,8 @@
                     <div class="p-2 ml-5 my-1 shadow rounded relative">
                         <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
                         <div class="text-gray-500">
-                            <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
+                            {{-- <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>   --}}
+                            <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::now()->timezone('Asia/Manila') }}</span>  
                             <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
                             <span class="block"><span class="font-semibold">Attendees:</span>
                             <div class="divide-x-2 inline-block">

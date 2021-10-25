@@ -11,8 +11,8 @@ class Schedule extends Component
 
     public function render()
     {
-        $today = \Carbon\Carbon::today()->format('Y-m-j');
-        $tomorrow = \Carbon\Carbon::tomorrow()->format('Y-m-j');
+        $today = \Carbon\Carbon::today()->timezone('Asia/Manila')->format('Y-m-j');
+        $tomorrow = \Carbon\Carbon::tomorrow()->timezone('Asia/Manila')->format('Y-m-j');
 
         return view('livewire.schedule' ,[
             'today' => $today,
