@@ -20,9 +20,6 @@ class PositionTable extends Component
         'newPosition.required' => 'Position is required'
     ];
 
-    public function confirmPositions() {
-        dd('pasok');
-    }
     public function deletePosition() {
         Position::find($this->positionId)->delete();
         $this->emit('positionDeleted');

@@ -7,7 +7,7 @@
         <h1 class="font-semibold text-xl">{{ $ticap }}</h1>
     </div>
    
-    <livewire:position-table />
+    @livewire('position-table')
     {{-- <div> --}}
         {{-- <section class="container p-6">
             <h1 class="font-bold text-xl mb-2">Position</h1>

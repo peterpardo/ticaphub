@@ -34,10 +34,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// UPDATE NAMES
-Route::get('/users/profile', [UserController::class, 'PUpdate'])->name('profile.update');
-Route::post('/users/profile/update', [UserController::class, 'UpdateProfile'])->name('update.user.profile');
-
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');
@@ -78,6 +74,9 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    // UPDATE NAMES
+    Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
+    Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');    
     // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
@@ -138,7 +137,7 @@ Route::middleware(['auth'])->group(function(){
             });
             Route::get('/users', [HomeController::class, 'users'])->name('users');
             Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
-            Route::post('/users/add-student', [UserController::class, 'addUser']);
+            // Route::post('/users/add-student', [UserController::class, 'addUser']);
              
             // DOWNLOAD CSV FILE
             Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});

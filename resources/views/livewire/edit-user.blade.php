@@ -22,46 +22,46 @@
                 <input type="email" wire:model="email" class="rounded w-full text-gray-800 dark:text-gray-900">
             </div>
             @if($user->hasRole('student'))
-            <div class="my-3">
-                <label class="block font-semibold text-lg mb-2 text-gray-800">ID Number</label>
-                <input type="text" wire:model="id_number" class="rounded w-full text-gray-800 dark:text-gray-900">
-                @error('id_number')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="my-3">
-                <label class="block font-semibold text-lg mb-2 text-gray-800">School</label>
-                <select wire:model="selectedSchool" class="w-full rounded">
-                    @foreach ($schools as $school)
-                    <option value="{{ $school->id }}">{{ $school->name }}</option>
-                    @endforeach
-                </select>
-                @error('selectedSchool')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="my-3">
-                <label class="block font-semibold text-lg mb-2 text-gray-800">Specialization</label>
-                <select wire:model="selectedSpec" class="w-full rounded">
-                    @foreach ($specs as $spec)
-                    <option value="{{ $spec->id }}">{{ $spec->name }}</option>
-                    @endforeach
-                </select>
-                @error('selectedSpec')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="my-3">
-                <label class="block font-semibold text-lg mb-2 text-gray-800">Group</label>
-                <select class="rounded w-full text-gray-800 dark:text-gray-900" wire:model="selectedGroup">
-                    @foreach($groups as $group)
-                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                    @endforeach
-                </select>
-                @error('selectedGroup')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
-                @enderror
-            </div>
+                <div class="my-3">
+                    <label class="block font-semibold text-lg mb-2 text-gray-800">ID Number</label>
+                    <input type="text" wire:model="id_number" class="rounded w-full text-gray-800 dark:text-gray-900">
+                    @error('id_number')
+                    <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <label class="block font-semibold text-lg mb-2 text-gray-800">School</label>
+                    <select wire:model="selectedSchool" class="w-full rounded">
+                        @foreach ($schools as $school)
+                        <option value="{{ $school->id }}">{{ $school->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('selectedSchool')
+                    <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <label class="block font-semibold text-lg mb-2 text-gray-800">Specialization</label>
+                    <select wire:model="selectedSpec" class="w-full rounded">
+                        @foreach ($specs as $spec)
+                        <option value="{{ $spec->id }}">{{ $spec->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('selectedSpec')
+                    <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="my-3">
+                    <label class="block font-semibold text-lg mb-2 text-gray-800">Group</label>
+                    <select class="rounded w-full text-gray-800 dark:text-gray-900" wire:model="selectedGroup">
+                        @foreach($groups as $group)
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('selectedGroup')
+                    <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+                    @enderror
+                </div>
             @endif
             <div class="flex justify-evenly my-3">
                 <a href="/users" class="inline-block text-gray-800 rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>

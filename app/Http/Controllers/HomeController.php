@@ -93,6 +93,7 @@ class HomeController extends Controller
             if($ticap->election_has_started && !$ticap->election_finished) {
                 return redirect()->route('election');
             }elseif(!$ticap->election_has_started){
+                session()->flash('error', 'Appoint officers first.');
                 return redirect()->route('set-positions');
             }
         }

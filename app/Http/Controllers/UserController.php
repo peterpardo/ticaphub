@@ -220,106 +220,10 @@ class UserController extends Controller
     // ADD ADMIN FOR USER(STUDENTS) ACCOUNTS
     public function userForm() {
         $title = 'User Accounts';
+
         return view('user-accounts.add-student', [
             'title' => $title,
         ]);
-    }
-    
-    public function addUser(Request $request) {
-        $request->validate([
-            'id_number' => 'required|numeric|max:99999999999',
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'school' => 'required',
-            'specialization' => 'required',
-            'group' => 'required',
-        ]); 
-        // GET PRESENT TICAP
-        $ticap = Auth::user()->ticap_id;
-        // GENERATE DEFAULT PASSWORD
-        $tempPassword = "picab" . $request->student_number;
-        // CREATE USER
-        $user = User::create([
-            'first_name' => Str::title($request->first_name),
-            'middle_name' => Str::title($request->middle_name),
-            'last_name' => Str::title($request->last_name),
-            'password' => Hash::make($tempPassword),
-            'email' => $request->email,
-            'ticap_id' => $ticap,
-        ]);
-        // ASSIGN STUDENT ROLE
-        $user->assignRole('student');
-        // ADD USER WITH SCHOOL AND SPECIALIZATION
-        $user->userSpecialization()->create([
-            'specialization_id' => $request->specialization,
-            'id_number' => $request->id_number,
-        ]);
-        // ASSIGN STUDENT WHICH ELECTION TO VOTE
-        if($user->userSpecialization->specialization->school->id == 1) {
-            $spec = Specialization::find($user->userSpecialization->specialization->id);
-            $spec->election->userElections()->create([
-                'user_id' => $user->id,
-            ]);
-        } else {
-            if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
-                $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
-                $election->userElections()->create([
-                    'user_id' => $user->id,
-                ]);
-            } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
-                $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
-                $election->userElections()->create([
-                    'user_id' => $user->id,
-                ]);
-            }
-        }
-        // CHECK IF GROUP ALREADY EXIST
-        $groupName = Str::upper(trim($request->group));
-        if(!Group::where('name', $groupName)
-        ->where('specialization_id', $request->specialization)
-        ->exists()) {
-            // CREATE GROUP
-            $group = Group::create([
-                'name' => $groupName,
-                'specialization_id' => $request->school,
-                'ticap_id' => $ticap,
-            ]);
-            $user->userGroup()->create([
-                'group_id' => $group->id,
-            ]);
-        } else {
-            // ADD USER TO EXISTING GROUP
-            $group = Group::where('name', $groupName)
-            ->where('specialization_id', $request->specialization)
-            ->first();
-            $user->userGroup()->create([
-                'group_id' => $group->id,
-            ]);
-        };
-        // SEND LINK FOR CHANGING PASSWORD TO USER
-        $token = Str::random(60) . time();
-        $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            'token' => $token, 
-            'ticap' => $ticap,
-            'email' => $request->email,
-        ]);
-        $details = [
-            'title' => 'Welcome to TICaP Hub ' . $request->email,
-            'body' => "You are invited! Click the link below",
-            'link' => $link,
-        ];
-        DB::table('register_users')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' =>  date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
-        dispatch(new RegisterUserJob($request->email, $details));
-        $request->session()->flash('message', 'Invitation has been sent successfully');
-        $request->session()->flash('status', 'green');
-        return back();
     }
 
     public function setPasswordForm(Request $request) {
@@ -504,26 +408,31 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    public function PUpdate(){
-        if(Auth::user()){
-            $user = User::find(Auth::user()->id);
-            if($user){
-                return view('user-accounts.update-user',compact('user'));
-            }
-        }
+    public function editProfile(){
+        $user = User::find(Auth::user()->id);
+        $scripts = [
+            asset('js/useraccounts/user-profile.js'),
+        ];
+
+        return view('user-accounts.update-user', [
+            'user' => $user,
+            'scripts' => $scripts
+        ]);
     }
 
-    public function UpdateProfile(Request $request){
-        $user = User::find(Auth::user()->id);
-        if($user){
-            $user->first_name = $request['first_name'];
-            $user->middle_name = $request['middle_name'];
-            $user->last_name = $request['last_name'];
+    public function updateProfile(Request $request){
+        $request->validate([
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'last_name' => 'required|string',
+        ]);
 
-            $user->save();
-            return Redirect()->back()->with('success','User Profile is updated sucessfully!');
-        } else {
-            return Redirect()->back();
-        }
+        $user = User::find(Auth::user()->id);
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->save();
+
+        return Redirect()->back()->with('success','User Profile is updated sucessfully!');
     }
 }

@@ -45,7 +45,7 @@
 
     {{-- STUDENT TABLE --}}
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
         <table class="w-full">
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -69,9 +69,9 @@
                     </div>
                 </div>
                 </td>
-                <td class="px-4 py-1 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
-                <td class="px-4 py-1 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
-                <td class="px-4 py-1 text-md border text-center">
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
+                <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
+                <td class="px-4 py-3 text-md border text-center">
                     <button wire:click="addCandidate({{ $user->id }})" class="w-1/2 rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">Add</button>
                 </td>
             </tr>
@@ -97,7 +97,7 @@
         </select>
     </div>
     @if($candidates->count() == 0)
-    <div class="bg-gray-300 rounded px-4 py-2 text-center mx-auto dark:text-gray-800">No candidates found</div>
+    <div class="bg-gray-100 rounded py-6 text-center mx-auto dark:text-gray-800">No candidates found</div>
     @else
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">

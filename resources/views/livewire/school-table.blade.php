@@ -9,7 +9,7 @@
         <button wire:click="openConfirmationModal" class="font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button> 
     </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
             <table class="w-full">
                 <thead>
                 <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -81,7 +81,7 @@
         </div>
     </form>
     <div class="w-full mt-5 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
             <table class="w-full">
                 <thead>
                 <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">

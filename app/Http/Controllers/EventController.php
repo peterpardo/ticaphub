@@ -33,8 +33,8 @@ class EventController extends Controller
 
     public function downloadCode($eventId) {
         $url = url('/attendance/'. $eventId);
-        QrCode::generate($url, public_path('assets/qrcode.svg'));
-        return response()->download(public_path('assets/qrcode.svg'));
+        QrCode::format('png')->generate($url, public_path('assets/qrcode.png'));
+        return response()->download(public_path('assets/qrcode.png'));
     }
 
     public function addEvent(Request $request) {

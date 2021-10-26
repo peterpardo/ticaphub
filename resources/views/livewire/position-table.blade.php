@@ -1,14 +1,17 @@
 <div>
-    <h1 class="font-semibold text-xl mb-2">Set Position</h1>
-    @if(session('status'))
-    <span class="bg-{{ session('status') }}-500 inline-block mb-2 text-white rounded px-2 py-1">{{ session('message') }}</span>
+    @if(session('error'))
+        <div class="bg-red-500 mb-2 text-white rounded py-5 text-center">{{ session('error') }}</div>
     @endif
+    <h1 class="font-semibold text-xl mb-2">Set Position</h1>
     <div class="flex justify-between">
         <form wire:submit.prevent='addPosition' class='mb-5'>
             <div class="mb-2">
                 <input type="text" wire:model='newPosition' class="text-gray-800 rounded" placeholder="New Position Name">
                 <button class="text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
             </div>
+            @if(session('status'))
+                <div class="bg-{{ session('status') }}-500 my-1 text-white rounded px-2 py-1">{{ session('message') }}</div>
+            @endif
             @error('newPosition')
             <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">{{ $message }}</span>
             @enderror
@@ -17,8 +20,9 @@
             <a class="inline-block font-bold bg-blue-500 hover:bg-blue-600 px-5 py-3 text-white rounded" href="{{ route('set-candidates') }}">Proceed to Candidates</a>
         </div>
     </div>
+   
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
             <table class="w-full table-fixed">
                 <thead>
                 <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">

@@ -10,7 +10,7 @@
      {{-- STUDENT TABLE --}}
      <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-white-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="Search Student" wire:model.debounce.350ms="search">
      <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
         <table class="table-auto w-full">
             <thead>
             <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -27,7 +27,7 @@
                 <td class="px-4 border">
                 <div class="flex items-center text-sm">
                     <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full" src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="" loading="lazy" />
+                    <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </div>
                     <div>

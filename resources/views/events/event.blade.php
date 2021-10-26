@@ -36,9 +36,11 @@
                     <tr class="">
                         <td class="px-4 py-3 border">{{ $event->name }}</td>
                         <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
-                        <td class="px-4 py-3 border">
-                            {{-- {{ QrCode::format('png')->generate(url('/studentLogin/'. $event->id), public_path('assets/qrcode.png')) }} --}}
-                            {{ QrCode::generate(url('/attendance/'. $event->id)) }}
+                        <td class="px-4 py-3 border mx-auto">
+                            {{-- <div class="w-1/2 mx-auto"> --}}
+                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate(url('/attendance/'. $event->id))) !!} " class="mx-auto">
+                                <p class="text-center mt-1">{{ url('/attendance/'. $event->id) }}</p>
+                            {{-- </div> --}}
                         </td>
                         <td class="px-4 py-3 border">
                             <a href="/download-qr-code/{{ $event->id }}" class="bg-green-500 hover:bg-green-600 rounded inline-block text-white px-2 py-1">Download QR Code</a>
