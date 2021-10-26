@@ -1,19 +1,23 @@
-<x-guest-layout>		
+@php
+	$sliders = DB::table('sliders')->get();
+@endphp
+<x-guest-layout>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">		
 	<section class="">
 	  <div class="sliderAx h-auto">
+		  @foreach($sliders as $slider)
 		  <div id="slider-1" class="">
-			<div class="py-10 md:py-32 lg:py-52 bg-cover bg-center h-full text-white px-10 w-full object-scale-down" style="background-image: url({{ url('assets/programflow.png') }})">
+			<div class="py-10 md:py-32 lg:py-52 bg-cover bg-center h-full text-white px-10 w-full object-scale-down" style="background-image: url({{ asset($slider->image) }});">
+			
 			<div class="">
-			<p class="font-bold text-sm uppercase">TICAP 9.0</p>
-			<p class="text-3xl font-bold">PROGRAM FLOW</p>
-			<p class="text-2xl mb-10 leading-none">Simply click the button to view programs.</p>
-			<a href="#" target="_blank" class="bg-red-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-red-700">View</a>
+			{{-- <p class="font-bold text-sm uppercase">TICAP 9.0</p> --}}
+			<p class="text-3xl font-bold">{{ $slider->title }}</p>
+			<p class="text-2xl mb-10 leading-none">{{ $slider->description }}</p>
 			</div>  
-		</div> <!-- container -->
-		  <br>
+		</div>
 		  </div>
-	
-		  <div id="slider-2" class="">
+		  @endforeach
+		  {{-- <div id="slider-2" class="">
 			<div class="py-10 md:py-32 lg:py-52 bg-cover bg-center h-full text-white px-10 w-full object-contain md:object-scale-down" style="background-image: url(https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/84208363_10157998837678232_4444131587499491328_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeHmAILWaduyGUq7VyafWOnHRjfr1E3f8zNGN-vUTd_zM9E5ReZwF5VcWvYY1GqwFUJ490WM3e0k5gubvkM7dEs-&_nc_ohc=stfDLe2TSycAX-AMzNf&_nc_ht=scontent.fwnp1-1.fna&oh=4fc84044a5e3ae5d8f74c6a3e92d7929&oe=61907FC3)">
 			<div class="">
 				<p class="font-bold text-sm uppercase">FEU Institute of Technology</p>
@@ -24,9 +28,9 @@
 			 
 		</div> <!-- container -->
 		  <br>
-		  </div>
+		  </div> --}}
 		</div>
-	 <div class="flex justify-around w-12 mx-auto">
+	 <div class="flex justify-around w-12 mt-5 mx-auto">
 			<button id="sButton1" onclick="sliderButton1()" class="bg-red-400 rounded-full w-4 pb-2"></button>
 		<button id="sButton2" onclick="sliderButton2() " class="bg-red-400 rounded-full w-4 p-2"></button>
 	  </div>

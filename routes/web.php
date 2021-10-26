@@ -127,6 +127,13 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
+            // HOME SLIDER
+            Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
+            Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
+            Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
+            Route::post('/slider/delete/{id}', [HomeController::class, 'delete']);
+
+
             // USER ACCOUNTS
             Route::middleware(['set.invitation'])->group(function(){
                 Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');

@@ -16,28 +16,28 @@
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">First Name</label>
                     <input type="text" name="first_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('first_name') }}" autocomplete="off">
                     @error('first_name')
-                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Middle Name</label>
                     <input type="text" name="middle_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('middle_name') }}" autocomplete="off">
                     @error('middle_name')
-                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Last Name</label>
                     <input type="text" name="last_name" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('last_name') }}" autocomplete="off">
                     @error('last_name')
-                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Email</label>
                     <input type="email" name="email" class="rounded w-full text-gray-900 dark:text-black" value="{{ old('email') }}" autocomplete="off">
                     @error('email')
-                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="flex justify-evenly my-3">

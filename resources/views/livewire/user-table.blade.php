@@ -70,18 +70,6 @@
     </div>
     {{-- STUDENT TABLE --}}
 
-    {{-- UPDATE USER MODAL --}}
-    {{-- <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="userFormModal">
-        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
-        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
-            <!--content-->
-            <div>
-                <h1 class="text-center text-2xl font-bold">Edit User</h1>
-                @livewire('user-form')
-            </div>
-        </div>
-    </div> --}}
-    {{-- UPDATE USER MODAL --}}
 
     {{-- DELETE USERS MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="modalFormDelete">

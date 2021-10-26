@@ -72,6 +72,7 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'assign task to student']);
         Permission::create(['name' => 'generate report']);
         Permission::create(['name' => 'set schedule']);
+        Permission::create(['name' => 'access slider']);
         // PANELIST
         Permission::create(['name' => 'evaluate']);
 
@@ -101,6 +102,7 @@ class UserSeeder extends Seeder
         $admin->givePermissionTo('appoint committee head');
         $admin->givePermissionTo('generate report');
         $admin->givePermissionTo('set schedule');
+        $admin->givePermissionTo('access slider');
         
         // CHAIRMAN
         $chairman = Role::create(['name' => 'chairman']);
@@ -119,6 +121,8 @@ class UserSeeder extends Seeder
         $chairman->givePermissionTo('add member');
         $chairman->givePermissionTo('add report');
         $chairman->givePermissionTo('appoint committee head');
+        $chairman->givePermissionTo('access slider');
+        
         // OFFICER
         $officer = Role::create(['name' => 'officer']);
         $officer->givePermissionTo('access events');

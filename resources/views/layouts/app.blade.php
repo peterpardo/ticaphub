@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'TICaP HUB') }}</title>
+        <link rel="icon" class="w-10 h-10" href="{{ url('assets/ticap-logo.png') }}"/>
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <!-- Styles -->
@@ -231,6 +232,7 @@
           <ul class="flex flex-col py-4 space-y-1">
             <li class="px-5 hidden md:block">
               <div class="flex flex-row items-center h-8">
+                <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-8"alt="">
                 <span class="ml-2 text-sm tracking-wide truncate">TICAP HUB</span>
               </div>
             </li>
@@ -348,6 +350,18 @@
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6a2 2 0 0 0-2 2v16c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 3v5h5M16 13H8M16 17H8M10 9H8"/></svg>
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Evaluate Capstone Groups</span>
+              </a>
+            </li>
+            @endcan
+            @can('access slider')
+            <li>
+              <a href="{{ route('home.slider') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+                  </svg>
+                  </span>  
+                <span class="ml-2 text-sm tracking-wide truncate">Home Slider</span>
               </a>
             </li>
             @endcan

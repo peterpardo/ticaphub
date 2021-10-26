@@ -4,7 +4,7 @@
             {{-- SCHEDULES FOR TODAY--}}
             <h1 class="font-semibold text-2xl mb-2">Today</h1>
             @if(\App\Models\Schedule::where('start_date', $today)->count() == 0 && \App\Models\Schedule::where('end_date', $today)->count() == 0)
-                <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
+                <div class="text-gray-800 bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $today)->orWhere('end_date', $today)->get() as $sched)
                     <div class="p-2 my-1 shadow rounded relative">
@@ -34,7 +34,7 @@
         <div class="mb-2">
             <h1 class="font-semibold text-2xl mb-2">Tomorrow</h1>
             @if(\App\Models\Schedule::where('start_date', $tomorrow)->count() == 0)
-                <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
+                <div class="text-gray-800 bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $tomorrow)->get() as $sched)
                     <div class="p-2 my-1 shadow rounded relative">
@@ -66,7 +66,7 @@
         <div class="mb-2">
             <h1 class="font-semibold text-2xl mb-2">Upcoming Schedules</h1>
             @if(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->count() == 0)
-                <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
+                <div class="text-gray-800  bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->get() as $sched)
                     <div class="p-2 my-1 shadow rounded relative">
