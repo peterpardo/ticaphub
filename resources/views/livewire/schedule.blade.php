@@ -7,11 +7,11 @@
                 <div class="text-gray-800 bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $today)->orWhere('end_date', $today)->get() as $sched)
-                    <div class="p-2 my-1 shadow rounded relative">
-                        <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
+                    <div class="bg-gray-100 p-2 my-1 shadow rounded relative">
+                        <h1 class="text-gray-900 text-xl font-semibold">{{ $sched->name }}</h1> 
                         <div class="text-gray-500">
                             <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
-                            <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->timezone('Asia/Manila')->format('F j, Y')}}</span>  
+                            <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
                             <span class="block"><span class="font-semibold">Attendees:</span>
                             <div class="divide-x-2 inline-block">
                                 @if($sched->attendees->count() == 0)
@@ -37,12 +37,12 @@
                 <div class="text-gray-800 bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
                 @foreach(\App\Models\Schedule::where('start_date', $tomorrow)->get() as $sched)
-                    <div class="p-2 my-1 shadow rounded relative">
+                    <div class="bg-gray-100 p-2 my-1 shadow rounded relative">
                         <div>
-                            <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
+                            <h1 class="text-gray-900 text-xl font-semibold">{{ $sched->name }}</h1> 
                             <div class="text-gray-500">
-                                <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
-                                <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
+                                <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->timezone('Asia/Manila')->format('F j, Y')}}</span>  
+                            <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->timezone('Asia/Manila')->format('F j, Y')}}</span>
                                 <span class="block"><span class="font-semibold">Attendees:</span>
                                 <div class="divide-x-2 inline-block">
                                     @if($sched->attendees->count() == 0)
@@ -65,16 +65,16 @@
         {{-- UPCOMING SCHEDULES --}}
         <div class="mb-2">
             <h1 class="font-semibold text-2xl mb-2">Upcoming Schedules</h1>
-            @if(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->count() == 0)
+            @if(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->where('end_date', '!=', $today)->where('end_date', '!=', $tomorrow)->count() == 0)
                 <div class="text-gray-800  bg-gray-100 text-center py-5 rounded">No scheduled events</div>
             @else
-                @foreach(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->get() as $sched)
-                    <div class="p-2 my-1 shadow rounded relative">
+                @foreach(\App\Models\Schedule::where('start_date', '!=', $today)->where('start_date', '!=', $tomorrow)->where('end_date', '!=', $today)->where('end_date', '!=', $tomorrow)->get() as $sched)
+                    <div class="bg-gray-100 p-2 my-1 shadow rounded relative">
                         <div>
-                            <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
+                            <h1 class="text-gray-900 text-xl font-semibold">{{ $sched->name }}</h1> 
                             <div class="text-gray-500">
-                                <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
-                                <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
+                                <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->timezone('Asia/Manila')->format('F j, Y')}}</span>  
+                            <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->timezone('Asia/Manila')->format('F j, Y')}}</span>
                                 <span class="block"><span class="font-semibold">Attendees:</span>
                                 <div class="divide-x-2 inline-block">
                                     @if($sched->attendees->count() == 0)

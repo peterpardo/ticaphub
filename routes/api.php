@@ -26,9 +26,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     
-    // Home Page
+    // User Page
     Route::get('/home', [HomeController::class, 'home']);
     Route::get('/home/{taskId}', [HomeController::class, 'showTask']);
+    Route::get('/user/{id}', [HomeController::class, 'showUser']);
+    Route::put('/user/{id}', [HomeController::class, 'updateUser']);
 
     // Events
     Route::get('/events', [EventController::class, 'getEvents']);

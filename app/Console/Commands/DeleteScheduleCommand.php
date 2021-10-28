@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Schedule;
+use DateTime;
 
 class DeleteScheduleCommand extends Command
 {
@@ -19,7 +20,7 @@ class DeleteScheduleCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Delete expired events';
 
     /**
      * Create a new command instance.
@@ -40,7 +41,7 @@ class DeleteScheduleCommand extends Command
     {
         $scheds = Schedule::all();
         foreach($scheds as $sched) {
-            if(\Carbon\Carbon::parse($sched->start_date)->timezone('Asia/Manila') < \Carbon\Carbon::tomorrow()->timezone('Asia/Manila')) {
+            if($sched->start_date < \Carbon\Carbon::now('Asia/Manila') && $sched->end_date < \Carbon\Carbon::now('Asia/Manila')) {
                 $sched->delete();
             }
         }

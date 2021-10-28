@@ -1,45 +1,48 @@
 @php
 	$sliders = DB::table('sliders')->get();
 @endphp
-<x-guest-layout>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">		
-	<section class="">
-	  <div class="sliderAx h-auto">
-		  @foreach($sliders as $slider)
-		  <div id="slider-1" class="">
-			<div class="py-10 md:py-32 lg:py-52 bg-cover bg-center h-full text-white px-10 w-full object-scale-down" style="background-image: url({{ asset($slider->image) }});">
-			
-			<div class="">
-			{{-- <p class="font-bold text-sm uppercase">TICAP 9.0</p> --}}
-			<p class="text-3xl font-bold">{{ $slider->title }}</p>
-			<p class="text-2xl mb-10 leading-none">{{ $slider->description }}</p>
-			</div>  
-		</div>
-		  </div>
-		  @endforeach
-		  {{-- <div id="slider-2" class="">
-			<div class="py-10 md:py-32 lg:py-52 bg-cover bg-center h-full text-white px-10 w-full object-contain md:object-scale-down" style="background-image: url(https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/84208363_10157998837678232_4444131587499491328_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeHmAILWaduyGUq7VyafWOnHRjfr1E3f8zNGN-vUTd_zM9E5ReZwF5VcWvYY1GqwFUJ490WM3e0k5gubvkM7dEs-&_nc_ohc=stfDLe2TSycAX-AMzNf&_nc_ht=scontent.fwnp1-1.fna&oh=4fc84044a5e3ae5d8f74c6a3e92d7929&oe=61907FC3)">
-			<div class="">
-				<p class="font-bold text-sm uppercase">FEU Institute of Technology</p>
-				<p class="text-3xl font-bold ">College of Computer Studies</p>
-				<p class="text-2xl mb-10 leading-none"></p>
-				<a href="https://www.facebook.com/TICAPv5.0" target="_blank" class="bg-red-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-red-700">View more</a>
-			</div>
-			 
-		</div> <!-- container -->
-		  <br>
-		  </div> --}}
-		</div>
-	 <div class="flex justify-around w-12 mt-5 mx-auto">
-			<button id="sButton1" onclick="sliderButton1()" class="bg-red-400 rounded-full w-4 pb-2"></button>
-		<button id="sButton2" onclick="sliderButton2() " class="bg-red-400 rounded-full w-4 p-2"></button>
-	  </div>
-	</section>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</head>
 
-	<main class="container mx-auto flex flex-row items-center p-5 w-auto h-auto justify-evenly">
+<x-guest-layout>
+    @if($sliders->count() == 0)
+    <div class="hidden"></div>
+    @else
+<section>
+    <div class="w-full mx-auto overflow-hidden">
+        <div id="slider" class="swiper-container w-full mx-auto">
+            <div class="swiper-wrapper">
+                @foreach($sliders as $key => $slider)
+                <div class="swiper-slide bg-cover bg-center h-full text-white py-24 px-10 object-fill" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{asset($slider->image)}}); background-repeat: no-repeat; background-size: cover;">
+                    <div class="container mx-auto px-6 md:px-20 py-6">
+                        <div class="w-full md:w-1/2">
+                            <div class="mt-24">
+                                <h3 class="text-5xl font-bold">{{ $slider->title }}</h3>
+                                <p class="text-2xl pt-10 leading-none">{{ $slider->description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <div class="hidden md:flex swiper-button-prev bg-transparent w-10 h-w-10 text-xs rounded-full text-red-600"></div>
+            <div class="hidden md:flex swiper-button-next bg-transparent w-10 h-w-10 text-xs rounded-full text-red-600"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+@endif
+{{-- MAIN CONTENT --}}
+	<main class="container mx-auto flex flex-row items-center p-5 w-auto h-screen justify-evenly mt-40 sm:mt-0">
 		<div class="grid grid-col md:grid-cols-2">
 			<div class="flex flex-row md:justify-start justify-center">
-				<div class="flex flex-col w-full md:w-3/4 object-cover h-4/5 justify-items-start border rounded-lg overflow-hidden"
+				<div class="flex flex-col w-full md:w-3/4 object-cover h-60 justify-items-start border rounded-lg overflow-hidden"
 					style="min-heigth:320px">
 					<div class="h-72">
 						<iframe class="w-full h-full object-cover object-center block rounded" src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fheintjievicente%2Fvideos%2F10158627770145853%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
@@ -59,64 +62,35 @@
 			</div>
 	</main>
 </x-guest-layout>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-	  <script>
-		var cont=0;
-	function loopSlider(){
-	  var x= setInterval(function(){
-			switch(cont)
-			{
-			case 0:{
-				$("#slider-1").fadeOut(400);
-				$("#slider-2").delay(400).fadeIn(400);
-				$("#sButton1").removeClass("bg-red-800");
-				$("#sButton2").addClass("bg-red-800");
-			cont=1;
-			
-			break;
-			}
-			case 1:
-			{
-				$("#slider-2").fadeOut(400);
-				$("#slider-1").delay(400).fadeIn(400);
-				$("#sButton2").removeClass("bg-red-800");
-				$("#sButton1").addClass("bg-red-800");
-			cont=0;
-			
-			break;
-			}
+<style>
+    .swiper-pagination-bullet-active {
+  background-color: rgba(220, 38, 38, var(--tw-text-opacity));
+}
+</style>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        // Optional parameters
+        direction: 'horizontal',
+        loop: true,
 
-			}},8000);
-	
-	}
-	
-	function reinitLoop(time){
-	clearInterval(xx);
-	setTimeout(loopSlider(),time);
-	}
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+        },
 
-	function sliderButton1(){
-	
-		$("#slider-2").fadeOut(400);
-		$("#slider-1").delay(400).fadeIn(400);
-		$("#sButton2").removeClass("bg-red-800");
-		$("#sButton1").addClass("bg-red-800");
-		reinitLoop(4000);
-		cont=0
-		}
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
 
-		function sliderButton2(){
-		$("#slider-1").fadeOut(400);
-		$("#slider-2").delay(400).fadeIn(400);
-		$("#sButton1").removeClass("bg-red-800");
-		$("#sButton2").addClass("bg-red-800");
-		reinitLoop(4000);
-		cont=1
-		}
-	
-		$(window).ready(function(){
-			$("#slider-2").hide();
-			$("#sButton1").addClass("bg-red-800");
-			loopSlider();
-		});
-	  </script>
+        // And if we need scrollbar
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+        autoplay: {
+            delay: 4000,
+        },
+        loop: true,
+    });
+</script>

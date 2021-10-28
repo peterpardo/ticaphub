@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');    
     // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+    Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
     Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
     Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
     Route::get('/schedules/{schedId}', [ScheduleController::class, 'editSchedule']);
@@ -131,7 +132,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
             Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
             Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
-            Route::post('/slider/delete/{id}', [HomeController::class, 'delete']);
+            Route::get('/slider/delete/{id}', [HomeController::class, 'delete']);
 
 
             // USER ACCOUNTS

@@ -10,6 +10,7 @@ use Google\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\GoogleCalendar\Event;
+use Acaronlex\LaravelCalendar\Calendar;
 
 class ScheduleController extends Controller
 {
@@ -38,6 +39,19 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function viewCalendar() {
+        $title = 'Schedules';
+
+        $scripts = [
+            asset('js/schedules/calendar.js'),
+        ];
+
+        return view('schedules.calendar', [
+            'title' => $title,
+            'scripts' => $scripts,
+        ]);
+    }
+
     public function createSchedule() {
         $title = 'Schedules';
 
@@ -53,8 +67,8 @@ class ScheduleController extends Controller
             'end_date' => 'required',
         ]);
 
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
+        $startDate = Carbon::parse($request->start_date . "23:59:59", 'Asia/Manila');
+        $endDate = Carbon::parse($request->end_date . "23:59:59", 'Asia/Manila');
 
         if($startDate > $endDate) {
             session()->flash('status', 'red');

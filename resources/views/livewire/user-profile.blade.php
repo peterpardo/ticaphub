@@ -41,6 +41,15 @@
                 <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
             @enderror
         </div>
+        @role('student')
+        <div class="my-3">
+            <label class="font-semibold text-base text-gray-900 dark:text-gray-900">ID Number</label>
+            <input type="text" wire:model="id_number" class="rounded w-full text-gray-900 dark:text-black" autocomplete="off">
+            @error('id_number')
+                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+            @enderror
+        </div>
+        @endrole
         <div class="text-center">
             <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Update</button>
         </div>

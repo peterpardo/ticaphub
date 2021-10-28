@@ -151,7 +151,7 @@ class HomeController extends Controller
         
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension(); 
         Image::make($image)->resize(1920, 1080)->save('image/slider'.$name_gen);
-
+        
         $last_img = 'image/slider'.$name_gen;
 
         Slider::insert([

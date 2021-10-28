@@ -5,68 +5,7 @@
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
   </div>
 <section>
-    {{-- <!---===================== FIRST ROW CONTAINING THE  STATS CARD STARTS HERE =============================-->
-<div class="flex flex-col justify-evenly lg:flex-row lg:w-full bg-gray-100 py-10 p-14 rounded">
-<!---== First Stats Container ====--->
-<div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
-<div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-<div class="h-20 bg-red-400 flex items-center justify-between">
-  <p class="mr-0 text-white text-lg pl-5">Lorem</p>
-</div>
-<div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
-  <p>TOTAL</p>
-</div>
-<p class="py-4 text-3xl ml-5">20,456</p>
-<!-- <hr > -->
-</div>
-</div>
-<!---== First Stats Container ====--->
-
-<!---== Second Stats Container ====--->
-<div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
-<div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-<div class="h-20 bg-red-700 flex items-center justify-between">
-  <p class="mr-0 text-white text-lg pl-5">Lorem</p>
-</div>
-<div class="flex justify-between px-5 pt-6 mb-2 text-sm text-gray-600">
-  <p>TOTAL</p>
-</div>
-<p class="py-4 text-3xl ml-5">19,694</p>
-<!-- <hr > -->
-</div>
-</div>
-<!---== Second Stats Container ====--->
-
-<!---== Third Stats Container ====--->
-<div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
-<div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-<div class="h-20 bg-purple-400 flex items-center justify-between">
-  <p class="mr-0 text-white text-lg pl-5">Lorem</p>
-</div>
-<div class="flex justify-between pt-6 px-5 mb-2 text-sm text-gray-600">
-  <p>TOTAL</p>
-</div>
-<p class="py-4 text-3xl ml-5">711</p>
-<!-- <hr > -->
-</div>
-</div>
-<!---== Third Stats Container ====--->
-
-<!---== Fourth Stats Container ====--->
-<div class="mt-6 sm:mt-5 md:mt-0 container mx-auto pr-4">
-<div class="w-80 md:w-52 lg:w-auto bg-white max-w-xs mx-auto rounded-md overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-100 cursor-pointer">
-<div class="h-20 bg-purple-400 flex items-center justify-between">
-  <p class="mr-0 text-white text-lg pl-5">Lorem</p>
-</div>
-<div class="flex justify-between pt-6 px-5 mb-2 text-sm text-gray-600">
-  <p>TOTAL</p>
-</div>
-<p class="py-4 text-3xl ml-5">711</p>
-<!-- <hr > -->
-</div>
-</div>
-<!---== Fourth Stats Container ====---> --}}
- <!-- Statistics Cards -->
+  
  @if($user->hasRole('admin'))
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
   <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">

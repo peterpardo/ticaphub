@@ -16,6 +16,7 @@ class UserProfile extends Component
     public $first_name;
     public $middle_name;
     public $last_name;
+    public $id_number;
     public $current_profile;
     public $profile_picture;
     public $profileChanged = false;
@@ -23,6 +24,7 @@ class UserProfile extends Component
         'first_name' => 'required|string',
         'middle_name' => 'required|string',
         'last_name' => 'required|string',
+        'id_number' => 'numeric'
     ];
 
     public function mount() {
@@ -30,14 +32,24 @@ class UserProfile extends Component
         $this->middle_name = $this->user->middle_name;
         $this->last_name = $this->user->last_name;
         $this->current_profile = $this->user->profile_picture;
+        if($this->user->hasRole('student')){
+            $this->id_number = $this->user->userSpecialization->id_number;
+        }
     }
     public function render() {
         return view('livewire.user-profile');
     }
 
     public function updateUserDetails() {
-        $validated = $this->validate();
-        User::where('id', $this->user->id)->update($validated);
+        $this->validate();
+        $this->user->first_name = $this->first_name;
+        $this->user->middle_name = $this->middle_name;
+        $this->user->last_name = $this->last_name;
+        $this->user->save();
+        if($this->user->hasRole('student')) {
+            $this->user->userSpecialization->id_number = $this->id_number;
+            $this->user->userSpecialization->save();
+        }
         $this->resetValidation();
         $this->profileChanged = false;
         $this->emit('profileUpdated');
