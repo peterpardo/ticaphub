@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function(){
     // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
+    Route::get('/schedules/events', [ScheduleController::class, 'getSchedules']);
     Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
     Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
     Route::get('/schedules/{schedId}', [ScheduleController::class, 'editSchedule']);

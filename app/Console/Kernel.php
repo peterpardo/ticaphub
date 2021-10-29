@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('schedule:delete')->dailyAt('00:59')->timezone('Asia/Manila')->withoutOverlapping();
+        $schedule->command('schedule:delete')->dailyAt('00:00')->timezone('Asia/Manila')->withoutOverlapping();
     }
 
     /**

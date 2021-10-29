@@ -9,25 +9,7 @@ function app() {
         blankdays: [],
         days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
-        events: [
-            {
-                event_date: new Date(2020, 3, 1),
-                event_title: "April Fool's Day",
-                event_theme: 'blue'
-            },
-
-            {
-                event_date: new Date(2020, 3, 10),
-                event_title: "Birthday",
-                event_theme: 'red'
-            },
-
-            {
-                event_date: new Date(2020, 3, 16),
-                event_title: "Upcoming Event",
-                event_theme: 'green'
-            }
-        ],
+        events: [],
         event_title: '',
         event_date: '',
         event_theme: 'blue',
@@ -119,15 +101,9 @@ function app() {
         },
 
         getEvents() {
-            let e = [
-                {
-                    event_title: 'first event',
-                    event_date: new Date(2020, 10, 27),
-                    event_theme: 'red'
-                }
-            ];
-
-            this.events.push(e);
+            let data = fetch('/schedules/events')
+                .then(response => response.json())
+                .then(data => console.log(data));
         }
     }
 }

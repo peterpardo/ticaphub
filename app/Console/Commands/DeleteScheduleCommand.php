@@ -41,7 +41,8 @@ class DeleteScheduleCommand extends Command
     {
         $scheds = Schedule::all();
         foreach($scheds as $sched) {
-            if($sched->start_date < \Carbon\Carbon::now('Asia/Manila') && $sched->end_date < \Carbon\Carbon::now('Asia/Manila')) {
+            if(\Carbon\Carbon::parse($sched->start_date. "23:59:59", 'Asia/Manila') < \Carbon\Carbon::now('Asia/Manila') && 
+                \Carbon\Carbon::parse($sched->end_date. "23:59:59", 'Asia/Manila') < \Carbon\Carbon::now('Asia/Manila')) {
                 $sched->delete();
             }
         }

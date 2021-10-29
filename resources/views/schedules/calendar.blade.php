@@ -1,6 +1,7 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-        <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
+        <a href="/schedules" class="bg-red-500 hover:bg-red-600 rounded text-white px-2 py-1">Back</a>
+        <div x-data="app()" x-init="[initDate(), getNoOfDays(), getEvents()]" x-cloak>
             <div class="container mx-auto px-4 py-2">
                   
                 <div class="font-bold text-gray-800 text-xl mb-4">
@@ -32,7 +33,7 @@
                                 class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
                                 :class="{'cursor-not-allowed opacity-25': month == 11 }"
                                 :disabled="month == 11 ? true : false"
-                                @click="month++; getNoOfDays()">
+                                @click="month++; getNoOfDays())">
                                 <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>									  
@@ -83,7 +84,9 @@
                                                     'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
                                                 }"
                                             >
-                                                <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
+                                                <div class="flex flex-col">
+                                                    <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
+                                                </div>
                                             </div>
                                         </template>
                                     </div>
@@ -126,7 +129,6 @@
                                         <template x-for="(theme, index) in themes">
                                             <option :value="theme.value" x-text="theme.label"></option>
                                         </template>
-                                    
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 {{-- <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg> --}}

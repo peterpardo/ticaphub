@@ -52,6 +52,12 @@ class ScheduleController extends Controller
         ]);
     }
 
+    public function getSchedules() {
+        $schedules = Schedule::all();
+
+        return $schedules;
+    }
+
     public function createSchedule() {
         $title = 'Schedules';
 
@@ -76,7 +82,7 @@ class ScheduleController extends Controller
             return back()->withInput();
         }
         
-        if($startDate < Carbon::today()) {
+        if($startDate < Carbon::now()) {
             session()->flash('status', 'red');
             session()->flash('message', 'Start date is invalid.');
             return back()->withInput();

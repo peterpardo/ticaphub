@@ -150,6 +150,7 @@ class HomeController extends Controller
         // $image->move($up_location,$img_name);
         
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension(); 
+        // dito yung error
         Image::make($image)->resize(1920, 1080)->save('image/slider'.$name_gen);
         
         $last_img = 'image/slider'.$name_gen;
