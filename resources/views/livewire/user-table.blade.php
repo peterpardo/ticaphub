@@ -27,7 +27,7 @@
                 <td class="px-4 border">
                 <div class="flex items-center text-sm">
                     <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                    @if($user->profile)
+                    @if($user->profile != 'profiles/default-img.png')
                         <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
                     @else
                         <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />

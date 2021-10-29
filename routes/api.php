@@ -30,7 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/home', [HomeController::class, 'home']);
     Route::get('/home/{taskId}', [HomeController::class, 'showTask']);
     Route::get('/user/{id}', [HomeController::class, 'showUser']);
-    Route::put('/user/{id}', [HomeController::class, 'updateUser']);
+    Route::post('/user/{id}', [HomeController::class, 'updateUser']);
 
     // Events
     Route::get('/events', [EventController::class, 'getEvents']);
