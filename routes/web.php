@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    // UPDATE NAMES
+    // UPDATE USER
     Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
     Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');    
     // SCHEDULES

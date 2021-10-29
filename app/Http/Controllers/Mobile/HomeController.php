@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -50,6 +51,21 @@ class HomeController extends Controller
             $user->userSpecialization->id_number = $request->id_number;
             $user->userSpecialization->save();
         }
+        if($request->file('profile_picture')) {
+            $request->validate([
+                'profile_picture' => 'mimes:png,jpeg,jpg|max:5120'
+            ]);
+            if($user->profile_picture && $user->profile_picture != 'profiles/default-img.png') {
+                unlink(storage_path('app/public/'.$user->profile_picture));
+            }
+            $extension = $request->file('profile_picture')->extension();
+            $path = 'profiles/';
+            $fileName = Str::uuid() . '.' . $extension;
+            $request->file('profile_picture')->storeAs($path, $fileName, 'public');
+            $user->profile_picture = $path . $fileName;
+            $user->save();
+        }
+       
         return response([
             'message' => 'Profile updated'
         ]);
