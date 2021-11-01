@@ -12,8 +12,8 @@ class Schedule extends Model
     protected $table = 'schedules';
     protected $fillable = [
         'name',
-        'start_date',
-        'end_date',
+        'date',
+        'theme'
     ];
 
     public function attendees() {

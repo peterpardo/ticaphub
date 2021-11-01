@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchedulesTable extends Migration
+class CreateStreamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSchedulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('streams', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('date');
-            $table->string('theme');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->longText('stream_link')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateSchedulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('streams');
     }
 }

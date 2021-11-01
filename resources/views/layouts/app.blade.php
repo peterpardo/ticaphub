@@ -19,6 +19,7 @@
     </head>
 
     <style>
+
   /* Compiled dark classes from Tailwind */
   .dark .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
     border-color: rgba(55, 65, 81);
@@ -136,7 +137,7 @@
   @media only screen and (min-width: 768px) {
       .header-right {
           width: calc(100% - 16rem);
-      }        
+      }
   }
 </style>
 <div x-data="setup()" :class="{ 'dark': isDark }">
@@ -203,7 +204,7 @@
     display: block;
   }
   </style>
-  
+
   <div class="dropdown inline-block relative">
     <button class="text-white font-semibold py-3 px-9 rounded inline-flex items-center">
       <span>Menu</span>
@@ -211,13 +212,13 @@
     <ul class="dropdown-content absolute hidden text-white text-sm text-left pt-1">
       <li><a class="bg-red-800 hover:bg-red-600 py-2 px-10 block whitespace-no-wrap dark:bg-gray-800 dark:hover:bg-gray-600" href="{{ route('profile.update') }}">Manage Profile</a></li>
       <li>
-        <form 
-        method="POST" 
+        <form
+        method="POST"
         action="{{ route('logout') }}">
         @csrf
             <a class="rounded-b bg-red-800 hover:bg-red-600 py-2 px-10 block whitespace-no-wrap dark:bg-gray-800 dark:hover:bg-gray-600" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
         </a>
-      </form>   
+      </form>
       </li>
     </ul>
   </div>
@@ -225,7 +226,7 @@
         </div>
       </div>
       <!-- ./Header -->
-    
+
      <!-- Sidebar -->
      <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-red-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
         <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -258,7 +259,7 @@
             <li>
               <a href="{{ route('schedules') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
                 <span class="inline-flex justify-center items-center ml-4">
-                  
+
                   <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Schedules</span>
@@ -360,26 +361,36 @@
                   <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
                   </svg>
-                  </span>  
+                  </span>
                 <span class="ml-2 text-sm tracking-wide truncate">Home Slider</span>
               </a>
             </li>
+            <li>
+                <a href="{{ route('home.stream') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
+                  <span class="inline-flex justify-center items-center ml-4">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+                    </svg>
+                    </span>
+                  <span class="ml-2 text-sm tracking-wide truncate">Home Stream</span>
+                </a>
+              </li>
             @endcan
           </ul>
         </div>
       </div>
       <!-- ./Sidebar -->
-    
+
       <div class="h-full ml-14 mt-14 mb-10 md:ml-64">
             <!-- Page Content -->
             <div class="flex-1 px-4 py-2">
                 {{ $slot }}
         </div>
-     
-    
+
+
       </div>
     </div>
-  </div>    
+  </div>
 
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
   <script>
@@ -411,7 +422,7 @@
     @endforeach
     @livewireScripts
   </body>
-    
+
 </html>
 
 
@@ -423,8 +434,8 @@
 
             {{-- @include('layouts.mynav') --}}
 
-            
 
-            
+
+
         {{-- </div>
-    </body> --}} 
+    </body> --}}

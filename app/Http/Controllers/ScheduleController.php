@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\GoogleCalendar\Event;
 use Acaronlex\LaravelCalendar\Calendar;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -30,19 +31,6 @@ class ScheduleController extends Controller
 
         $title = 'Schedules';
         $scripts = [
-            asset('js/schedules/schedules.js'),
-        ];
-
-        return view('schedules.index', [
-            'title' => $title,
-            'scripts' => $scripts,
-        ]);
-    }
-
-    public function viewCalendar() {
-        $title = 'Schedules';
-
-        $scripts = [
             asset('js/schedules/calendar.js'),
         ];
 
@@ -52,46 +40,52 @@ class ScheduleController extends Controller
         ]);
     }
 
+    // public function viewCalendar() {
+    //     $title = 'Schedules';
+
+    //     $scripts = [
+    //         asset('js/schedules/calendar.js'),
+    //     ];
+
+    //     return view('schedules.calendar', [
+    //         'title' => $title,
+    //         'scripts' => $scripts,
+    //     ]);
+    // }
+
     public function getSchedules() {
-        $schedules = Schedule::all();
+        $schedules = Schedule::with(['attendees'])->get();
 
         return $schedules;
     }
 
-    public function createSchedule() {
-        $title = 'Schedules';
+    // public function createSchedule() {
+    //     $title = 'Schedules';
 
-        return view('schedules.create', [
-            'title' => $title
-        ]);
-    }
+    //     return view('schedules.create', [
+    //         'title' => $title
+    //     ]);
+    // }
 
     public function addSchedule(Request $request) {
-        $request->validate([
-            'name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+        $validator = Validator::make($request->all(), [
+            'event_title' => 'required',
+            'event_date' => 'required',
+            'event_theme' => 'required',
         ]);
 
-        $startDate = Carbon::parse($request->start_date . "23:59:59", 'Asia/Manila');
-        $endDate = Carbon::parse($request->end_date . "23:59:59", 'Asia/Manila');
+        $date = Carbon::parse($request->event_date . "23:59:59", 'Asia/Manila');
 
-        if($startDate > $endDate) {
-            session()->flash('status', 'red');
-            session()->flash('message', 'End date is invalid.');
-            return back()->withInput();
-        }
-        
-        if($startDate < Carbon::now()) {
-            session()->flash('status', 'red');
-            session()->flash('message', 'Start date is invalid.');
-            return back()->withInput();
+        if($validator->fails()) {
+            return response([
+                'errors' => $validator->errors()
+            ]);
         }
 
         $sched = Schedule::create([
-            'name' => $request->name,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'name' => $request->event_title,
+            'date' => $date,
+            'theme' => $request->event_theme
         ]);
 
         if($request->attendees != null) {
@@ -120,61 +114,53 @@ class ScheduleController extends Controller
                 }
             }
         }
-       
-        // dd($request->all());
-        // $startTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('start_time'));
-        // $endTime = Carbon::parse($request->input('start_date') . ' ' . $request->input('end_time'));
-        // dd(date_format($startTime, 'F j Y'));
-        // dd(date_format(Carbon::tomorrow(), 'F j Y'));
-        // dd(Carbon::tomorrow());
-        // dd(date('Y-m-d H:i:s', strtotime($startTime)));
 
-        session()->flash('status', 'green');
-        session()->flash('message', 'Schedule successfullly created');
-        return redirect()->route('schedules');
-    }
-
-    public function editSchedule($schedId) {
-        $title = 'Schedules';
-        $sched = Schedule::find($schedId);
-        return view('schedules.edit', [
-            'title' => $title,
-            'sched' => $sched
+        return response([
+            'success' => 'Schedule successfully created.'
         ]);
     }
 
-    public function updateSchedule(Request $request, $schedId) {
-        $request->validate([
-            'name' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+    public function deleteSchedule($id) {
+        Schedule::find($id)->delete();
+
+        return response([
+            'success' => 'Schedule successfully deleted.'
+        ]);
+    }
+
+    // public function editSchedule($schedId) {
+    //     $title = 'Schedules';
+    //     $sched = Schedule::find($schedId);
+    //     return view('schedules.edit', [
+    //         'title' => $title,
+    //         'sched' => $sched
+    //     ]);
+    // }
+
+    public function updateSchedule(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'event_title' => 'required',
+            'event_date' => 'required',
+            'event_theme' => 'required',
         ]);
 
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
+        $date = Carbon::parse($request->event_date . "23:59:59", 'Asia/Manila');
 
-        if($startDate > $endDate) {
-            session()->flash('status', 'red');
-            session()->flash('message', 'End date is invalid.');
-            return back()->withInput();
-        }
-        
-        if($startDate < Carbon::today()) {
-            session()->flash('status', 'red');
-            session()->flash('message', 'Start date is invalid.');
-            return back()->withInput();
+        if($validator->fails()) {
+            return response([
+                'errors' => $validator->errors()
+            ]);
         }
 
-        $sched = Schedule::find($schedId);
-        $sched->name = $request->name;
-        $sched->start_date = $request->start_date;
-        $sched->end_date = $request->end_date;
+        $sched = Schedule::find($id);
+        $sched->name = $request->event_title;
+        $sched->date = $date;
+        $sched->theme = $request->event_theme;
         $sched->save();
 
         if($request->attendees != null) {
-            $sched->users()->detach();
             $sched->attendees()->delete();
-
+            $sched->users()->detach();
             foreach($request->attendees as $attendee) {
                 $sched->attendees()->create([
                     'name' => $attendee
@@ -201,8 +187,8 @@ class ScheduleController extends Controller
             }
         }
 
-        session()->flash('status', 'green');
-        session()->flash('message', 'Schedule successfullly updated');
-        return redirect()->route('schedules');
+        return response([
+            'success' => 'Schedule successfully updated.'
+        ]);
     }
 }

@@ -1,12 +1,7 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-        <a href="/schedules" class="bg-red-500 hover:bg-red-600 rounded text-white px-2 py-1">Back</a>
         <div x-data="app()" x-init="[initDate(), getNoOfDays(), getEvents()]" x-cloak>
             <div class="container mx-auto px-4 py-2">
-                  
-                <div class="font-bold text-gray-800 text-xl mb-4">
-                    Schedule Tasks
-                </div>
     
                 <div class="bg-white rounded-lg shadow overflow-hidden">
     
@@ -33,7 +28,7 @@
                                 class="leading-none rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
                                 :class="{'cursor-not-allowed opacity-25': month == 11 }"
                                 :disabled="month == 11 ? true : false"
-                                @click="month++; getNoOfDays())">
+                                @click="month++; getNoOfDays()">
                                 <svg class="h-6 w-6 text-gray-500 inline-flex leading-none"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>									  
@@ -62,7 +57,7 @@
                             <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex">	
                                 <div style="width: 14.28%; height: 120px" class="px-4 pt-2 border-r border-b relative">
                                     <div
-                                        @click="showEventModal(date)"
+                                        @click="showEventModal(date, 'add')"
                                         x-text="date"
                                         class="inline-flex w-6 h-6 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100"
                                         :class="{'bg-blue-500 text-white': isToday(date) == true, 'text-gray-700 hover:bg-blue-200': isToday(date) == false }"	
@@ -70,22 +65,23 @@
                                     <div style="height: 80px;" class="overflow-y-auto mt-1">
                                         <div 
                                             class="absolute top-0 right-0 mt-2 mr-2 inline-flex items-center justify-center rounded-full text-sm w-6 h-6 bg-gray-700 text-white leading-none"
-                                            x-show="events.filter(e => e.event_date === new Date(year, month, date).toDateString()).length"
-                                            x-text="events.filter(e => e.event_date === new Date(year, month, date).toDateString()).length"></div>
+                                            x-show="events.filter(e => new Date(e.date).toDateString() === new Date(year, month, date).toDateString()).length"
+                                            x-text="events.filter(e => new Date(e.date).toDateString() === new Date(year, month, date).toDateString()).length"></div>
     
-                                        <template x-for="event in events.filter(e => new Date(e.event_date).toDateString() ===  new Date(year, month, date).toDateString() )">	
+                                        <template x-for="event in events.filter(e => new Date(e.date).toDateString() ===  new Date(year, month, date).toDateString())">	
                                             <div
-                                                class="px-2 py-1 rounded-lg mt-1 overflow-hidden border"
+                                                class="px-2 py-1 rounded-lg mt-1 overflow-hidden border cursor-pointer"
                                                 :class="{
-                                                    'border-blue-200 text-blue-800 bg-blue-100': event.event_theme === 'blue',
-                                                    'border-red-200 text-red-800 bg-red-100': event.event_theme === 'red',
-                                                    'border-yellow-200 text-yellow-800 bg-yellow-100': event.event_theme === 'yellow',
-                                                    'border-green-200 text-green-800 bg-green-100': event.event_theme === 'green',
-                                                    'border-purple-200 text-purple-800 bg-purple-100': event.event_theme === 'purple'
+                                                    'border-blue-200 text-blue-800 bg-blue-100 hover:bg-blue-200': event.theme === 'blue',
+                                                    'border-red-200 text-red-800 bg-red-100 hover:bg-blue-200': event.theme === 'red',
+                                                    'border-yellow-200 text-yellow-800 bg-yellow-100 hover:bg-blue-200': event.theme === 'yellow',
+                                                    'border-green-200 text-green-800 bg-green-100 hover:bg-blue-200': event.theme === 'green',
+                                                    'border-purple-200 text-purple-800 bg-purple-100 hover:bg-blue-200': event.theme === 'purple'
                                                 }"
+                                                @click="updateEvent(event.name, event.theme, date, event.attendees, event.id)"
                                             >
                                                 <div class="flex flex-col">
-                                                    <p x-text="event.event_title" class="text-sm truncate leading-tight"></p>
+                                                    <p x-text="event.name" class="text-sm truncate leading-tight"></p>
                                                 </div>
                                             </div>
                                         </template>
@@ -108,13 +104,15 @@
                         </svg>
                     </div>
     
-                    <div class="shadow w-full rounded-lg bg-white overflow-hidden w-full block p-8">
+                    <div class="shadow w-full rounded-lg bg-white overflow-hidden block p-8">
                         
                         <h2 class="font-bold text-2xl mb-6 text-gray-800 border-b pb-2">Add Event Details</h2>
-                     
+                        <div x-show="showError" class="mb-4">
+                            <span x-html="error" class="inline-block w-full text-white text-center rounded py-3 bg-red-500"></span>
+                        </div>
                         <div class="mb-4">
                             <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Event title</label>
-                            <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" x-model="event_title">
+                            <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" x-model="event_title" @keyup="showError = false">
                         </div>
     
                         <div class="mb-4">
@@ -135,14 +133,38 @@
                                 </div>
                             </div>
                         </div>
-     
-                        <div class="mt-8 text-right">
-                            <button type="button" class="bg-white hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm mr-2" @click="openEventModal = !openEventModal">
-                                Cancel
-                            </button>	
-                            <button type="button" class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 border border-gray-700 rounded-lg shadow-sm" @click="addEvent()">
-                                Save Event
-                            </button>	
+
+                        <div class="mb-4">
+                            <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Attendees</label>
+                            <div class="mr-2 inline-block">
+                                <input type="checkbox" class="mr-1 text-gray-800 " id="panelists" name="attendees[]" value="panelists" x-model="attendees"><label for="panelists">panelists</label>
+                            </div>
+                            <div class="mr-2 inline-block">
+                                <input type="checkbox" class="mr-1 text-gray-800 " id="students" name="attendees[]" value="students" x-model="attendees"><label for="students">students</label>
+                            </div>
+                            <div class="mr-2 inline-block">
+                                <input type="checkbox" class="mr-1 text-gray-800 " id="officers" name="attendees[]" value="officers" x-model="attendees"><label for="officers">officers</label>
+                            </div>
+                        </div>
+    
+                        <div 
+                            class="mt-8"
+                            :class="{'flex justify-between' : showDelete}"
+                        >
+                            <button type="button" x-show="showDelete" @click.prevent="deleteEvent(event.id)" class="bg-red-800 hover:bg-red-700 text-white font-semibold py-2 px-4 border border-red-700 rounded-lg shadow-sm">
+                                Delete
+                            </button>
+                            <div 
+                                class="text-right"
+                                :class="{'flex' : showDelete}"
+                            >
+                                <button class="bg-white hover:bg-gray-100 text-gray-700 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm mr-2" @click.prevent="openEventModal = !openEventModal">
+                                    Cancel
+                                </button>	
+                                <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 border border-gray-700 rounded-lg shadow-sm" @click.prevent="addEvent()">
+                                    Save Event
+                                </button>	
+                            </div>
                         </div>
                     </div>
                 </div>

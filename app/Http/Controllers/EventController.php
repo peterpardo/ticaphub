@@ -252,7 +252,7 @@ class EventController extends Controller
                 'message' => 'Task Deleted Successfully',
             ]);
         }
-        dd('ddoesnt esxost');
+
         $url = url('events/'.$eventId.'/list/'.$listId);
             return response()->json([
                 'status' => 200,

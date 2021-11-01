@@ -227,10 +227,15 @@ class UserController extends Controller
     }
 
     public function setPasswordForm(Request $request) {
+        $isInvited = true;
+        if(!DB::table('register_users')->where('token', $request->token)->exists()){
+            $isInvited = false;
+        }
         return view('user-accounts.set-password', [
             'token' => $request->token,
             'ticap' => $request->ticap,
             'email' => $request->email,
+            'isInvited' => $isInvited,
         ]);
     }
 

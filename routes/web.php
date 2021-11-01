@@ -81,10 +81,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
     Route::get('/schedules/events', [ScheduleController::class, 'getSchedules']);
-    Route::get('/schedules/create', [ScheduleController::class, 'createSchedule']);
     Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
-    Route::get('/schedules/{schedId}', [ScheduleController::class, 'editSchedule']);
-    Route::post('/schedules/{schedId}', [ScheduleController::class, 'updateSchedule']);
+    Route::post('/schedules/delete/{id}', [ScheduleController::class, 'deleteSchedule']);
+    Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function(){
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
@@ -135,6 +134,11 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
             Route::get('/slider/delete/{id}', [HomeController::class, 'delete']);
 
+             //STREAM LINK
+             Route::get('/home/stream', [HomeController::class, 'HomeStream'])->name('home.stream');
+             Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
+             Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
+             Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
 
             // USER ACCOUNTS
             Route::middleware(['set.invitation'])->group(function(){

@@ -9,6 +9,7 @@ use App\Models\Officer;
 use App\Models\Position;
 use App\Models\School;
 use App\Models\Slider;
+use App\Models\Stream;
 use App\Models\Ticap;
 use App\Models\User;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
@@ -148,11 +149,11 @@ class HomeController extends Controller
         // $up_location = 'image/slider';
         // $last_img = $up_location.$img_name;
         // $image->move($up_location,$img_name);
-        
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension(); 
+
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         // dito yung error
         Image::make($image)->resize(1920, 1080)->save('image/slider'.$name_gen);
-        
+
         $last_img = 'image/slider'.$name_gen;
 
         Slider::insert([
@@ -165,7 +166,7 @@ class HomeController extends Controller
            return redirect()->route('home.slider');
     }
 
-    public function delete($id){
+    public function deleteSlider($id){
         $image = Slider::find($id);
         $old_image = $image->image;
         unlink($old_image);
@@ -174,5 +175,29 @@ class HomeController extends Controller
         return redirect()->route('home.slider');
     }
 
+    //STREAM LINK
+    public function HomeStream(){
+        $streams = Stream::latest()->get();
+        return view('stream.index', compact('streams'));
+    }
+
+    public function AddStream(){
+        return view('stream.add-stream');
+    }
+
+    public function StoreStream(Request $request){
+        Stream::insert([
+            'title' => $request->title,
+            'description' => $request->description,
+            'stream_link' => $request->stream,
+            'created_at' => Carbon::now()
+        ]);
+           return redirect()->route('home.stream');
+    }
+
+    public function deleteStream($id){
+        Stream::find($id)->delete();
+        return redirect()->route('home.stream');
+    }
 
 }

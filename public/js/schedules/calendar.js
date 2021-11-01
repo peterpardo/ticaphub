@@ -10,9 +10,13 @@ function app() {
         days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
         events: [],
+        event_id: '',
         event_title: '',
         event_date: '',
         event_theme: 'blue',
+        attendees: [],
+        current_date: '',
+        error: '',
 
         themes: [
             {
@@ -38,6 +42,9 @@ function app() {
         ],
 
         openEventModal: false,
+        showError: false,
+        showDelete: false,
+        toUpdate: false,
 
         initDate() {
             let today = new Date();
@@ -53,32 +60,79 @@ function app() {
             return today.toDateString() === d.toDateString() ? true : false;
         },
 
-        showEventModal(date) {
-            // open the modal
+        showEventModal(date, action) {
+            this.event_id = '';
+            this.event_title = '';
+            this.event_theme = 'blue';
+            this.attendees = [];
+            this.showDelete = false;
+            this.toUpdate = false;
+            
+            if(new Date(this.year, this.month, date) < new Date()) {
+                alert("Can't add event in this date anymore.");
+                return;
+            }
+
+            if(action == "update") {
+                this.showDelete = true;
+                this.toUpdate = true;
+            }
+
+            this.current_date = date;
             this.openEventModal = true;
             this.event_date = new Date(this.year, this.month, date).toDateString();
         },
 
         addEvent() {
             if (this.event_title == '') {
+                this.showError = true;
+                this.error = "Event title is required";
                 return;
+            } 
+
+            let formData = {
+                event_date: new Date(this.year, this.month, this.current_date).toLocaleDateString('en-CA'),
+                event_title: this.event_title,
+                event_theme: this.event_theme,
+                attendees: this.attendees,
             }
 
-            this.events.push({
-                event_date: this.event_date,
-                event_title: this.event_title,
-                event_theme: this.event_theme
-            });
+            let url = '';
+            if(this.toUpdate) {
+                url = `/schedules/update/${this.event_id}`;
+            } else {
+                url = '/schedules/create';
+            }
 
-            console.log(this.events);
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Content-Type': 'application/json;charset=utf-8',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(messages => {
+                if(messages.errors) {
+                    this.showError = true;
+                    let { event_title } = messages.errors;
+                    if(event_title) {
+                        this.error += event_title;
+                    }
+                } else {
+                    alert(messages.success);
+                    this.event_title = '';
+                    this.event_date = '';
+                    this.attendees = [];
+                    this.error = '';
+                    this.event_theme = 'blue';
+                    this.openEventModal = false;
+                }
+            })
+            .catch(err => console.log(err));
 
-            // clear the form data
-            this.event_title = '';
-            this.event_date = '';
-            this.event_theme = 'blue';
-
-            //close the modal
-            this.openEventModal = false;
+            this.getEvents();
         },
 
         getNoOfDays() {
@@ -101,9 +155,37 @@ function app() {
         },
 
         getEvents() {
-            let data = fetch('/schedules/events')
+            this.events = [];
+            fetch('/schedules/events')
                 .then(response => response.json())
-                .then(data => console.log(data));
+                .then(events => { 
+                    events.forEach(event => this.events.push(event))
+                });
+        },
+
+        updateEvent(title, theme, date, attendees, id) {        
+            this.showEventModal(date, "update");
+
+            if(attendees) {
+                attendees.forEach(attendee => { this.attendees.push(attendee.name) });
+            }
+
+            this.event_id = id;
+            this.event_title = title;
+            this.event_theme = theme;
+        },
+
+        deleteEvent() {
+            fetch(`/schedules/delete/${this.event_id}`, {
+                method: 'POST', 
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+            })
+                .then(response => response.json())
+                .then(message => alert(message.success))
+            this.getEvents();
+            this.openEventModal = false;
         }
     }
 }

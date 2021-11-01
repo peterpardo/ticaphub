@@ -1,5 +1,6 @@
 @php
 	$sliders = DB::table('sliders')->get();
+    $streams = DB::table('streams')->get();
 @endphp
 <head>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
@@ -39,28 +40,33 @@
 </section>
 @endif
 {{-- MAIN CONTENT --}}
+@foreach($streams as $key => $stream)
 	<main class="container mx-auto flex flex-row items-center p-5 w-auto h-screen justify-evenly mt-40 sm:mt-0">
 		<div class="grid grid-col md:grid-cols-2">
 			<div class="flex flex-row md:justify-start justify-center">
 				<div class="flex flex-col w-full md:w-3/4 object-cover h-60 justify-items-start border rounded-lg overflow-hidden"
 					style="min-heigth:320px">
-					<div class="h-72">
-						<iframe class="w-full h-full object-cover object-center block rounded" src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fheintjievicente%2Fvideos%2F10158627770145853%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+					<div class="h-72 w-full">
+                        <iframe class="w-full h-full object-cover object-center block rounded" src="{{ $stream->stream_link }}" width="1080" height="1920" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
 					</div>
 				</div>
-				
+
 				</div>
+
 				<div class="flex flex-row items-center">
 					<div class="flex flex-col">
-						<h1 class="capitalize text-4xl font-extrabold mb-3">Technology Innovation in Capstone Project (TICAP)</h1>
-						<p class="w-auto text-lg text-gray-500 text-justify">A research presentation and conference for project deployment, turn over and software packaging of capstone projects.</p>
+						<h1 class="capitalize text-4xl font-extrabold mb-3">{{ $stream->title }}</h1>
+						<p class="w-auto text-lg text-gray-500 text-justify">{{ $stream->description }}</p>
 						<div class="flex items-center my-6 cursor-pointer">
-							<a href="{{ route('about-ticap') }}" class="bg-red-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">View More</a>
+							{{-- <a href="{{ route('about-ticap') }}" class="bg-red-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">View More</a> --}}
 						</div>
 					</div>
 				</div>
+
+
 			</div>
 	</main>
+    @endforeach
 </x-guest-layout>
 <style>
     .swiper-pagination-bullet-active {
