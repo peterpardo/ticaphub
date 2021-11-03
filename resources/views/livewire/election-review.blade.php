@@ -1,35 +1,51 @@
 <div>
     <div class="flex flex-wrap justify-evenly w-full">
         @foreach($elections as $election)
-            <div class="w-2/5">
-                <h1 class="text-xl font-semibold">{{ $election->name }}</h1>
+            <div class="w-2/5 mb-5">
+                <h1 class="text-xl font-semibold mb-2">{{ $election->name }}</h1>
                 <div>
                     <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">    
                         <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3">Position</th>
-                                <th class="px-4 py-3">Officer</th>
-                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3 text-center">Position</th>
+                                <th class="px-4 py-3 text-center">Officer</th>
+                                <th class="px-4 py-3 text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody class="bg-transparent dark:bg-gray-600">
                             @foreach($positions as $position)
                             <tr>
-                                <td class="border">{{ $position->name }}</td>
-                                <td class="border">
+                                <td class="border py-2">{{ $position->name }}</td>
+                                <td class="border py-2">
                                     <ul>
                                     @foreach($election->officers->where('position_id', $position->id) as $officer)
-                                        <li class="py-2">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</li>
+                                        <li class="py-3">
+                                            <div class="flex justify-center items-center text-sm">
+                                                <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                                    @if($officer->user->profile_picture != 'profiles/default-img.png')
+                                                    <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($officer->user->profile_picture) }}" alt="" loading="lazy" />
+                                                    @else
+                                                    <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                                    @endif
+                                                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-black text-md text-center">
+                                                        {{ $officer->user->first_name }} {{ $officer->user->middle_name }} {{ $officer->user->last_name }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
                                     @endforeach
                                     </ul>
                                 </td>
-                                <td class="border">
+                                <td class="border py-2">
                                     <ul>
                                     @foreach($election->officers->where('position_id', $position->id) as $officer)
                                         @if($officer->is_elected)
-                                        <li class="text-green-500 py-2">elected</li>
+                                        <li class="text-green-500 py-4">elected</li>
                                         @else
-                                        <li class="text-red-500 py-2">tie</li>
+                                        <li class="text-red-500 py-4">tie</li>
                                         @endif
                                     @endforeach
                                     </ul>

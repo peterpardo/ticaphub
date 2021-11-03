@@ -13,8 +13,10 @@ class GroupExhibit extends Model
     protected $fillable = [
         'title',
         'description',
-        'hero_file',
-        'video_file',
+        'banner_name',
+        'banner_path',
+        'video_name',
+        'video_path',
         'group_id',
         'ticap_id',
     ];

@@ -67,8 +67,9 @@ function app() {
             this.attendees = [];
             this.showDelete = false;
             this.toUpdate = false;
-            
-            if(new Date(this.year, this.month, date) < new Date()) {
+            let today = new Date();
+
+            if(new Date(this.year, this.month, date) < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
                 alert("Can't add event in this date anymore.");
                 return;
             }

@@ -20,6 +20,8 @@ class PanelistController extends Controller
         $user = User::find(Auth::user()->id);
 
         if(!$ticap->awards_is_set) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Please wait for the admin to start the evaluation.');
             return redirect()->route('dashboard');
         }
         if($user->specializationPanelist->has_chosen_user) {
@@ -45,20 +47,19 @@ class PanelistController extends Controller
     public function computeGrades(Request $request) {
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
-            'awards.*.*.*' => 'required',
+            'awards.*.*.*' => 'required|numeric|min:0',
         ], [
-            'awards.*.*.*.required' => 'This field has no grade yet.' 
+            'awards.*.*.*.required' => 'This field has no grade yet.',
+            'awards.*.*.*.min' => 'Grades can\'t be negative numbers' 
         ]);
         // foreach(Group::all() as $group) {
         //     $group->awards()->detach();
         // }
         foreach($request->awards as $awardId => $groups) {
             $award = Award::find($awardId);
-            echo 'AWARD - ' . $award->name . '<br>';
             foreach($groups as $groupId => $grades) {
                 $group = Group::find($groupId);
                 $totalGrade = 0;
-                echo 'GROUP - ' . $group->name . '<br>';
                 foreach($award->awardRubric->rubric->criteria as $crit) {
                     $validator->after(function ($validator) use($grades, $crit, $award, $groups, $request){
                         foreach($request->awards as $awardId => $groups) {
@@ -79,31 +80,24 @@ class PanelistController extends Controller
                         return redirect('evaluate-groups')->withErrors($validator)->withInput();
                     }
                     // STORE GRADES
-                    // $group->groupGrades()->create([
-                    //     'criteria_id' => $crit->id,
-                    //     'grade' => $grades[$crit->id],
-                    //     'award_id' => $award->id,
-                    //     'user_id' => $user->id,
-                    // ]);
+                    $group->groupGrades()->create([
+                        'criteria_id' => $crit->id,
+                        'grade' => $grades[$crit->id],
+                        'award_id' => $award->id,
+                        'user_id' => $user->id,
+                    ]);
                     $totalGrade += $grades[$crit->id];
                 }
                 // STORE TOTAL GRADE
-                // $group->panelistGrades()->create([
-                //     'total_grade' => $totalGrade,
-                //     'award_id' => $award->id,
-                //     'user_id' => $user->id
-                // ]);
-                foreach($group->groupGrades->where('award_id', $award->id)->where('user_id', $user->id) as $groupGrade) {
-                    echo $groupGrade->criteria->name . ' - ' . $groupGrade->grade . '<br>';
-                }
-                // $group->awards()->attach($award->id);
-                echo 'Total Grade: ' . $totalGrade . '<br><br>';
-                // echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
-                // $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
-                // echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
+                $group->panelistGrades()->create([
+                    'total_grade' => $totalGrade,
+                    'award_id' => $award->id,
+                    'user_id' => $user->id
+                ]);
+                $group->awards()->attach($award->id);
+                $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
             }
         }
-        // dd('stop');
         $user->specializationPanelist->evaluation_review = 1;
         $user->specializationPanelist->save();
         return redirect()->route('review-grades');
@@ -178,17 +172,16 @@ class PanelistController extends Controller
     public function updateGrades(Request $request) {
         $user = User::find(Auth::user()->id);
         $validator = Validator::make($request->all(), [
-            'awards.*.*.*' => 'required',
+            'awards.*.*.*' => 'required|numeric|min:0',
         ], [
-            'awards.*.*.*.required' => 'This field has no grade yet.' 
+            'awards.*.*.*.required' => 'This field has no grade yet.', 
+            'awards.*.*.*.min' => 'Grades can\'t be negative numbers' 
         ]);
         foreach($request->awards as $awardId => $groups) {
             $award = Award::find($awardId);
-            echo 'AWARD - ' . $award->name . '<br>';
             foreach($groups as $groupId => $grades) {
                 $group = Group::find($groupId);
                 $totalGrade = 0;
-                echo 'GROUP - ' . $group->name . '<br>';
                 foreach($award->awardRubric->rubric->criteria as $crit) {
                     $validator->after(function ($validator) use($grades, $crit, $award, $groups, $request){
                         foreach($request->awards as $awardId => $groups) {
@@ -214,13 +207,7 @@ class PanelistController extends Controller
                     $totalGrade += $grades[$crit->id];
                 }
                 $group->panelistGrades()->where('award_id', $award->id)->where('user_id', $user->id)->update(['total_grade' => $totalGrade]);
-                foreach($group->groupGrades->where('award_id', $award->id)->where('user_id', $user->id) as $groupGrade) {
-                    echo $groupGrade->criteria->name . ' - ' . $groupGrade->grade . '<br>';
-                }
-                echo 'Total Grade: ' . $totalGrade . '<br><br>';
-                // echo 'Initial grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade;
-                // $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
-                // echo '<br>Final Grade: ' . $group->awards()->where('award_id', $award->id)->first()->pivot->total_grade . '<br><br>';
+                $group->awards()->updateExistingPivot($award->id, ['total_grade' => $totalGrade]);
             }
         }
         $user->specializationPanelist->evaluation_review = 1;

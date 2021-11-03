@@ -351,15 +351,7 @@ class AwardController extends Controller
                 session()->flash('message', 'Some panelists still haven\'t chosen a winner.');
                 return back();
             }
-            // SET PANELIST TO HAS CHOSE USER (TESTING)
-            // foreach($spec->panelists as $panelist) {
-            //     $panelist->has_chosen_user = 1;
-            //     $panelist->save();
-            // }
-            // dd();
-            echo '<strong>' . $spec->name . '</strong><br>';
             foreach($spec->awards->where('type', 'individual')->where('name', '!=', 'Best Project Adviser') as $award) {
-                echo '<strong>' . $award->name . '</strong><br>';
                 foreach($award->individualWinners as $winner) {
                     if($winner->name == null) {
                         echo $winner->group->name . '<br>';
@@ -369,7 +361,6 @@ class AwardController extends Controller
                         }
                         // LET PANELISTS VOTE AGAIN FOR INDIVIDUAL AWARDS IF THEY DIDNT CHOOSE THE SAME USER
                         if(count(array_unique($user)) > 1) {
-                            echo 'more than 1 user<br>';
                             // UNDO LATER
                             $winner->group->individualCandidates()->delete();
                             foreach($spec->panelists as $panelist) {
@@ -383,12 +374,10 @@ class AwardController extends Controller
                             $winner->name = $user->first_name . ' ' . $user->middle_name . ' ' .  $user->last_name;
                             $winner->save();
                             $winner->group->individualCandidates()->delete();
-                            echo 'winner : ' . $user[0] . '<br>';
                         }
                     }
                 }
             }
-            echo '<br>';
         }
         if($withError) {
             session()->flash('status', 'red');
@@ -446,12 +435,12 @@ class AwardController extends Controller
     }
 
     public function generateCertificates() {
-        // dd('generate certificates');
         $data = [
             'specs' => Specialization::all(),
             'ticap' => Ticap::find(Auth::user()->ticap_id)
         ];
         $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
+        // dd('generate certificates');
         return $pdf->download(time().'-certificates.pdf');
     }
 }

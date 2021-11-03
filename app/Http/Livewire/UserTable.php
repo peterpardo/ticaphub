@@ -7,7 +7,9 @@ use App\Models\Event;
 use App\Models\Group;
 use App\Models\Officer;
 use App\Models\ProgramFlow;
+use App\Models\Slider;
 use App\Models\Specialization;
+use App\Models\Stream;
 use App\Models\TaskList;
 use App\Models\Ticap;
 use App\Models\User;
@@ -218,9 +220,8 @@ class UserTable extends Component
             Storage::put($path, $pdf->output());
         }
        
-
         // DELETE ALL STUDENTS
-        $users = User::role('student')->get();
+        $users = User::role(['student', 'panelist'])->get();
         foreach($users as $user) {
             $user->syncRoles([]);
             $user->delete();
@@ -247,6 +248,12 @@ class UserTable extends Component
         ->where('id', '!=', 2)
         ->where('id', '!=', 3)
         ->delete();
+
+        // DELETE ALL ADDED SLIDERS
+        Slider::where('id', '!=', 1)->delete();
+
+        // DELETE ALL ADDED STREAMS
+        Stream::truncate();
 
         // RESET TICAP
         $admins = User::role('admin')->get();

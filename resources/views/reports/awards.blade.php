@@ -11,11 +11,13 @@
             margin-bottom: 1rem;
         }
         .sub-title {
+            text-align: center;
             margin-bottom: 1rem;
         }
         table {
             border-collapse: collapse;
             width: 100%;
+            table-layout: fixed; 
             /* margin: auto; */
         }
         thead {

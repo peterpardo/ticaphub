@@ -32,32 +32,32 @@ class GroupSeeder extends Seeder
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'Twice',
+            'name' => 'Envisioners',
             'specialization_id' => 2,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'Blackpink',
+            'name' => 'BLANK',
             'specialization_id' => 2,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'Everglow',
+            'name' => 'JARS',
             'specialization_id' => 2,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'MAMAMOO',
+            'name' => 'ALPHA',
             'specialization_id' => 3,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'IZONE',
+            'name' => 'ASTRATECH',
             'specialization_id' => 3,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'ITZY',
+            'name' => 'ETERNALS',
             'specialization_id' => 3,
             'ticap_id' => 1
         ]);
@@ -67,12 +67,12 @@ class GroupSeeder extends Seeder
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'Sentinels',
+            'name' => 'QUATROSYS',
             'specialization_id' => 4,
             'ticap_id' => 1
         ]);
         Group::create([
-            'name' => 'Dreamcatcher',
+            'name' => 'TEAMWARE',
             'specialization_id' => 4,
             'ticap_id' => 1
         ]);

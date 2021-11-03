@@ -95,7 +95,7 @@ class ElectionController extends Controller
     }
 
     public function setCandidates() {
-        $ticap = Ticap::find(Auth::user()->ticap_id)->first();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         if($ticap->election_finished) {
             return redirect()->route('officers');
         } 
@@ -448,7 +448,9 @@ class ElectionController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $user = User::find(Auth::user()->id);
         if(!$ticap->election_finished) {
-            return redirect()->route('officers');
+            session()->flash('status', 'red');
+            session()->flash('message', 'Appoint officers first.');
+            return redirect()->route('dashboard');
         }
         if(!$user->hasPermissionTo('appoint committee head')){
             return redirect()->route('dashboard');

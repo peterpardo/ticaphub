@@ -38,7 +38,9 @@ class ProgramFlow extends Component
             // DELETE PROGRAM FLOWS IF EXISTS
             if($this->event->programFlows()->exists()) {
                 foreach($this->event->programFlows as $programFlow) {
-                    unlink(storage_path('app/public/' . $programFlow->path));
+                    if($programFlow->name != 'assets/program-flow-sample') {
+                        unlink(storage_path('app/public/' . $programFlow->path));
+                    }
                     $programFlow->delete();
                 }
             }

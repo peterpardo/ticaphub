@@ -19,7 +19,11 @@
             <h1 class="font-semibold my-2">Program Preview</h1>
             @if($eventPrograms->count() != 0)
                 @foreach($eventPrograms as $eventProgram)
-                <img src="{{ Storage::url($eventProgram->path)}}" class="w-full my-2">
+                    @if($eventProgram->name == 'assets/program-flow-sample')
+                        <img src="{{ asset(url($eventProgram->path))}}" class="w-full my-2">  
+                    @else
+                        <img src="{{ Storage::url($eventProgram->path)}}" class="w-full my-2">
+                    @endif
                 @endforeach
             @else
                 <div class="block bg-gray-100 py-4 text-center rounded">No Program flows uploaded</div>

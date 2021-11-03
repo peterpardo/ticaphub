@@ -5,6 +5,11 @@
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
   </div>
 <section>
+
+@if(session('status'))
+  <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
+@endif
+
   
  @if($user->hasRole('admin'))
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
@@ -60,7 +65,7 @@
   <div class="flex flex-col">
     <div class="mb-2">
       @if($user->schedules->count() == 0)
-          <div class="bg-gray-100 text-center py-5 rounded">No scheduled events</div>
+          <div class="bg-gray-100 text-center py-5 rounded text-gray-800">No scheduled events</div>
       @else
           @foreach(\App\Models\Schedule::all() as $sched)
               <div class="p-2 my-1 shadow rounded relative">
@@ -84,10 +89,6 @@
   </div>
 @endif
 
-@if(session('status'))
-  <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
-@endif
-
 @if($user->ticap_id == null)
   <div class="bg-gray-100 py-5 px-2 rounded text-gray-800 text-center">
     <span>No TICaP has been created yet: </span>
@@ -100,8 +101,8 @@
 @if(!$user->hasRole('admin'))
   @if($user->committeeMember()->exists())
     @livewire('committee-notification', ['user' => $user])
-  @elseif($user->hasRole('officer'))
-    @livewire('task-notification', ['user' => $user])
+  @elseif($user->hasAnyRole(['officer', 'chairman']))
+    @livewire('task-notification', ['user' => $user]) 
   @endif
 @endif
 
@@ -115,7 +116,11 @@
   <div class="flex flex-wrap justify-center">
     @foreach ($event->programFlows as $program)
       <div class="w-1/2">
-        <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
+        @if ($program->name == 'assets/program-flow-sample')
+          <img src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}" class="w-full">
+        @else
+          <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
+        @endif
       </div>
     @endforeach  
   </div>

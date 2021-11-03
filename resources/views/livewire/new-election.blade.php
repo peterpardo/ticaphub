@@ -1,7 +1,10 @@
 <div>
     @if(session('status'))
-    <div class="text-center bg-red-500 text-white rounded px-2 py-1 my-3">{{ session('message') }}</div>
+        <div class="text-center bg-red-500 text-white rounded py-5 my-3">{{ session('message') }}</div>
     @endif
+    <div class="text-right my-4">
+        <button wire:click="confirmElection" class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
+    </div>
     <div class="flex flex-wrap justify-evenly w-full">
         @foreach($elections as $election)
             @if($election->officers()->where('is_elected', 0)->exists())
@@ -21,11 +24,27 @@
                     <tbody class="bg-white">
                         @foreach($positions as $position)
                         <tr>    
-                            <td class="border">{{ $position->name }}</td>
-                            <td class="border">
+                            <td class="border py-2">{{ $position->name }}</td>
+                            <td class="border py-2">
                                 <ul>
                                 @foreach($election->officers->where('position_id', $position->id) as $officer)
-                                    <li class="py-2">{{ $officer->user->first_name . ' ' . $officer->user->middle_name . ' ' . $officer->user->last_name . ' ' }}</li>
+                                    <li class="py-3">
+                                        <div class="flex justify-center items-center text-sm">
+                                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                            @if($officer->user->profile_picture != 'profiles/default-img.png')
+                                                <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($officer->user->profile_picture) }}" alt="" loading="lazy" />
+                                            @else
+                                                <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                            @endif
+                                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-black text-md text-center">
+                                                    {{ $officer->user->first_name }} {{ $officer->user->middle_name }} {{ $officer->user->last_name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
                                 @endforeach
                                 </ul>
                             </td>
@@ -33,9 +52,9 @@
                                 <ul>
                                 @foreach($election->officers->where('position_id', $position->id) as $officer)
                                     @if($officer->is_elected)
-                                    <li class="text-green-500 py-2">elected</li>
+                                    <li class="text-green-500 py-4">elected</li>
                                     @else
-                                    <li class="py-2">{{ \App\Models\Vote::where('candidate_id', $officer->user->candidate->id)->count() }}</li>
+                                    <li class="py-4">{{ \App\Models\Vote::where('candidate_id', $officer->user->candidate->id)->count() }}</li>
                                     @endif
                                 @endforeach
                                 </ul>
@@ -48,12 +67,6 @@
             @endif
         @endforeach
     </div>
-    <div class="text-center">
-        <div class="text-center">
-            <button wire:click="confirmElection" class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
-        </div>
-    </div>
-
 
     {{-- CONFIRMATION MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="confirmationModal">

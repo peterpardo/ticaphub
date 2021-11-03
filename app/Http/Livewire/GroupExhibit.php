@@ -55,7 +55,7 @@ class GroupExhibit extends Component
         $this->validate([
             'video' => 'required|file|mimes:mp4,ogx,oga,ogv,ogg,webm'
         ]);
-        if($this->group->groupExhibit->video_path != null) {
+        if($this->group->groupExhibit->video_path != null && $this->group->groupExhibit->video_path != 'assets/sample-video.mp4') {
             unlink(storage_path('app/public/' . $this->group->groupExhibit->video_path));
         }
         $path = 'group-files/';
@@ -84,7 +84,7 @@ class GroupExhibit extends Component
         $this->validate([
             'banner' => 'required|image'
         ]);
-        if($this->group->groupExhibit->banner_path != null) {
+        if($this->group->groupExhibit->banner_path != null && $this->group->groupExhibit->banner_path != 'assets/banner.png') {
             unlink(storage_path('app/public/' . $this->group->groupExhibit->banner_path));
             $this->group->groupExhibit->save();
         }

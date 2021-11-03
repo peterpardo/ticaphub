@@ -79,6 +79,15 @@ class VoterController extends Controller
         }
         $request->validate($fields);
         $voter = User::find(Auth::user()->id);
+        foreach($request->all() as $key => $candidateId){
+            if($key == '_token') {
+                continue;
+            }
+            $voter->votes()->create([
+                'candidate_id' => $candidateId,
+                'ticap_id' => 1
+            ]);
+        }
         $voter->userElection->has_voted = 1;
         $voter->userElection->save();
         session()->flash('status', 'green');

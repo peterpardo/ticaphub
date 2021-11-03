@@ -18,7 +18,12 @@ class GroupGradeSeeder extends Seeder
     {
         $specs = Specialization::all();
         $panelists = User::role('panelist')->get();
+        $groups = Group::all();
 
+        foreach($groups as $group) {
+            $group->awards()->detach();
+        }
+        
         foreach($specs as $spec) {
             foreach($spec->awards as $award) {
                 foreach($spec->panelists as $panelist) {

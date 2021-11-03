@@ -10,10 +10,10 @@
         @endcan
     </div>
     @if($committee->tasks->count() == 0)
-        <div class="bg-gray-200 rounded py-5 block text-center">No Tasks</div>
+        <div class="bg-gray-200 rounded py-5 block text-center">No Tasks Created</div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full overflow-x-auto">
+            <div class="w-full">
             <table class="w-full table-fixed">
                 <thead>
                 <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">

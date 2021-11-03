@@ -6,15 +6,15 @@
         </div>
     @else
         <div class="flex justify-end my-2">
-            <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Generate Awardee Report</a>
+            <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Awardees </a>
             <a href="/generate-panelists" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Panelists</a>
-            <a href="/generate-graded-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Graded Rubrics</a>
+            <a href="/generate-graded-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Group Grades</a>
             <a href="/generate-certificates" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Generate Certificates</a>
         </div>
     @endif
     <h1 class="font-semibold mb-2 text-2xl text-center">Individual Award Winners</h1>
     @if(session('status'))
-        <div class="bg-{{ session('status') }}-200 text-center rounded py-5 my-2">{{ session('message') }}</div>
+        <div class="bg-{{ session('status') }}-500 text-white text-center rounded py-5 my-2">{{ session('message') }}</div>
     @endif
     @foreach($specs as $spec)
         <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>

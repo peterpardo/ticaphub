@@ -4,7 +4,7 @@
         <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">Student Choice Award</h2>
 
         @if(session('status'))
-            <div class="bg-{{ session('status') }}-500 text-center py-5 rounded text-white">{{ session('message') }}</div>
+            <div class="bg-{{ session('status') }}-500 text-center py-5 my-3 rounded text-white">{{ session('message') }}</div>
         @endif
 
         <form 
@@ -29,6 +29,7 @@
             </div>
 
             <div class="flex justify-center mt-6">
+                <a href="/specializations/{{ $group->id }}/groups" class="inline-block rounded hover:bg-gray-200 px-4 py-1 shadow mr-4">Back</a>
                 <button type="submit" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Submit</button>
             </div>
         </form>

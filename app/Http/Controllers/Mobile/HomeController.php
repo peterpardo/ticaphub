@@ -47,7 +47,7 @@ class HomeController extends Controller
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->save();
-        if($user->hasRole('student')) {
+        if($user->hasRole('student') && $request->id_number) {
             $user->userSpecialization->id_number = $request->id_number;
             $user->userSpecialization->save();
         }

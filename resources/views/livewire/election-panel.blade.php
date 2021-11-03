@@ -1,6 +1,6 @@
 <div>
     @if(session('status'))
-    <div class="text-center bg-red-500 text-white rounded px-2 py-1 my-3">{{ session('message') }}</div>
+    <div class="text-center bg-red-500 text-white rounded px-2 py-5 my-3">{{ session('message') }}</div>
     @endif
     <div class="text-right my-3">
         <button wire:click='endElection' class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
@@ -29,7 +29,23 @@
                                 @foreach($election->candidates as $candidate)
                                 <ul>
                                     @if($candidate->position_id == $position->id)
-                                    <li class="py-1">{{ $candidate->user->first_name . ' ' . $candidate->user->middle_name . ' ' . $candidate->user->last_name}}</li>
+                                    <li class="py-3">
+                                        <div class="flex justify-center items-center text-sm">
+                                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                            @if($candidate->user->profile_picture != 'profiles/default-img.png')
+                                                <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($candidate->user->profile_picture) }}" alt="" loading="lazy" />
+                                            @else
+                                                <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                            @endif
+                                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-black text-md text-center">
+                                                    {{ $candidate->user->first_name }} {{ $candidate->user->middle_name }} {{ $candidate->user->last_name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
                                     @endif
                                 </ul>
                                 @endforeach
@@ -38,7 +54,7 @@
                                 @foreach($election->candidates as $candidate)
                                 <ul>
                                     @if($candidate->position_id == $position->id)
-                                    <li class="py-1">{{ $candidate->votes->where('candidate_id', $candidate->id)->count() }}</li>
+                                    <li class="py-4">{{ $candidate->votes->where('candidate_id', $candidate->id)->count() }}</li>
                                     @endif
                                 </ul>
                                 @endforeach

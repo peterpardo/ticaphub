@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'middle_name' => 'Munoz',
             'last_name' => 'Pardo',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('123'), // password
+            'password' => Hash::make('thisisadmin'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);
@@ -36,12 +36,12 @@ class UserSeeder extends Seeder
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);
-        $admin3 = User::create([
-            'first_name' => 'Nayeon',
-            'middle_name' => 'Kim',
-            'last_name' => 'Kim',
-            'email' => 'a2@a2.com',
-            'password' => Hash::make('123'), // password
+        $user3 = User::create([
+            'first_name' => 'Steve',
+            'middle_name' => 'Moore',
+            'last_name' => 'Smith',
+            'email' => 'a@a.com',
+            'password' => Hash::make('thisispanelist'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);
@@ -139,7 +139,8 @@ class UserSeeder extends Seeder
         // ASSIGN ROLE
         $user->assignRole($admin);
         $admin2->assignRole($admin);
-        $admin3->assignRole($admin);
+        $user3->assignRole($panelist);
+
 
         // PANELIST
         for($i = 0; $i < 12; $i++) {

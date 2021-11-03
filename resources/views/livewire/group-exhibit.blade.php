@@ -1,6 +1,5 @@
 <div class="flex w-full">
     <div class="flex-1 shadow-lg mr-2 px-4 py-2">
-        {{-- <button wire:click="openUpdateModal({{ $group->id }})" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mb-4">Update Exihibit</button> --}}
         <div>
             <h1 class="font-bold text-lg mb-2">Project Title</h1>
             @if($updateTitle)
@@ -42,7 +41,11 @@
         <div>
             <h1 class="font-bold text-lg mb-2">Banner Image</h1>
             @if($currentBanner && $banner == null)
-            <img src="{{ Storage::url($currentBanner) }}">
+                @if($currentBanner == 'assets/banner.png')
+                    <img src="{{ asset(url($currentBanner)) }}">
+                @else
+                    <img src="{{ Storage::url($currentBanner) }}">
+                @endif
             @elseif($banner)
             <img src="{{ $banner->temporaryUrl() }}">
             @else
@@ -68,7 +71,11 @@
             <h1 class="font-bold text-lg mb-2">Project Video</h1>
             @if($currentVideo && $video == null)
             <video class="w-full" controls loop autoplay muted>
-                <source src="{{ Storage::url($currentVideo) }}">
+                @if($currentVideo == 'assets/sample-video.mp4')
+                    <source src="{{ asset(url($currentVideo)) }}">
+                @else
+                    <source src="{{ Storage::url($currentVideo) }}">
+                @endif
             </video>
             @elseif($video)
             <video class="w-full" controls loop autoplay muted>

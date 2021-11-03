@@ -1,10 +1,15 @@
 <div>
     <div class="mb-2">
         <a href="/committee/{{ $committee->id }}" class="inline-block bg-red-500 hover:bg-red-600 px-2 py-1 text-white rounded">Back</a>
-        <div class="font-semibold text-2xl">Add Members</div>
-        <div class="flex flex-col">
-            <div>
-                <h1 class="font-semibold">Filters</h1>
+        <div class="font-semibold text-3xl text-center">Add Members</div>
+        @if(session('status'))
+            <div class="bg-{{ session('status') }}-500 rounded shadow text-white text-center py-5 tex-center my-3">{{ session('message') }}</div>
+        @endif
+        <div class="flex justify-between my-3">
+            <div class="flex-1">
+                <input type="text" class="rounded" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
+            </div>
+            <div class="flex-1">
                 <select wire:model="selectedSchool" class="rounded ">
                     <option value="">--select school--</option>
                     @foreach($schools as $school)
@@ -20,19 +25,13 @@
                 </select>
                 @endif
             </div>
-            <div>
-                <input type="text" class="rounded my-2" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
-            </div>
         </div>
-        @if(session('status'))
-        <span class="bg-{{ session('status') }}-500 rounded shadow text-white py-1 px-2">{{ session('message') }}</span>
-        @endif
     </div>
     {{-- SEARCH FOR CANDIDATES --}}
 
       {{-- STUDENT TABLE --}}
       <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full overflow-x-auto">
+        <div class="w-full">
         <table class="w-full">
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -45,20 +44,26 @@
         <tbody class="bg-white">
             @foreach($users as $user)
             <tr class="text-gray-700">
-                <td class="px-4 py-1 border">
-                <div class="flex items-center text-sm">
-                    <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                    <img class="object-cover w-full h-full rounded-full" src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="" loading="lazy" />
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                <td class="px-4 py-3 border">
+                    <div class="flex items-center text-sm">
+                        <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                        @if($user->profile != 'profiles/default-img.png')
+                            <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
+                        @else
+                            <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                        @endif
+                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-black text-md text-center">
+                                {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                    <p class="font-semibold text-black text-lg">{{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}</p>
-                    </div>
-                </div>
                 </td>
-                <td class="px-4 py-2 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
-                <td class="px-4 py-2 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
-                <td class="px-4 py-2 text-md border text-center">
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
+                <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
+                <td class="px-4 py-3 text-md border text-center">
                     <button wire:click="addMember({{ $user->id }})" class="rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">Add</button>
                 </td>
             </tr>
@@ -78,7 +83,7 @@
         <div class="bg-gray-200 rounded py-5 block text-center">No Members</div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full overflow-x-auto">
+            <div class="w-full">
             <table class="w-full">
                 <thead>
                 <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
@@ -91,20 +96,28 @@
             <tbody class="bg-white">
                 @foreach($members as $member)
                 <tr class="text-gray-700">
-                    <td class="px-4 py-1 border">
+                    <td class="px-4 py-3 border">
                     <div class="flex items-center text-sm">
-                        <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                        <img class="object-cover w-full h-full rounded-full" src="https://images.pexels.com/photos/5212324/pexels-photo-5212324.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" alt="" loading="lazy" />
-                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                        </div>
-                        <div>
-                        <p class="font-semibold text-black text-lg">{{ $member->user->first_name }} {{ $member->user->middle_name }} {{ $member->user->last_name }}</p>
+                        <div class="flex items-center text-sm">
+                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                            @if($member->user->profile_picture != 'profiles/default-img.png')
+                                <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($member->user->profile_picture) }}" alt="" loading="lazy" />
+                            @else
+                                <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                            @endif
+                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-black text-md text-center">
+                                    {{ $member->user->first_name }} {{ $member->user->middle_name }} {{ $member->user->last_name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     </td>
-                    <td class="px-4 py-2 text-md font-semibold border">{{ $member->user->userSpecialization->specialization->school->name }}</td>
-                    <td class="px-4 py-2 text-md border">{{ $member->user->userSpecialization->specialization->name }}</td>
-                    <td class="px-4 py-2 text-md border text-center">
+                    <td class="px-4 py-3 text-md font-semibold border">{{ $member->user->userSpecialization->specialization->school->name }}</td>
+                    <td class="px-4 py-3 text-md border">{{ $member->user->userSpecialization->specialization->name }}</td>
+                    <td class="px-4 py-3 text-md border text-center">
                         <button wire:click="deleteMember({{ $member->user->id }})" class="rounded shadow px-2 py-1 text-white bg-red-500 hover:bg-red-600">Delete</button>
                     </td>
                 </tr>

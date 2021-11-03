@@ -22,14 +22,42 @@
                     <tr>
                         @if ($officer->is_elected)
                         <td class="py-2 px-2">
-                            {{ $officer->user->last_name . ', ' .  $officer->user->first_name . ' ' . $officer->user->middle_name }}
+                            <div class="flex justify-center items-center text-sm">
+                                <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                @if($officer->user->profile_picture != 'profiles/default-img.png')
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($officer->user->profile_picture) }}" alt="" loading="lazy" />
+                                @else
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                @endif
+                                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-black text-md text-center">
+                                        {{ $officer->user->first_name }} {{ $officer->user->middle_name }} {{ $officer->user->last_name }}
+                                    </p>
+                                </div>
+                            </div>
                         </td>
                         @else
                         <td class="py-2 px-2">
-                            <input type="radio" name="{{ $position->name }}" id="{{ $officer->user->id }}" value="{{ $officer->user->candidate->id }}">
+                            <div class="flex justify-center items-center text-sm">
+                                <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                @if($officer->user->profile_picture != 'profiles/default-img.png')
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($officer->user->profile_picture) }}" alt="" loading="lazy" />
+                                @else
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                @endif
+                                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-black text-md text-center">
+                                        {{ $officer->user->first_name }} {{ $officer->user->middle_name }} {{ $officer->user->last_name }}
+                                    </p>
+                                </div>
+                            </div>
                         </td>
                         <td class="py-2 px-2">
-                            <label for="{{ $officer->user->id  }}">{{ $officer->user->last_name . ', ' .  $officer->user->first_name . ' ' . $officer->user->middle_name }}</label>
+                            <input type="radio" name="{{ $position->name }}" id="{{ $officer->user->id }}" value="{{ $officer->user->candidate->id }}">
                         </td>
                         @endif
                     </tr>

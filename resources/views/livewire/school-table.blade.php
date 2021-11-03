@@ -1,7 +1,7 @@
 <div>
     {{-- FLASH MESSAGE --}}
     @if(session('error'))
-        <div class="bg-red-200 text-center text-gray-800 rounded py-5">{{ session('error') }}</div>
+        <div class="bg-red-500 text-center text-white rounded py-5">{{ session('error') }}</div>
     @endif
     {{-- SCHOOLS --}}
     <div class="flex justify-between my-5">

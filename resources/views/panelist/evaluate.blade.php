@@ -2,7 +2,7 @@
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <h1 class="text-xl mb-1 text-center font-semibold">{{ $user->specializationPanelist->specialization->school->name }}</h1>
     <h1 class="text-xl mb-1 text-center font-semibold">{{ $user->specializationPanelist->specialization->name }}</h1>
-
+    
     <form 
         action="{{ route('evaluate-groups') }}" 
         method="post">

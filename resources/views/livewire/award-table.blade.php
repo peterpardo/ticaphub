@@ -5,8 +5,8 @@
         <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Award</button>
         <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Proceed</a>
     </div>
-    <div class="rounded bg-gray-200 black text-center py-5 my-1">
-        Note: "Student choice award" and "Best Project Adviser" is created by default for each specialization
+    <div class="rounded bg-gray-100 black text-center py-6 my-1">
+        Note: <span class="font-semibold">"Student choice award"</span> and <span class="font-semibold">"Best Project Adviser"</span> are created by default for each specialization
     </div>
     {{-- AWARD TABLE --}}
     <div class="flex justify-between">

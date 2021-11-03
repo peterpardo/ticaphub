@@ -20,11 +20,11 @@ class StudentSeeder extends Seeder
     public function run()
     {
         $mina = User::create([
-            'first_name' => 'Mina',
-            'middle_name' => 'Sharon',
-            'last_name' => 'Myoui',
+            'first_name' => 'John',
+            'middle_name' => 'Moe',
+            'last_name' => 'Doe',
             'email' => 'stud@stud.com',
-            'password' => Hash::make('123'), // password
+            'password' => Hash::make('thisisstudent'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);
@@ -45,11 +45,11 @@ class StudentSeeder extends Seeder
             ]);
         }
         $sana = User::create([
-            'first_name' => 'Sana',
-            'middle_name' => 'Sana',
-            'last_name' => 'Minatozaki',
+            'first_name' => 'Mary',
+            'middle_name' => 'Sharon',
+            'last_name' => 'Jane',
             'email' => 'stud2@stud2.com',
-            'password' => Hash::make('123'), // password
+            'password' => Hash::make('thisisstudent'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);

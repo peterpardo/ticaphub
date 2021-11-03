@@ -156,10 +156,10 @@
                 <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
             @else
                 @foreach($ticap->archivedExhibits as $exhibit)
+                    <div>{{ $exhibit->name }}</div>
                     @if($exhibit->files()->count() == 0)
                         <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
                     @else
-                    <div>{{ $exhibit->name }}</div>
                     <ul class="list-inside list-disc">
                         @foreach ($exhibit->files as $file)
                         <li>

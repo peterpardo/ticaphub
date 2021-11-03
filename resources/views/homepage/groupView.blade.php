@@ -15,11 +15,11 @@
                   $showExhibit = false;
                   if($admin->ticap_id) {
                     $ticap = \App\Models\Ticap::find($admin->ticap_id);
-                    $showExhibit = $ticap->evaluation_finished;
+                    $showExhibit = $ticap->finalize_award;
                   }
                 @endphp
                 <a href="/group/{{ $group->id }}" class="inline-block rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">View</a>
-                @if(!$showExhibit)
+                @if(!$showExhibit )
                   <a href="/student-choice-award/{{ $group->id }}" class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Vote</a>
                 @endif
               </div>

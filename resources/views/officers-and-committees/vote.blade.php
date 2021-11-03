@@ -12,8 +12,12 @@
         @csrf
         @foreach($positions as $position) 
         <div class="mb-3 w-1/5 mx-auto text-center">
-            @error($position->name)
-            <div class="text-center text-red-500">{{ $message }}</div>
+            @php
+                $name = str_replace(' ', ' ', $position->name);
+                echo $name . '<br>';
+            @endphp
+            @error($name)
+                <div class="text-center text-red-500">{{ $message }}</div>
             @enderror
             <div class="font-semibold text-xl border-b-2 border-gray-500 px-3 mb-2">{{ $position->name }}</div>
             <table class="mb-2 mx-auto">
@@ -21,10 +25,24 @@
                     @if($candidate->position_id == $position->id)
                     <tr>
                         <td class="py-2 px-2">
-                            <input type="radio" name="{{ $position->name }}" id="{{ $candidate->user->id }}" value="{{ $candidate->id }}">
+                            <div class="flex justify-center items-center text-sm">
+                                <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                                @if($candidate->user->profile_picture != 'profiles/default-img.png')
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($candidate->user->profile_picture) }}" alt="" loading="lazy" />
+                                @else
+                                    <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                                @endif
+                                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-black text-md text-center">
+                                        {{ $candidate->user->first_name }} {{ $candidate->user->middle_name }} {{ $candidate->user->last_name }}
+                                    </p>
+                                </div>
+                            </div>
                         </td>
                         <td class="py-2 px-2">
-                            <label for="{{ $candidate->user->id  }}">{{ $candidate->user->last_name . ', ' .  $candidate->user->first_name . ' ' . $candidate->user->middle_name }}</label>
+                            <input type="radio" name="{{ $name }}" id="{{ $candidate->user->id }}" value="{{ $candidate->id }}">
                         </td>
                     </tr>
                     @endif
@@ -33,7 +51,7 @@
         </div>
         @endforeach
         <div class="text-center">
-            <button type="submit" id="openConfModal" class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Submit Vote</button>
+            <a href="javascript;" id="openConfModal" class="inline-block cursor-pointer bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Submit Vote</a>
         </div>
     </form>
    
@@ -51,7 +69,7 @@
                 <!--footer-->
                 <div class="p-3 mt-2 text-center space-x-4 md:block">
                     <a  id="closeConfModal" class="inline-block cursor-pointer mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</a>
-                    <a id="submitVote" class="inline-block cursor-pointer mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Proceed</a>
+                    <button id="submitVote" class="inline-block cursor-pointer mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Proceed</button>
                 </div>
             </div>
         </div>
