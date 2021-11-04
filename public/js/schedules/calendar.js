@@ -156,10 +156,10 @@ function app() {
         },
 
         getEvents() {
-            this.events = [];
             fetch('/schedules/events')
                 .then(response => response.json())
                 .then(events => { 
+                    this.events = [];
                     events.forEach(event => this.events.push(event))
                 });
         },
