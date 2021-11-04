@@ -24,7 +24,6 @@ class UserProfile extends Component
         'first_name' => 'required|string',
         'middle_name' => 'required|string',
         'last_name' => 'required|string',
-        'id_number' => 'numeric'
     ];
 
     public function mount() {
@@ -32,7 +31,10 @@ class UserProfile extends Component
         $this->middle_name = $this->user->middle_name;
         $this->last_name = $this->user->last_name;
         $this->current_profile = $this->user->profile_picture;
-        if($this->user->hasRole('student')){
+        if($this->user->hasRole('student') && $this->id_number){
+            $this->validate([
+                'id_number' => 'numeric'
+            ]);
             $this->id_number = $this->user->userSpecialization->id_number;
         }
     }
