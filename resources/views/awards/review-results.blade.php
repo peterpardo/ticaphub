@@ -6,13 +6,13 @@
                 <button id="openModal" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1">Finalize Evaluation</button>
             </div>
         @else
-            <div class="flex justify-evenly my-2">
+            <div class="text-right my-2">
                 <button @click.prevent="openModal = true" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Email Certificates</button>
                 <a href="/generate-awards" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Awardees </a>
                 <a href="/generate-panelists" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download List of Panelists</a>
                 <a href="/generate-graded-rubrics" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mr-1">Download Group Grades</a>
                 <a href="/generate-certificates" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Generate Certificates</a>
-                <a href="/generate-certificates/panelist" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Panelist</a>
+                {{-- <a href="/generate-certificates/panelist" class="inline-block bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1">Panelist</a> --}}
             </div>
         @endif
         <h1 class="font-semibold mb-2 text-2xl text-center">Individual Award Winners</h1>
