@@ -50,10 +50,18 @@ class GroupGradeSeeder extends Seeder
         }
 
         // PANELISTS
+        $x = true;
         foreach($panelists as $panelist) {
-            $panelist->specializationPanelist->is_done = 1;
-            $panelist->specializationPanelist->evaluation_review = 1;
-            $panelist->specializationPanelist->save();
+            if($x) {
+                $panelist->specializationPanelist->update_evaluation = 1;
+                $panelist->specializationPanelist->evaluation_review = 0;
+                $panelist->specializationPanelist->save();
+                $x = false;
+            } else {
+                $panelist->specializationPanelist->is_done = 1;
+                $panelist->specializationPanelist->evaluation_review = 1;
+                $panelist->specializationPanelist->save();
+            }
         }
     }
 }

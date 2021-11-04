@@ -52,6 +52,7 @@ Route::get('/specializations/{specId}/groups', function ($specId) {
 });
 Route::get('/group/{groupId}', function ($groupId) { 
     $group = Group::find($groupId);
+    // dd('yow');
     return view('homepage.viewSpecialization', ['group' => $group]); 
 });
 
@@ -122,6 +123,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
         Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
         Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
+        Route::post('/email-awards', [AwardController::class, 'emailAwards']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
            // HOME SLIDER

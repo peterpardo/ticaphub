@@ -31,9 +31,9 @@ class IndividualWinnerSeeder extends Seeder
                                 array_push($users, $userGroup->user->id);
                             }
                             for($i = 0; $i < $spec->panelists->count(); $i++) {
-                                $key = array_rand($users);
+                                // $key = array_rand($users[]);
                                 $winner->group->individualCandidates()->create([
-                                    'user_id' => $users[$key]
+                                    'user_id' => $users[0]
                                 ]);
                             }
                         }

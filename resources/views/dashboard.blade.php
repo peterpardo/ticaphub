@@ -114,7 +114,7 @@
           <h3 class="pb-2 font-semibold text-lg">{{ $event->name }}</h3>
           @if(!$event->programFlows()->exists())
             <div class="mb-2 pb-2">
-              <p class="text-sm">No Uploaded Program Flow</p>
+              <p class="text-sm">Nothing Planned Yet</p>
             </div>
           @else
             <div class="w-full">

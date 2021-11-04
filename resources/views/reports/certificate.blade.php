@@ -8,13 +8,16 @@
 </head>
 <style>
 *{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .certificate {
-    border: 15px solid green;
+    border: 15px solid #393E46;
     padding: 22px;
-    /* width: auto; */
+    border-radius: 10px;
     position: relative;
+    background-image: url(https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .certificate::after {
@@ -31,26 +34,24 @@
     width: fit-content;
 }
 
-.certificate-title {
-    text-align: center;   
-    font-size: 20px;
-    letter-spacing: 5px;
-}
-
 .certificate-body {
     text-align: center;
 }
 
-h1 {
-    font-weight: 200;
-    font-size: 30px;
-    color: green;
+.certificate-title {
+    text-align: center;   
+    font-size: 24px;
+    letter-spacing: 5px;
+    font-weight: bolder;
+    color: #222831;
 }
 
-h3 {
-    font-weight: 200;
+.certificate-subtitle {
+    text-align: center;   
     font-size: 16px;
-    color: green;
+    letter-spacing: 2px;
+    font-weight: 900;
+    color: #393E46;
 }
 
 .student-name {
@@ -59,24 +60,48 @@ h3 {
     text-decoration: underline;
 }
 
+.student-name h1 {
+    color: #222831;
+    font-weight: 200;
+}
+
+.about-certificate {
+    text-align: center;   
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 900;
+    color: #393E46;
+}
+
+.award-name {
+    text-align: center;   
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 900;
+    color: #00ADB5;
+}
+
+
+h3 {
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+
 .certificate-content {
     margin: 0 auto;
     width: 750px;
 }
 
-.about-certificate {
-    width: 380px;
-    margin: 0 auto;
-}
 
 .topic-description {
     text-align: center;
 }
-
 .flex-around{
-    /* display: flex;
-    justify-content: space-evenly; */
-    margin-top: 5em;
+    margin-top: 2em;
+    color: #222831;
+    font-weight: 800;
 }
 </style>
 
@@ -86,21 +111,16 @@ h3 {
             @foreach($award->groupWinners as $winner)
                 <div class="certificate-container">
                     <div class="certificate">
-                        <div class="water-mark-overlay"></div>
                         <div class="certificate-header">
                         </div>
                         <div class="certificate-body">
-                        
-                            <p class="certificate-title"><strong>FEU TECH (Technology Innovation in Capstone Project)</strong></p>
                             <p class="certificate-title"><strong>{{ $ticap->name }}</strong></p>
+                            <p class="certificate-subtitle">This certificate is presented to</p>
+                            <div class="student-name">
+                                <h1>{{ $winner->group->name }}</h1>
+                            </div>
                             <h1>{{ $award->name }}</h1>
                             <h3>{{ $spec->name }} ({{ $spec->school->name }})</h3>
-                            <div class="about-certificate">
-                                <p>
-                                    This certificate is presented to
-                                </p>
-                            </div>
-                            <p class="student-name">{{ $winner->group->name }}</p>
                             <div class="certificate-content">
                             </div>
                             <div class="certificate-footer text-muted">
@@ -109,7 +129,7 @@ h3 {
                                         <div class="flex-around">
                                             <div class="">
                                                 <p>
-                                                    <p>Mr. Hientjie N. Vicente<br>WMA/SMBA Course Adviser</p>
+                                                    <p>Mr. Heintjie N. Vicente<br>WMA/SMBA Course Adviser</p>
                                                 </p>
                                             </div>
                                             <div class="">
@@ -159,7 +179,7 @@ h3 {
                                         <div class="">
                                             <div class="">
                                                 <p>
-                                                    <p>Mr. Hientjie N. Vicente<br>WMA/SMBA Course Adviser</p>
+                                                    <p>Mr. Heintjie N. Vicente<br>WMA/SMBA Course Adviser</p>
                                                 </p>
                                             </div>
                                             <div class="">

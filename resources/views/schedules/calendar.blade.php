@@ -136,13 +136,13 @@
 
                         <div class="mb-4">
                             <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Attendees</label>
-                            <div class="mr-2 inline-block">
+                            <div class="mr-2 inline-block text-gray-800">
                                 <input type="checkbox" class="mr-1 text-gray-800 " id="panelists" name="attendees[]" value="panelists" x-model="attendees"><label for="panelists">panelists</label>
                             </div>
-                            <div class="mr-2 inline-block">
+                            <div class="mr-2 inline-block text-gray-800">
                                 <input type="checkbox" class="mr-1 text-gray-800 " id="students" name="attendees[]" value="students" x-model="attendees"><label for="students">students</label>
                             </div>
-                            <div class="mr-2 inline-block">
+                            <div class="mr-2 inline-block text-gray-800">
                                 <input type="checkbox" class="mr-1 text-gray-800 " id="officers" name="attendees[]" value="officers" x-model="attendees"><label for="officers">officers</label>
                             </div>
                         </div>

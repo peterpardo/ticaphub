@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmailCertificateJob;
 use App\Models\Award;
 use App\Models\Criteria;
 use App\Models\Group;
@@ -396,6 +397,11 @@ class AwardController extends Controller
         return view('student-choice-vote', [
             'groupId' => $groupId
         ]);
+    }
+    
+    public function emailAwards() {
+        dd('pasok');
+        dispatch(new EmailCertificateJob('peterpardo123@gmail.com', asset('assets/banner.png')));
     }
 
     public function generateAwards() {
