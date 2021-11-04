@@ -122,16 +122,15 @@ function app() {
                         this.error += event_title;
                     }
                 } else {
-                    alert(messages.success);
                     this.event_title = '';
                     this.event_date = '';
                     this.attendees = [];
                     this.error = '';
                     this.event_theme = 'blue';
                     this.openEventModal = false;
+                    alert(messages.success);
                 }
             })
-            .catch(err => console.log(err));
 
             this.getEvents();
         },
@@ -184,7 +183,7 @@ function app() {
                 },
             })
                 .then(response => response.json())
-                .then(message => alert(message.success))
+                .then(message => alert(message.success));
             this.getEvents();
             this.openEventModal = false;
         }
