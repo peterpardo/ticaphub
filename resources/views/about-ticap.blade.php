@@ -20,12 +20,12 @@
 
       <div class="flex items-center justify-center">
           <div class="grid gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            
+
             <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" data-featherlight="image">
               <div class="w-full max-w-xs text-center">
                   <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" alt="avatar"/>
               </div>
-            </a>              
+            </a>
             <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/66661637_10218896984553709_4667343700752334848_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=0debeb&_nc_eui2=AeGKYf86bi0eXBGn7dhLwJJgdpCOYcs9y912kI5hyz3L3Xm4syCEIgvyXcdf86Uu7ja_fFLue8453-oQ98jLhV24&_nc_ohc=Dbovdo5UxhgAX8o9FLC&_nc_ht=scontent.fwnp1-1.fna&oh=1e1e10ec78ff01d16ef4057d355dab41&oe=618D71EE" data-featherlight="image">
               <div class="w-full max-w-xs text-center">
                   <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/66661637_10218896984553709_4667343700752334848_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=0debeb&_nc_eui2=AeGKYf86bi0eXBGn7dhLwJJgdpCOYcs9y912kI5hyz3L3Xm4syCEIgvyXcdf86Uu7ja_fFLue8453-oQ98jLhV24&_nc_ohc=Dbovdo5UxhgAX8o9FLC&_nc_ht=scontent.fwnp1-1.fna&oh=1e1e10ec78ff01d16ef4057d355dab41&oe=618D71EE" alt="avatar"/>
@@ -42,7 +42,7 @@
               <div class="w-full max-w-xs text-center">
                   <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" alt="avatar"/>
               </div>
-            </a>  
+            </a>
           </div>
       </div>
   </section>
@@ -56,7 +56,7 @@
       </div>
     </div>
   </section>
-  
+
   <script src="//code.jquery.com/jquery-latest.js"></script>
   <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 </x-guest-layout>

@@ -7,19 +7,29 @@
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Slider Title</label>
                     <input type="text" name="title"class="rounded w-full text-black dark:text-gray-900" placeholder="Enter Name">
+                    @error('title')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Slider Description</label>
                     <textarea name="description" class="rounded w-full text-black dark:text-gray-900" rows="3"></textarea>
+                    @error('description')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Slider Image</label>
                     <input type="file" name="image" class="rounded w-full text-black dark:text-gray-900">
+                    @error('image')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="flex justify-evenly my-3 text-gray-800">
                     <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Submit</button>
                 </div>
             </form>
+
         </div>
 </x-app-layout>

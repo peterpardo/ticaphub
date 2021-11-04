@@ -1,91 +1,3 @@
-<style>
-     
-    @import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
-
-   
-   body{
-       font-family: 'EB Garamond', serif;
-   }
-   .certificate {
-       border: 15px solid green;
-       padding: 25px;
-       height: 84.1%;
-       /* width: auto; */
-       position: relative;
-   }
-   
-   .certificate::after {
-       content: '';
-       top: 0px;
-       left: 0px;
-       bottom: 0px;
-       right: 0px;
-       position: absolute;
-       background-image: url(https://mb.com.ph/wp-content/uploads/2020/07/feu-banner-1024x538.jpg);
-       background-position: center;
-       background-repeat: no-repeat;
-       background-size: cover;
-       opacity: 0.1;
-       width: fit-content;
-   
-   }
-   
-   .certificate-header > .logo {
-       width: 80px;
-       height: 80px;
-   }
-   
-   .certificate-title {
-       text-align: center;   
-       font-size: 26px;
-       letter-spacing: 5px;
-   }
-   
-   .certificate-body {
-       text-align: center;
-   }
-   
-   h1 {
-       font-weight: 400;
-       font-size: 48px;
-       color: green;
-   }
-   
-   h3 {
-       font-weight: 400;
-       font-size: 20px;
-       color: green;
-   }
-   
-   .student-name {
-       font-size: 30px;
-       font-weight: bold;
-       text-decoration: underline;
-   }
-   
-   .certificate-content {
-       margin: 0 auto;
-       width: 750px;
-   }
-   
-   
-
-   .about-certificate {
-       width: 380px;
-       margin: 0 auto;
-   }
-   
-   .topic-description {
-       text-align: center;
-   }
-
-   .flex-around{
-       display: flex;
-       justify-content: space-evenly;
-       margin-top: 8em;
-   }
-</style>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,8 +5,81 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate</title>
-
 </head>
+<style>
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.certificate {
+    border: 15px solid green;
+    padding: 22px;
+    /* width: auto; */
+    position: relative;
+}
+
+.certificate::after {
+    content: '';
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.1;
+    width: fit-content;
+}
+
+.certificate-title {
+    text-align: center;   
+    font-size: 20px;
+    letter-spacing: 5px;
+}
+
+.certificate-body {
+    text-align: center;
+}
+
+h1 {
+    font-weight: 200;
+    font-size: 30px;
+    color: green;
+}
+
+h3 {
+    font-weight: 200;
+    font-size: 16px;
+    color: green;
+}
+
+.student-name {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.certificate-content {
+    margin: 0 auto;
+    width: 750px;
+}
+
+.about-certificate {
+    width: 380px;
+    margin: 0 auto;
+}
+
+.topic-description {
+    text-align: center;
+}
+
+.flex-around{
+    /* display: flex;
+    justify-content: space-evenly; */
+    margin-top: 5em;
+}
+</style>
+
 <body>
     @foreach($specs as $spec)
         @foreach($spec->awards as $award)

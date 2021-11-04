@@ -1,25 +1,29 @@
 <x-guest-layout>
   <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 <section class="container mx-auto">
-
+  {{-- {{ Storage::url($group->groupExhibit->banner_path) }} --}}
+  
   {{-- BANNER --}}
   <div class="text-center py-5">
-  <h1 class="text-5xl font-semibold">FIT TEAM A 2019 Roster</h1>
+  <h1 class="text-5xl font-semibold">{{ $group->groupExhibit->title }}</h1>
 </div>
   <div class="text-gray-600 body-font">
     <div class="container px-5 py-5 mx-auto flex">
       <div class="w-full mx-auto">
         <div class="flex flex-wrap w-full bg-gray-100 py-44 px-20 relative mb-4 shadow-md">
-          <a href="https://scontent.fcrk1-3.fna.fbcdn.net/v/t1.6435-9/74214573_564150827680376_112585708601868288_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEgyzdmGm3Z9OZNtGIQqpCkiTgLICFxojeJOAsgIXGiNxFzNq4o8gawK0xQXmbDFIxgeQE3-UXxrUsEyzMKUDEM&_nc_ohc=CQXO-iv4h98AX-lfpGy&_nc_ht=scontent.fcrk1-3.fna&oh=1a61792ab7e04a6b7348989f28c64f4a&oe=6183BE6E" data-featherlight="image">
-          <img alt="group photo" class="rounded w-full object-cover h-full object-center block absolute inset-0" src="https://scontent.fcrk1-3.fna.fbcdn.net/v/t1.6435-9/74214573_564150827680376_112585708601868288_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEgyzdmGm3Z9OZNtGIQqpCkiTgLICFxojeJOAsgIXGiNxFzNq4o8gawK0xQXmbDFIxgeQE3-UXxrUsEyzMKUDEM&_nc_ohc=CQXO-iv4h98AX-lfpGy&_nc_ht=scontent.fcrk1-3.fna&oh=1a61792ab7e04a6b7348989f28c64f4a&oe=6183BE6E">
+          {{-- @if($group->groupExhibit->video_path == 'assets/sample-video.mp4') --}}
+          {{-- <img src="{{ asset(url(assetsvideo_path)) }}" alt=""> --}}
+          {{-- @else --}}
+          <a href="{{ asset($group->groupExhibit->banner_path) }}" data-featherlight="image">
+          <img alt="group photo" class="rounded w-full object-cover h-full object-center block absolute inset-0" src="{{ asset($group->groupExhibit->banner_path) }}">
           </a>
-          {{-- {{ Storage::url($group->groupExhibit->banner_path) }} --}}
+          {{-- @endif --}}
         </div>
       </div>
     </div>
   </div>
-  {{-- https://dummyimage.com/800x312 --}}
-
+  
+  
    {{-- PROJECT TITLE AND DESCRIPTION --}}
 <div class="container mx-auto w-8/12 bg-white dark:bg-gray-800 rounded shadow-md mt-5">
   <div class="container px-5 py-5 mx-auto">
@@ -33,7 +37,9 @@
           <div class="mt-8 lg:mt-0 lg:w-1/2">
               <div class="flex items-center justify-center lg:justify-end">
                   <div class="max-w-lg">
-                      <img class="object-cover object-center w-full h-64 rounded-md shadow" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/198672820_109054511406402_7566504030318043914_n.png?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeGFcOr9nwyc8yMAVRtHtYodwaMaLf0MDl3Boxot_QwOXZdloawQBlubmJr4LEvHRMICIU3wMaMKCLWhIHshWzPS&_nc_ohc=P7ngvjClQUgAX9jSWfR&_nc_ht=scontent.fwnp1-1.fna&oh=3fd7894ccf079d3ef264af88f37afeae&oe=617B4BAA" alt="">
+                    <a href="{{ asset($group->groupExhibit->banner_path) }}" data-featherlight="image">
+                      <img class="object-cover object-center w-full h-64 rounded-md shadow" src="{{ asset($group->groupExhibit->banner_path) }}" alt="">
+                    </a>
                   </div>
               </div>
           </div>
@@ -45,17 +51,17 @@
   {{-- POSTER AND VID --}}
   <section class="container mx-auto text-gray-600 body-font pt-28">
     <div class="container px-5 mx-auto flex flex-wrap">
-      <div class="lg:w-2/3 mx-auto">
+      {{-- <div class="lg:w-2/3 mx-auto">
         <div class="flex flex-wrap w-full bg-gray-100 px-10 relative mb-4">
-          <iframe class="w-full h-96 object-cover object-center block rounded" src="https://www.youtube.com/embed/hatTR-ztF0k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe class="w-full h-96 object-cover object-center block rounded" src="{{ asset($group->groupExhibit->video_path) }}" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-    </div>
+    </div> --}}
     <div class="container mx-auto text-gray-600 body-font w-8/12">
       <div class="container px-5 mx-auto flex justify-center">
         <div class="flex flex-wrap md:-m-2 -m-1">
           <div class="flex flex-wrap w-1/2">
             <div class="md:p-5 p-1 w-full mx-1 my-3">
-              <iframe class="w-full h-full object-cover object-center block rounded" width="875" height="374" src="https://www.youtube.com/embed/hatTR-ztF0k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe class="w-full h-full object-cover object-center block rounded" width="875" height="374" src="{{ asset($group->groupExhibit->video_path) }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
           <div class="flex flex-wrap w-1/2 cursor-pointer"
@@ -69,7 +75,7 @@
       </div>
     </div>
   </section>
-{{-- https://dummyimage.com/600x360 --}}
+
 
 <div class="text-center my-3">
   @php
@@ -85,6 +91,7 @@
   @endif
 </div>
 </section>
+
 <script src="//code.jquery.com/jquery-latest.js"></script>
   <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 </x-guest-layout>

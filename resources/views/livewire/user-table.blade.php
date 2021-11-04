@@ -11,7 +11,7 @@
      <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-white-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="Search Student" wire:model.debounce.350ms="search">
      <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full">
-        <table class="table-auto w-full">
+        <table class="w-full">
             <thead>
             <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
@@ -27,7 +27,7 @@
                 <td class="px-4 border">
                 <div class="flex items-center text-sm">
                     <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                    @if($user->profile_picture != 'profiles/default-img.png')
+                    @if($user->profile != 'profiles/default-img.png')
                         <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
                     @else
                         <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
@@ -47,7 +47,7 @@
                 <td class="px-4 text-md font-semibold border">
                 @if($user->email_verified)
                 <span class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100">email verified</span>
-                
+
                 @else
                 <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">not verified</span>
                 @endif
@@ -59,8 +59,8 @@
                 </td>
                 <td class="px-4 text-md border text-center">
                     <div class="grid grid-rows-1 mx-auto w-full justify-center text-center">
-                        <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>      
-                        <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>      
+                        <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>
+                        <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>
                     </div>
                 </td>
             </tr>

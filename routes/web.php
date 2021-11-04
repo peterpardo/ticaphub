@@ -124,17 +124,17 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
-            // HOME SLIDER
-            Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
-            Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
-            Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
-            Route::get('/slider/delete/{id}', [HomeController::class, 'delete']);
+           // HOME SLIDER
+           Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
+           Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
+           Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
+           Route::get('/slider/delete/{id}', [HomeController::class, 'deleteSlider']);
 
-             //STREAM LINK
-             Route::get('/home/stream', [HomeController::class, 'HomeStream'])->name('home.stream');
-             Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
-             Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
-             Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
+            //STREAM LINK
+            Route::get('/home/stream', [HomeController::class, 'HomeStream'])->name('home.stream');
+            Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
+            Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
+            Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
 
             // USER ACCOUNTS
             Route::middleware(['set.invitation'])->group(function(){

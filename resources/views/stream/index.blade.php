@@ -4,7 +4,7 @@
         <a href="{{ route('add.stream') }}" class="inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">+ Stream</a>
     </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-    <table class="table-auto w-full">
+    <table class="w-full">
         <thead>
         <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
             <th class="px-4 py-3">No.</th>

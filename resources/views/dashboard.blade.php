@@ -59,6 +59,30 @@
   </section>
  @endif
 
+ <div class="container px-4 py-4 mx-auto">
+  <h3 class="block text-xl text-gray-700 font-semibold mb-3"></h3>
+  <div class="flex">
+    <div class="w-1/2">
+      <div class="rounded-md p-6 bg-white shadow">
+        <div class="mb-2 pb-2">
+          <h3 class="font-semibold text-lg text-gray-800">Project Exhibit</h3>
+          <p class="text-sm text-gray-500">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div id="chartdiv" class="w-full" style="height: 240px"></div>
+      </div>
+    </div>
+    <div class="w-1/2 ml-4">
+      <div class="rounded-md p-6 bg-white shadow">
+        <div class="mb-2 pb-2">
+          <h3 class="font-semibold text-lg text-gray-800">Project Exhibit</h3>
+          <p class="text-sm text-gray-500">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div id="chartdiv2" class="w-full" style="height: 240px"></div>
+      </div>
+    </div>
+  </div>
+      </div>
+
 {{-- SCHEDULES --}}
 @if(!$user->hasRole('admin'))
   <h1 class="font-bold text-2xl">Schedules</h1>

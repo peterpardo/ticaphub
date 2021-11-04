@@ -97,6 +97,7 @@ class HomeController extends Controller
             if($ticap->election_has_started && !$ticap->election_finished) {
                 return redirect()->route('election');
             }elseif(!$ticap->election_has_started){
+                session()->flash('error', 'Appoint officers first.');
                 return redirect()->route('set-positions');
             }
         }
@@ -130,7 +131,7 @@ class HomeController extends Controller
     }
 
     public function HomeSlider(){
-        $sliders = Slider::latest()->get();
+        $sliders = Slider::all();
         return view('slider.index', compact('sliders'));
     }
 
@@ -139,6 +140,12 @@ class HomeController extends Controller
     }
 
     public function StoreSlider(Request $request){
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required|mimes:jpg,bmp,png',
+        ]);
 
         $image = $request->file('image');
 
@@ -176,7 +183,7 @@ class HomeController extends Controller
 
     //STREAM LINK
     public function HomeStream(){
-        $streams = Stream::latest()->get();
+        $streams = Stream::all();
         return view('stream.index', compact('streams'));
     }
 
@@ -185,6 +192,13 @@ class HomeController extends Controller
     }
 
     public function StoreStream(Request $request){
+
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'stream' => 'required',
+        ]);
+
         Stream::insert([
             'title' => $request->title,
             'description' => $request->description,

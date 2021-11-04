@@ -44,7 +44,7 @@
 	<main class="container mx-auto flex flex-row items-center p-5 w-auto h-screen justify-evenly mt-40 sm:mt-0">
 		<div class="grid grid-col md:grid-cols-2">
 			<div class="flex flex-row md:justify-start justify-center">
-				<div class="flex flex-col w-full md:w-3/4 object-cover h-60 justify-items-start border rounded-lg overflow-hidden"
+				<div class="flex flex-col w-full md:w-3/4 object-cover h-auto justify-items-start rounded-lg overflow-hidden"
 					style="min-heigth:320px">
 					<div class="h-72 w-full">
                         <iframe class="w-full h-full object-cover object-center block rounded" src="{{ $stream->stream_link }}" width="1080" height="1920" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
@@ -58,7 +58,6 @@
 						<h1 class="capitalize text-4xl font-extrabold mb-3">{{ $stream->title }}</h1>
 						<p class="w-auto text-lg text-gray-500 text-justify">{{ $stream->description }}</p>
 						<div class="flex items-center my-6 cursor-pointer">
-							{{-- <a href="{{ route('about-ticap') }}" class="bg-red-600 px-5 py-3 text-white rounded-lg w-2/4 text-center">View More</a> --}}
 						</div>
 					</div>
 				</div>

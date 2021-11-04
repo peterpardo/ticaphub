@@ -4,7 +4,7 @@
         <a href="{{ route('add.slider') }}" class="inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">+ Slider</a>
     </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-    <table class="table-auto w-full">
+    <table class="w-full">
         <thead>
         <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
             <th class="px-4 py-3">No.</th>
@@ -23,7 +23,11 @@
             <td class="px-4 py-3 border">{{ $slider->description }}</td>
             <td class="px-4 py-3 border" align="center"><img src="{{ asset($slider->image) }}" style="height:40px; width:70px;" alt="" srcset=""></td>
             <td class="px-4 py-3 border">
+                @if($slider->id == 1)
+                <span class="bg-gray-300 rounded px-2 py-1 shadow">Can't be deleted</span>
+                @else
                 <a class="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600" href="{{ url('slider/delete/'.$slider->id) }}" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                @endif
             </td>
         </tr>
         @endforeach
