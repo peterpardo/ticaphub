@@ -6,6 +6,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'TICaP HUB') }}</title>
         <link rel="icon" class="w-10 h-10" href="{{ url('assets/ticap-logo.png') }}"/>
+        <!-- Feather Light -->
+        <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet" />
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <!-- Styles -->
@@ -16,6 +18,10 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
         {{-- <script src="{{ asset('js/myscript.js') }}" defer></script> --}}
+
+        <!-- Feather Light -->
+        <script src="//code.jquery.com/jquery-latest.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
     </head>
 
     <style>

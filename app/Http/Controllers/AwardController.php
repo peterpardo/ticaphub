@@ -440,7 +440,6 @@ class AwardController extends Controller
             'ticap' => Ticap::find(Auth::user()->ticap_id)
         ];
         $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
-        // dd('generate certificates');
         return $pdf->download(time().'-certificates.pdf');
     }
 }

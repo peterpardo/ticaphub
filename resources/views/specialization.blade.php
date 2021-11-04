@@ -6,7 +6,7 @@
           <a href="/specializations/{{ $specialization->id }}/groups">
             <div class="w-72 h-64 bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
                 <div class="overflow-x-hidden rounded-2xl relative">
-                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="{{url('/assets/ticap-logo.png')}}">                  
+                  <img class="h-40 hover:opacity-75 rounded-2xl w-full object-cover" src="{{url('/assets/specialization.png')}}">                  
                 </div>
                 <div class="mt-3 flex justify-center items-end">
                   <div class="text-center">

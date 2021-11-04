@@ -1,6 +1,5 @@
 <x-app-layout>
   <x-page-title>{{ $title }}</x-page-title>
-
   <div>
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
   </div>
@@ -10,7 +9,7 @@
   <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
 
-  
+
  @if($user->hasRole('admin'))
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
   <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
@@ -25,7 +24,7 @@
   <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
   <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
     <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="stroke-current text-red-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
-    
+
   </div>
   <div class="text-right">
     <p class="text-2xl">{{ $panelists->count() }}</p>
@@ -48,7 +47,7 @@
   <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
   <div class="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
     <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="stroke-current text-red-800 dark:text-gray-800 transform transition-transform duration-500 ease-in-out"><path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3"/><circle cx="12" cy="10" r="3"/><circle cx="12" cy="12" r="10"/></svg>
-    
+
   </div>
   <div class="text-right">
     <p class="text-2xl">{{ $admins->count() }}</p>
@@ -58,30 +57,6 @@
   </div>
   </section>
  @endif
-
- <div class="container px-4 py-4 mx-auto">
-  <h3 class="block text-xl text-gray-700 font-semibold mb-3"></h3>
-  <div class="flex">
-    <div class="w-1/2">
-      <div class="rounded-md p-6 bg-white shadow">
-        <div class="mb-2 pb-2">
-          <h3 class="font-semibold text-lg text-gray-800">Project Exhibit</h3>
-          <p class="text-sm text-gray-500">Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div id="chartdiv" class="w-full" style="height: 240px"></div>
-      </div>
-    </div>
-    <div class="w-1/2 ml-4">
-      <div class="rounded-md p-6 bg-white shadow">
-        <div class="mb-2 pb-2">
-          <h3 class="font-semibold text-lg text-gray-800">Project Exhibit</h3>
-          <p class="text-sm text-gray-500">Lorem ipsum dolor sit amet.</p>
-        </div>
-        <div id="chartdiv2" class="w-full" style="height: 240px"></div>
-      </div>
-    </div>
-  </div>
-      </div>
 
 {{-- SCHEDULES --}}
 @if(!$user->hasRole('admin'))
@@ -94,10 +69,10 @@
           @foreach(\App\Models\Schedule::all() as $sched)
               <div class="p-2 my-1 shadow rounded relative">
                   <div>
-                      <h1 class="text-xl font-semibold">{{ $sched->name }}</h1> 
+                      <h1 class="text-xl font-semibold">{{ $sched->name }}</h1>
                       <div class="text-gray-500">
-                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>  
-                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>  
+                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>
                           <span class="block"><span class="font-semibold">Attendees:</span>
                           <div class="divide-x-2 inline-block">
                               @foreach($sched->attendees as $attendee)
@@ -109,7 +84,7 @@
               </div>
             @endforeach
         @endif
-    </div> 
+    </div>
   </div>
 @endif
 
@@ -126,31 +101,57 @@
   @if($user->committeeMember()->exists())
     @livewire('committee-notification', ['user' => $user])
   @elseif($user->hasAnyRole(['officer', 'chairman']))
-    @livewire('task-notification', ['user' => $user]) 
+    @livewire('task-notification', ['user' => $user])
   @endif
 @endif
 
-{{-- PROGRAM FLOW OF EVENTS --}}
 <h1 class="font-bold text-2xl mb-3">Event Programs</h1>
-@foreach ($events as $event)
-<h1 class="font-semibold text-xl mb-1">{{ $event->name }}</h1>
-@if(!$event->programFlows()->exists())
-  <div class="bg-gray-100 text-center py-6 rounded text-gray-800">No Uploaded Program Flow</div>
-@else
-  <div class="flex flex-wrap justify-center">
-    @foreach ($event->programFlows as $program)
-      <div class="w-1/2">
-        @if ($program->name == 'assets/program-flow-sample')
-          <img src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}" class="w-full">
-        @else
-          <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
-        @endif
+<div class="container px-4 mx-auto">
+    <div class="flex flex-wrap flex-row justify-evenly">
+        @foreach ($events as $event)
+      <div class="w-5/12 mx-4 py-4 flex-grow">
+        <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex flex-col items-center p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
+          <h3 class="pb-2 font-semibold text-lg">{{ $event->name }}</h3>
+          @if(!$event->programFlows()->exists())
+            <div class="mb-2 pb-2">
+              <p class="text-sm">No Uploaded Program Flow</p>
+            </div>
+          @else
+            <div class="w-full">
+                @foreach ($event->programFlows as $program)
+                <div class="">
+                  @if ($program->name == 'assets/program-flow-sample')
+                  <a href="{{ asset(url($program->path)) }}" data-featherlight="image">
+                    <img class="w-full h-64 object-cover object-center block rounded" src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}">
+                  </a>
+                  @else
+                  <a href="{{ Storage::url($program->path) }}" data-featherlight="image">
+                    <img class="w-full h-64 object-cover object-center block rounded" src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}">
+                  </a>
+                  @endif
+                </div>
+              @endforeach
+            </div>
+            @endif
+        </div>
       </div>
-    @endforeach  
+      @endforeach
+    </div>
   </div>
-@endif
-@endforeach
 {{-- PROGRAM FLOW OF EVENTS --}}
 @endif
+
+
+{{-- BACKUP --}}
+
+{{-- @foreach ($event->programFlows as $program)
+<div class="w-1/2">
+  @if ($program->name == 'assets/program-flow-sample')
+    <img src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}" class="w-full">
+  @else
+    <img src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}" class="w-full">
+  @endif
+</div>
+@endforeach --}}
 
 </x-app-layout>

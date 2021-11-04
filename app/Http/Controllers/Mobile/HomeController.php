@@ -40,7 +40,6 @@ class HomeController extends Controller
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
             'last_name' => 'required|string',
-            'id_number' => 'numeric',
         ]);
         $user = User::find($id);
         $user->first_name = $request->first_name;
@@ -48,6 +47,9 @@ class HomeController extends Controller
         $user->last_name = $request->last_name;
         $user->save();
         if($user->hasRole('student') && $request->id_number) {
+            $request->validate([
+                'id_number' => 'numeric'
+            ]);
             $user->userSpecialization->id_number = $request->id_number;
             $user->userSpecialization->save();
         }
