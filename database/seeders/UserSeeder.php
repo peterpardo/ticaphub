@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Miguel Bryan',
             'middle_name' => 'M',
             'last_name' => 'Pajarillo',
-            'email' => 'a@a.com',
+            'email' => 'admin1@admin1.com',
             'password' => Hash::make('123'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Steve',
             'middle_name' => 'Moore',
             'last_name' => 'Smith',
-            'email' => 'a@a.com',
+            'email' => 'panelist@panelist.com',
             'password' => Hash::make('thisispanelist'), // password
             'ticap_id' => 1,
             'email_verified' => 1,
