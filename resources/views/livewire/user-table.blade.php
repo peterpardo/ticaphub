@@ -27,7 +27,7 @@
                 <td class="px-4 border">
                 <div class="flex items-center text-sm">
                     <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                    @if($user->profile_picture != 'profiles/default-img.png')
+                    @if($user->profile_picture)
                         <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
                     @else
                         <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
@@ -53,9 +53,13 @@
                 @endif
                 </td>
                 <td class="px-4 text-md font-semibold border">
-                @foreach($user->getRoleNames() as $role)
-                {{ $role }} |
-                @endforeach
+                    <div class="divide-x-2 divide-black">
+                        @foreach($user->getRoleNames() as $role)
+                        <span class="inline-block px-1 text-center">
+                            {{ $role }} 
+                        </span>
+                        @endforeach
+                    </div>
                 </td>
                 <td class="px-4 text-md border text-center">
                     <div class="grid grid-rows-1 mx-auto w-full justify-center text-center">

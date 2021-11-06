@@ -36,15 +36,6 @@ class UserSeeder extends Seeder
             'ticap_id' => 1,
             'email_verified' => 1,
         ]);
-        $user3 = User::create([
-            'first_name' => 'Steve',
-            'middle_name' => 'Moore',
-            'last_name' => 'Smith',
-            'email' => 'panelist@panelist.com',
-            'password' => Hash::make('thisispanelist'), // password
-            'ticap_id' => 1,
-            'email_verified' => 1,
-        ]);
         // CREATE PERMISSIONS
         // ADMIN / CHAIRMAN / OFFICERS
         Permission::create(['name' => 'access users']);
@@ -139,7 +130,6 @@ class UserSeeder extends Seeder
         // ASSIGN ROLE
         $user->assignRole($admin);
         $admin2->assignRole($admin);
-        $user3->assignRole($panelist);
 
 
         // PANELIST

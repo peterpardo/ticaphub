@@ -3,7 +3,9 @@
         @csrf
         <div class="my-3">
             <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Profile Picture</label>
-            @if(($current_profile && $profile_picture == null) || ($profile_picture->extension() != 'png' && $profile_picture->extension() != 'jpeg' && $profile_picture->extension() != 'jpg'))
+            @if($current_profile == null && $profile_picture == null)
+                <img src="{{ asset(url('assets/default-img.png')) }}" class="w-1/2 mx-auto my-2" alt="user profile">
+            @elseif(($current_profile && $profile_picture == null) || ($profile_picture->extension() != 'png' && $profile_picture->extension() != 'jpeg' && $profile_picture->extension() != 'jpg'))
                 <img src="{{ Storage::URL($current_profile) }}" class="w-1/2 mx-auto my-2" alt="user profile">
             @else
                 <img src="{{ $profile_picture->temporaryUrl() }}" class="w-1/2 mx-auto my-2" alt="user profile">

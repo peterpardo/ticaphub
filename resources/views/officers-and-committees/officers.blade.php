@@ -31,7 +31,7 @@
                                 <td class="px-4 border py-3">
                                     <div class="flex justify-center items-center text-sm">
                                         <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                                        @if($officer->user->profile_picture != 'profiles/default-img.png')
+                                        @if($officer->user->profile_picture)
                                             <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($officer->user->profile_picture) }}" alt="" loading="lazy" />
                                         @else
                                             <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />

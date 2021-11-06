@@ -31,10 +31,7 @@ class UserProfile extends Component
         $this->middle_name = $this->user->middle_name;
         $this->last_name = $this->user->last_name;
         $this->current_profile = $this->user->profile_picture;
-        if($this->user->hasRole('student') && $this->id_number){
-            $this->validate([
-                'id_number' => 'numeric'
-            ]);
+        if($this->user->hasRole('student')){
             $this->id_number = $this->user->userSpecialization->id_number;
         }
     }
@@ -48,7 +45,10 @@ class UserProfile extends Component
         $this->user->middle_name = $this->middle_name;
         $this->user->last_name = $this->last_name;
         $this->user->save();
-        if($this->user->hasRole('student')) {
+        if($this->user->hasRole('student') && $this->id_number) {
+            $this->validate([
+                'id_number' => 'numeric|digits_between:0,9'
+            ]);
             $this->user->userSpecialization->id_number = $this->id_number;
             $this->user->userSpecialization->save();
         }

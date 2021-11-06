@@ -70,13 +70,13 @@
         <div>
             <h1 class="font-bold text-lg mb-2">Project Video</h1>
             @if($currentVideo && $video == null)
-            <video class="w-full" controls loop autoplay muted>
-                @if($currentVideo == 'assets/sample-video.mp4')
-                    <source src="{{ asset(url($currentVideo)) }}">
-                @else
-                    <source src="{{ Storage::url($currentVideo) }}">
-                @endif
-            </video>
+                <video class="w-full" controls loop autoplay muted>
+                    @if($currentVideo == 'assets/sample-video.mp4')
+                        <source src="{{ asset(url($currentVideo)) }}">
+                    @else
+                        <source src="{{ Storage::url($currentVideo) }}">
+                    @endif
+                </video>
             @elseif($video)
             <video class="w-full" controls loop autoplay muted>
                 <source src="{{ $video->temporaryUrl() }}">
