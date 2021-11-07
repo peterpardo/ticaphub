@@ -34,7 +34,7 @@
                 <div class="flex items-center text-sm">
                     <div class="flex items-center text-sm">
                         <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                        @if($user->profile_picture != 'profiles/default-img.png')
+                        @if($user->profile_picture)
                             <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
                         @else
                             <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
@@ -67,51 +67,55 @@
 
     {{-- COMMITTEE TABLE --}}
     <h1 class="text-center font-semibold text-3xl">Committees</h1>
-    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-        <table class="w-full">
-            <thead>
-            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                <th class="px-4 py-3">Committee Name</th>
-                <th class="px-4 py-3">Committee Head</th>
-                <th class="px-4 py-3">School</th>
-                <th class="px-4 py-3">Specialization</th>
-                <th class="px-4 py-3">Action</th>
-            </tr>
-            </thead>
-            <tbody class="bg-white">
-            @foreach($committees as $committee)
-            <tr class="text-gray-700">
-                <td class="px-4 py-3 border">{{ $committee->name }}</td>
-                <td class="px-4 py-3 border">
-                    <div class="flex items-center text-sm">
-                        <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                        @if($committee->user->profile_picture != 'profiles/default-img.png')
-                            <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($committee->user->profile_picture) }}" alt="" loading="lazy" />
-                        @else
-                            <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
-                        @endif
-                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+    @if($committees->count() == 0)
+        <div class="bg-gray-100 text-center my-2 rounded py-5">No Committee Heads</div>
+    @else
+        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full">
+            <table class="w-full">
+                <thead>
+                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <th class="px-4 py-3">Committee Name</th>
+                    <th class="px-4 py-3">Committee Head</th>
+                    <th class="px-4 py-3">School</th>
+                    <th class="px-4 py-3">Specialization</th>
+                    <th class="px-4 py-3">Action</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white">
+                @foreach($committees as $committee)
+                <tr class="text-gray-700">
+                    <td class="px-4 py-3 border">{{ $committee->name }}</td>
+                    <td class="px-4 py-3 border">
+                        <div class="flex items-center text-sm">
+                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                            @if($committee->user->profile_picture)
+                                <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($committee->user->profile_picture) }}" alt="" loading="lazy" />
+                            @else
+                                <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                            @endif
+                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-black text-md text-center">
+                                    {{ $committee->user->first_name }} {{ $committee->user->middle_name }} {{ $committee->user->last_name }}
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="font-semibold text-black text-md text-center">
-                                {{ $committee->user->first_name }} {{ $committee->user->middle_name }} {{ $committee->user->last_name }}
-                            </p>
-                        </div>
-                    </div>
-                </td>
-                <td class="px-4 py-3 text-md font-semibold border">{{ $committee->user->userSpecialization->specialization->school->name }}</td>
-                <td class="px-4 py-3 text-md border">{{ $committee->user->userSpecialization->specialization->name }}</td>
-                <td class="px-4 py-3 text-md border text-center">
-                    <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
-                    <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
-                </td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
+                    </td>
+                    <td class="px-4 py-3 text-md font-semibold border">{{ $committee->user->userSpecialization->specialization->school->name }}</td>
+                    <td class="px-4 py-3 text-md border">{{ $committee->user->userSpecialization->specialization->name }}</td>
+                    <td class="px-4 py-3 text-md border text-center">
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                    </td>
+                </tr>
+                @endforeach
+                </tbody>
+            </table>
+            </div>
         </div>
-    </div>
+    @endif
     {{-- COMMITTEE TABLE --}}
 
     {{-- DELETE COMMITTEE MODAL --}}
