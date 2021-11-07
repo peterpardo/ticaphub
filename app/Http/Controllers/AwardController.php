@@ -181,9 +181,9 @@ class AwardController extends Controller
 
             // CHECK IF GROUPS HAS SET AN ADVISER
             foreach($spec->groups as $group) {
-                if($group->adviser == null) {
+                if($group->adviser == null || $group->adviser_email == null) {
                     session()->flash('status', 'red');
-                    session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - '. $group->name . ' has not yet set an adviser.');
+                    session()->flash('message', $spec->name . ' (' . $spec->school->name . ') - '. $group->name . ' has not yet set an adviser/email of adviser.');
                     return back();
                 }
             }
@@ -297,6 +297,7 @@ class AwardController extends Controller
                                 'group_id' => $winner,
                             ]);
                             $awardee->name = $group->adviser;
+                            $awardee->email = $group->adviser_email;
                             $awardee->save();
                         }
                     }
@@ -373,6 +374,7 @@ class AwardController extends Controller
                             // SET INDIVIDUAL WINNER
                             $user = User::find($user[0]);
                             $winner->name = $user->first_name . ' ' . $user->middle_name . ' ' .  $user->last_name;
+                            $winner->email = $user->email;
                             $winner->save();
                             $winner->group->individualCandidates()->delete();
                         }
@@ -400,8 +402,28 @@ class AwardController extends Controller
     }
     
     public function emailAwards() {
-        dd('pasok');
-        dispatch(new EmailCertificateJob('peterpardo123@gmail.com', asset('assets/banner.png')));
+        $specs = Specialization::all();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        foreach($specs as $spec) {
+            foreach($spec->awards as $award) {
+                // GROUP AWARD WINNERS
+                foreach($award->groupWinners as $winner) {
+                    $fileName = str_replace(" ", "-", $award->name) . '-' . $winner->group->name;
+                    $data = [
+                        'ticap' => $ticap,
+                        'group' => $winner->group,
+                        'award' => $award,
+                        'spec' => $spec
+                    ];
+                    $pdf = PDF::loadView('certificates.award-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+                    dispatch(new EmailCertificateJob('peterpardo123@gmail.com', storage_path('app/public/certificates/' . $fileName . '.pdf')));
+                    dd($fileName);
+                }
+            }
+        }
+
+        
+        dd('done');
     }
 
     public function generateAwards() {

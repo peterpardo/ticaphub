@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Group;
 use App\Models\Specialization;
+use App\Models\StudentChoiceVote;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GroupGradeSeeder extends Seeder
 {
@@ -62,6 +64,47 @@ class GroupGradeSeeder extends Seeder
                 $panelist->specializationPanelist->evaluation_review = 1;
                 $panelist->specializationPanelist->save();
             }
+        }
+
+        // STUDENT CHOICE VOTES
+        for($i = 0; $i < 100; $i++) {
+            $group = Group::find(rand(1,3));
+            StudentChoiceVote::create([
+                'name' => Str::random(7),
+                'email' => Str::random(5) . '@gmail.com',
+                'group_id' => $group->id,
+                'specialization_id' => $group->specialization->id,
+            ]);
+        }
+
+        for($i = 0; $i < 100; $i++) {
+            $group = Group::find(rand(4,6));
+            StudentChoiceVote::create([
+                'name' => Str::random(7),
+                'email' => Str::random(5) . '@gmail.com',
+                'group_id' => $group->id,
+                'specialization_id' => $group->specialization->id,
+            ]);
+        }
+
+        for($i = 0; $i < 100; $i++) {
+            $group = Group::find(rand(7,9));
+            StudentChoiceVote::create([
+                'name' => Str::random(7),
+                'email' => Str::random(5) . '@gmail.com',
+                'group_id' => $group->id,
+                'specialization_id' => $group->specialization->id,
+            ]);
+        }
+
+        for($i = 0; $i < 100; $i++) {
+            $group = Group::find(rand(10,12));
+            StudentChoiceVote::create([
+                'name' => Str::random(7),
+                'email' => Str::random(5) . '@gmail.com',
+                'group_id' => $group->id,
+                'specialization_id' => $group->specialization->id,
+            ]);
         }
     }
 }

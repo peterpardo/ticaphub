@@ -21,6 +21,8 @@ class GroupExhibit extends Component
     public $desc;
     public $updateAdviser  = false;
     public $adviser;
+    public $updateEmail = false;
+    public $email;
     public $updateLink  = false;
     public $link;
     public $updateBanner  = false;
@@ -211,9 +213,13 @@ class GroupExhibit extends Component
     }
 
     public function closeAdviser() {
+        $this->resetValidation();
         $this->updateAdviser = false;
     }
     public function saveAdviser() {
+        $this->validate([
+            'adviser' => 'string'
+        ]);
         $this->group->adviser = $this->adviser;
         $this->group->save();
         $this->emit('groupExhibitUpdated');
@@ -224,5 +230,25 @@ class GroupExhibit extends Component
             $this->adviser = $this->group->adviser;
         }
         $this->updateAdviser = true;
+    }
+
+    public function closeEmail() {
+        $this->resetValidation();
+        $this->updateEmail = false;
+    }
+    public function saveEmail() {
+        $this->validate([
+            'email' => 'email|unique:groups,adviser_email'
+        ]);
+        $this->group->advise_email = $this->email;
+        $this->group->save();
+        $this->emit('groupExhibitUpdated');
+        $this->updateEmail = false;
+    }
+    public function updateEmail() {
+        if($this->group->adviser_email) {
+            $this->email = $this->group->adviser_email;
+        }
+        $this->updateEmail = true;
     }
 }

@@ -18,6 +18,7 @@ class CreateIndividualWinnersTable extends Migration
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('award_id')->constrained('awards')->onDelete('cascade');
             $table->string('name')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

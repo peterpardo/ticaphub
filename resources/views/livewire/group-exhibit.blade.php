@@ -114,6 +114,9 @@
                 <h1 class="font-bold text-lg mb-2">Project Adviser</h1>
                 @if($updateAdviser)
                     <input type="text" wire:model="adviser" class="rounded w-full block">
+                    @error('adviser')
+                        <div class="bg-red-500 rounded my-1 text-white px-2 py-1">{{ $message }}</div>
+                    @enderror
                     <div class="flex justify-end">
                         <button wire:click="closeAdviser" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
                         <button wire:click="saveAdviser" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
@@ -127,6 +130,30 @@
                     @if(!$ticap->awards_is_set)
                         <div class="flex justify-end">
                             <button wire:click="updateAdviser" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Adviser</button>
+                        </div>
+                    @endif
+                @endif
+            </div>
+            <div>
+                <h1 class="font-bold text-lg mb-2">Project Adviser (Email)</h1>
+                @if($updateEmail)
+                    <input type="text" wire:model="email" class="rounded w-full block">
+                    @error('email')
+                        <div class="bg-red-500 rounded my-1 text-white px-2 py-1">{{ $message }}</div>
+                    @enderror
+                    <div class="flex justify-end">
+                        <button wire:click="closeEmail" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
+                        <button wire:click="saveEmail" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
+                    </div>
+                @else
+                    @if($group->adviser_email)
+                        <div class="border rounded px-2 py-2">{{ $group->adviser_email }}</div>
+                    @else
+                        <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Email Set</div>
+                    @endif
+                    @if(!$ticap->awards_is_set)
+                        <div class="flex justify-end">
+                            <button wire:click="updateEmail" class="bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-1 mt-2">Edit Email</button>
                         </div>
                     @endif
                 @endif

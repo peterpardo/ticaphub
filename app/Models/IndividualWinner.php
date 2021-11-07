@@ -13,7 +13,7 @@ class IndividualWinner extends Model
     protected $fillable = [
         'group_id',
         'award_id',
-        'user_id',
+        'name',
     ];
 
     public function group() {

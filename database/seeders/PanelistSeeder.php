@@ -42,6 +42,7 @@ class PanelistSeeder extends Seeder
         $groups = Group::all();
         foreach($groups as $group) {
             $group->adviser = Str::random(5) . ' ' . Str::random(5);
+            $group->adviser_email = Str::random(5) . '@' . Str::random(5) . '.com';
             $group->save();
         }
     }

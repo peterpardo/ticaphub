@@ -18,7 +18,7 @@
     <body class="bg-gray-100">
         <nav class="flex items-center bg-red-800 p-3 justify-center">
             <a href="{{ route ('home') }}" class="p-2 mr-4 inline-flex items-center">
-                <img class="w-7 h-7" src="{{ url('assets/ticap-logo.png') }}" alt="">
+                <img class="w-7 h-7" src="{{ url(asset('assets/ticap-logo.png')) }}" alt="">
                 <span  class="text-xl text-white font-bold uppercase tracking-wide"
                 >TICaP HUB</span>
             </a>

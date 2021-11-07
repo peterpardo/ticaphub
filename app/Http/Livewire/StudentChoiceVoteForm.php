@@ -18,7 +18,7 @@ class StudentChoiceVoteForm extends Component
             'name' => 'required',
             'email' => 'required|email',
         ]);
-        if(!Attendance::where('email', $this->email)->exists()) {
+        if(!Attendance::where('email', $this->email)->where('event_id', 2)->exists()) {
             session()->flash('status', 'red');
             session()->flash('message', 'Email is not listed in the attendance.');
             return back();

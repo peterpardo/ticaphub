@@ -13,7 +13,9 @@ class Group extends Model
     protected $fillable = [
         'name',
         'specialization_id',
-        'ticap_id'
+        'ticap_id',
+        'adviser',
+        'adviser_email'
     ];
 
     public function ticap() {
