@@ -14,6 +14,7 @@ class IndividualWinner extends Model
         'group_id',
         'award_id',
         'name',
+        'email'
     ];
 
     public function group() {

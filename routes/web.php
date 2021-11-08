@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::view('/cert', 'reports.cert');
+
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');
@@ -148,7 +150,6 @@ Route::middleware(['auth'])->group(function(){
             });
             Route::get('/users', [HomeController::class, 'users'])->name('users');
             Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
-            // Route::post('/users/add-student', [UserController::class, 'addUser']);
              
             // DOWNLOAD CSV FILE
             Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});
@@ -174,7 +175,6 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/officers-and-committees/election', [ElectionController::class, 'electionPanel'])->name('election');
             Route::post('/officers-and-committees/election', [ElectionController::class, 'getElectionResults']);
             Route::get('/officers-and-committees/election-result', [ElectionController::class, 'electionResults'])->name('election-result');
-            // Route::get('/officers-and-committees/end-election', [ElectionController::class, 'endElection'])->name('end-election');
             Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
             Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
             Route::get('/generate-officers', [ElectionController::class, 'generateOfficers']);
