@@ -16,8 +16,14 @@ use Illuminate\Support\Facades\Validator;
 class ScheduleController extends Controller
 {
     public function index() {
+        if(Auth::user()->ticap_id == null) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Set TICaP first');
+            return redirect()->route('dashboard');
+        }
+        
         $ticap = Ticap::find(Auth::user()->ticap_id);
-
+        
         if(!$ticap->invitation_is_set) {
             session()->flash('error', 'Manage settings for TICaP first');
             return redirect()->route('set-invitation');
@@ -40,32 +46,12 @@ class ScheduleController extends Controller
         ]);
     }
 
-    // public function viewCalendar() {
-    //     $title = 'Schedules';
-
-    //     $scripts = [
-    //         asset('js/schedules/calendar.js'),
-    //     ];
-
-    //     return view('schedules.calendar', [
-    //         'title' => $title,
-    //         'scripts' => $scripts,
-    //     ]);
-    // }
-
     public function getSchedules() {
         $schedules = Schedule::with(['attendees'])->get();
 
         return $schedules;
     }
 
-    // public function createSchedule() {
-    //     $title = 'Schedules';
-
-    //     return view('schedules.create', [
-    //         'title' => $title
-    //     ]);
-    // }
 
     public function addSchedule(Request $request) {
         $validator = Validator::make($request->all(), [

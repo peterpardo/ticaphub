@@ -130,9 +130,8 @@ function app() {
                     this.openEventModal = false;
                     alert(messages.success);
                 }
-            })
-
-            this.getEvents();
+                this.getEvents();
+            });
         },
 
         getNoOfDays() {
@@ -183,8 +182,11 @@ function app() {
                 },
             })
                 .then(response => response.json())
-                .then(message => alert(message.success));
-            this.getEvents();
+                .then(message => {
+                    alert(message.success);
+                    this.getEvents();
+                });
+            
             this.openEventModal = false;
         }
     }
