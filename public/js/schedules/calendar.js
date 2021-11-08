@@ -115,23 +115,32 @@ function app() {
             })
             .then(response => response.json())
             .then(messages => {
-                if(messages.errors) {
-                    this.showError = true;
-                    let { event_title } = messages.errors;
-                    if(event_title) {
-                        this.error += event_title;
+                return new Promise ((resolve, reject) => {
+                    if(messages.errors) {
+                        this.showError = true;
+                        let { event_title } = messages.errors;
+                        if(event_title) {
+                            this.error += event_title;
+                        }
+                        console.log('error');
+                    } else {
+                        this.event_title = '';
+                        this.event_date = '';
+                        this.attendees = [];
+                        this.error = '';
+                        this.event_theme = 'blue';
+                        this.openEventModal = false;
+                        // console.log('finished adding event')
+                        // console.log('form has been reset');
+                        resolve(messages.success);
                     }
-                } else {
-                    this.event_title = '';
-                    this.event_date = '';
-                    this.attendees = [];
-                    this.error = '';
-                    this.event_theme = 'blue';
-                    this.openEventModal = false;
-                    alert(messages.success);
-                }
-                this.getEvents();
+                }).then(message => {
+                    // console.log('alert has been executed');
+                    alert(message);
+                    this.getEvents();
+                });
             });
+            // console.log('outside of the function');
         },
 
         getNoOfDays() {
@@ -154,11 +163,11 @@ function app() {
         },
 
         getEvents() {
+            this.events = [];
             fetch('/schedules/events')
                 .then(response => response.json())
-                .then(events => { 
-                    this.events = [];
-                    events.forEach(event => this.events.push(event))
+                .then(e => { 
+                    e.forEach(ev => this.events.push(ev));
                 });
         },
 
@@ -183,11 +192,11 @@ function app() {
             })
                 .then(response => response.json())
                 .then(message => {
+                    // console.log('alert is executed');
                     alert(message.success);
                     this.getEvents();
+                    this.openEventModal = false;
                 });
-            
-            this.openEventModal = false;
         }
     }
 }
