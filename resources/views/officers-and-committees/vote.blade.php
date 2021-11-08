@@ -14,7 +14,6 @@
         <div class="mb-3 w-1/5 mx-auto text-center">
             @php
                 $name = str_replace(' ', ' ', $position->name);
-                echo $name . '<br>';
             @endphp
             @error($name)
                 <div class="text-center text-red-500">{{ $message }}</div>

@@ -23,6 +23,12 @@ class VoterController extends Controller
         $scripts = [
             asset('js/officersandcommittees/vote.js'),
         ];
+        
+        // REDIRECT TO OFFICERS PAGE
+        if($ticap->election_finished) {
+            return redirect()->route('officers');
+        }
+        
         // IF TICAP HAS NEW ELECTION
         if($ticap->has_new_election){   
             $officers = Officer::all();
