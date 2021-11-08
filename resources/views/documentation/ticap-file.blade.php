@@ -31,125 +31,172 @@
         </div>
 
         <div class="flex-1 mx-1 px-2 py-1 shadow rounded">
-            <h1 class="font-semibold text-2xl my-2">Officers</h1>
-            @if($ticap->archivedOfficers()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedOfficers->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedOfficers->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
-                    </tr>
-                </table>
-            @endif
 
-            <h1 class="font-semibold text-2xl my-2">Capstone Groups</h1>
-            @if($ticap->archivedGroups()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
+            <h1 class="font-semibold text-2xl mt-2">Files</h1>
+            <table class="table-fixed w-full ">
+                <thead>
                     <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedGroups->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedGroups->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
+                        <td class="border bg-gray-100 px-3 py-2 font-semibold">Name</td>
+                        <td class="border bg-gray-100 px-3 py-2 font-semibold">File Name</td>
+                        <td class="border bg-gray-100 px-3 py-2 font-semibold">Download</td>
                     </tr>
-                </table>
-            @endif
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-3 py-2">Officers</td>
+                        @if($ticap->archivedOfficers()->count() == 0)
+                            <td class="border px-3 py-2">No Officers in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedOfficers->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedOfficers->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
+                    </tr>
 
-            <h1 class="font-semibold text-2xl my-2">Awardees</h1>
-            @if($ticap->archivedAwardees()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
                     <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedAwardees->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedAwardees->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
+                        <td class="border px-3 py-2">Capstone Groups</td>
+                        @if($ticap->archivedGroups()->count() == 0)
+                            <td class="border px-3 py-2">No Groups in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedGroups->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedGroups->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
                     </tr>
-                </table>
-            @endif
 
-            <h1 class="font-semibold text-2xl my-2">Rubrics</h1>
-            @if($ticap->archivedRubrics()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
                     <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedRubrics->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedRubrics->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
+                        <td class="border px-3 py-2">Certificates</td>
+                        @if($ticap->archivedCertificates()->count() == 0)
+                            <td class="border px-3 py-2">No Certificates in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedCertificates->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedCertificates->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
                     </tr>
-                </table>
-            @endif
 
-            <h1 class="font-semibold text-2xl my-2">Panelists</h1>
-            @if($ticap->archivedPanelists()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
                     <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedPanelists->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedPanelists->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
+                        <td class="border px-3 py-2">Awardees</td>
+                        @if($ticap->archivedAwardees()->count() == 0)
+                            <td class="border px-3 py-2">No Awardees in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedAwardees->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedAwardees->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
                     </tr>
-                </table>
-            @endif
 
-            <h1 class="font-semibold text-2xl my-2">Graded Rubrics</h1>
-            @if($ticap->archivedGradedRubrics()->count() == 0)
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-            @else
-                <table>
-                    <thead>
-                        <tr>
-                            <td class="border px-3 py-2 font-semibold">File Name</td>
-                            <td class="border px-3 py-2 font-semibold">Actions</td>
-                        </tr>
-                    </thead>
                     <tr>
-                        <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedGradedRubrics->name }}.pdf</td>
-                        <td class="border px-3 py-2">
-                            <a href="{{ Storage::url($ticap->archivedGradedRubrics->path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">Download</a>
-                        </td>
+                        <td class="border px-3 py-2">Rubrics</td>
+                        @if($ticap->archivedRubrics()->count() == 0)
+                            <td class="border px-3 py-2">No Rubrics in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedRubrics->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedRubrics->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
                     </tr>
-                </table>
-            @endif
+
+                    <tr>
+                        <td class="border px-3 py-2">Graded Rubrics</td>
+                        @if($ticap->archivedGradedRubrics()->count() == 0)
+                            <td class="border px-3 py-2">No Graded Rubrics in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedGradedRubrics->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedGradedRubrics->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
+                    </tr>
+
+                    <tr>
+                        <td class="border px-3 py-2">Panelists</td>
+                        @if($ticap->archivedPanelists()->count() == 0)
+                            <td class="border px-3 py-2">No Panelists in this TICaP</td>
+                            <td class="border px-3 py-2">
+                                <span class="inline-block rounded px-2 py-1 border shadow">Unavailable</span>
+                            </td>
+                        @else
+                            <td class="border px-3 py-2 text-blue-500">{{ $ticap->archivedPanelists->name }}.pdf</td>
+                            <td class="border px-3 py-2">
+                                <a href="{{ Storage::url($ticap->archivedPanelists->path) }}" target="_blank" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span class="inline-block">Download</span>
+                                    </div>
+                                </a>
+                            </td>
+                        @endif
+                    </tr>
+                </tbody>
+            </table>
 
             <h1 class="font-semibold text-2xl my-2">Capstone Group Files</h1>
             @if($ticap->archivedExhibits->count() == 0) 

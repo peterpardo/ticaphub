@@ -30,8 +30,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::view('/cert', 'reports.cert');
-
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');

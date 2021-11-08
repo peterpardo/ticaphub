@@ -130,7 +130,7 @@ class UserTable extends Component
                 'specs' => Specialization::all(),
                 'ticap' => Ticap::find(Auth::user()->ticap_id)
             ];
-            $pdf = PDF::loadView('reports.certificate', $data);
+            $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
             Storage::put($path, $pdf->output());
 
             // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 
