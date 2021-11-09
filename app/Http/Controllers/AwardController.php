@@ -469,7 +469,6 @@ class AwardController extends Controller
             // CREATE CERTIFICATE
             PDF::loadView('certificates.student-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
             dispatch(new EmailCertificateJob($stud->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
-            dd('stop');
         }
 
         session()->flash('status', 'green');
