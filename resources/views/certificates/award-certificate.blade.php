@@ -10,12 +10,16 @@
 *{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+*{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 .certificate {
-    border: 15px solid #393E46;
+    border: 15px solid #DA0037;
     padding: 22px;
     border-radius: 10px;
     position: relative;
-    background-image: url(https://img.freepik.com/free-photo/hand-painted-watercolor-background-with-sky-clouds-shape_24972-1095.jpg?size=626&ext=jpg);
+    /* background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP9g31dNdmdDro_EjzOh3x-MDiBqdeEWlJ_Rr4QUGco55UOBHzDEny2pMDbLTDW-2iZkI&usqp=CAU); */
+    background: #222831;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -38,56 +42,71 @@
     text-align: center;
 }
 
-.certificate-title {
-    text-align: center;   
-    font-size: 24px;
+.certificate-name {
+    text-align: center;
+    font-size: 20px;
     letter-spacing: 5px;
     font-weight: bolder;
-    color: #222831;
+    color: #EEEEEE;
+}
+
+
+.certificate-title {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 5px;
+    font-weight: bolder;
+    color: #EEEEEE;
 }
 
 .certificate-subtitle {
-    text-align: center;   
-    font-size: 16px;
+    text-align: center;
+    font-size: 14px;
     letter-spacing: 2px;
     font-weight: 900;
-    color: #393E46;
+    color: #EEEEEE;
+}
+
+.group-name {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #EDEDED;
+}
+
+.group-name h1 {
+    color: #EDEDED;
+    font-weight: 200;
 }
 
 .student-name {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
-    text-decoration: underline;
+    width: 50%;
+    margin: 0 auto;
+    color: #EDEDED;
 }
 
 .student-name h1 {
-    color: #222831;
+    color: #EDEDED;
     font-weight: 200;
 }
 
 .about-certificate {
-    text-align: center;   
-    font-size: 16px;
+    text-align: center;
+    font-size: 14px;
     letter-spacing: 2px;
     font-weight: 900;
-    color: #393E46;
+    color: #EDEDED;
 }
 
 .award-name {
-    text-align: center;   
-    font-size: 16px;
+    text-align: center;
+    font-size: 20px;
     letter-spacing: 2px;
     font-weight: 900;
-    color: #00ADB5;
+    color: #DA0037;
 }
-
-
-h3 {
-    font-size: 16px;
-    letter-spacing: 2px;
-    font-weight: 900;
-}
-
 
 .certificate-content {
     margin: 0 auto;
@@ -100,7 +119,7 @@ h3 {
 }
 .flex-around{
     margin-top: 2em;
-    color: #222831;
+    color: #EDEDED;
     font-weight: 800;
 }
 </style>

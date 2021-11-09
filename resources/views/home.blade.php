@@ -80,8 +80,8 @@
             FEU Tech’s College of Computer Studies hosts an annual event known as Technology Innovation on Capstone Project (TICaP) which exhibits the different capstone projects of each specialization. This event allows the students to view the different projects of the FEU Tech PBL students and recognizes the group with the best capstone project and other special awards. For the event to be successful, an efficient organization and management must be executed.
         </p>
         </div>
-        <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-          <img class="object-cover object-center rounded" alt="hero" src="{{ url('assets/ticaphub.png') }}">
+        <div class="w-1/2">
+          <img class="object-cover object-center rounded-lg" alt="hero" src="{{ url('assets/ticaphub.png') }}">
         </div>
       </div>
     </section>

@@ -40,9 +40,18 @@
     text-align: center;
 }
 
+.certificate-name {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 5px;
+    font-weight: bolder;
+    color: #EEEEEE;
+}
+
+
 .certificate-title {
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     letter-spacing: 5px;
     font-weight: bolder;
     color: #EEEEEE;
@@ -50,16 +59,29 @@
 
 .certificate-subtitle {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 2px;
     font-weight: 900;
     color: #EEEEEE;
 }
 
-.student-name {
-    font-size: 20px;
+.group-name {
+    font-size: 14px;
     font-weight: bold;
     text-decoration: underline;
+    color: #EDEDED;
+}
+
+.group-name h1 {
+    color: #EDEDED;
+    font-weight: 200;
+}
+
+.student-name {
+    font-size: 18px;
+    font-weight: bold;
+    width: 50%;
+    margin: 0 auto;
     color: #EDEDED;
 }
 
@@ -70,7 +92,7 @@
 
 .about-certificate {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 2px;
     font-weight: 900;
     color: #EDEDED;
@@ -78,19 +100,11 @@
 
 .award-name {
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     letter-spacing: 2px;
     font-weight: 900;
     color: #DA0037;
 }
-
-
-h3 {
-    font-weight: 200;
-    font-size: 16px;
-    color: green;
-}
-
 
 .certificate-content {
     margin: 0 auto;
@@ -102,8 +116,6 @@ h3 {
     text-align: center;
 }
 .flex-around{
-    display: flex;
-    justify-content: space-evenly;
     margin-top: 2em;
     color: #EDEDED;
     font-weight: 800;
@@ -113,19 +125,21 @@ h3 {
 <div class="certificate-container">
     <div class="certificate">
         <div class="certificate-body">
+            <p class="certificate-title">FEU TECH (Technology Innovation in Capstone Project)</p>
+            <p class="certificate-name">{{ $ticap->name }}</p>
             <p class="certificate-title">Certificate of Recognition</p>
             <p class="certificate-subtitle">This certificate is presented to</p>
-            <div class="student-name">
-                <h1>Miguel Bryan B. Pajarillo</h1>
+            <div class="group-name">
+                <h1>{{ $group->name }}</h1>
             </div>
-            <div class="about-certificate">
+            <div class="student-name">
                 <p>
-                    Information Technology - WMA
+                   {{ $winner->name }}
                 </p>
             </div>
             <div class="award-name">
                 <p>
-                    NAME OF AWARD
+                    {{ $award->name }}
                 </p>
             </div>
             <div class="certificate-content">

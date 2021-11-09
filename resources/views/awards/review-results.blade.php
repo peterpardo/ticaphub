@@ -1,5 +1,10 @@
 <x-app-layout :scripts="$scripts">
-    <div x-data="{ openModal: false, isOpen: false }">
+    <div x-data="{ 
+        openWinnerModal: false,
+        openRecognitionModal: false,
+        openPanelistModal: false, 
+        isOpen: false 
+    }">
         <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
         @if(!$ticap->evaluation_finished)
         <div class="text-right">
@@ -18,17 +23,39 @@
 
                     <!-- Dropdown menu -->
                     <div x-show="isOpen" class="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-800">
-                        <button @click.prevent="openModal = true" class="flex items-center cursor-pointer px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <button @click.prevent="openWinnerModal = true" class="flex items-center cursor-pointer px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
                             </svg>
 
                             <span class="mx-1">
-                                Email Certificates
+                                Email Certificates of Winners
                             </span>
                         </button>
 
-                        <a href="/generate-awards" class="flex items-center px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <button @click.prevent="openRecognitionModal = true" class="flex items-center cursor-pointer px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                            </svg>
+
+                            <span class="mx-1">
+                                Email Certificate of Recognition
+                            </span>
+                        </button>
+
+                        <button @click.prevent="openPanelistModal = true" class="flex items-center cursor-pointer px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                            </svg>
+
+                            <span class="mx-1">
+                                Email Certificate of Panelists
+                            </span>
+                        </button>
+
+                        <hr class="border-gray-200 dark:border-gray-700 ">
+
+                        <a href="/generate-awards" class="flex items-center px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
@@ -38,7 +65,7 @@
                             </span>
                         </a>
 
-                        <a href="/generate-panelists" class="flex items-center px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <a href="/generate-panelists" class="flex items-center px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
@@ -48,7 +75,7 @@
                             </span>
                         </a>
 
-                        <a href="/generate-graded-rubrics" class="flex items-center px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <a href="/generate-graded-rubrics" class="flex items-center px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
@@ -58,7 +85,7 @@
                             </span>
                         </a>
 
-                        <a href="/generate-certificates" class="flex items-center px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <a href="/generate-certificates" class="flex items-center px-3 py-3 text-sm text-gray-600 dark:text-white capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
@@ -87,7 +114,7 @@
                         <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-gray-800">
                     @foreach ($spec->awards->where('type', 'individual') as $award)
                         @foreach($award->individualWinners as $winner)
                         <tr>
@@ -112,45 +139,53 @@
         <h1 class="text-center font-semibold text-2xl mb-2">Group Award Winners</h1>
         @foreach($specs as $spec)
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
-            <table class="table-fixed w-full mb-3">
-                <thead>
-                    <tr class="text-gray-800">
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($spec->awards->where('type', 'group') as $award)
-                        @foreach($award->groupWinners as $winner)
-                        <tr>
-                            <td class="border text-md px-2 py-1">{{ $award->name }}</td>
-                            <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                        </tr>
-                        @endforeach
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                <div class="w-full overflow-x-auto">
+                    <table class="table-fixed w-full mb-3">
+                        <thead>
+                            <tr class="text-gray-800">
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-800">
+                            @foreach ($spec->awards->where('type', 'group') as $award)
+                                @foreach($award->groupWinners as $winner)
+                                <tr>
+                                    <td class="border text-md px-2 py-1">{{ $award->name }}</td>
+                                    <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
+                                </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         @endforeach
 
         <h1 class="text-center font-semibold text-2xl mb-2">Student Choice Award Winners</h1>
         @foreach($specs as $spec)
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
-            <table class="table-fixed w-full mb-3">
-                <thead>
-                    <tr class="text-gray-800">
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Specialization</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($spec->studentChoiceAwards as $winner)
-                        <tr>
-                            <td class="border text-md px-2 py-1">{{ $spec->name }}</td>
-                            <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                <div class="w-full overflow-x-auto">
+                    <table class="table-fixed w-full mb-3">
+                        <thead>
+                            <tr class="text-gray-800">
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Specialization</td>
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-800">
+                            @foreach($spec->studentChoiceAwards as $winner)
+                                <tr>
+                                    <td class="border text-md px-2 py-1">{{ $spec->name }}</td>
+                                    <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         @endforeach
 
         {{-- FINALIZE EVALUATION MODAL --}}
@@ -177,32 +212,85 @@
         </div>
         {{-- FINALIZE EVALUATION MODAL --}}
 
-        {{-- EMAIL CERTIFICATES MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openModal">
+        {{-- EMAIL CERTIFICATES OF WINNERS MODAL --}}
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openWinnerModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
                 <div >
                     <form
-                        action="/email-awards"
+                        action="/email-winner-awards"
                         method="post"
                     >
                         @csrf
                         <!--body-->
                         <div class="text-center p-5 flex-auto justify-center">
-                            <h2 class="text-xl font-bold py-4 text-gray-800">Are you sure?</h3>
+                            <h2 class="text-xl font-bold py-4 text-gray-800">Email Certificates of Winners</h3>
                                 <p class="text-sm text-gray-500 px-8 mb-2">Do you want to send the certificates to the participants of the TICaP Event? This process can't be undone.</p>
                             </div>
                             <!--footer-->
                             <div class="p-3 mt-2 text-center space-x-4 md:block">
-                                <button @click.prevent="openModal = false" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                                <button @click.prevent="openWinnerModal = false" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
                                 <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Email</button>
                             </div>
                         </form>
                     </div>
                 </div>
         </div>
-        {{-- EMAIL CERTIFICATES MODAL --}}
+        {{-- EMAIL CERTIFICATES OF WINNERS MODAL --}}
 
+        {{-- EMAIL CERTIFICATE OF RECOGNITION MODAL --}}
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openRecognitionModal">
+            <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+            <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+                <!--content-->
+                <div >
+                    <form
+                        action="/email-recognition"
+                        method="post"
+                    >
+                        @csrf
+                        <!--body-->
+                        <div class="text-center p-5 flex-auto justify-center">
+                            <h2 class="text-xl font-bold py-4 text-gray-800">Email Certificate of Recognition</h3>
+                                <p class="text-sm text-gray-500 px-8 mb-2">Do you want to send the certificates to the participants of the TICaP Event? This process can't be undone.</p>
+                            </div>
+                            <!--footer-->
+                            <div class="p-3 mt-2 text-center space-x-4 md:block">
+                                <button @click.prevent="openRecognitionModal = false" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                                <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Email</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+        {{-- EMAIL CERTIFICATE OF RECOGNITION MODAL --}}
+
+        {{-- EMAIL CERTIFICATE OF PANELISTS MODAL --}}
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openPanelistModal">
+            <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+            <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+                <!--content-->
+                <div >
+                    <form
+                        action="/email-panelists"
+                        method="post"
+                    >
+                        @csrf
+                        <!--body-->
+                        <div class="text-center p-5 flex-auto justify-center">
+                            <h2 class="text-xl font-bold py-4 text-gray-800">Email Certificate Of Panelists</h3>
+                                <p class="text-sm text-gray-500 px-8 mb-2">Do you want to send the certificates to the participants of the TICaP Event? This process can't be undone.</p>
+                            </div>
+                            <!--footer-->
+                            <div class="p-3 mt-2 text-center space-x-4 md:block">
+                                <button @click.prevent="openPanelistModal = false" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                                <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Email</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+        {{-- EMAIL CERTIFICATE OF PANELISTS MODAL --}}
     </div>
 </x-app-layout>

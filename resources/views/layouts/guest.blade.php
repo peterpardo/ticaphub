@@ -120,12 +120,12 @@ body {
             {{ $slot }}
         </div>
     </body>
-    <footer class="text-gray-600 body-font text-center">
-        <div class="container px-5 py-8 mx-auto">
-          <p class="text-sm text-gray-500">© 2021 Cyber Ace</p>
-        </div>
-      </footer>
       <script>
         AOS.init();
       </script>
+        <footer class="text-gray-600 body-font text-center">
+          <div class="container px-5 py-8 mx-auto">
+            <p class="text-sm text-gray-500">© 2021 Cyber Ace</p>
+          </div>
+        </footer>
 </html>

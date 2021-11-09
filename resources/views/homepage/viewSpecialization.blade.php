@@ -1,8 +1,11 @@
 <x-guest-layout>
-<section class="container mx-auto">
+<section class="container mx-auto h-screen">
   
 
 {{-- PROJECT TITLE AND DESCRIPTION --}}
+@if($group->groupExhibit->title == null)
+<div class="hidden"></div>
+@else
 <div class="container mx-auto w-8/12 bg-white rounded shadow-md mt-5">
   <div class="container px-5 py-5 mx-auto">
       <div class="items-center">
@@ -15,6 +18,7 @@
       </div>
   </div>
 </div>
+@endif
 
   {{-- LINK AND POSTER --}}
 <section class="container mx-auto text-gray-600 body-font">
@@ -24,9 +28,9 @@
       <div class="flex flex-wrap md:m-2 m-1">
         <div class="flex flex-wrap w-1/2">
           <div class="md:p-5 p-1 w-full mx-1 my-3">
-            @if($group->groupExhibit->video_path == 'assets/sample-video.mp4')
+            @if($group->groupExhibit->video_path == null)
             <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-              <source src="{{ asset($group->groupExhibit->video_path) }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+              <source src="{{ url('assets/sample-video.mp4') }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
             </video>
             @else
             <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
@@ -37,9 +41,9 @@
         </div>
         <div class="flex flex-wrap w-1/2 cursor-pointer">
           <div class="md:p-5 p-1 w-full mx-1 my-3">
-            @if($group->groupExhibit->banner_path == 'assets/banner.png')
-              <a href="{{ asset($group->groupExhibit->banner_path) }}" data-featherlight="image">
-                <img class="w-full h-full object-cover object-center block rounded" src="{{ asset($group->groupExhibit->banner_path) }}">
+            @if($group->groupExhibit->banner_path == null)
+              <a href="{{ url('assets/banner.png') }}" data-featherlight="image">
+                <img class="w-full h-full object-cover object-center block rounded" src="{{ url('assets/banner.png') }}">
               </a>
             @else
             <a href="{{ Storage::url($group->groupExhibit->banner_path) }}" data-featherlight="image">

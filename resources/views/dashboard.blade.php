@@ -110,7 +110,7 @@
     <div class="flex flex-wrap flex-row justify-evenly">
         @foreach ($events as $event)
       <div class="w-5/12 mx-4 py-4 flex-grow">
-        <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex flex-col items-center p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
+        <div class="bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex flex-col items-center p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
           <h3 class="pb-2 font-semibold text-lg">{{ $event->name }}</h3>
           @if(!$event->programFlows()->exists())
             <div class="mb-2 pb-2">
@@ -122,11 +122,11 @@
                 <div class="">
                   @if ($program->name == 'assets/program-flow-sample')
                   <a href="{{ asset(url($program->path)) }}" data-featherlight="image">
-                    <img class="w-full h-64 object-cover object-center block rounded" src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}">
+                    <img class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 mb-5 w-full h-64 object-cover object-center block rounded" src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}">
                   </a>
                   @else
                   <a href="{{ Storage::url($program->path) }}" data-featherlight="image">
-                    <img class="w-full h-64 object-cover object-center block rounded" src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}">
+                    <img class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 mb-5 w-full h-64 object-cover object-center block rounded" src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}">
                   </a>
                   @endif
                 </div>

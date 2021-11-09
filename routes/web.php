@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::view('/url', 'emails.certificate');
 
 // HOME PAGE
 Route::get('/', function () { return view('home'); })->name('home');
@@ -52,7 +53,7 @@ Route::get('/specializations/{specId}/groups', function ($specId) {
 });
 Route::get('/group/{groupId}', function ($groupId) { 
     $group = Group::find($groupId);
-    // dd('yow');
+    
     return view('homepage.viewSpecialization', ['group' => $group]); 
 });
 
@@ -123,7 +124,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
         Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
         Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
-        Route::post('/email-awards', [AwardController::class, 'emailAwards']);
+        Route::post('/email-winner-awards', [AwardController::class, 'emailWinnerAwards']);
+        Route::post('/email-recognition', [AwardController::class, 'emailRecognition']);
+        Route::post('/email-panelists', [AwardController::class, 'emailPanelists']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
            // HOME SLIDER

@@ -401,7 +401,7 @@ class AwardController extends Controller
         ]);
     }
     
-    public function emailAwards() {
+    public function emailWinnerAwards() {
         $specs = Specialization::all();
         $ticap = Ticap::find(Auth::user()->ticap_id);
 
@@ -431,10 +431,10 @@ class AwardController extends Controller
         // EMAIL INDIVIDUAL WINNERS
         foreach($specs as $spec) {
             foreach($spec->awards as $award) {
-                // GROUP AWARD WINNERS
+                // INDIVIDUAL AWARD WINNERS
                 foreach($award->individualWinners as $winner) {
-                    $groupName = str_replace(" ", "-", $winner->group->name);
-                    $fileName = str_replace(" ", "-", $award->name) . '-' . $groupName;
+                    $winnerName = str_replace(" ", "-", $winner->name);
+                    $fileName = str_replace(" ", "-", $award->name) . '-' . $winnerName;
                     $data = [
                         'ticap' => $ticap,
                         'group' => $winner->group,
@@ -445,15 +445,54 @@ class AwardController extends Controller
                     // CREATE CERTIFICATE
                     PDF::loadView('certificates.individual-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
                     // EMAIL CERTIFICATE TO THE WINNERS
-                    foreach($winner->group->userGroups as $userGroup) {
-                        dispatch(new EmailCertificateJob($userGroup->user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
-                    }
+                    dispatch(new EmailCertificateJob($winner->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
                 }
             }
         }
 
         session()->flash('status', 'green');
         session()->flash('message', 'Certificates has been sent to the participants.');
+        return back();
+    }
+
+    public function emailRecognition(){
+        $students = User::role('student')->with(['userSpecialization.specialization'])->get();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        foreach($students as $stud) {
+            $fileName = str_replace(" ", "-", $stud->last_name) . '-Certificate-Of-Recognition';
+            $data = [
+                'ticap' => $ticap,
+                'stud' => $stud,
+                'spec' => $stud->userSpecialization->specialization->name,
+                'school' => $stud->userSpecialization->specialization->school->name,
+            ];
+            // CREATE CERTIFICATE
+            PDF::loadView('certificates.student-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+            dispatch(new EmailCertificateJob($stud->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+            dd('stop');
+        }
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Certificate of Recognition has been sent to the participants.');
+        return back();
+    }
+
+    public function emailPanelists(){
+        $panelists = User::role('panelist')->get();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        foreach($panelists as $panelist) {
+            $fileName = str_replace(" ", "-", $panelist->last_name) . '-Certificate-Of-Appreciation';
+            $data = [
+                'ticap' => $ticap,
+                'panelist' => $panelist,
+            ];
+            // CREATE CERTIFICATE
+            PDF::loadView('certificates.panelist-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+            dispatch(new EmailCertificateJob($panelist->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+        }
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Certificate of Recognition has been sent to the participants.');
         return back();
     }
 
