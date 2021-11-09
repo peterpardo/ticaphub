@@ -326,7 +326,7 @@ class ElectionController extends Controller
 
     public function newElectionPanel() {
         $title = 'Officers and Committees';
-        $ticap = Ticap::find(Auth::user()->id)->first();
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         $scripts = [
             asset('js/officersandcommittees/newElection.js'),
         ];
