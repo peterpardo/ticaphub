@@ -12,9 +12,13 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        
+
         <!-- Feather Light -->
         <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+        <!-- AOS -->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,7 +28,7 @@
         <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 
-        
+
     </head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css" integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous" />
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -34,7 +38,7 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
-/* navigation 
+/* navigation
  - show navigation always on the large screen devices with (min-width:1024)
 */
 
@@ -82,11 +86,11 @@ body {
               <span>Project Exhibit</span>
             </a>
           @endif
-          <a
+          {{-- <a
           href="{{ route('about-ticap') }}"
           class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
           <span>About Us</span>
-        </a>
+        </a> --}}
 		  @auth
 		  <a class="lg:inline-flex md:ml-5 bg-red-700 lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-400 hover:text-white" href="{{ route('dashboard') }}">Go to Dashboard</a>
 	  @else
@@ -95,6 +99,8 @@ body {
         </div>
       </div>
     </nav>
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 <script>
@@ -114,4 +120,12 @@ body {
             {{ $slot }}
         </div>
     </body>
+    <footer class="text-gray-600 body-font text-center">
+        <div class="container px-5 py-8 mx-auto">
+          <p class="text-sm text-gray-500">© 2021 Cyber Ace</p>
+        </div>
+      </footer>
+      <script>
+        AOS.init();
+      </script>
 </html>

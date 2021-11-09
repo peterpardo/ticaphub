@@ -4,17 +4,17 @@
             <div class="w-2/5 mb-5">
                 <h1 class="text-xl font-semibold mb-2">{{ $election->name }}</h1>
                 <div>
-                    <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">    
+                    <table class="w-full rounded-t-lg shadow-lg mx-1 text-center my-3 overflow-hidden">
                         <thead>
-                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-gray-600">
                                 <th class="px-4 py-3 text-center">Position</th>
                                 <th class="px-4 py-3 text-center">Officer</th>
                                 <th class="px-4 py-3 text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-transparent dark:bg-gray-600">
+                        <tbody class="w-auto bg-white text-center">
                             @foreach($positions as $position)
-                            <tr>
+                            <tr class="text-gray-700">
                                 <td class="border py-2">{{ $position->name }}</td>
                                 <td class="border py-2">
                                     <ul>
@@ -71,7 +71,7 @@
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div class="text-gray-800">
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
@@ -117,7 +117,7 @@
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div class="text-gray-800">
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>

@@ -407,9 +407,9 @@ class ElectionController extends Controller
     }
 
     public function endElection() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         // RETURNS TRUE OF RE-ELECTION IS NEEDED
         if(Officer::where('is_elected', 0)->exists()){
-            $ticap = Ticap::find(Auth::user()->id);
             $ticap->has_new_election = 1;
             $ticap->save();
             $officers = Officer::where('is_elected', 0)->get();
@@ -428,7 +428,6 @@ class ElectionController extends Controller
             return redirect()->route('new-election');
         }
         // SET ELECTION FINISHED FOR THE TICAP
-        $ticap = Ticap::find(Auth::user()->id);
         $ticap->election_finished = 1;
         $ticap->has_new_election = 0;
         $ticap->save();

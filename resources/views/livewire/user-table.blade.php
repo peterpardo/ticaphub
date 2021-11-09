@@ -1,17 +1,17 @@
 <div>
     <div class="flex justify-between my-4">
         <div>
-            <a href="{{ route('add-student') }}" class="inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">+ Student</a>
-            <a href="{{ route('add-admin') }}" class="inline-block md:w-32 bg-indigo-600 dark:bg-indigo-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-indigo-500 dark:hover:bg-indigo-200 transition ease-in-out duration-300">+ Admin</a>
-            <a href="{{ route('add-panelist') }}" class="inline-block md:w-32 bg-yellow-600 dark:bg-yellow-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-yellow-500 dark:hover:bg-yellow-200 transition ease-in-out duration-300">+ Panelist</a>
+            <a href="{{ route('add-student') }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">+ Student</a>
+            <a href="{{ route('add-admin') }}" class="ml-auto sm:ml-3 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110    inline-block md:w-32 bg-indigo-600 dark:bg-indigo-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-indigo-500 dark:hover:bg-indigo-200">+ Admin</a>
+            <a href="{{ route('add-panelist') }}" class="ml-auto sm:ml-3 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110     inline-block md:w-32 bg-yellow-600 dark:bg-yellow-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-yellow-500 dark:hover:bg-yellow-200">+ Panelist</a>
         </div>
-        <button wire:click="resetUserBtn" class="inline-block md:w-auto bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300" id="modal-btn">Reset Users</button>
+        <button wire:click="resetUserBtn" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block md:w-auto bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200" id="modal-btn">Reset Users</button>
     </div>
      {{-- STUDENT TABLE --}}
      <input type="text" class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-white-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none mb-4" autocomplete="off" placeholder="Search Student" wire:model.debounce.350ms="search">
-     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-        <table class="w-full">
+     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
             <thead>
             <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
@@ -56,15 +56,15 @@
                     <div class="divide-x-2 divide-black">
                         @foreach($user->getRoleNames() as $role)
                         <span class="inline-block px-1 text-center">
-                            {{ $role }} 
+                            {{ $role }}
                         </span>
                         @endforeach
                     </div>
                 </td>
                 <td class="px-4 text-md border text-center">
                     <div class="grid grid-rows-1 mx-auto w-full justify-center text-center">
-                        <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>
-                        <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                        <a href="/users/{{ $user->id }}/edit-user" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">View/Edit</a>
+                        <button wire:click="selectUser({{ $user->id }})" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>
                     </div>
                 </td>
             </tr>

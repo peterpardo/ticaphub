@@ -13,17 +13,17 @@
                 <div class="mb-3">
                     <p>{{ \App\Models\UserElection::all()->where('election_id', $election->id)->where('has_voted', 1)->count() }} out of   {{ \App\Models\UserElection::all()->where('election_id', $election->id)->count() }} has voted</p>
                 </div>
-                <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3">
+                <table class="w-full rounded-lg shadow-lg mx-1 text-center my-3 text-gray-800">
                     <thead>
                         <tr class="bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
                             <th class="px-4 py-3">Officer</th>
                             <th class="px-4 py-3">Status</th>
                         </tr>
-                    </thead> 
+                    </thead>
                     <tbody class="bg-white">
                         @foreach($positions as $position)
-                        <tr>    
+                        <tr>
                             <td class="border py-2">{{ $position->name }}</td>
                             <td class="border py-2">
                                 <ul>
@@ -73,7 +73,7 @@
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div class="text-gray-800">
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>

@@ -99,13 +99,13 @@
 
     {{-- CANDIDATES TABLE --}}
     <div class="font-semibold text-2xl my-3">Candidates</div>
-    
+
     @if($candidates->count() == 0)
         <div class="bg-gray-100 rounded py-6 text-center mx-auto dark:text-gray-800">No candidates found</div>
     @else
         <div class="mb-3 text-gray-800">
             <label class="block font-semibold dark:text-gray-50">Filter</label>
-            <select wire:model="selectedElection" class="rounded">    
+            <select wire:model="selectedElection" class="rounded">
                 <option value="">-- select election --</option>
                 @foreach ($elections as $election)
                 <option value="{{ $election->id }}">{{ $election->name }}</option>
@@ -162,7 +162,7 @@
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div class="text-gray-800">
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>

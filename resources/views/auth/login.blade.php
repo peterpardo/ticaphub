@@ -6,7 +6,7 @@
             </a>
         </x-slot> --}}
 
-        
+
 
         {{-- <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -51,7 +51,7 @@
 
         <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
 
-            <h1 class="font-bold text-center text-2xl mb-5">TICaP Hub</h1>  
+            <h1 class="font-bold text-center text-2xl mb-5">Login</h1>
 
             <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
 
@@ -61,8 +61,8 @@
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="mb-4 p-4" :errors="$errors" />
 
-                <form 
-                    method="POST" 
+                <form
+                    method="POST"
                     action="{{ route('login') }}">
                     @csrf
 
@@ -107,7 +107,7 @@
                                 </svg>
                                 <span class="inline-block ml-1">Forgot Password</span>
                             </a>
-                            
+
                         </div>
                     @endif
 
@@ -139,5 +139,5 @@
         </div>
 
     </x-auth-card>
-    
+
 </x-guest-layout>

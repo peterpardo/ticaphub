@@ -4,18 +4,19 @@
     <h1 class="text-center text-2xl mb-3">Election of Officers</h1>
     @can('generate report')
         @if($ticap->election_finished)
-            <a href="/generate-officers" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded my-3">Download Officer List</a>
+            <a href="/generate-officers" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded my-3">Download Officer List</a>
         @endif
     @endcan
-    <div class="flex flex-wrap justify-evenly w-full">
+    <div class="flex flex-wrap flex-col sm:flex-row justify-evenly w-full">
     @foreach($elections as $election)
-        <div class="w-2/5 mb-6">
+        <div class="w-2/5 w-full mb-6">
             @if(session('status'))
                 <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-1 rounded text-white">{{ session('message') }}</div>
             @endif
             <h1 class="text-xl text-center font-semibold mb-3">{{ $election->name }}</h1>
-            <div>
-                <table class="table-auto w-full rounded">    
+            <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full">
+                <table class="w-full table-auto">
                     <thead>
                         <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
@@ -56,6 +57,7 @@
                     </tbody>
                 </table>
             </div>
+        </div>
         </div>
     @endforeach
     </div>

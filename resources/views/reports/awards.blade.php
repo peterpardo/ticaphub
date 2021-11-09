@@ -17,7 +17,7 @@
         table {
             border-collapse: collapse;
             width: 100%;
-            table-layout: fixed; 
+            table-layout: fixed;
             /* margin: auto; */
         }
         thead {
@@ -26,7 +26,7 @@
         }
         thead, tbody, td {
             border: 1px solid black;
-            padding: 5px 2px; 
+            padding: 5px 2px;
         }
     </style>
 </head>

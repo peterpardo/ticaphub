@@ -10,7 +10,7 @@
                 @csrf
                 <label for="event_name" class="block font-semibold">Event Name</label>
                 <input class="rounded text-gray-800" type="text" name="event_name" id="event_name" autocomplete="off" placeholder="Ex: Webinar">
-                <button type="submit" class="md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200 transition ease-in-out duration-300">Add Event</button>
+                <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">Add Event</button>
                 @error('event_name')
                 <div class="text-red-500 block">{{ $message }}</div>
                 @enderror
@@ -21,40 +21,42 @@
             {{-- ADD EVENT FORM --}}
         </div>
         @endcan
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <table class="table-auto w-full shadow">
-                <thead>
-                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                        <th class="px-4 py-3">Event</th>
-                        <th class="px-4 py-3">Created At</th>
-                        <th class="px-4 py-3">QR Code</th>
-                        <th class="px-4 py-3">Actions</th>
-                    </tr>   
-                </thead>
-                <tbody class="w-auto bg-white text-center dark:text-gray-800">
-                    @foreach($events as $event)
-                    <tr class="">
-                        <td class="px-4 py-3 border">{{ $event->name }}</td>
-                        <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
-                        <td class="px-4 py-3 border mx-auto">
-                            {{-- <div class="w-1/2 mx-auto"> --}}
-                                <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate(url('/attendance/'. $event->id))) !!} " class="mx-auto">
-                                <p class="text-center mt-1">{{ url('/attendance/'. $event->id) }}</p>
-                            {{-- </div> --}}
-                        </td>
-                        <td class="px-4 py-3 border">
-                            <a href="/download-qr-code/{{ $event->id }}" class="bg-green-500 hover:bg-green-600 rounded inline-block text-white px-2 py-1">Download QR Code</a>
-                            <a href="/events/{{ $event->id }}" class="inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
-                            @can('delete event')
-                                @if($event->name != 'Awardings' && $event->name != 'Project Exhibit')
-                                <button id="modalBtn" data-id="{{ $event->id }}" class="deleteEventBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
-                                @endif
-                            @endcan
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full overflow-x-auto">
+                <table class="table-auto w-full shadow">
+                    <thead>
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                            <th class="px-4 py-3">Event</th>
+                            <th class="px-4 py-3">Created At</th>
+                            <th class="px-4 py-3">QR Code</th>
+                            <th class="px-4 py-3">Actions</th>
+                        </tr>   
+                    </thead>
+                    <tbody class="w-auto bg-white text-center dark:text-gray-800">
+                        @foreach($events as $event)
+                        <tr class="">
+                            <td class="px-4 py-3 border">{{ $event->name }}</td>
+                            <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
+                            <td class="px-4 py-3 border mx-auto">
+                                {{-- <div class="w-1/2 mx-auto"> --}}
+                                    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate(url('/attendance/'. $event->id))) !!} " class="mx-auto">
+                                    <p class="text-center mt-1">{{ url('/attendance/'. $event->id) }}</p>
+                                {{-- </div> --}}
+                            </td>
+                            <td class="px-4 py-3 border">
+                                <a href="/download-qr-code/{{ $event->id }}" class="sm:w-auto w-32 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-green-500 hover:bg-green-600 rounded inline-block text-white px-2 py-1">Download QR Code</a>
+                                <a href="/events/{{ $event->id }}" class="sm:w-auto w-32 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-blue-500 px-4 py-1 m-0.5 rounded text-white hover:bg-blue-600">View</a>
+                                @can('delete event')
+                                    @if($event->name != 'Awardings' && $event->name != 'Project Exhibit')
+                                    <button id="modalBtn" data-id="{{ $event->id }}" class="sm:w-auto w-32 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 deleteEventBtn bg-red-500 px-4 py-1 m-0.5 rounded text-white hover:bg-red-600">Delete</button>
+                                    @endif
+                                @endcan
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         {{-- DELETE EVENT MODAL --}}

@@ -19,6 +19,13 @@
         <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
         {{-- <script src="{{ asset('js/myscript.js') }}" defer></script> --}}
 
+          <!-- AOS -->
+          <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+          <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+          <script>
+            AOS.init();
+          </script>
+
         <!-- Feather Light -->
         <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
