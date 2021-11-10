@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgramFlowTable extends Migration
+class CreateProgramFlowFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateProgramFlowTable extends Migration
      */
     public function up()
     {
-        Schema::create('program_flow', function (Blueprint $table) {
+        Schema::create('program_flow_files', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->string('name');
+            $table->string('path');
+            $table->foreignId('program_flow_id')->constrained('program_flow')->onDelete('cascade');
             $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateProgramFlowTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('program_flow');
+        Schema::dropIfExists('program_flow_files');
     }
 }

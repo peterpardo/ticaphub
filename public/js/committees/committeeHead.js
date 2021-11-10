@@ -7,6 +7,7 @@ $(document).ready(function() {
     const tagContainer = document.getElementById('tagContainer');
     const memberError = document.getElementById('memberError');
     const committee = document.getElementById('committee');
+    const message = document.getElementById('message');
 
      // ADD TASK FORM
      addTaskForm.addEventListener('submit', (e) => {
@@ -34,10 +35,10 @@ $(document).ready(function() {
             dataType: "json",
             success: function (response) {
                 if(response.status == 400) {
-                    $.each(response.errors, function(key, value){
-                        searchList.innerHTML = ""
-                        message.innerHTML = "";
-                        message.innerHTML = 
+                    searchList.innerHTML = ""
+                    message.innerHTML = "";
+                    $.each(response.errors, function(key, value){    
+                        message.innerHTML += 
                         `<span class="inline-block text-red-500">${value}</span>`;
                     });
                 } else {

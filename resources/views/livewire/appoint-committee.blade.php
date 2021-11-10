@@ -68,7 +68,7 @@
     {{-- COMMITTEE TABLE --}}
     <h1 class="text-center font-semibold text-3xl">Committees</h1>
     @if($committees->count() == 0)
-        <div class="bg-transparent text-center font-extralight my-2 rounded py-5">No Committee Heads</div>
+        <div class="bg-transparent text-center font-extralight my-2 rounded py-5">No Committees</div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">

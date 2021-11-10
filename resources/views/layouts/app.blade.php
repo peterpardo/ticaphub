@@ -12,19 +12,18 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        {{-- <link rel="stylesheet" href="//cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css"> --}}
         @livewireStyles
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
         {{-- <script src="{{ asset('js/myscript.js') }}" defer></script> --}}
 
-          <!-- AOS -->
-          <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-          <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-          <script>
-            AOS.init();
-          </script>
+        <!-- AOS -->
+        {{-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+          AOS.init();
+        </script> --}}
 
         <!-- Feather Light -->
         <script src="//code.jquery.com/jquery-latest.js"></script>
@@ -152,6 +151,9 @@
           width: calc(100% - 16rem);
       }
   }
+  .dropdown:hover > .dropdown-content {
+    display: block;
+  }
 </style>
 <div x-data="setup()" :class="{ 'dark': isDark }">
     <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
@@ -212,11 +214,11 @@
               <div class="block w-px h-6 mx-3  bg-gray-400 dark:bg-gray-700"></div>
             </li>
             <!-- component -->
-<style>
+{{-- <style>
   .dropdown:hover > .dropdown-content {
     display: block;
   }
-  </style>
+  </style> --}}
 
   <div class="dropdown inline-block relative">
     <button class="text-white font-semibold py-3 px-9 rounded inline-flex items-center">

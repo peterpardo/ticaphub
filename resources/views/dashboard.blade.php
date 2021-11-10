@@ -1,8 +1,10 @@
-<x-app-layout>
+<x-app-layout :scripts="$scripts">
   <x-page-title>{{ $title }}</x-page-title>
-  <div>
+  @if($ticap)
+    <div>
       <h1 class="text-center font-bold text-2xl">{{ $ticap }}</h1>
-  </div>
+    </div>
+  @endif
 <section>
 
 @if(session('status'))
@@ -56,6 +58,8 @@
   </div>
   </div>
   </section>
+
+  <hr class="border-gray-200 border-2 rounded mb-3 bg-gray-200">
  @endif
 
 {{-- SCHEDULES --}}
@@ -89,9 +93,38 @@
 @endif
 
 @if($user->ticap_id == null)
-  <div class="bg-gray-100 py-5 px-2 rounded text-gray-800 text-center">
-    <span>No TICaP has been created yet: </span>
-    <a href="{{ route('set-ticap-name') }}" class="inline-block text-white bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</a>
+  <div x-data="setTicap()">
+    <div class="text-gray-800 mt-6 text-center">
+      <div class="font-semibold text-2xl mb-2">No TICaP created</div>
+      <button @click.prevent="isOpen = true" class="inline-block text-white text-xl bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</button>
+    </div>
+
+      {{-- SET TICAP MODAL --}}
+      <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="isOpen">
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
+            <div >
+                <form
+                    action="/set-ticap"
+                    method="post"
+                >
+                @csrf
+                <!--body-->
+                <div class="text-center p-5 flex-auto justify-center">
+                    <label class="block font-semibold text-2xl mb-3">Set TICaP</label>
+                    <input type="text" @keydown="showMessage = false; message = ''" x-model="ticap" class="rounded w-full text-center" placeholder="Enter TICaP name">
+                    <div x-show="showMessage" x-text="message" class="rounded text-white bg-red-500 px-2 py-1 my-1"></div>
+                    <!--footer-->
+                    <div class="p-3 mt-2 text-center space-x-4 md:block">
+                        <button @click.prevent="closeModal()" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                        <button @click.prevent="addTicap()" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- SET TICAP MODAL --}}
   </div>
 @else
 
@@ -105,8 +138,12 @@
   @endif
 @endif
 
-<h1 class="font-bold text-2xl mb-3">Event Programs</h1>
-<div class="container px-4 mx-auto">
+{{-- PROGRAM FLOW OF EVENTS --}}
+  {{-- <h1 class="font-bold text-2xl mb-3">Events</h1>
+  @if($events->count() == 0)
+  <div class="bg-gray-100 rounded py-5 text-center font-semibold">No Programs Posted</div>
+  @else
+  <div class="container px-4 mx-auto">
     <div class="flex flex-wrap flex-row justify-evenly">
         @foreach ($events as $event)
       <div class="w-5/12 mx-4 py-4 flex-grow">
@@ -138,7 +175,7 @@
       @endforeach
     </div>
   </div>
-{{-- PROGRAM FLOW OF EVENTS --}}
+  @endif --}}
 @endif
 
 

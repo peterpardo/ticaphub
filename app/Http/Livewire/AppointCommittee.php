@@ -6,9 +6,12 @@ use App\Models\Committee;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 
 class AppointCommittee extends Component
 {
+    use WithPagination;
+    
     public $search;
     public $name;
     public $committees;
@@ -59,7 +62,7 @@ class AppointCommittee extends Component
     {
         $this->committees = Committee::all();
         return view('livewire.appoint-committee', [
-            'users' => User::role('student')->search(trim($this->search))->paginate(6),
+            'users' => User::role('student')->search(trim($this->search))->paginate(3),
         ]);
     }
 }

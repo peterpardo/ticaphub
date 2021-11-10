@@ -18,42 +18,60 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
 class HomeController extends Controller
 {
     public function setTicap() {
+        
         return view('set-ticap');
     }
 
     public function addTicap(Request $request) {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'ticap' => 'required|unique:ticaps,name'
         ]);
+
+        if($validator->fails()) {
+            return response([
+                'status' => 403,
+                'errors' => $validator->errors()
+            ]);
+        }
         // INSERT TICAP NAME TO TICAPS TABLE
         $ticap = Ticap::create([
             'name' => $request->ticap,
         ]);
         // FIND ADMIN ID
-        $admin = User::find(1);
+        $admins = User::role('admin')->get();
         // SET TICAP_ID OF ADMIN TO PRESENT TICAP
-        $admin->ticap_id = $ticap->id;
-        $admin->save();
-        return redirect('dashboard');
+        foreach($admins as $admin) {
+            $admin->ticap_id = $ticap->id;
+            $admin->save();
+        }
+        
+        return response([
+            'success' => 'TICaP is set',
+        ]);
     }
 
     public function dashboard() {
         $title = 'Dashboard';
         $user = User::find(Auth::user()->id);
         if($user->ticap_id == null) {
-            $ticap = 'No TICaP is set';
+            $ticap = false;
         } else {
             $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
         }
+        $scripts = [
+            asset('js/set-ticap/set-ticap.js')
+        ];
         return view('dashboard', [
             'title' => $title,
             'ticap' => $ticap,
             'user' => $user,
+            'scripts' => $scripts,
             'students' => User::role('student')->get(),
             'panelists' => User::role('panelist')->get(),
             'officers' => User::role('officer')->get(),

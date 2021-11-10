@@ -10,6 +10,7 @@
         @csrf
         <input type="hidden" name="committee" id="committee" value="{{ $committee->id }}">
         <div class="w-1/3 mx-auto shadow rounded px-3 py-3">
+            <div id="message"></div>
             <div class="my-3">
                 <label class="block">Task Title</label>
                 <input type="text" name="title" id="title" class="rounded w-full">

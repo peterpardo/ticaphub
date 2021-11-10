@@ -3,31 +3,35 @@
     <div class="flex">
         <div class="flex-1 mx-1 px-2 py-1 shadow rounded">
             <h1 class="font-semibold text-2xl my-2">Events</h1>
-            @foreach ($ticap->archivedEvents as $event)
-            <div>
-                <div class="text-xl font-semibold">{{ $event->name }}</div>
-                <div>Program flow/s:</div>
-                <ul class="list-disc list-inside">
-                    @foreach($event->archivedPrograms as $program)
-                    <li>
-                        <a href="{{ Storage::url($program->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
-                    </li>
-                    @endforeach
-                </ul>
-                <div>Files</div>
-                @if($event->archivedFiles()->count() == 0)
-                    <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
-                @else
-                <ul class="list-inside list-disc">
-                    @foreach ($event->archivedFiles as $file)
-                    <li>
-                        <a href="/event-files/{{ $file->path }}" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
-                    </li>
-                    @endforeach
-                </ul>
-                @endif
-            </div>
-            @endforeach
+            @if($ticap->archivedEvents->count() == 0)
+                <div class="text-center bg-gray-100 rounded py-5 my-1">No Events</div>
+            @else
+                @foreach ($ticap->archivedEvents as $event)
+                <div>
+                    <div class="text-xl font-semibold">{{ $event->name }}</div>
+                    <div>Program flow/s:</div>
+                    <ul class="list-disc list-inside">
+                        @foreach($event->archivedPrograms as $program)
+                        <li>
+                            <a href="{{ Storage::url($program->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    <div>Files</div>
+                    @if($event->archivedFiles()->count() == 0)
+                        <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+                    @else
+                    <ul class="list-inside list-disc">
+                        @foreach ($event->archivedFiles as $file)
+                        <li>
+                            <a href="/event-files/{{ $file->path }}" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
+                </div>
+                @endforeach
+            @endif
         </div>
 
         <div class="flex-1 mx-1 px-2 py-1 shadow rounded">
