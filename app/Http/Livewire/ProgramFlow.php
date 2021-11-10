@@ -44,7 +44,7 @@ class ProgramFlow extends Component
             session()->flash('status', 'red');
             session()->flash('message', 'Program flow required');
         } else {
-            if(count($this->programs) == 0 && ($this->event->programFlow && $this->title != $this->event->programFlow->title && $this->description != $this->event->programFlow->description)) {
+            if(count($this->programs) == 0 && ($this->event->programFlow && ($this->title != $this->event->programFlow->title && $this->description == $this->event->programFlow->description) && ($this->title == $this->event->programFlow->title && $this->description != $this->event->programFlow->description))) {
                 session()->flash('status', 'red');
                 session()->flash('message', 'Program flow required');
             } else {
