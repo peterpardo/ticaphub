@@ -106,32 +106,32 @@
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div class="w-full overflow-x-auto">
-            <table class="table-fixed w-full mb-3">
-                <thead>
-                    <tr class="text-gray-800">
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
-                        <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-800">
-                    @foreach ($spec->awards->where('type', 'individual') as $award)
-                        @foreach($award->individualWinners as $winner)
-                        <tr>
-                            <td class="border text-md px-2 py-1">{{ $award->name }}</td>
-                            <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                            @if(($winner->name != null && $ticap->evaluation_finished) || $award->name == 'Best Project Adviser')
-                                <td class="border text-md px-2 py-1">{{ $winner->name }}</td>
-                            @elseif($spec->panelists()->where('has_chosen_user', 0)->exists())
-                                <td class="border text-md px-2 py-1"><span class="text-red-500">panelists still choosing</span></td>
-                            @else
-                                <td class="border text-md px-2 py-1"><span class="text-green-500">done choosing</span></td>
-                            @endif
-                        </tr>
-                        @endforeach
-                    @endforeach
-                </tbody>
-            </table>
+                    <table class="table-fixed w-full">
+                        <thead>
+                            <tr class="text-gray-800">
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Group</td>
+                                <td class="border bg-gray-100 text-lg px-2 py-1">Awardee</td>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-800">
+                            @foreach ($spec->awards->where('type', 'individual') as $award)
+                                @foreach($award->individualWinners as $winner)
+                                <tr>
+                                    <td class="border text-md px-2 py-1">{{ $award->name }}</td>
+                                    <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
+                                    @if(($winner->name != null && $ticap->evaluation_finished) || $award->name == 'Best Project Adviser')
+                                        <td class="border text-md px-2 py-1">{{ $winner->name }}</td>
+                                    @elseif($spec->panelists()->where('has_chosen_user', 0)->exists())
+                                        <td class="border text-md px-2 py-1"><span class="text-red-500">panelists still choosing</span></td>
+                                    @else
+                                        <td class="border text-md px-2 py-1"><span class="text-green-500">done choosing</span></td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endforeach
@@ -141,7 +141,7 @@
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div class="w-full overflow-x-auto">
-                    <table class="table-fixed w-full mb-3">
+                    <table class="table-fixed w-full">
                         <thead>
                             <tr class="text-gray-800">
                                 <td class="border bg-gray-100 text-lg px-2 py-1">Award</td>
@@ -168,7 +168,7 @@
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div class="w-full overflow-x-auto">
-                    <table class="table-fixed w-full mb-3">
+                    <table class="table-fixed w-full">
                         <thead>
                             <tr class="text-gray-800">
                                 <td class="border bg-gray-100 text-lg px-2 py-1">Specialization</td>

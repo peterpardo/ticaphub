@@ -140,42 +140,40 @@
 
 {{-- PROGRAM FLOW OF EVENTS --}}
   <h1 class="font-bold text-2xl mb-3">Events</h1>
-  @if($events->count() == 0)
-    <div class="bg-gray-100 rounded py-5 text-center font-semibold">No Programs Posted</div>
-  @else
     <div class="flex flex-col">
       @foreach ($events as $event)
-        @if($event->programFlow)
-          <div class="mb-3">
-            <div class="bg-gray-300 rounded-t-2xl px-2 py-3 shadow">
-              <h1 class="text-2xl font-semibold">{{ $event->name }}</h1>
-            </div>
-            <div class="px-2 py-5 rounded-b-2xl border shadow-md">
+        <div class="mb-3">
+          <div class="bg-red-700 text-white rounded-t-2xl px-2 py-2 shadow">
+            <h1 class="text-2xl font-semibold">{{ $event->name }}</h1>
+          </div>
+          <div class="px-2 py-5 rounded-b-2xl border shadow-md">
+            @if($event->programFlow)
               <h1 class="font-semibold text-xl mb-2">{{ $event->programFlow->title }}</h1>
               <p class="pl-4 mb-2">{{ $event->programFlow->description }}</p>
 
               <hr class="border bg-gray-200 border-gray-200 mb-2">
 
-              <div class="flex flex-col lg:flex-row justify-evenly w-full">
+              <div class="flex w-full flex-wrap justify-evenly">
                 @foreach ($event->programs as $program)
                   @if ($program->name == 'assets/program-flow-sample')
-                    <a href="{{ asset(url($program->path)) }}" data-featherlight="image">
-                      <img class="block rounded w-full mb-2" src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}">
+                    <a href="{{ asset(url($program->path)) }}" class="block w-1/2 flex-grow mb-2" data-featherlight="image">
+                      <img class="w-full rounded" src="{{ asset(url($program->path)) }}" alt="{{ $program->name }}">
                     </a>
                   @else
-                    <a href="{{ Storage::url($program->path) }}" data-featherlight="image">
-                      <img class="block rounded w-full mb-2 lg:mb-0" src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}">
+                    <a href="{{ Storage::url($program->path) }}" class="block w-1/2 flex-grow mb-2" data-featherlight="image">
+                      <img class="w-full rounded" src="{{ Storage::url($program->path) }}" alt="{{ $program->name }}">
                     </a>
                   @endif
                 @endforeach
               </div>
-            </div>
+            @else
+              <p class="py-3 text-center">No posts</p>
+            @endif
           </div>
-        @endif
-          
+        </div>
       @endforeach
     </div>
-  @endif
+
 
 @endif
 

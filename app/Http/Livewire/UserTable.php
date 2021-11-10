@@ -62,7 +62,7 @@ class UserTable extends Component
                 ]);
             }
             // PROGRAM FLOW
-            foreach($event->programFlows as $program) {
+            foreach($event->programs as $program) {
                 $archivedEvent->archivedPrograms()->create([
                     'name' => $program->name,
                     'path' => $program->path
@@ -119,10 +119,10 @@ class UserTable extends Component
         
         // ARCHIVE PROJECT ASSESSMENT FILES IF AWARDS IS SET
         if($ticap->awards_is_set) {
-             // GENERATE AND DOCUMENT THE PDF FILE FOR CERTIFICATES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR WINNER CERTIFICATES 
             $path = 'public/reports/' . Str::uuid() . '.pdf';
-            $fileName = 'certificates';
-            $ticap->archivedCertificates()->create([
+            $fileName = 'winner-certificates';
+            $ticap->archivedWinnerCertificates()->create([
                 'name' => $fileName,
                 'path' => $path,
             ]);
@@ -131,6 +131,34 @@ class UserTable extends Component
                 'ticap' => Ticap::find(Auth::user()->ticap_id)
             ];
             $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
+            Storage::put($path, $pdf->output());
+
+            // GENERATE AND DOCUMENT THE PDF FILE FOR RECOGNITION CERTIFICATES 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'recognition-certificates';
+            $ticap->archivedRecognitionCertificates()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'studs' => User::role('student')->with(['userSpecialization.specialization'])->get(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.student-certificate', $data)->setPaper('a4', 'landscape');
+            Storage::put($path, $pdf->output());
+
+            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELIST CERTIFICATES 
+            $path = 'public/reports/' . Str::uuid() . '.pdf';
+            $fileName = 'panelist-certificates';
+            $ticap->archivedPanelistCertificates()->create([
+                'name' => $fileName,
+                'path' => $path,
+            ]);
+            $data = [
+                'panelists' => User::role('panelist')->get(),
+                'ticap' => Ticap::find(Auth::user()->ticap_id)
+            ];
+            $pdf = PDF::loadView('reports.panelist-certificate', $data)->setPaper('a4', 'landscape');
             Storage::put($path, $pdf->output());
 
             // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 

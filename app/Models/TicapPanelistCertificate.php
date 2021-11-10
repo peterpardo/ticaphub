@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TicapCertificate extends Model
+class TicapPanelistCertificate extends Model
 {
     use HasFactory;
 
-    protected $table = 'ticap_winner_certificates';
+    protected $table = 'ticap_panelist_certificates';
     protected $fillable = [
         'name',
         'path',
