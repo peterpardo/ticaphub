@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Pardo',
             'email' => 'admin@admin.com',
             'password' => Hash::make('thisisadmin'), // password
-            'ticap_id' => 1,
+            'ticap_id' => null,
             'email_verified' => 1,
         ]);
         $admin2 = User::create([
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Pajarillo',
             'email' => 'admin1@admin1.com',
             'password' => Hash::make('123'), // password
-            'ticap_id' => 1,
+            'ticap_id' => null,
             'email_verified' => 1,
         ]);
         // CREATE PERMISSIONS
@@ -131,21 +131,5 @@ class UserSeeder extends Seeder
         // ASSIGN ROLE
         $admin1->assignRole($admin);
         $admin2->assignRole($admin);
-
-
-        // PANELIST
-        for($i = 0; $i < 12; $i++) {
-            $user = User::create([
-                'first_name' => Str::random(5),
-                'middle_name' => Str::random(5),
-                'last_name' => Str::random(5),
-                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
-                'password' => Hash::make('123'), // password
-                'remember_token' => Str::random(10),
-                'ticap_id' => 1,
-                'email_verified' => 1,
-            ]);
-            $user->assignRole('panelist');
-        }
     }
 }

@@ -68,7 +68,6 @@ Route::middleware(['guest'])->group(function(){
 });
 Route::middleware(['auth'])->group(function(){
     // SET TICAP NAME
-    // Route::get('/set-ticap', [HomeController::class, 'setTicap'])->name('set-ticap-name');
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');

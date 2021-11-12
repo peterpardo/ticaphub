@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('name');
             $table->timestamps();
-            $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
+            $table->foreignId('ticap_id')->nullable()->constrained('ticaps')->onDelete('cascade');
         });
     }
 

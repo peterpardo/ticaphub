@@ -6,6 +6,12 @@ function setTicap() {
         showMessage: false,
     
         addTicap() {
+            if(this.ticap == "") {
+                this.message = "TICaP name is required";
+                this.showMessage = true;
+                return;
+            }
+
             let formData = {
                 ticap: this.ticap,
             }

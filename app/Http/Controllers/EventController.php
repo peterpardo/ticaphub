@@ -434,6 +434,10 @@ class EventController extends Controller
 
     public function attendance($eventId) {
         $event = Event::find($eventId);
+        // RETURN TO HOME PAGE IF TICAP IS NOT YET SET
+        if($event->ticap_id == null) {
+            return redirect('/');
+        }
 
         return view('studentLogin', [
             'event' => $event,

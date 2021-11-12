@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Election;
 use App\Models\Group;
 use App\Models\Specialization;
+use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +26,7 @@ class StudentSeeder extends Seeder
             'last_name' => 'Doe',
             'email' => 'stud@stud.com',
             'password' => Hash::make('thisisstudent'), // password
-            'ticap_id' => 1,
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
             'email_verified' => 1,
         ]);
         $mina->userSpecialization()->create([
@@ -41,7 +42,7 @@ class StudentSeeder extends Seeder
         ]);
         if(!$mina->userGroup->group->groupExhibit()->exists()) {
             $mina->userGroup->group->groupExhibit()->create([
-                'ticap_id' => 1,
+                'ticap_id' => Ticap::latest()->pluck('id')->first(),
             ]);
         }
         $sana = User::create([
@@ -50,7 +51,7 @@ class StudentSeeder extends Seeder
             'last_name' => 'Jane',
             'email' => 'stud2@stud2.com',
             'password' => Hash::make('thisisstudent'), // password
-            'ticap_id' => 1,
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
             'email_verified' => 1,
         ]);
         $sana->userSpecialization()->create([
@@ -66,7 +67,7 @@ class StudentSeeder extends Seeder
         ]);
         if(!$sana->userGroup->group->groupExhibit()->exists()) {
             $sana->userGroup->group->groupExhibit()->create([
-                'ticap_id' => 1,
+                'ticap_id' => Ticap::latest()->pluck('id')->first(),
             ]);
         }
         $mina->assignRole('student');
@@ -79,7 +80,7 @@ class StudentSeeder extends Seeder
                 'email' => Str::random(5) . "@" . Str::random(5) . ".com",
                 'password' => Hash::make('123'), // password
                 'remember_token' => Str::random(10),
-                'ticap_id' => 1,
+                'ticap_id' => Ticap::latest()->pluck('id')->first(),
                 'email_verified' => 1,
             ]);
             $flag = false;

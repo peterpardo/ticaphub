@@ -17,15 +17,15 @@ class EventSeeder extends Seeder
     {
         Event::create([
             'name' => 'Project Exhibit',
-            'ticap_id' => Ticap::latest()->pluck('id')->first()
+            'ticap_id' => null
         ]);
         Event::create([
             'name' => 'Awardings',
-            'ticap_id' => Ticap::latest()->pluck('id')->first()
+            'ticap_id' => null
         ]);
         Event::create([
             'name' => 'Webinar',
-            'ticap_id' => Ticap::latest()->pluck('id')->first()
+            'ticap_id' => null
         ]);
     }
 }
