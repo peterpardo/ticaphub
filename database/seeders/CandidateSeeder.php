@@ -64,7 +64,7 @@ class CandidateSeeder extends Seeder
                             }
                         }
                     }
-                } elseif($election->id == 6) {
+                } elseif ($election->id == 6) {
                     foreach($positions as $position) {
                         $users = User::wherehas('userSpecialization', function($q) {
                             $q->wherehas('specialization', function($q) {

@@ -344,6 +344,12 @@ class UserController extends Controller
                             'group_id' => $group->id,
                         ]);
                     }
+                    // CREATE GROUP EXHIBIT FOR THE GROUP
+                    if(!$user->userGroup->group->groupExhibit()->exists()) {
+                        $user->userGroup->group->groupExhibit()->create([
+                            'ticap_id' => $ticap,
+                        ]);
+                    }
                     $ctr++;
                 }
                 fclose($handle);

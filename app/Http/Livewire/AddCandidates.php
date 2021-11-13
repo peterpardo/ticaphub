@@ -36,6 +36,9 @@ class AddCandidates extends Component
         foreach($elections as $election) {
             foreach($positions as $position) {
                 if($election->candidates->where('position_id', $position->id)->count() < 2) {
+                    echo $election->id . '<br>';
+                    dd($election->candidates);
+                    // dd($election->candidates->where('position_id', $position->id)->count());
                     session()->flash('status', 'red');
                     session()->flash('message', $election->name . ' - not enough candidates for position (' . $position->name . ')');
                     return back();

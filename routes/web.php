@@ -185,13 +185,13 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/download-qr-code/{eventId}', [EventController::class, 'downloadCode']);
             Route::post('/events/add-event', [EventController::class, 'addEvent']);
             Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
-            Route::get('/events/{eventId}/program-flow', [EventController::class, 'programFlow']);
             // APPOINT COMMITTEE HEADS
             Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
             Route::middleware(['event'])->group(function() {
                 Route::get('/events/{eventId}', [EventController::class, 'viewEvent']);
                 Route::post('/events/{eventId}/add-list', [EventController::class, 'addList']);
                 Route::post('/events/{eventId}/delete-list', [EventController::class, 'deleteList']);
+                Route::get('/events/{eventId}/program-flow', [EventController::class, 'programFlow']);
                 Route::middleware(['list'])->group(function() {
                     Route::get('/events/{eventId}/list/{listId}', [EventController::class, 'viewList']);
                     Route::get('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTaskForm']);

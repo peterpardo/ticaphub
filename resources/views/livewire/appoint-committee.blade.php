@@ -4,7 +4,7 @@
         <div class="mb-2">
             <label class="block font-semibold text-lg">Committee Name</label>
             <div class="lex justify-between flex-wrap text-gray-800">
-                <input type="text" wire:model.defer="name" class="rounded mb-2">
+                <input type="text" wire:model.defer="name" class="rounded mb-2" placeholder="Enter committee name">
                 <input type="text" wire:model.debounce.350ms="search" class="rounded mb-2" placeholder="Search student">
             </div>
         </div>
@@ -68,7 +68,7 @@
     {{-- COMMITTEE TABLE --}}
     <h1 class="text-center font-semibold text-3xl">Committees</h1>
     @if($committees->count() == 0)
-        <div class="bg-transparent text-center font-extralight my-2 rounded py-5">No Committees</div>
+        <div class="bg-gray-100 text-center font-extralight my-2 rounded py-5">No Committees</div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">

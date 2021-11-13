@@ -13,7 +13,7 @@
         @foreach($positions as $position) 
         <div class="mb-3 w-1/5 mx-auto text-center">
             @php
-                $name = str_replace(' ', ' ', $position->name);
+                $name = str_replace(' ', '_', $position->name);
             @endphp
             @error($name)
                 <div class="text-center text-red-500">{{ $message }}</div>

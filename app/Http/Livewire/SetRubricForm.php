@@ -40,6 +40,7 @@ class SetRubricForm extends Component
     }
     public function closeRubricModal() {
         $this->resetValidation();
+        $this->reset();
         $this->dispatchBrowserEvent('closeRubricModal');
     }
     public function getAwardId($awardId) {

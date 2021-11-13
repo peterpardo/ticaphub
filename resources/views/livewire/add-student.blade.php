@@ -77,12 +77,20 @@
                 @if($groups != null)
                 <ul class="my-2">
                     <p class="font-semibold">Existing Groups</p>
-                    @foreach ($groups as $group)
-                    <li class="my-2">
-                        {{ $group->name }}
-                        <button wire:click.prevent="insertGroup('{{ $group->name }}')" class="text-white rounded bg-green-500 hover:bg-green-600 px-2 py-1">Select</button>
-                    </li>
-                    @endforeach
+                    @if($groups->count() == 0) 
+                        <div class="bg-gray-100 rounded text-center py-3">No Groups</div>
+                    @else
+                        <table class="table-fixed w-full mt-2">
+                            <tbody>
+                                @foreach ($groups as $group)
+                                <tr>
+                                    <td class="border px-2 py-1">{{ $group->name }}</td>
+                                    <td class="border px-2 py-1 text-center"><button wire:click.prevent="insertGroup('{{ $group->name }}')" class="text-white rounded bg-green-500 hover:bg-green-600 px-2 py-1">Select</button></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
                 </ul>
                 @endif
                 @error('selectedGroup')

@@ -6,10 +6,12 @@ use App\Models\Award;
 use App\Models\School;
 use App\Models\Specialization;
 use Livewire\Component;
-
+use Livewire\WithPagination;
 
 class AwardTable extends Component
 {
+    use WithPagination; 
+
     public $selectedAward;
     public $selectedSchool = null;
     public $selectedSpec = null;

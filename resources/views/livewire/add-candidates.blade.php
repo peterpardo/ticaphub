@@ -6,95 +6,91 @@
         @endif
     </div>
     {{-- STUDENT TABLE --}}
-    @if($users->count() == 0)
-        <div class="bg-gray-100 rounded text-center py-5 my-3">No Students in the system</div>
-    @else
-        {{-- SEARCH FOR CANDIDATES --}}
-        <div class="mb-2 text-gray-800">
-            <div class="flex justify-between">
-                <div class="flex-1">
-                    <h1 class="font-semibold dark:text-gray-50">Select Position</h1>
-                    <select wire:model="selectedPosition" class="rounded ">
-                        <option value="">--select position--</option>
-                        @foreach($positions as $position)
-                        <option value="{{ $position->id }}">{{ $position->name }}</option>
-                        @endforeach
-                    </select>
-                    <input type="text" class="rounded my-2" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
-                </div>
-                <div class="my-2 flex-1">
-                    <h1 class="font-semibold dark:text-gray-50">Filters</h1>
-                    <select wire:model="selectedSchool" class="rounded ">
-                        <option value="">--select school--</option>
-                        @foreach($schools as $school)
-                        <option value="{{ $school->id }}">{{ $school->name }}</option>
-                        @endforeach
-                    </select>
-                    @if($selectedSchool != null)
-                    <select wire:model="selectedSpec" class="rounded ">
-                        <option value="">--select specialization--</option>
-                        @foreach($specializations as $specialization)
-                        <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
-                        @endforeach
-                    </select>
-                    @endif
-                </div>
+    {{-- SEARCH FOR CANDIDATES --}}
+    <div class="mb-2 text-gray-800">
+        <div class="flex justify-between">
+            <div class="flex-1">
+                <h1 class="font-semibold dark:text-gray-50">Select Position</h1>
+                <select wire:model="selectedPosition" class="rounded ">
+                    <option value="">--select position--</option>
+                    @foreach($positions as $position)
+                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                    @endforeach
+                </select>
+                <input type="text" class="rounded my-2" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
             </div>
-            @error('selectedPosition')
-            <span class="bg-red-500 rounded shadow text-white py-1 px-2">{{ $message }}</span>
-            @enderror
-            @if(session('status'))
-            <span class="bg-{{ session('status') }}-500 rounded shadow text-white py-1 px-2">{{ session('message') }}</span>
-            @endif
+            <div class="my-2 flex-1">
+                <h1 class="font-semibold dark:text-gray-50">Filters</h1>
+                <select wire:model="selectedSchool" class="rounded ">
+                    <option value="">--select school--</option>
+                    @foreach($schools as $school)
+                    <option value="{{ $school->id }}">{{ $school->name }}</option>
+                    @endforeach
+                </select>
+                @if($selectedSchool != null)
+                <select wire:model="selectedSpec" class="rounded ">
+                    <option value="">--select specialization--</option>
+                    @foreach($specializations as $specialization)
+                    <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
+                    @endforeach
+                </select>
+                @endif
+            </div>
         </div>
-        {{-- SEARCH FOR CANDIDATES --}}
+        @error('selectedPosition')
+        <span class="bg-red-500 rounded shadow text-white py-1 px-2">{{ $message }}</span>
+        @enderror
+        @if(session('status'))
+        <span class="bg-{{ session('status') }}-500 rounded shadow text-white py-1 px-2">{{ session('message') }}</span>
+        @endif
+    </div>
+    {{-- SEARCH FOR CANDIDATES --}}
 
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full">
-            <table class="w-full">
-                <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                    <th class="px-4 py-3">Student Name</th>
-                    <th class="px-4 py-3">School</th>
-                    <th class="px-4 py-3">Specialization</th>
-                    <th class="px-4 py-3">Action</th>
-                </tr>
-                </thead>
-            <tbody class="bg-white">
-                @foreach($users as $user)
-                <tr class="text-gray-700">
-                    <td class="px-4 py-1 border">
-                        <div class="flex items-center text-sm">
-                            <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-                            @if($user->profile_picture)
-                                <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
-                            @else
-                                <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
-                            @endif
-                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-black text-md text-center">
-                                    {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
-                                </p>
-                            </div>
+    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full">
+        <table class="w-full">
+            <thead>
+            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                <th class="px-4 py-3">Student Name</th>
+                <th class="px-4 py-3">School</th>
+                <th class="px-4 py-3">Specialization</th>
+                <th class="px-4 py-3">Action</th>
+            </tr>
+            </thead>
+        <tbody class="bg-white">
+            @foreach($users as $user)
+            <tr class="text-gray-700">
+                <td class="px-4 py-1 border">
+                    <div class="flex items-center text-sm">
+                        <div class="relative w-8 h-8 mr-3 rounded-full md:block">
+                        @if($user->profile_picture)
+                            <img class="object-cover w-full h-full rounded-full" src="{{ Storage::url($user->profile_picture) }}" alt="" loading="lazy" />
+                        @else
+                            <img class="object-cover w-full h-full rounded-full" src="{{ url(asset('assets/default-img.png')) }}" alt="" loading="lazy" />
+                        @endif
+                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                         </div>
-                    </td>
-                    <td class="px-4 py-3 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
-                    <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
-                    <td class="px-4 py-3 text-md border text-center">
-                        <button wire:click="addCandidate({{ $user->id }})" class="w-1/2 rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">Add</button>
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-            </table>
-            </div>
-            <div class="my-2 mx-1 bg-white rounded">
-                {{ $users->links() }}
-            </div>
+                        <div>
+                            <p class="font-semibold text-black text-md text-center">
+                                {{ $user->first_name }} {{ $user->middle_name }} {{ $user->last_name }}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-4 py-3 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
+                <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
+                <td class="px-4 py-3 text-md border text-center">
+                    <button wire:click="addCandidate({{ $user->id }})" class="w-1/2 rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">Add</button>
+                </td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
         </div>
-    @endif
+        <div class="my-2 mx-1 bg-white rounded">
+            {{ $users->links() }}
+        </div>
+    </div>
     {{-- STUDENT TABLE --}}
 
     {{-- CANDIDATES TABLE --}}

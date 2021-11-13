@@ -23,9 +23,9 @@ class EventSeeder extends Seeder
             'name' => 'Awardings',
             'ticap_id' => null
         ]);
-        Event::create([
-            'name' => 'Webinar',
-            'ticap_id' => null
-        ]);
+        // Event::create([
+        //     'name' => 'Webinar',
+        //     'ticap_id' => null
+        // ]);
     }
 }

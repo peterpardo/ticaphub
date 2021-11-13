@@ -1,13 +1,15 @@
 <div>
     <a href="{{ route('set-rubrics') }}" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Back</a>
     <div class="text-center my-2 font-semibold text-3xl">Set Panelists</div>
+
+    @if(session('status'))
+        <div class="bg-{{ session('status') }}-500 text-center py-5 rounded text-white my-1">{{ session('message') }}</div>
+    @endif
+
     <div class="flex justify-between">
         <a href="/set-panelist/assign" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Insert Panelist</a>
         <a href="/award-review" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Review Award Settings</a>
     </div>
-    @if(session('status'))
-        <div class="bg-{{ session('status') }}-500 px-2 py-1 rounded text-white mb-2">{{ session('message') }}</div>
-    @endif
 
     {{-- SPECIALIZATION PANELIST TABLE --}}
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">

@@ -9,9 +9,9 @@
     @endcan
     <div class="flex flex-wrap flex-col sm:flex-row justify-evenly w-full">
     @foreach($elections as $election)
-        <div class="w-2/5 w-full mb-6">
+        <div class="w-full mb-6">
             @if(session('status'))
-                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-1 rounded text-white">{{ session('message') }}</div>
+                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-5 rounded text-white">{{ session('message') }}</div>
             @endif
             <h1 class="text-xl text-center font-semibold mb-3">{{ $election->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">

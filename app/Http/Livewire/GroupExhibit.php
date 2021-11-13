@@ -240,7 +240,7 @@ class GroupExhibit extends Component
         $this->validate([
             'email' => 'email|unique:groups,adviser_email'
         ]);
-        $this->group->advise_email = $this->email;
+        $this->group->adviser_email = $this->email;
         $this->group->save();
         $this->emit('groupExhibitUpdated');
         $this->updateEmail = false;

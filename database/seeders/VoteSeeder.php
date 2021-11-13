@@ -7,6 +7,8 @@ use App\Models\Election;
 use App\Models\Position;
 use App\Models\Specialization;
 use App\Models\User;
+use App\Models\UserElection;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class VoteSeeder extends Seeder
@@ -20,6 +22,17 @@ class VoteSeeder extends Seeder
     {
         $elections = Election::all();
         $positions = Position::all();
+
+        // TRUNCATE VOTES TABLE
+        Vote::truncate();
+
+        // RESET USER VOTES
+        foreach(UserElection::where('has_voted', 1)->get() as $voter) {
+            $voter->has_voted = 0;
+            $voter->save();
+        } 
+        
+        // CREATE VOTES
         foreach($elections as $election) {
             foreach($election->userElections as $userElection) {
                 foreach($positions as $position) {

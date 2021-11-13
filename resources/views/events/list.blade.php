@@ -5,35 +5,37 @@
         <h1 class="text-center text-4xl font-bold mb-1">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
         @can('add list')
-            <div class="container p-3 rounded mb-2">
+            <div class="w-full p-3 rounded mb-2">
                 <form 
                 action="/events/{{ $event->id }}/add-list"
                 method="POST">
                 @csrf
-                        @if(session('status'))
-                        <span class="bg-green-500 px-2 py-1 rounded text-white block my-2">{{ session('message') }}</span>
-                        @endif
-                        <h1 class="font-bold text-2xl my-3">Create List</h1>
-                        <label for="title" class="font-semibold mb-2 block">Title</label>
-                        <div class="flex justify-between">
+                    @if(session('status'))
+                        <div class="bg-{{ session('status') }}-500 text-center py-5 rounded text-white block my-1">{{ session('message') }}</div>
+                    @endif
+                    <h1 class="font-bold text-2xl my-3">Create List</h1>
+                    <label for="title" class="font-semibold mb-2 block">Title</label>
+                    <div class="flex justify-between">
+                        <div class="flex flex-col">
                             <div>
                                 <input class="rounded text-gray-800" type="text" name="title" id="title">
                                 <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Add List</button>
-                                @error('title')
-                                <span class="text-red-500 block">{{ $message }}</span>
-                                @enderror
                             </div>
-                            <div>
-                                <a href="/events/{{ $event->id }}/program-flow" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Upload Program Flow</a>
-                            </div>
+                            @error('title')
+                                <span class="inline-block mt-2 bg-red-500 text-white rounded px-2 py-1">{{ $message }}</span>
+                            @enderror
                         </div>
+                        <div>
+                            <a href="/events/{{ $event->id }}/program-flow" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Upload Program Flow</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         @endcan
         @if($event->lists->count() == 0)
             <div class="bg-gray-100 text-center py-5 rounded">No Lists created</div>
         @else
-            <div class="container">
+            <div class="w-full">
                 <table class="w-full shadow text-gray-800">
                     <thead>
                         <tr class="bg-gray-100 uppercase border-b border-gray-600">

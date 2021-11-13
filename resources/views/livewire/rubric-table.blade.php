@@ -1,13 +1,15 @@
 <div>
     <a href="{{ route('awards') }}" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Back</a>
     <div class="text-center my-2 font-semibold text-3xl">Set Rubrics</div>
+
+    @if(session('status'))
+        <div class="bg-{{ session('status') }}-500 text-center py-5 rounded my-1 text-white">{{ session('message') }}</div>
+    @endif
+
     <div class="flex justify-between">
         <a href="{{ route('rubric') }}" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Create Rubric</a>
         <a href="/set-panelist" class="inline-block mb-3 rounded shadow px-2 py-2 text-white bg-green-500 hover:bg-green-600">Proceed to Next Page</a>
     </div>
-        @if(session('status'))
-    <div class="bg-green-500 px-2 py-1 rounded text-white">{{ session('message') }}</div>
-    @endif
 
     {{-- AWARD TABLE --}}
     <div class="font-semibold">Filter</div>

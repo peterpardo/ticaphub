@@ -1,8 +1,11 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <div class="">
+    <div>
         @can('add event')
-        <div class="container mb-2">
+        <div class="w-full mb-2">
+            @if(session('status'))
+                <div class="bg-{{ session('status') }}-500 text-center rounded py-5 text-white mb-2">{{ session('message') }}</div>
+            @endif
             {{-- ADD EVENT FORM --}}
             <form 
                 action="/events/add-event"
@@ -10,13 +13,10 @@
                 @csrf
                 <label for="event_name" class="block font-semibold">Event Name</label>
                 <input class="rounded text-gray-800" type="text" name="event_name" id="event_name" autocomplete="off" placeholder="Ex: Webinar">
-                <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">Add Event</button>
+                <button type="submit" class="md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg hover:bg-green-500 dark:hover:bg-green-200">Add Event</button>
                 @error('event_name')
                 <div class="text-red-500 block">{{ $message }}</div>
                 @enderror
-                @if(session('status'))
-                    <div class="text-{{ session('status') }}-500 mb-2">{{ session('message') }}</div>
-                @endif
             </form>
             {{-- ADD EVENT FORM --}}
         </div>

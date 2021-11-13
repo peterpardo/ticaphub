@@ -17,7 +17,7 @@ class RubricSeeder extends Seeder
     public function run()
     {
         $rubric = Rubric::create([
-            'name' => 'rubric 1'
+            'name' => 'Rubric 2'
         ]);
 
         Criteria::insert([
@@ -29,9 +29,11 @@ class RubricSeeder extends Seeder
 
         // INSERT RUBRIC TO EACH AWARDS
         foreach(Award::all() as $award) {
-            $award->awardRubric()->create([
-                'rubric_id' => $rubric->id
-            ]);
+            if($award->awardRubric == null) {
+                $award->awardRubric()->create([
+                    'rubric_id' => rand(1,2)
+                ]);
+            }
         }
     }
 }

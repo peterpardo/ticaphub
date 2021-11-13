@@ -122,6 +122,12 @@ class AddStudent extends Component
                 'group_id' => $group->id,
             ]);
         };
+        // CREATE GROUP EXHIBIT FOR THE GROUP
+        if(!$user->userGroup->group->groupExhibit()->exists()) {
+            $user->userGroup->group->groupExhibit()->create([
+                'ticap_id' => $ticap,
+            ]);
+        }
         // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [

@@ -96,10 +96,10 @@ class EventController extends Controller
     public function addList(Request $request, $eventId){
         $event = Event::find($eventId);
         $request->validate([
-            'title' => 'required'
+            'title' => 'required|string|max:20'
         ]);
         $event->lists()->create([
-            'title' => $request->title,
+            'title' => Str::title($request->title),
             'user_id' => Auth::user()->id,
             'event_id' => $event->id
         ]);
