@@ -1,5 +1,5 @@
 <div>
-    <a href="/assessment-panel" class="bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1">Back</a>
+    <a href="/events" class="bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1">Back</a>
 
     <h1 class="font-semibold text-xl my-2 text-center">Attendance</h1>
 
