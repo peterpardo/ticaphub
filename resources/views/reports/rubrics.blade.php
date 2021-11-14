@@ -30,7 +30,7 @@
 <body>
     <h1 class="title">Rubrics ({{ $ticap->name }})</h1>
     @foreach ($specs as $spec)
-        <h3>{{ $spec->name }}</h3>
+        <h3>{{ $spec->school->name }} - {{ $spec->name }}</h3>
         @foreach($spec->awards->where('name', '!=', 'Best Project Adviser') as $award)
             <h4>{{ $award->name }}</h4>
             <table>

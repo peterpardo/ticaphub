@@ -18,9 +18,9 @@ class StudentChoiceVoteForm extends Component
             'name' => 'required',
             'email' => 'required|email',
         ]);
-        if(!Attendance::where('email', $this->email)->where('event_id', 2)->exists()) {
+        if(!Attendance::where('email', $this->email)->where('event_id', 1)->exists()) {
             session()->flash('status', 'red');
-            session()->flash('message', 'Email is not listed in the attendance.');
+            session()->flash('message', 'Email is not listed in the attendance in the Project Exhibit event.');
             return back();
         }
         $group = Group::find($this->groupId);

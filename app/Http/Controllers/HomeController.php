@@ -10,6 +10,7 @@ use App\Models\Position;
 use App\Models\School;
 use App\Models\Slider;
 use App\Models\Stream;
+use App\Models\Brand;
 use App\Models\Ticap;
 use App\Models\User;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
@@ -24,7 +25,7 @@ use Intervention\Image\Facades\Image;
 class HomeController extends Controller
 {
     public function setTicap() {
-        
+
         return view('set-ticap');
     }
 
@@ -50,12 +51,7 @@ class HomeController extends Controller
             $admin->ticap_id = $ticap->id;
             $admin->save();
         }
-        // ASSIGN TICAP ID TO DEFAULT EVENTS
-        foreach(Event::all() as $event) {
-            $event->ticap_id = $ticap->id;
-            $event->save();
-        }
-        
+
         return response([
             'success' => 'TICaP is set',
         ]);
@@ -153,6 +149,8 @@ class HomeController extends Controller
         return view('welcome');
     }
 
+    // SLIDER
+
     public function HomeSlider(){
         $sliders = Slider::all();
         return view('slider.index', compact('sliders'));
@@ -234,6 +232,45 @@ class HomeController extends Controller
     public function deleteStream($id){
         Stream::find($id)->delete();
         return redirect()->route('home.stream');
+    }
+
+    public function HomeBrand(){
+        $brands = Brand::all();
+        return view('brand.index', compact('brands'));
+    }
+
+    public function AddBrand(){
+        return view('brand.add-brand');
+    }
+
+    public function StoreBrand(Request $request){
+
+        $request->validate([
+            'image' => 'required|mimes:jpg,bmp,png',
+        ]);
+
+        $image = $request->file('image');
+
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        Image::make($image)->save('image/brand'.$name_gen);
+
+        $last_img = 'image/brand'.$name_gen;
+
+        Brand::insert([
+            'image' => $last_img,
+            'created_at' => Carbon::now()
+        ]);
+
+           return redirect()->route('home.brand');
+    }
+
+    public function deleteBrand($id){
+        $image = Brand::find($id);
+        $old_image = $image->image;
+        unlink($old_image);
+
+        Brand::find($id)->delete();
+        return redirect()->route('home.brand');
     }
 
 }

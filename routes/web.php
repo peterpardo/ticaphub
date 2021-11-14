@@ -115,7 +115,6 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
         Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
         Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
-        Route::get('/check-attendance', [AwardController::class, 'checkAttendance']);
         Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
         Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
         Route::get('/generate-awards', [AwardController::class, 'generateAwards']);
@@ -126,6 +125,9 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/email-winner-awards', [AwardController::class, 'emailWinnerAwards']);
         Route::post('/email-recognition', [AwardController::class, 'emailRecognition']);
         Route::post('/email-panelists', [AwardController::class, 'emailPanelists']);
+        Route::post('/email-single-certificate', [AwardController::class, 'emailSingleCertificate']);
+        Route::post('/email-group-certificate', [AwardController::class, 'emailGroupCertificate']);
+        Route::post('/email-student-choice-certificate', [AwardController::class, 'emailStudentChoiceCertificate']);
         // ADMIN ROUTE
         Route::middleware(['admin'])->group(function(){
            // HOME SLIDER
@@ -139,6 +141,12 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
             Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
             Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
+
+            // TICAP EVENTS
+            Route::get('/home/brand', [HomeController::class, 'HomeBrand'])->name('home.brand');
+            Route::get('/add/brand', [HomeController::class, 'AddBrand'])->name('add.brand');
+            Route::post('/store/brand', [HomeController::class, 'StoreBrand'])->name('store.brand');
+            Route::get('/brand/delete/{id}', [HomeController::class, 'deleteBrand']);
 
             // USER ACCOUNTS
             Route::middleware(['set.invitation'])->group(function(){
@@ -185,6 +193,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('/download-qr-code/{eventId}', [EventController::class, 'downloadCode']);
             Route::post('/events/add-event', [EventController::class, 'addEvent']);
             Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
+            Route::get('/check-attendance', [AwardController::class, 'checkAttendance']);
             // APPOINT COMMITTEE HEADS
             Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
             Route::middleware(['event'])->group(function() {

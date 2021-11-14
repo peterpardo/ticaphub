@@ -8,17 +8,17 @@
         <h1 class="font-bold text-2xl">Schools</h1>
         <button wire:click="openConfirmationModal" class="font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button> 
     </div>
-    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-            <table class="w-full">
+    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
                 <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">School</th>
                     <th class="px-4 py-3">Status</th>
                     <th class="px-4 py-3">Action</th>
                 </tr>
                 </thead>
-                <tbody class="w-auto bg-white">
+                <tbody class="w-auto bg-white text-center">
                 @foreach($schools as $school)
                 <tr class="text-gray-700">
                     <td class="px-4 py-3 text-md font-semibold border">

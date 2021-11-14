@@ -13,7 +13,7 @@
         <div class="w-full overflow-x-auto">
         <table class="w-full table-auto">
             <thead>
-            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
                 <th class="px-4 py-3">Email</th>
                 <th class="px-4 py-3">Status</th>

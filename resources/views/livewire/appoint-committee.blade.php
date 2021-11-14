@@ -3,24 +3,24 @@
     <div>
         <div class="mb-2">
             <label class="block font-semibold text-lg">Committee Name</label>
-            <div class="lex justify-between flex-wrap text-gray-800">
-                <input type="text" wire:model.defer="name" class="rounded mb-2" placeholder="Enter committee name">
+            <div class="flex justify-between flex-wrap text-gray-800">
+                <input type="text" wire:model.defer="name" class="rounded mb-2">
                 <input type="text" wire:model.debounce.350ms="search" class="rounded mb-2" placeholder="Search student">
             </div>
         </div>
         @error('name')
-        <div class="bg-red-500 text-white px-2 py-1 rounded w-52 mb-3">{{ $message }}</div>
+        <span class="bg-red-500 text-white px-2 py-1 rounded w-52">{{ $message }}</span>
         @enderror
         @if(session('status'))
-        <div class="bg-{{ session('status') }}-500 text-white px-2 py-1 rounded w-96 mb-3">{{ session('message') }}</div>
+        <span class="bg-{{ session('status') }}-500 text-white px-2 py-1 rounded w-auto">{{ session('message') }}</span>
         @endif
     </div>
     {{-- STUDENT TABLE --}}
-    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+    <div class="mt-5 bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
         <table class="w-full table-auto">
             <thead>
-            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
                 <th class="px-4 py-3">School</th>
                 <th class="px-4 py-3">Specialization</th>
@@ -68,7 +68,7 @@
     {{-- COMMITTEE TABLE --}}
     <h1 class="text-center font-semibold text-3xl">Committees</h1>
     @if($committees->count() == 0)
-        <div class="bg-gray-100 text-center font-extralight my-2 rounded py-5">No Committees</div>
+        <div class="bg-transparent text-center font-extralight my-2 rounded py-5">No Committees</div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">

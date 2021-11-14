@@ -6,9 +6,12 @@ use App\Jobs\EmailCertificateJob;
 use App\Models\Award;
 use App\Models\Criteria;
 use App\Models\Group;
+use App\Models\GroupWinner;
+use App\Models\IndividualWinner;
 use App\Models\Rubric;
 use App\Models\Specialization;
 use App\Models\SpecializationPanelist;
+use App\Models\StudentChoiceAward;
 use App\Models\StudentChoiceVote;
 use App\Models\Ticap;
 use App\Models\User;
@@ -222,13 +225,6 @@ class AwardController extends Controller
         $title = 'Project Assessment';
         $ticap = Ticap::find(Auth::user()->ticap_id);
 
-        if($ticap->finalize_award) {
-            return redirect()->route('review-results');
-        }
-        if(!$ticap->awards_is_set) {
-            return redirect()->route('awards');
-        }
-
         return view('awards.attendance', [
             'title' => $title
         ]);
@@ -356,14 +352,12 @@ class AwardController extends Controller
             foreach($spec->awards->where('type', 'individual')->where('name', '!=', 'Best Project Adviser') as $award) {
                 foreach($award->individualWinners as $winner) {
                     if($winner->name == null) {
-                        echo $winner->group->name . '<br>';
                         $user = []; 
                         foreach($winner->group->individualCandidates as $candidate) {
                             array_push($user, $candidate->user->id);
                         }
                         // LET PANELISTS VOTE AGAIN FOR INDIVIDUAL AWARDS IF THEY DIDNT CHOOSE THE SAME USER
                         if(count(array_unique($user)) > 1) {
-                            // UNDO LATER
                             $winner->group->individualCandidates()->delete();
                             foreach($spec->panelists as $panelist) {
                                 $panelist->has_chosen_user = 0;
@@ -406,27 +400,27 @@ class AwardController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
 
         // EMAIL GROUP WINNERS
-        // foreach($specs as $spec) {
-        //     foreach($spec->awards as $award) {
-        //         // GROUP AWARD WINNERS
-        //         foreach($award->groupWinners as $winner) {
-        //             $groupName = str_replace(" ", "-", $winner->group->name);
-        //             $fileName = str_replace(" ", "-", $award->name) . '-' . $groupName;
-        //             $data = [
-        //                 'ticap' => $ticap,
-        //                 'group' => $winner->group,
-        //                 'award' => $award,
-        //                 'spec' => $spec
-        //             ];
-        //             // CREATE CERTIFICATE
-        //             PDF::loadView('certificates.award-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
-        //             // EMAIL CERTIFICATE TO ALL GROUP MEMBERS
-        //             foreach($winner->group->userGroups as $userGroup) {
-        //                 dispatch(new EmailCertificateJob($userGroup->user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
-        //             }
-        //         }
-        //     }
-        // }
+        foreach($specs as $spec) {
+            foreach($spec->awards as $award) {
+                // GROUP AWARD WINNERS
+                foreach($award->groupWinners as $winner) {
+                    $groupName = str_replace(" ", "-", $winner->group->name);
+                    $fileName = str_replace(" ", "-", $award->name) . '-' . $groupName;
+                    $data = [
+                        'ticap' => $ticap,
+                        'group' => $winner->group,
+                        'award' => $award,
+                        'spec' => $spec
+                    ];
+                    // CREATE CERTIFICATE
+                    PDF::loadView('certificates.award-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+                    // EMAIL CERTIFICATE TO ALL GROUP MEMBERS
+                    foreach($winner->group->userGroups as $userGroup) {
+                        dispatch(new EmailCertificateJob($userGroup->user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+                    }
+                }
+            }
+        }
         
         // EMAIL INDIVIDUAL WINNERS
         foreach($specs as $spec) {
@@ -492,6 +486,76 @@ class AwardController extends Controller
 
         session()->flash('status', 'green');
         session()->flash('message', 'Certificate of Recognition has been sent to the participants.');
+        return back();
+    }
+
+    public function emailSingleCertificate(Request $request){
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $user = IndividualWinner::find($request->winner);
+        $winnerName = str_replace(" ", "-", $user->name);
+        $fileName = str_replace(" ", "-", $user->award->name) . '-' . $winnerName;
+        $data = [
+            'ticap' => $ticap,
+            'group' => $user->group,
+            'winner' => $user,
+            'award' => $user->award ,
+            'spec' => $user->group->specialization
+        ];
+        // CREATE CERTIFICATE
+        PDF::loadView('certificates.individual-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+        // EMAIL CERTIFICATE TO THE WINNERS
+        dispatch(new EmailCertificateJob($user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Certificate has been sent to the participant.');
+        return back();
+    }
+
+    public function emailGroupCertificate(Request $request){
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $group = Group::find($request->winner);
+        $groupWinner = GroupWinner::find($request->winner);
+        $winnerName = str_replace(" ", "-", $group->name);
+        $fileName = str_replace(" ", "-", $groupWinner->award->name) . '-' . $winnerName;
+        $data = [
+            'ticap' => $ticap,
+            'group' => $group,
+            'award' => $groupWinner->award,
+            'spec' => $group->specialization
+        ];
+        // CREATE CERTIFICATE
+        PDF::loadView('certificates.award-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+        // EMAIL CERTIFICATE TO ALL GROUP MEMBERS
+        foreach($group->userGroups as $userGroup) {
+            dispatch(new EmailCertificateJob($userGroup->user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+        }
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Certificate has been sent to the participant.');
+        return back();
+    }
+
+    public function emailStudentChoiceCertificate(Request $request){
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $group = Group::find($request->winner);
+        $studentChoice = StudentChoiceAward::find($group->specialization->id);
+        $winnerName = str_replace(" ", "-", $group->name);
+        $fileName = str_replace(" ", "-", $studentChoice->name) . '-' . $winnerName;
+        $data = [
+            'ticap' => $ticap,
+            'group' => $group,
+            'award' => $studentChoice,
+            'spec' => $group->specialization
+        ];
+        // CREATE CERTIFICATE
+        PDF::loadView('certificates.award-certificate', $data)->setPaper('a4', 'landscape')->save(storage_path('app/public/certificates/' . $fileName . '.pdf'));
+        // EMAIL CERTIFICATE TO ALL GROUP MEMBERS
+        foreach($group->userGroups as $userGroup) {
+            dispatch(new EmailCertificateJob($userGroup->user->email, storage_path('app/public/certificates/' . $fileName . '.pdf')));
+        }
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Certificate has been sent to the participant.');
         return back();
     }
 

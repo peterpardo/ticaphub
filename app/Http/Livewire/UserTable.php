@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Attendance;
 use App\Models\Committee;
 use App\Models\Event;
 use App\Models\Group;
 use App\Models\Officer;
 use App\Models\ProgramFlow;
+use App\Models\School;
 use App\Models\Slider;
 use App\Models\Specialization;
 use App\Models\Stream;
@@ -254,6 +256,7 @@ class UserTable extends Component
             $user->syncRoles([]);
             $user->delete();
         }
+
         // DELETE TABLES
         foreach(TaskList::all() as $list) {
             $list->delete();
@@ -267,6 +270,12 @@ class UserTable extends Component
         foreach(ProgramFlow::all() as $program) {
             $program->delete();
         }
+
+        // TRUNCATE ATTTENDANCE OF ALL EVENTS
+        Attendance::truncate();
+
+        // RESET SCHOOLS INVOLVED
+        School::where('id', '!=', 1)->update(['is_involved' => 0]);
         
         // DELETE REGISTER_USERS TABLE
         DB::table('register_users')->truncate();

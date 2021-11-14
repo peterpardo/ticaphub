@@ -1,36 +1,38 @@
 <x-app-layout>
-	<h1 class="font-bold text-center text-3xl my-4">Add Stream</h1>
-    <div class="w-full text-gray-800">
-            <form action="{{ route('store.stream') }}" method="POST" enctype="multipart/form-data"
-            class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
+    <section class="mt-5 max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Add Stream</h2>
+        
+        <form action="{{ route('store.stream') }}" method="POST">
             @csrf
-
-                <div class="my-3">
-                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Stream Title</label>
-                    <input type="text" name="title"class="rounded w-full text-black dark:text-gray-900" placeholder="Enter Name">
+            <div class="grid grid-cols-1 gap-6 mt-4">
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200">Stream Title</label>
+                    <input name="title" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
                     @error('title')
                     <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="my-3">
-                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Stream Description</label>
-                    <textarea name="description" class="rounded w-full text-black dark:text-gray-900" rows="3"></textarea>
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200">Description</label>
+                    <textarea name="description" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
                     @error('description')
                     <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="my-3">
-                    <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Stream Link</label>
-                    <input type="text" name="stream"class="rounded w-full text-black dark:text-gray-900" placeholder="Embeded Link">
+
+                <div class="">
+                    <label class="text-gray-700 dark:text-gray-200">Facebook Stream Link</label>
+                    <input name="stream" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
                     @error('stream')
                     <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="flex justify-evenly my-3 text-gray-800">
-                    <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Submit</button>
-                </div>
+            </div>
 
-            </form>
-        </div>
+            <div class="flex justify-end mt-6">
+                <button class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  px-6 py-2 leading-5 text-white bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Save</button>
+            </div>
+        </form>
+    </section>
 </x-app-layout>

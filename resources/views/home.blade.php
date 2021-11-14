@@ -1,17 +1,13 @@
 @php
 	$sliders = DB::table('sliders')->get();
     $streams = DB::table('streams')->get();
+    $brands = DB::table('brands')->get();
 @endphp
-{{-- <head>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-</head> --}}
+<head>
+</head>
 
 <x-guest-layout>
+    <body class="overflow-x-auto">
     @if($sliders->count() == 0)
     <div class="hidden"></div>
     @else
@@ -68,7 +64,6 @@
 			</div>
 	</main>
     @endforeach
-    <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet" />
 
     <section class="text-gray-600 body-font">
       <div data-aos="fade-down" class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -80,56 +75,45 @@
             FEU Tech’s College of Computer Studies hosts an annual event known as Technology Innovation on Capstone Project (TICaP) which exhibits the different capstone projects of each specialization. This event allows the students to view the different projects of the FEU Tech PBL students and recognizes the group with the best capstone project and other special awards. For the event to be successful, an efficient organization and management must be executed.
         </p>
         </div>
-        <div class="w-1/2">
-          <img class="object-cover object-center rounded-lg" alt="hero" src="{{ url('assets/ticaphub.png') }}">
+        <div class="sm:w-1/2 w-full">
+          <img class="object-cover object-center rounded-lg" src="{{ url('assets/ticaphub.png') }}">
         </div>
       </div>
     </section>
 
         <section data-aos="fade-up-right" class="container p-6 mx-auto bg-transparent dark:bg-gray-800 mb-10 rounded">
+            @if($brands->count() == 0)
+            <div class="hidden"></div>
+            @else
           <h2 class="text-xl font-medium text-gray-800 capitalize dark:text-white md:text-2xl">TICaP Events</h2>
 
           <div class="flex items-center justify-center">
               <div class="grid gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-
-                <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" data-featherlight="image">
+                @foreach($brands as $brand)
+                <a href="{{ $brand->image }}" data-featherlight="image">
                   <div class="w-full max-w-xs text-center">
-                      <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" alt="avatar"/>
+                      <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="{{ $brand->image }}" alt="avatar"/>
                   </div>
                 </a>
-                <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/66661637_10218896984553709_4667343700752334848_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=0debeb&_nc_eui2=AeGKYf86bi0eXBGn7dhLwJJgdpCOYcs9y912kI5hyz3L3Xm4syCEIgvyXcdf86Uu7ja_fFLue8453-oQ98jLhV24&_nc_ohc=Dbovdo5UxhgAX8o9FLC&_nc_ht=scontent.fwnp1-1.fna&oh=1e1e10ec78ff01d16ef4057d355dab41&oe=618D71EE" data-featherlight="image">
-                  <div class="w-full max-w-xs text-center">
-                      <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/66661637_10218896984553709_4667343700752334848_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=0debeb&_nc_eui2=AeGKYf86bi0eXBGn7dhLwJJgdpCOYcs9y912kI5hyz3L3Xm4syCEIgvyXcdf86Uu7ja_fFLue8453-oQ98jLhV24&_nc_ohc=Dbovdo5UxhgAX8o9FLC&_nc_ht=scontent.fwnp1-1.fna&oh=1e1e10ec78ff01d16ef4057d355dab41&oe=618D71EE" alt="avatar"/>
-                  </div>
-                </a>
-
-                <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/84208363_10157998837678232_4444131587499491328_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeHmAILWaduyGUq7VyafWOnHRjfr1E3f8zNGN-vUTd_zM9E5ReZwF5VcWvYY1GqwFUJ490WM3e0k5gubvkM7dEs-&_nc_ohc=stfDLe2TSycAX_TWe34&_nc_ht=scontent.fwnp1-1.fna&oh=ca323163a3dd4c03b32a2a089fa3fcdc&oe=618C8B43" data-featherlight="image">
-                  <div class="w-full max-w-xs text-center">
-                      <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/84208363_10157998837678232_4444131587499491328_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeHmAILWaduyGUq7VyafWOnHRjfr1E3f8zNGN-vUTd_zM9E5ReZwF5VcWvYY1GqwFUJ490WM3e0k5gubvkM7dEs-&_nc_ohc=stfDLe2TSycAX_TWe34&_nc_ht=scontent.fwnp1-1.fna&oh=ca323163a3dd4c03b32a2a089fa3fcdc&oe=618C8B43" alt="avatar"/>
-                  </div>
-                </a>
-
-                <a href="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" data-featherlight="image">
-                  <div class="w-full max-w-xs text-center">
-                      <img class="object-cover object-center w-full h-48 mx-auto rounded-lg" src="https://scontent.fwnp1-1.fna.fbcdn.net/v/t1.6435-9/87813974_10218551539438340_679660144887332864_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=8bfeb9&_nc_eui2=AeEM_Zcq7pEvd0tqH70pwZzjYom6lh3I1HxiibqWHcjUfGNq4mJ0vp_gclIduwy0DecNUphu7TNrXwgLzxhmEqKi&_nc_ohc=ddHtGHN63fsAX8EW7qk&_nc_ht=scontent.fwnp1-1.fna&oh=d99009dc6ea5f5cfcb54e1acb5c1ab71&oe=618CC57E" alt="avatar"/>
-                  </div>
-                </a>
+                @endforeach
               </div>
           </div>
       </section>
+      @endif
 
       <section data-aos="fade-down-right" class="text-gray-600 body-font">
         <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
-          <img class="lg:w-1/2 md:w-4/6 w-full object-cover object-center rounded" alt="hero" src="{{ url('assets/cyberace.png') }}">
+          <img class="w-32 h-32  object-cover object-center rounded animate-bounce" alt="hero" src="{{ url('assets/cyberace.png') }}">
           <div class="text-center lg:w-2/3 w-full">
             <p class="leading-relaxed">Coded by:</p>
-            <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">CYBER ACE</h1>
+            <h1 class="title-font sm:text-2xl text-3xl mb-4 font-medium text-gray-900">CYBER ACE</h1>
           </div>
         </div>
       </section>
 
       <script src="//code.jquery.com/jquery-latest.js"></script>
       <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+    </body>
 </x-guest-layout>
 <style>
     .swiper-pagination-bullet-active {

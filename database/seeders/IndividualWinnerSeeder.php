@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\IndividualAwardCandidate;
 use App\Models\IndividualWinner;
 use App\Models\Specialization;
 use App\Models\User;
@@ -17,6 +18,10 @@ class IndividualWinnerSeeder extends Seeder
     public function run()
     {
         $specs = Specialization::all();
+
+        // TRUNCATE INDIVIDUAL_AWARD_CANDIDATES TABLE
+        IndividualAwardCandidate::truncate();
+
         foreach($specs as $spec) {
             foreach($spec->panelists as $panelist) {
                 $panelist->has_chosen_user = 1;
@@ -35,7 +40,7 @@ class IndividualWinnerSeeder extends Seeder
                                 $winner->group->individualCandidates()->create([
                                     'user_id' => $users[0]
                                 ]);
-                            }
+                            }   
                         }
                     }
                 }

@@ -11,7 +11,6 @@
   <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
 @endif
 
-
  @if($user->hasRole('admin'))
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
   <div class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-red-700 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
@@ -59,7 +58,7 @@
   </div>
   </section>
 
-  <hr class="border-gray-200 border-2 rounded mb-3 bg-gray-200">
+  <hr class="border-gray-300 border-2 rounded mb-3 bg-gray-200 dark:border-gray-600 dark:bg-gray-800">
  @endif
 
 {{-- SCHEDULES --}}
@@ -105,17 +104,20 @@
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
             <div >
-                <form>
+                <form
+                    action="/set-ticap"
+                    method="post"
+                >
                 @csrf
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <label class="block font-semibold text-2xl mb-3">Set TICaP</label>
-                    <input type="text" @keyup.enter.prevent="addTicap()" @keydown="showMessage = false; message = ''" x-model="ticap" class="rounded w-full text-center" placeholder="Enter TICaP name">
+                    <input type="text" @keydown="showMessage = false; message = ''" x-model="ticap" class="rounded w-full text-center" placeholder="Enter TICaP name">
                     <div x-show="showMessage" x-text="message" class="rounded text-white bg-red-500 px-2 py-1 my-1"></div>
                     <!--footer-->
                     <div class="p-3 mt-2 text-center space-x-4 md:block">
-                        <a href="javascript;" @click.prevent="closeModal()" class="inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</a>
-                        <button data-dismiss="modal" @click.prevent="addTicap()" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Submit</button>
+                        <button @click.prevent="closeModal()" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                        <button @click.prevent="addTicap()" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Submit</button>
                     </div>
                 </form>
             </div>
@@ -140,10 +142,10 @@
     <div class="flex flex-col">
       @foreach ($events as $event)
         <div class="mb-3">
-          <div class="bg-red-700 text-white rounded-t-2xl px-2 py-2 shadow">
+          <div class="text-center bg-red-700 dark:bg-gray-800 shadow-lg rounded-md p-3 border-b-4 border-red-800 dark:border-gray-600 text-white font-medium group">
             <h1 class="text-2xl font-semibold">{{ $event->name }}</h1>
           </div>
-          <div class="px-2 py-5 rounded-b-2xl border shadow-md">
+          <div class="px-2 py-5 rounded-b-2xl border bg-transparent dark:bg-gray-800 shadow-lg rounded-md p-3 border-b-4 border-red-800 dark:border-gray-600 text-gray-800 dark:text-white font-medium group">
             @if($event->programFlow)
               <h1 class="font-semibold text-xl mb-2">{{ $event->programFlow->title }}</h1>
               <p class="pl-4 mb-2">{{ $event->programFlow->description }}</p>
@@ -173,8 +175,6 @@
 
 
 @endif
-
-
  {{-- @foreach ($event-> as $program)
                 <div class="">
                   @if ($program->name == 'assets/program-flow-sample')

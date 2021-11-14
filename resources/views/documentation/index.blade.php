@@ -3,17 +3,17 @@
     @if($ticaps->count() == 0)
         <div class="bg-gray-100 py-5 text-center rounded my-2">No archived TICaPs</div>
     @else
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full">
-                <table class="w-full">
+    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full table-auto">
                     <thead>
-                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Ticap Name</th>
                         <th class="px-4 py-3">Created at</th>
                         <th class="px-4 py-3">Action</th>
                     </tr>
                     </thead>
-                    <tbody class="w-auto bg-white">
+                    <tbody class="w-auto bg-white text-center">
                         @foreach($ticaps as $ticap)
                         <tr class="text-gray-700">
                             <td class="px-4 py-3 text-md font-semibold border">
@@ -24,10 +24,10 @@
                             </td>
                             <td class="px-4 py-3 text-md font-semibold border">
                                 @if($ticap->is_done)
-                                    <a href="documentation/{{ $ticap->id }}" class="inline-block bg-green-500 hover:bg-green-600 text-white rounded px-2 py-1">View files</a>
-                                    <button data-id="{{ $ticap->id }}" class="deleteTicapBtn inline-block bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1">Delete archive</button>
+                                    <a href="documentation/{{ $ticap->id }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded-md px-2 py-1 font-semibold leading-tightinline-block bg-blue-500 hover:bg-blue-600 text-white">View files</a>
+                                    <button data-id="{{ $ticap->id }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded-md px-2 py-1 font-semibold leading-tight deleteTicapBtn inline-block bg-red-500 hover:bg-red-600 text-white">Delete archive</button>
                                 @else
-                                    <div class="inline-block bg-gray-100 shadow rounded px-2 py-1">On going</div>
+                                    <span class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100">On going</span>
                                 @endif
                             </td>
                         @endforeach
@@ -40,7 +40,7 @@
       {{-- DELETE POSITION MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="deleteTicapModal">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
-        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white ">
             <!--content-->
             <div >
                 <form id="deleteTicapForm">

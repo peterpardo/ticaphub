@@ -11,14 +11,14 @@
     @foreach($elections as $election)
         <div class="w-full mb-6">
             @if(session('status'))
-                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-5 rounded text-white">{{ session('message') }}</div>
+                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-1 rounded text-white">{{ session('message') }}</div>
             @endif
             <h1 class="text-xl text-center font-semibold mb-3">{{ $election->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">
                 <table class="w-full table-auto">
                     <thead>
-                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
                             <th class="px-4 py-3">Officer</th>
                         </tr>

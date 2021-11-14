@@ -243,6 +243,19 @@ class GroupStudentPanelistSeeder extends Seeder
         }
 
         // GENERATE PANELIST
+        // PANELIST USED FOR WEB DEMO
+        $panel = User::create([
+            'first_name' => 'Mary Jane',
+            'middle_name' => 'Moore',
+            'last_name' => 'Doe',
+            'email' =>  "panelist@gmail.com",
+            'password' => Hash::make('thisispanelist'), // password
+            'remember_token' => Str::random(10),
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
+            'email_verified' => 1,
+        ]);
+        $panel->assignRole('panelist');
+        // DUMMY PANELISTS
         for($i = 0; $i < 17; $i++) {
             $user = User::create([
                 'first_name' => Str::random(5),

@@ -32,18 +32,22 @@
                     <div class="bg-red-500 text-white px-2 py-1 my-1 rounded">{{ $message }}</div>
                 @enderror
                 <div id="message"></div>
-                <table class="w-full" id="panelistTable">
-                    <tr>
-                        <td>
-                            <select name="panelists[]" class="w-full rounded my-2">
-                                <option value="">--- select panelist ---</option>
-                                @foreach ($panelists as $panelist)
-                                    <option value="{{ $panelist->id }}">{{ $panelist->first_name }} {{ $panelist->middle_name }} {{ $panelist->last_name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                </table>
+                <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full table-auto" id="panelistTable">
+                            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
+                                <td class="px-4 border">
+                                    <select name="panelists[]" class="w-full rounded my-2">
+                                        <option value="">--- select panelist ---</option>
+                                        @foreach ($panelists as $panelist)
+                                            <option value="{{ $panelist->id }}">{{ $panelist->first_name }} {{ $panelist->middle_name }} {{ $panelist->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="text-center">
                 <a href="/set-panelist" class="inline-block shadow rounded text-black px-2 py-2 mr-3">Cancel</a>

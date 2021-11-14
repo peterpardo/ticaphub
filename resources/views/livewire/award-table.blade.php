@@ -33,10 +33,10 @@
         </div>
     </div>
     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-        <table class="w-full text-gray-800">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full table-auto">
             <thead>
-            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Award Name</th>
                 <th class="px-4 py-3">Award Type</th>
                 <th class="px-4 py-3">School</th>
@@ -44,14 +44,14 @@
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
-        <tbody class="bg-white">
+            <tbody class="w-auto bg-white text-center">
             @foreach($awards as $award)
             <tr class="text-gray-700">
-                <td class="px-4 py-3 text-xl font-bold border">{{ $award->name }}</td>
-                <td class="px-4 py-3 text-md border">{{ $award->type }}</td>
-                <td class="px-4 py-3 text-md border">{{ $award->school->name }}</td>
-                <td class="px-4 py-3 text-md border">{{ $award->specialization->name }}</td>
-                <td class="px-4 py-3 text-md border text-center">
+                <td class="px-4 border">{{ $award->name }}</td>
+                <td class="px-4 border">{{ $award->type }}</td>
+                <td class="px-4 border">{{ $award->school->name }}</td>
+                <td class="px-4 border">{{ $award->specialization->name }}</td>
+                <td class="px-4 border">
                     @if($award->name == 'Best Group Presenter' || $award->name == 'Best Capstone Project' || $award->name == 'Best Project Adviser')
                         <div class="bg-gray-100 rounded py-2 text-center">Can't be edited</div>
                     @else

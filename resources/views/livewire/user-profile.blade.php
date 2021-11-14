@@ -53,7 +53,7 @@
         </div>
         @endrole
         <div class="text-center">
-            <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Update</button>
+            <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Update</button>
         </div>
     </form>
 </div>
