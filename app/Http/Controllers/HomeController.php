@@ -44,6 +44,7 @@ class HomeController extends Controller
         $ticap = Ticap::create([
             'name' => $request->ticap,
         ]);
+
         // FIND ADMIN ID
         $admins = User::role('admin')->get();
         // SET TICAP_ID OF ADMIN TO PRESENT TICAP
@@ -54,6 +55,7 @@ class HomeController extends Controller
         // ASSGIN TICAP ID TO EVENTS
         foreach(Event::all() as $event) {
             $event->ticap_id = $ticap->id;
+            $event->save();
         }
 
         return response([
