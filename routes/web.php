@@ -206,7 +206,7 @@ Route::middleware(['auth'])->group(function(){
                     Route::get('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTaskForm']);
                     Route::post('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTask'])
                         ->withoutMiddleware(['list', 'event']);
-                    Route::post('/events/{eventId}/list/{lsistId}/delete-task', [EventController::class, 'deleteTask']);   
+                    Route::post('/events/{eventId}/list/{listId}/delete-task', [EventController::class, 'deleteTask']);   
                     Route::get('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'viewTask']);
                     Route::get('/events/{eventId}/list/{listId}/task/{taskId}/update-task', [EventController::class, 'updateTaskForm']);
                     Route::post('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'addActivity']);
