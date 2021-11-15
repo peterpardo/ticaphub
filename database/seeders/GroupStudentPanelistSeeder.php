@@ -20,60 +20,7 @@ class GroupStudentPanelistSeeder extends Seeder
      */
     public function run()
     {
-        // $mina = User::create([
-        //     'first_name' => 'John',
-        //     'middle_name' => 'Moe',
-        //     'last_name' => 'Doe',
-        //     'email' => 'stud@stud.com',
-        //     'password' => Hash::make('thisisstudent'), // password
-        //     'ticap_id' => Ticap::latest()->pluck('id')->first(),
-        //     'email_verified' => 1,
-        // ]);
-        // $mina->userSpecialization()->create([
-        //     'specialization_id' => 1,
-        //     'id_number' => 20181234
-        // ]);
-        // $spec = Specialization::find($mina->userSpecialization->specialization->id);
-        // $spec->election->userElections()->create([
-        //     'user_id' => $mina->id,
-        // ]);
-        // $mina->userGroup()->create([
-        //     'group_id' => 1
-        // ]);
-        // if(!$mina->userGroup->group->groupExhibit()->exists()) {
-        //     $mina->userGroup->group->groupExhibit()->create([
-        //         'ticap_id' => Ticap::latest()->pluck('id')->first(),
-        //     ]);
-        // }
-        // $sana = User::create([
-        //     'first_name' => 'Mary',
-        //     'middle_name' => 'Sharon',
-        //     'last_name' => 'Jane',
-        //     'email' => 'stud2@stud2.com',
-        //     'password' => Hash::make('thisisstudent'), // password
-        //     'ticap_id' => Ticap::latest()->pluck('id')->first(),
-        //     'email_verified' => 1,
-        // ]);
-        // $sana->userSpecialization()->create([
-        //     'specialization_id' => 2,
-        //     'id_number' => 20181234
-        // ]);
-        // $spec = Specialization::find($sana->userSpecialization->specialization->id);
-        // $spec->election->userElections()->create([
-        //     'user_id' => $sana->id,
-        // ]);
-        // $sana->userGroup()->create([
-        //     'group_id' => 2
-        // ]);
-        // if(!$sana->userGroup->group->groupExhibit()->exists()) {
-        //     $sana->userGroup->group->groupExhibit()->create([
-        //         'ticap_id' => Ticap::latest()->pluck('id')->first(),
-        //     ]);
-        // }
-        // $mina->assignRole('student');
-        // $sana->assignRole('student');
-
-        // GENERATE GROUPS
+         // GENERATE GROUPS
         // FEU TECH
         Group::create([
             'name' => 'LSMR',
