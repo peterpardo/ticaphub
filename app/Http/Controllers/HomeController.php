@@ -51,6 +51,10 @@ class HomeController extends Controller
             $admin->ticap_id = $ticap->id;
             $admin->save();
         }
+        // ASSGIN TICAP ID TO EVENTS
+        foreach(Event::all() as $event) {
+            $event->ticap_id = $ticap->id;
+        }
 
         return response([
             'success' => 'TICaP is set',

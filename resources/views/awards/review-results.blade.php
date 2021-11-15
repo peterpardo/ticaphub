@@ -129,14 +129,16 @@
                             <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
                             @if(($winner->name != null && $ticap->evaluation_finished) || $award->name == 'Best Project Adviser')
                                 <td class="border text-md px-2 py-1">{{ $winner->name }}</td>
-                                <td class="border text-md px-2 py-1">
-                                    <button @click.prevent="openCertificateModal = true; winner = {{ $winner->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                        <span class="inline-block ml-1">Email Certificate</span>
-                                    </button>
-                                </td>
+                                @if($ticap->evaluation_finished)
+                                    <td class="border text-md px-2 py-1">
+                                        <button @click.prevent="openCertificateModal = true; winner = {{ $winner->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                            <span class="inline-block ml-1">Email Certificate</span>
+                                        </button>
+                                    </td>
+                                @endif
                             @elseif($spec->panelists()->where('has_chosen_user', 0)->exists())
                                 <td class="border text-md px-2 py-1"><span class="text-red-500">panelists still choosing</span></td>
                             @else
@@ -172,14 +174,16 @@
                                 <tr>
                                     <td class="border text-md px-2 py-1">{{ $award->name }}</td>
                                     <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                                    <td class="border text-md px-2 py-1">
-                                        <button @click.prevent="openGroupCertificateModal = true; winner = {{ $winner->group->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="inline-block ml-1">Email Certificate</span>
-                                        </button>
-                                    </td>
+                                    @if($ticap->evaluation_finished)
+                                        <td class="border text-md px-2 py-1">
+                                            <button @click.prevent="openGroupCertificateModal = true; winner = {{ $winner->group->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                                <span class="inline-block ml-1">Email Certificate</span>
+                                            </button>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             @endforeach
@@ -209,14 +213,16 @@
                                 <tr>
                                     <td class="border text-md px-2 py-1">{{ $spec->name }}</td>
                                     <td class="border text-md px-2 py-1">{{ $winner->group->name }}</td>
-                                    <td class="border text-md px-2 py-1">
-                                        <button @click.prevent="openStudentChoiceCertificateModal = true; winner = {{ $winner->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="inline-block ml-1">Email Certificate</span>
-                                        </button>
-                                    </td>
+                                    @if($ticap->evaluation_finished)
+                                        <td class="border text-md px-2 py-1">
+                                            <button @click.prevent="openStudentChoiceCertificateModal = true; winner = {{ $winner->id }}"  class="flex items-center mx-auto bg-blue-500 rounded text-white px-2 py-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                                <span class="inline-block ml-1">Email Certificate</span>
+                                            </button>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
