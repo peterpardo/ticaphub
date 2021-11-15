@@ -346,6 +346,10 @@ class EventController extends Controller
         ]);    
     }
 
+    public function downloadActivityFile($path) {
+        return response()->download(storage_path('app/public/event-files/' . $path));
+    }
+
     public function downloadEventFile($file) {  
         return response()->download(storage_path('app/public/event-files/' . $file));
     }
