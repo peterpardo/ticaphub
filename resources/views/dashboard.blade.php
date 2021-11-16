@@ -74,8 +74,7 @@
                   <div>
                       <h1 class="text-xl font-semibold">{{ $sched->name }}</h1>
                       <div class="text-gray-500">
-                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>
-                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">Date: </span>{{ \Carbon\Carbon::parse($sched->date)->format('F j, Y')}}</span>
                           <span class="block"><span class="font-semibold">Attendees:</span>
                           <div class="divide-x-2 inline-block">
                               @foreach($sched->attendees as $attendee)
@@ -99,7 +98,7 @@
     </div>
 
       {{-- SET TICAP MODAL --}}
-      <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="isOpen">
+      <div class="min-w-screen h-screen flex animated fadeIn faster fixed left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="isOpen">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->

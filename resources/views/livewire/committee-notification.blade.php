@@ -5,7 +5,7 @@
     @else
         @foreach($user->committeeTasks()->orderBy('updated_at', 'desc')->get() as $task)
         @if(!$task->pivot->is_read)
-        <span class="text-white bg-green-500 w-auto px-2 py-1 rounded shadow">NEW</span>
+            <span class="absolute -top-4 -left-3 text-white bg-green-500 w-auto px-2 py-1 rounded shadow">NEW</span>
         @endif
         <div class="lg:flex shadow rounded-lg border-gray-400 my-5 cursor-pointer">
             <div class="bg-red-500 dark:bg-gray-800  rounded-lg lg:w-2/12 py-4 block h-full shadow-inner">
@@ -14,7 +14,7 @@
                     <div class="text-white font-normal text-2xl">{{ $task->created_at->format('j') }}</div>
                 </div>
             </div>
-            <div class="w-full  lg:w-11/12 xl:w-full px-1 rounded bg-white dark:bg-gray py-5 lg:px-2 lg:py-2 tracking-wide">
+            <div class="w-full lg:w-11/12 xl:w-full px-1 rounded bg-white dark:bg-gray py-5 lg:px-2 lg:py-2 tracking-wide">
                 <div class="flex flex-row lg:justify-start justify-center">
                     <div class="text-gray-700 font-medium text-sm text-center lg:text-left px-2">
                         Created by:

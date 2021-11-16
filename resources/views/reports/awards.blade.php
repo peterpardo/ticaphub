@@ -33,7 +33,7 @@
 <body>
     <h1 class="title">{{ $ticap->name }} Winners</h1>
     @foreach($specs as $spec)
-        <h3 class="sub-title">{{ $spec->name }}</h3>
+        <h3 class="sub-title">{{ $spec->school->name }} - {{ $spec->name }}</h3>
 
         <h4>Student Choice Award</h4>
         <table>
