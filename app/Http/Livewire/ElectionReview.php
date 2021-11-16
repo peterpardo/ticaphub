@@ -16,7 +16,7 @@ class ElectionReview extends Component
 
     public function endElection() {
         // SET ELECTION FINISHED FOR THE TICAP
-        $ticap = Ticap::find(Auth::user()->id);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
         $ticap->election_finished = 1;
         $ticap->has_new_election = 0;
         $ticap->election_review = 0;
