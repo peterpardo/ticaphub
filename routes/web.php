@@ -158,10 +158,6 @@ Route::middleware(['auth'])->group(function(){
             });
             Route::get('/users', [HomeController::class, 'users'])->name('users');
             Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
-             
-            // DOWNLOAD CSV FILE
-            Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});
-
             Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
             Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
             Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);
@@ -170,6 +166,9 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/users/{userId}/edit-user', [UserController::class, 'editUser']);
             Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
             Route::post('/users/invite-users', [UserController::class, 'importFile']);
+            Route::get('/users/groups', [UserController::class, 'groups']);
+            Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
+            Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});
             // OFFICERS AND COMMITTEES
             Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
             Route::get('/fetch-positions', [ElectionController::class, 'fetchPositions']);

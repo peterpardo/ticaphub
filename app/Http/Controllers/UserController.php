@@ -446,4 +446,24 @@ class UserController extends Controller
 
         return Redirect()->back()->with('success','User Profile is updated sucessfully!');
     }
+
+    public function groups() {
+        $groups = Group::with(['specialization.school'])->get();
+        $title = 'User Accounts';
+
+        return view('user-accounts.groups', [
+            'groups' => $groups,
+            'title' => $title,
+        ]);
+    }
+
+    public function viewGroup($id) {
+        $group = Group::find($id);
+        $title = 'User Accounts';
+
+        return view('user-accounts.view-group', [
+            'group' => $group,
+            'title' => $title,
+        ]);
+    }
 }
