@@ -7,7 +7,7 @@
 </head>
 
 <x-guest-layout>
-    <body class="overflow-x-auto">
+    <body class="overflow-x-auto animate-pulse">
     @if($sliders->count() == 0)
     <div class="hidden"></div>
     @else

@@ -106,8 +106,8 @@
                     <td class="px-4 py-3 text-md font-semibold border">{{ $committee->user->userSpecialization->specialization->school->name }}</td>
                     <td class="px-4 py-3 text-md border">{{ $committee->user->userSpecialization->specialization->name }}</td>
                     <td class="px-4 py-3 text-md border text-center">
-                        <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
-                        <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
                     </td>
                 </tr>
                 @endforeach
@@ -146,7 +146,7 @@
     {{-- DELETE COMMITTEE MODAL --}}
 
     {{-- UPDATE COMMITTEE MODAL --}}
-    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="updateCommitteeModal">
+    <div class="text-gray-800 hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="updateCommitteeModal">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->

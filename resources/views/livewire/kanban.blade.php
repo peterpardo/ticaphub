@@ -1,18 +1,20 @@
-<div>
+<div class="overflow-hidden">
    {{-- START --}}
-   <div class="flex flex-col w-screen h-screen overflow-auto text-gray-700">
+   <div class="rounded flex flex-col w-screen h-screen overflow-hidden text-gray-700">
         <div class="flex items-center px-10 mt-6">
-            <h1 class="text-2xl font-bold mr-4">{{ $event->name }}</h1>
-            <button wire:click.prevent="openModal('add', {{ $event->id }})" class="inline-block border rounded-md shadow hover:bg-gray-100 px-2 p-1">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    <span class="ml-1 text-lg">Add List</span>
-                </div>
-            </button>
+            <div class="flex flex-col">
+                <h1 class="text-2xl font-bold mr-4 text-gray-800 dark:text-white">{{ $event->name }}</h1>
+                <button wire:click.prevent="openModal('add', {{ $event->id }})" class="bg-white inline-block border rounded-md shadow hover:bg-gray-100 px-2 p-1">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        <span class="ml-1 text-lg">Add List</span>
+                    </div>
+                </button>
+            </div>
         </div>
-        <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
+        <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-hidden">
             @foreach($event->lists as $list)
                 <div class="flex flex-col flex-shrink-0 w-72 bg-gray-50 rounded">
                     <div class="flex items-center justify-between flex-shrink-0 h-10 px-2">
@@ -44,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col pb-2 overflow-auto shadow-lg rounded-lg"> 
+                    <div class="flex flex-col pb-2 overflow-hidden shadow-lg rounded-lg"> 
                         @if($list->tasks->count() > 0)
                             @foreach($list->tasks as $task)
                                 <div class="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90">

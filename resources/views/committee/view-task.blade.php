@@ -3,7 +3,7 @@
         {{ $title }}
     </x-page-title>
     <h1 class="text-center text-2xl font-semibold my-3">View Task</h1>
-    <div class="w-1/3 mx-auto shadow rounded px-3 py-3">
+    <div class="w-1/3 mx-auto shadow rounded px-3 py-3 bg-white text-gray-800">
         <div class="my-3">
             <label class="block font-semibold mb-2">Task Title</label>
             <div class="border w-full px-2 py-1 rounded">{{ $task->title }}</div>
@@ -25,7 +25,7 @@
             </ul>
         </div>
         <div class="text-center">
-            <a href="/committee/{{ $committee->id }}" class="rounded px-2 py-1 shadow hover:bg-gray-200 inline-block mx-1">Back</a>
+            <a href="/committee/{{ $committee->id }}" class="text-white bg-green-400 rounded px-2 py-1 shadow hover:bg-green-200 inline-block mx-1">Back</a>
         </div>
     </div>
 </x-app-layout>

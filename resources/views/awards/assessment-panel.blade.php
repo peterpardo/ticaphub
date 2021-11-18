@@ -8,16 +8,16 @@
     @if(session('status'))
         <div class="bg-{{ session('status') }}-500 py-3 text-center text-white rounded my-1">{{ session('message') }}</div>
     @endif
-    
+
     <h1 class="font-bold text-xl my-3 text-center">List of Panelists</h1>
     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
             <table class="w-full table-auto">
                 <thead>
                     <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
-                        <th class="bg-gray-100 px-2 py-2 text-lg border">Specialization</th>
-                        <th class="bg-gray-100 px-2 py-2 text-lg border">Panelists</th>
-                        <th class="bg-gray-100 px-2 py-2 text-lg border">Status</th>
+                        <th class="px-2 py-2 text-lg border">Specialization</th>
+                        <th class="px-2 py-2 text-lg border">Panelists</th>
+                        <th class="px-2 py-2 text-lg border">Status</th>
                     </tr>
                 </thead>
                 <tbody class="w-auto bg-white text-center">
@@ -44,9 +44,9 @@
             <table class="w-full table-auto">
                 <thead>
                     <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
-                        <td class="bg-gray-100 px-2 py-2 text-lg border">Specialization</td>
-                        <td class="bg-gray-100 px-2 py-2 text-lg border">Group</td>
-                        <td class="bg-gray-100 px-2 py-2 text-lg border">Votes</td>
+                        <td class="px-2 py-2 text-lg border">Specialization</td>
+                        <td class="px-2 py-2 text-lg border">Group</td>
+                        <td class="px-2 py-2 text-lg border">Votes</td>
                     </tr>
                 </thead>
                 <tbody class="w-auto bg-white text-center">

@@ -74,7 +74,8 @@
                   <div>
                       <h1 class="text-xl font-semibold">{{ $sched->name }}</h1>
                       <div class="text-gray-500">
-                          <span class="block"><span class="font-semibold">Date: </span>{{ \Carbon\Carbon::parse($sched->date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>
                           <span class="block"><span class="font-semibold">Attendees:</span>
                           <div class="divide-x-2 inline-block">
                               @foreach($sched->attendees as $attendee)
@@ -92,27 +93,27 @@
 
 @if($user->ticap_id == null)
   <div x-data="setTicap()">
-    <div class="text-gray-800 mt-6 text-center">
+    <div class="text-gray-800 dark:text-white mt-6 text-center">
       <div class="font-semibold text-2xl mb-2">No TICaP created</div>
       <button @click.prevent="isOpen = true" class="inline-block text-white text-xl bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</button>
     </div>
 
       {{-- SET TICAP MODAL --}}
-      <div class="min-w-screen h-screen flex animated fadeIn faster fixed left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="isOpen">
+      <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="isOpen">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div>
                 <form
                     action="/set-ticap"
                     method="post"
                 >
                 @csrf
                 <!--body-->
-                <div class="text-center p-5 flex-auto justify-center">
-                    <label class="block font-semibold text-2xl mb-3">Set TICaP</label>
+                <div class="text-gray-800 text-center p-5 flex-auto justify-center">
+                    <label class="block font-semibold text-2xl mb-3 text-gray-800">Set TICaP</label>
                     <input type="text" @keydown="showMessage = false; message = ''" x-model="ticap" class="rounded w-full text-center" placeholder="Enter TICaP name">
-                    <div x-show="showMessage" x-text="message" class="rounded text-white bg-red-500 px-2 py-1 my-1"></div>
+                    <div x-show="showMessage" x-text="message" class="mt-3 text-xs font-semibold leading-tight text-red-700 rounded-sm"></div>
                     <!--footer-->
                     <div class="p-3 mt-2 text-center space-x-4 md:block">
                         <button @click.prevent="closeModal()" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>

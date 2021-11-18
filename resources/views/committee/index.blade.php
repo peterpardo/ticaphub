@@ -5,18 +5,18 @@
     <h1 class="text-xl my-3"><span class="font-semibold">Committee Head:</span> {{ $committee->user->first_name . ' ' . $committee->user->middle_name . ' ' . $committee->user->last_name}}</h1>
     <div class="mb-3">
         @can('assign task to student')
-            <a href="/committee/{{ $committee->id }}/add-task" class="inline-block bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded">Add Task</a>
-            <a href="/committee/{{ $committee->id }}/add-member" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">Add Members</a>
+            <a href="/committee/{{ $committee->id }}/add-task" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded">Add Task</a>
+            <a href="/committee/{{ $committee->id }}/add-member" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded">Add Members</a>
         @endcan
     </div>
     @if($committee->tasks->count() == 0)
-        <div class="bg-gray-100 rounded py-5 block text-center">No Tasks Created</div>
+        <div class="bg-gray-100 rounded py-5 block text-center text-gray-800">No Tasks Created</div>
     @else
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full">
-            <table class="w-full table-fixed">
-                <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
+            <thead>
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">Task</th>
                     <th class="px-4 py-3">Updated At</th>
                     <th class="px-4 py-3">Status</th>
@@ -30,10 +30,10 @@
                         <td class="px-4 py-3 text-md font-semibold border">{{ $task->updated_at->diffForHumans() }}</td>
                         <td class="px-4 py-3 text-md font-semibold border">{{ $task->status }}</td>
                         <td class="px-4 py-3 text-md border text-center">
-                            <a href="/committee/{{ $committee->id }}/task/{{ $task->id }}/view-task" class="inline-block rounded shadow px-2 py-1 text-white bg-green-500 hover:bg-green-600">view</a>
+                            <a href="/committee/{{ $committee->id }}/task/{{ $task->id }}/view-task" class="inline-block rounded shadow px-2 py-1 text-white bg-green-500 hover:bg-green-600">View</a>
                             @can('assign task to student')
-                                <a href="/committee/{{ $committee->id }}/task/{{ $task->id }}/edit-task"  class="inline-block rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">edit</a>
-                                <button data-id="{{ $task->id }}" class="deleteTaskBtn rounded shadow px-2 py-1 text-white bg-red-500 hover:bg-red-600">delete</button>
+                                <a href="/committee/{{ $committee->id }}/task/{{ $task->id }}/edit-task"  class="inline-block rounded shadow px-2 py-1 text-white bg-blue-500 hover:bg-blue-600">Edit</a>
+                                <button data-id="{{ $task->id }}" class="deleteTaskBtn rounded shadow px-2 py-1 text-white bg-red-500 hover:bg-red-600">Delete</button>
                             @endcan
                         </td>
                     </tr>
@@ -60,7 +60,7 @@
                     <p class="text-sm text-gray-500 px-8">Do you really want to delete the task? The process cannot be undone</p>
                 </div>
                 <div class="p-3 mt-2 text-center space-x-4 md:block">
-                    <form 
+                    <form
                         action="/committee/{{ $committee->id }}/delete-task"
                         method="POST"
                         id="deleteTaskForm">

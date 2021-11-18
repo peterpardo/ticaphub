@@ -3,14 +3,14 @@
         {{ $title }}
     </x-page-title>
     <h1 class="text-center text-2xl font-semibold my-3">Edit Task</h1>
-    <form 
+    <form
         action="/committee/{{ $committee->id }}/task/{{ $task->id }}/edit-task"
         method="POST"
         id="updateTaskForm">
         @csrf
         <input type="hidden" name="committee" id="committee" value="{{ $committee->id }}">
         <input type="hidden" name="task" id="task" value="{{ $task->id }}">
-        <div class="w-1/3 mx-auto shadow rounded px-3 py-3">
+        <div class="w-1/3 mx-auto shadow rounded px-3 py-3 bg-white text-gray-800 ">
             <div class="my-3">
                 {{-- MESSAGE STATUS --}}
                 <div id="message"></div>
@@ -38,7 +38,7 @@
                   <div id="memberList"></div>
                 </div>
                 {{-- TAG CONTAINER --}}
-                <div class="relative w-56">                
+                <div class="relative w-56">
                     <div id="tagContainer"></div>
                 </div>
             </div>

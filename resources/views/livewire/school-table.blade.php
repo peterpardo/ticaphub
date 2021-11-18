@@ -6,7 +6,7 @@
     {{-- SCHOOLS --}}
     <div class="flex justify-between my-5">
         <h1 class="font-bold text-2xl">Schools</h1>
-        <button wire:click="openConfirmationModal" class="font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button> 
+        <button wire:click="openConfirmationModal" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button>
     </div>
     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
@@ -26,22 +26,22 @@
                     </td>
                     <td class="text-center px-4 py-3 text-md font-semibold border">
                         @if($school->is_involved)
-                        <span class="bg-green-400 px-4 py-1 rounded text-white">included</span>
+                        <span class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100">included</span>
                         @else
-                        <span class="bg-red-400 px-4 py-1 rounded text-white">not included</span>
+                        <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">not included</span>
                         @endif
                     </td>
                     <td class="px-4 py-3 text-md border">
-                        <div class="flex flex-col w-1/2 mx-auto text-center">
+                        <div class="text-center px-4 py-3 text-md font-semibold">
                             @if($school->is_involved)
                                 @if($school->id == 1)
-                                <span class="inline-block rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500">Included</span>  
+                                <span class="inline-block rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500 w-32">Included</span>
                                 @else
-                                <button wire:click="removeSchool({{ $school->id }})" class="rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Remove</button>  
+                                <button wire:click="removeSchool({{ $school->id }})" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600 w-32">Remove</button>
                                 @endif
                             @else
-                            <button wire:click="addSchool({{ $school->id }})" class="rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500 hover:bg-green-600">Add</button>  
-                            @endif                                         
+                            <button wire:click="addSchool({{ $school->id }})" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-4 sm:px-7 py-1 my-0.5 text-white bg-green-500 hover:bg-green-600 w-32">Add</button>
+                            @endif
                         </div>
                     </td>
                 </tr>
@@ -58,33 +58,33 @@
     @if(session('status'))
     <span class="inline-block bg-{{ session('status') }}-500 rounded px-2 py-1 text-white mb-2">{{ session('message') }}</span>
     @endif
-    <form wire:submit.prevent='addSpecialization' class="flex">
-        <div class="mr-2">
+    <form wire:submit.prevent='addSpecialization' class="flex flex-wrap mt-5 sm:mt-0">
+        <div class="mr-2 text-gray-800">
             <select wire:model="selectedSchool" class="rounded block">
                 <option value="">-- select school --</option>
-                @foreach($involvedSchools as $involvedSchool) 
+                @foreach($involvedSchools as $involvedSchool)
                 <option value="{{ $involvedSchool->id }}">{{ $involvedSchool->name }}</option>
                 @endforeach
             </select>
             @error('selectedSchool')
-            <span class='inline-block  bg-red-500 text-white rounded mt-2 px-2 py-1'>{{ $message }}</span>
+            <span class='mt-2 text-xs font-semibold leading-tight text-red-700 rounded-sm'>{{ $message }}</span>
             @enderror
         </div>
-        <div class="mr-2">
+        <div class="mr-2 text-gray-800">
             <input type="text" wire:model="specialization" class="rounded block" placeholder="Specialization name">
             @error('specialization')
-            <span class='inline-block bg-red-500 text-white rounded mt-2 px-2 py-1'>{{ $message }}</span>
+            <span class='mt-2 text-xs font-semibold leading-tight text-red-700 rounded-sm'>{{ $message }}</span>
             @enderror
         </div>
         <div>
-            <button type="submit" class="text-white bg-green-500 hover:bg-green-600 rounded px-5 py-2">Add</button>
+            <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 text-white bg-green-500 hover:bg-green-600 rounded px-5 py-2">Add</button>
         </div>
     </form>
-    <div class="w-full mt-5 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-            <table class="w-full">
+    <div class="mt-5 bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
                 <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">School</th>
                     <th class="px-4 py-3">Specialization</th>
                     <th class="px-4 py-3">Action</th>
@@ -101,8 +101,8 @@
                     </td>
                     <td class="px-4 py-3 text-md border">
                         <div class="flex flex-col w-1/2 mx-auto text-center">
-                            <button wire:click="selectSpec({{ $spec->id }}, 'update')" class="rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">Edit</button>  
-                            <button wire:click="selectSpec({{ $spec->id }}, 'delete')" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>                       
+                            <button wire:click="selectSpec({{ $spec->id }}, 'update')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-1 my-0.5 w-24 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                            <button wire:click="selectSpec({{ $spec->id }}, 'delete')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-1 my-0.5 w-24 text-white bg-red-500 hover:bg-red-600">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -112,7 +112,7 @@
         </div>
     </div>
     {{-- SPECIALIZATIONS --}}
-    
+
     {{-- CONFIRMATION MODAL --}}
     <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="confirmationModal">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>

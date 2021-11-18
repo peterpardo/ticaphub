@@ -1,4 +1,4 @@
-<div class="flex w-full">
+<div class="flex flex-wrap w-full bg-white overflow-hidden rounded text-gray-800">
     <div class="flex-1 shadow-lg mr-2 px-4 py-2">
         <div>
             <h1 class="font-bold text-lg mb-2">Project Title</h1>
@@ -101,7 +101,7 @@
             @endif
         </div>
     </div>
-    <div class="flex-1 ml-2">
+    <div class="flex-1 ml-2 w-1/2 sm:w-auto">
         <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
             <div class="mb-2">
                 <h1 class="font-bold text-lg">Group Details</h1>
@@ -172,14 +172,16 @@
             <div class="mb-2">
                 <h1 class="font-bold text-lg mb-2">Livestream Link</h1>
                 @if($updateLink)
-                    <textarea wire:model="link" class="w-full resize-none rounded"></textarea>
+                <div class="flex flex-wrap">
+                    <textarea wire:model="link" class="w-1/2 sm:w-full resize-none rounded"></textarea>
+                </div>
                     <div class="flex justify-end">
                         <button wire:click="closeLink" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>
                         <button wire:click="saveLink" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
                     </div>
                 @else
                     @if($group->groupExhibit->link)
-                        <p>{{ $group->groupExhibit->link }}</p>
+                        <p class="w-5">{{ $group->groupExhibit->link }}</p>
                         <div class="fb-video" data-href="{{ $group->groupExhibit->link }}" data-width="500" data-show-text="false"></div>
                     @else
                         <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Link Inserted</div>
@@ -193,7 +195,9 @@
 
         <div class="shadow-lg px-4 py-2 rounded-lg mb-4">
             <h1 class="font-bold text-lg mb-2">Files</h1>
-            <input type="file" wire:model="uploadedFiles" class="border mb-2" id="uploadedFiles" multiple>
+            <div class="flex flex-wrap">
+            <input type="file" wire:model="uploadedFiles" class="w-auto mb-2" id="uploadedFiles" multiple>
+            </div>
             @if($uploadedFiles)
                 <button wire:click="upload" class="bg-green-500 hover:bg-green-600 text-white rounded px-2 py-1 mb-2">Upload</button>
                 <button wire:click="cancelUpload" class="shadow hover:bg-gray-100 rounded px-2 py-1 mb-2">Cancel</button>
@@ -205,30 +209,34 @@
                 <span class="bg-green-500 text-white block px-2 py-1 rounded mb-2">{{ session('fileMsg') }}</span>
             @endif
             <span wire:loading wire:target="uploadedFiles" class="text-green-500">Uploading...</span>
-            @if($files->count() == 0) 
+            @if($files->count() == 0)
                 <div class="bg-gray-100 rounded py-4 text-center block text-gray-800">No Files Uploaded</div>
             @else
-                <table class="w-full text-center">
-                    <thead>
-                        <tr>
-                            <td class="border bg-gray-100">Name</td>
-                            <td class="border bg-gray-100">Created at</td>
-                            <td class="border bg-gray-100">Actions</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($files as $file)
-                        <tr>
-                            <td class="border px-2 py-2">{{ $file->name }}</td>
-                            <td class="border px-2 py-2">{{ $file->created_at->diffForHumans() }}</td>
-                            <td class="border px-2 py-2">
-                                <button wire:click="selectFile({{ $file->id }}, 'download')" class="rounded bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white">Download</button>
-                                <button wire:click="selectFile({{ $file->id }}, 'delete')" class="rounded bg-red-500 hover:bg-red-600 px-2 py-1 text-white">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full table-auto">
+                        <thead>
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
+                                    <td class="border">Name</td>
+                                    <td class="border">Created at</td>
+                                    <td class="border">Actions</td>
+                                </tr>
+                            </thead>
+                            <tbody class="w-auto bg-white text-center">
+                                @foreach($files as $file)
+                                <tr class="text-gray-700">
+                                    <td class="border px-2 py-2">{{ $file->name }}</td>
+                                    <td class="border px-2 py-2">{{ $file->created_at->diffForHumans() }}</td>
+                                    <td class="border px-2 py-2">
+                                        <button wire:click="selectFile({{ $file->id }}, 'download')" class="rounded bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white w-28">Download</button>
+                                        <button wire:click="selectFile({{ $file->id }}, 'delete')" class="rounded bg-red-500 hover:bg-red-600 px-2 py-1 text-white w-28">Delete</button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                </div>
+            </div>
             @endif
         </div>
     </div>

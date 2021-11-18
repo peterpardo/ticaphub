@@ -6,7 +6,7 @@
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
         <h1 class="text-center text-4xl font-semibold">{{ $list->title }}</h1>
         <input type="hidden" name="list" id="list" value="{{ $list->id }}">
-        <div class="container p-3 rounded mb-2 w-4/5 shadow-md mx-auto">
+        <div class="container p-3 rounded mb-2 w-4/5 shadow-md mx-auto bg-white text-gray-800">
             <h1 class="font-bold text-2xl my-3 text-center">Add Task</h1>
             <form id="addTaskForm">
             @csrf

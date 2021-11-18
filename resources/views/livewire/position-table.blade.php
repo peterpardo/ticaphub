@@ -1,36 +1,36 @@
 <div>
     @if(session('error'))
-        <div class="bg-red-500 mb-2 text-white rounded py-5 text-center">{{ session('error') }}</div>
+        <div class="rounded-md px-2 font-semibold leading-tight text-red-700 bg-red-100 mb-2 py-5 text-center">{{ session('error') }}</div>
     @endif
     <h1 class="font-semibold text-xl mb-2">Set Position</h1>
     <div class="flex justify-between">
         <form wire:submit.prevent='addPosition' class='mb-5'>
             <div class="mb-2">
                 <input type="text" wire:model='newPosition' class="text-gray-800 rounded" placeholder="New Position Name">
-                <button class="text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
+                <button class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
             </div>
             @if(session('status'))
-                <div class="bg-{{ session('status') }}-500 my-1 text-white rounded px-2 py-1">{{ session('message') }}</div>
+                <div class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700">{{ session('message') }}</div>
             @endif
             @error('newPosition')
-            <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100">{{ $message }}</span>
+            <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700">{{ $message }}</span>
             @enderror
         </form>
         <div>
-            <a class="inline-block font-bold bg-blue-500 hover:bg-blue-600 px-5 py-3 text-white rounded" href="{{ route('set-candidates') }}">Proceed to Candidates</a>
+            <a class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block font-bold bg-blue-500 hover:bg-blue-600 px-5 py-3 text-white rounded" href="{{ route('set-candidates') }}">Proceed to Candidates</a>
         </div>
     </div>
-   
-    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-            <table class="w-full table-fixed">
+
+    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
                 <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">Position</th>
                     <th class="px-4 py-3">Action</th>
                 </tr>
                 </thead>
-                <tbody class="w-auto bg-white">
+                <tbody class="w-auto bg-white text-center">
                 @foreach($positions as $position)
                 <tr class="text-gray-700">
                     <td class="px-4 py-3 text-md font-semibold border">
@@ -40,8 +40,8 @@
                         @if($position->id == 1)
                         <span class="bg-gray-300 rounded px-2 py-1 shadow">Can't be edited</span>
                         @else
-                        <button wire:click="selectPosition({{ $position->id }}, 'update')" class="rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">Edit</button>  
-                        <button wire:click="selectPosition({{ $position->id }}, 'delete')" class="rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>  
+                        <button wire:click="selectPosition({{ $position->id }}, 'update')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                        <button wire:click="selectPosition({{ $position->id }}, 'delete')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">Delete</button>
                         @endif
                     </td>
                 </tr>

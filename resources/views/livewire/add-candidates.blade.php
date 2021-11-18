@@ -46,11 +46,11 @@
     </div>
     {{-- SEARCH FOR CANDIDATES --}}
 
-    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-        <table class="w-full">
-            <thead>
-            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+        <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full overflow-x-auto">
+            <table class="w-full table-auto">
+                <thead>
+                <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
                 <th class="px-4 py-3">School</th>
                 <th class="px-4 py-3">Specialization</th>
@@ -108,11 +108,11 @@
                 @endforeach
             </select>
         </div>
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full">
-            <table class="w-full table-fixed">
+        <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full overflow-x-auto">
+            <table class="w-full table-auto">
                 <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">Student Name</th>
                     <th class="px-4 py-3">Election</th>
                     <th class="px-4 py-3">Position</th>
