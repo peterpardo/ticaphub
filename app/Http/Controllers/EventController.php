@@ -94,17 +94,24 @@ class EventController extends Controller
     }
 
     public function addList(Request $request, $eventId){
-        $event = Event::find($eventId);
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:20'
         ]);
+
+        if($validator->fails()) {
+            return response([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $event = Event::find($eventId);
         $event->lists()->create([
             'title' => Str::title($request->title),
             'user_id' => Auth::user()->id,
             'event_id' => $event->id
         ]);
-        return back()->with([
-            'status' => 'green',
+        return response([
+            'status' => 200,
             'message' => 'List Successfully Created'
         ]);
     }
@@ -226,7 +233,7 @@ class EventController extends Controller
                     $task->users()->attach($member);
                 }
             }
-            $url = url('events/'.$eventId.'/list/'.$listId);
+            $url = url('events/'.$eventId);
             return response()->json([
                 'status' => 200,
                 'message' => 'Task Added Successfully',
