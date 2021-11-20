@@ -121,6 +121,10 @@ class UserSeeder extends Seeder
         $officer->givePermissionTo('view event');
         $officer->givePermissionTo('view list');
         $officer->givePermissionTo('view task');
+        $officer->givePermissionTo('add task');
+        $officer->givePermissionTo('edit task');
+        $officer->givePermissionTo('delete task');
+        $officer->givePermissionTo('move task');
         $officer->givePermissionTo('add report');
         // PANELIST
         $panelist = Role::create(['name' => 'panelist']);
