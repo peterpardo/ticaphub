@@ -3,7 +3,7 @@
     <div class="text-center bg-red-500 text-white rounded px-2 py-5 my-3">{{ session('message') }}</div>
     @endif
     <div class="text-right my-3">
-        <button wire:click='endElection' class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
+        <button wire:click='endElection' class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
     </div>
     <div class="flex flex-wrap justify-evenly w-full">
         @foreach($elections as $election)

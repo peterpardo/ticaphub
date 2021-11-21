@@ -10,7 +10,7 @@ class DocumentationController extends Controller
 {
     public function index() {
         $title = 'Documentation';
-        $ticaps = Ticap::all();
+        $ticaps = Ticap::orderBy('created_at', 'desc')->get();
         $scripts = [
             asset('/js/documentation/documentation.js'),
         ];

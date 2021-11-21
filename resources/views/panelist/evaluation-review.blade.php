@@ -11,32 +11,36 @@
 
     @foreach($user->specializationPanelist->specialization->awards as $award)
         <h1 class="text-lg text-center font-semibold my-1">{{ $award->name }}</h1>
-        <table class="w-full mb-4">
-            <thead>
-                <tr>
-                    <td class="px-2 py-2 bg-gray-100 text-lg border"></td>
-                    @foreach($user->specializationPanelist->specialization->groups as $group)
-                    <td class="px-2 py-2 bg-gray-100 text-lg border">{{ $group->name }}</td>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($award->awardRubric->rubric->criteria as $crit)
-                    <tr>
-                        <td class="px-2 py-2 text-lg border">{{ $crit->name }}</td>
-                        @foreach($user->specializationPanelist->specialization->groups as $group)
-                            <td class="px-2 py-2 text-lg border">{{ $group->groupGrades->where('criteria_id', $crit->id)->where('award_id', $award->id)->pluck('grade')->first() }}</td>
-                        @endforeach
-                    </tr>
-                @endforeach
-                    <tr>
-                        <td class="px-2 py-2 text-lg border font-bold">Total</td>
-                        @foreach($user->specializationPanelist->specialization->groups as $group)
-                            <td class="px-2 py-2 text-lg border font-bold">{{  $group->panelistGrades->where('award_id', $award->id)->pluck('total_grade')->first() }}</td>
-                        @endforeach
-                    </tr>
-            </tbody>
-        </table>
+        <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div class="w-full overflow-x-auto">
+            <table class="w-full table-auto">
+                <thead>
+                <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
+                                <td class="px-2 py-2 text-lg border"></td>
+                                @foreach($user->specializationPanelist->specialization->groups as $group)
+                                <td class="px-2 py-2 text-lg border">{{ $group->name }}</td>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody class="w-auto bg-white text-center">
+                            @foreach($award->awardRubric->rubric->criteria as $crit)
+                                <tr class="text-gray-800">
+                                    <td class="px-2 py-2 text-lg border">{{ $crit->name }}</td>
+                                    @foreach($user->specializationPanelist->specialization->groups as $group)
+                                        <td class="px-2 py-2 text-lg border">{{ $group->groupGrades->where('criteria_id', $crit->id)->where('award_id', $award->id)->pluck('grade')->first() }}</td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                                <tr class="text-gray-800">
+                                    <td class="px-2 py-2 text-lg border font-bold">Total</td>
+                                    @foreach($user->specializationPanelist->specialization->groups as $group)
+                                        <td class="px-2 py-2 text-lg border font-bold">{{  $group->panelistGrades->where('award_id', $award->id)->pluck('total_grade')->first() }}</td>
+                                    @endforeach
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
     @endforeach
 
      {{-- SUBMIT MODAL --}}

@@ -3,18 +3,18 @@
         {{ $title }}
     </x-page-title>
 
-    <div>
+    <div >
         <a href="/events/{{ $event->id }}/list/{{ $list->id }}/task/{{ $task->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-5xl font-bold mb-4">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
         <h1 class="text-center text-4xl font-semibold">{{ $list->title }}</h1>
         <input type="hidden" name="list" id="list" value="{{ $list->id }}">
         <input type="hidden" name="task" id="task" value="{{ $task->id }}">
-        <div class="container p-3 rounded mb-2 w-4/5 shadow-md mx-auto">
-            <h1 class="font-bold text-2xl my-3 text-center">Update Task</h1>
+        <div class="bg-white container p-3 rounded mb-2 w-4/5 shadow-md mx-auto">
+            <h1 class="font-bold text-2xl my-3 text-center text-gray-800">Update Task</h1>
             <form id="updateTaskForm">
             @csrf
-                <div class="flex flex-col xl:flex-row">
+                <div class="bg-white text-gray-800 flex flex-col xl:flex-row">
                     {{-- LEFT SIDE --}}
                     <div class="flex-1">
                         {{-- MESSAGE STATUS --}}
@@ -59,7 +59,7 @@
                     method="POST"
                     id="moveTaskForm">
                     @csrf
-                <div class="text-center p-5 flex-auto justify-center">
+                <div class="text-center p-5 flex-auto justify-center text-gray-800">
                     <label for="list" class="font-semibold text-lg block">Move Task to</label>
                     <div id="moveTaskError"></div>
                     <select name="list" class="rounded">

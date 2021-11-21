@@ -24,7 +24,7 @@
                             </td>
                             <td class="px-4 py-3 text-md font-semibold border">
                                 @if($ticap->is_done)
-                                    <a href="documentation/{{ $ticap->id }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded-md px-2 py-1 font-semibold leading-tightinline-block bg-blue-500 hover:bg-blue-600 text-white">View files</a>
+                                    <a href="documentation/{{ $ticap->id }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded-md px-2 py-1 font-semibold leading-tight inline-block bg-blue-500 hover:bg-blue-600 text-white">View files</a>
                                     <button data-id="{{ $ticap->id }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded-md px-2 py-1 font-semibold leading-tight deleteTicapBtn inline-block bg-red-500 hover:bg-red-600 text-white">Delete archive</button>
                                 @else
                                     <span class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100">On going</span>

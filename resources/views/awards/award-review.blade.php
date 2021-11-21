@@ -6,7 +6,9 @@
     </div>
     
     @if(session('status'))
-        <div class="bg-{{ session('status') }}-500 text-center text-white py-5 my-2 rounded">{{ session('message') }}</div>
+    <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+        <p class="font-bold">{{ session('message') }}</p>
+      </div>
     @endif
 
     {{-- PANELIST REVIEW --}}

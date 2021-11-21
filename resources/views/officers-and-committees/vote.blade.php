@@ -34,7 +34,7 @@
                                 <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-black text-md text-center">
+                                    <p class="font-semibold text-black dark:text-white text-md text-center ">
                                         {{ $candidate->user->first_name }} {{ $candidate->user->middle_name }} {{ $candidate->user->last_name }}
                                     </p>
                                 </div>
@@ -59,7 +59,7 @@
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->
-            <div >
+            <div class="text-gray-800">
                 <!--body-->
                 <div class="text-center p-5 flex-auto justify-center">
                     <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>

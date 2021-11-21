@@ -9,7 +9,9 @@
                 class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
                 @csrf
                 @if(session('status'))
-                <div class="text-white w-full rounded py-1 px-2 bg-green-500">{{ session('message') }}</div>
+                <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+                    <p class="font-bold">{{ session('message') }}</p>
+                  </div>
                 @endif
                 <div class="my-3">
                     <label class="font-semibold text-base text-gray-900 dark:text-gray-900">First Name</label>

@@ -19,7 +19,7 @@
         </form>
         {{-- ADD EVENT FORM --}}
         <div>
-            <a href="/check-attendance" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded text-white">Check Attendance</a>
+            <a href="/check-attendance" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded text-white">Check Attendance</a>
         </div>
     </div>
     @endcan
@@ -37,7 +37,7 @@
                 </thead>
                 <tbody class="w-auto bg-white text-center">
                     @foreach($events as $event)
-                    <tr class="">
+                    <tr class="text-gray-700">
                         <td class="px-4 py-3 border">{{ $event->name }}</td>
                         <td class="px-4 py-3 border">{{ $event->created_at->diffForHumans() }}</td>
                         <td class="px-4 py-3 border mx-auto">

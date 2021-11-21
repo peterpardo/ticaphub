@@ -1,12 +1,14 @@
 <div class="mb-5">
     <h1 class="text-start font-bold text-2xl mb-3">Tasks</h1>
     @if($user->tasks->count() == 0) 
-        <div class="bg-gray-100 text-center py-6 rounded">No Tasks for you</div>
+    <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">No Tasks for you</p>
+      </div>
     @else
         @foreach($user->tasks()->orderBy('updated_at', 'desc')->get() as $task)
         <div class="relative lg:flex shadow rounded-lg border-gray-400 my-5">
             @if(!$task->pivot->is_read)
-                <span class="absolute -top-4 -left-3 text-white bg-green-500 w-auto px-2 py-1 rounded shadow">NEW</span>
+                <span class="absolute -top-4 -left-3 text-white bg-green-500 w-auto px-2 py-1 rounded shadow">New</span>
             @endif
             <div class="bg-red-500 dark:bg-gray-800  rounded-lg lg:w-2/12 py-4 block h-full shadow-inner">
                 <div class="text-center tracking-wide">

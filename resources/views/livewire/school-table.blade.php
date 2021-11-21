@@ -1,12 +1,14 @@
 <div>
     {{-- FLASH MESSAGE --}}
     @if(session('error'))
-        <div class="bg-red-500 text-center text-white rounded py-5">{{ session('error') }}</div>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+            <strong class="font-bold">{{ session('error') }}</strong>
+          </div>
     @endif
     {{-- SCHOOLS --}}
     <div class="flex justify-between my-5">
         <h1 class="font-bold text-2xl">Schools</h1>
-        <button wire:click="openConfirmationModal" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button>
+        <button wire:click="openConfirmationModal" class="font-bold rounded shadow px-5 py-2 text-white bg-green-500 hover:bg-green-600">START TICAP</button>
     </div>
     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
@@ -54,10 +56,13 @@
 
     {{-- SPECIALIZATIONS --}}
     <h1 class="font-bold text-2xl my-4">Specializations</h1>
-    <label class="font-semibold block mb-2">Add Specilization</label>
+    <label class="font-semibold block mb-2">Specilization</label>
     @if(session('status'))
-    <span class="inline-block bg-{{ session('status') }}-500 rounded px-2 py-1 text-white mb-2">{{ session('message') }}</span>
+        <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+            <p class="font-bold">{{ session('message') }}</p>
+          </div>
     @endif
+
     <form wire:submit.prevent='addSpecialization' class="flex flex-wrap mt-5 sm:mt-0">
         <div class="mr-2 text-gray-800">
             <select wire:model="selectedSchool" class="rounded block">
@@ -77,7 +82,7 @@
             @enderror
         </div>
         <div>
-            <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 text-white bg-green-500 hover:bg-green-600 rounded px-5 py-2">Add</button>
+            <button type="submit" class="text-white bg-green-500 hover:bg-green-600 rounded px-5 py-2">Add</button>
         </div>
     </form>
     <div class="mt-5 bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">

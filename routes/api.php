@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Mobile\AuthController;
+use App\Http\Controllers\Mobile\CommitteeTaskController;
 use App\Http\Controllers\Mobile\EventController;
 use App\Http\Controllers\Mobile\HomeController;
 use Illuminate\Http\Request;
@@ -52,4 +53,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/events/{eventId}/lists/{listId}/tasks/{taskId}', [EventController::class, 'createActivity']);
     Route::get('/officers', [EventController::class, 'getOfficers']);
     Route::get('/download/{path}', [EventController::class, 'download']);
+
+    // Committee Tasks
+    Route::get('/committees/{commId}', [CommitteeTaskController::class, 'index']);
+    Route::get('/committees/{commId}/members', [CommitteeTaskController::class, 'getMembers']);
+    Route::get('/committees/{commId}/tasks/{taskId}', [CommitteeTaskController::class, 'viewTask']);
+    Route::post('/committees/{commId}', [CommitteeTaskController::class, 'addTask']);
+    Route::put('/committees/{commId}/tasks/{taskId}', [CommitteeTaskController::class, 'editTask']);
+    Route::delete('/committees/{commId}/tasks/{taskId}', [CommitteeTaskController::class, 'deleteTask']);
 });

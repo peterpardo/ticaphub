@@ -40,6 +40,7 @@ function setTicap() {
         closeModal() {
             this.isOpen = false;
             this.message = "";
+            this.ticap = "";
             this.showMessage = false;
         }
     };

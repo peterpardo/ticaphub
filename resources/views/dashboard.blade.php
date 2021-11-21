@@ -8,7 +8,14 @@
 <section>
 
 @if(session('status'))
-  <div class="bg-{{ session('status') }}-500 py-5 rounded mb-2 text-white text-center">{{ session('message') }}</div>
+  <div role="alert">
+    <div class="bg-{{ session('status') }}-500 text-white font-bold rounded-t px-4 py-2">
+      Greetings,
+    </div>
+    <div class="text-center border border-t-0 border-{{ session('status') }}-400 rounded-b bg-{{ session('status') }}-100 px-4 py-3 text-{{ session('status') }}-700">
+      <p class="font-bold">{{ session('message') }}</p>
+    </div>
+  </div>
 @endif
 
  @if($user->hasRole('admin'))
@@ -67,14 +74,17 @@
   <div class="flex flex-col">
     <div class="mb-2">
       @if($user->schedules->count() == 0)
-          <div class="bg-gray-100 text-center py-5 rounded text-gray-800">No scheduled events</div>
+      <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">No Scheduled Events</p>
+      </div>
       @else
           @foreach(\App\Models\Schedule::all() as $sched)
-              <div class="p-2 my-1 shadow rounded relative">
+              <div class="p-2 my-1 shadow rounded relative text-gray-800 bg-white">
                   <div>
                       <h1 class="text-xl font-semibold">{{ $sched->name }}</h1>
                       <div class="text-gray-500">
-                          <span class="block"><span class="font-semibold">Date: </span>{{ \Carbon\Carbon::parse($sched->date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>
                           <span class="block"><span class="font-semibold">Attendees:</span>
                           <div class="divide-x-2 inline-block">
                               @foreach($sched->attendees as $attendee)
@@ -94,11 +104,11 @@
   <div x-data="setTicap()">
     <div class="text-gray-800 dark:text-white mt-6 text-center">
       <div class="font-semibold text-2xl mb-2">No TICaP created</div>
-      <button @click.prevent="isOpen = true" class="inline-block text-white text-xl bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</button>
+      <button @click.prevent="isOpen = true" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block text-white text-xl bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</button>
     </div>
 
       {{-- SET TICAP MODAL --}}
-      <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="isOpen">
+      <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="isOpen">
         <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
         <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
             <!--content-->

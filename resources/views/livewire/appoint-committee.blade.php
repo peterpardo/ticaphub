@@ -9,10 +9,12 @@
             </div>
         </div>
         @error('name')
-        <span class="bg-red-500 text-white px-2 py-1 rounded w-52">{{ $message }}</span>
+        <div class="text-base font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
         @enderror
         @if(session('status'))
-        <span class="bg-{{ session('status') }}-500 text-white px-2 py-1 rounded w-auto">{{ session('message') }}</span>
+        <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+            <p class="font-bold">{{ session('message') }}</p>
+          </div>
         @endif
     </div>
     {{-- STUDENT TABLE --}}
@@ -68,7 +70,9 @@
     {{-- COMMITTEE TABLE --}}
     <h1 class="text-center font-semibold text-3xl">Committees</h1>
     @if($committees->count() == 0)
-        <div class="bg-transparent text-center font-extralight my-2 rounded py-5">No Committees</div>
+    <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">No Committees</p>
+      </div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">

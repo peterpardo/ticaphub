@@ -38,10 +38,12 @@
             </div>
         </div>
         @error('selectedPosition')
-        <span class="bg-red-500 rounded shadow text-white py-1 px-2">{{ $message }}</span>
+        <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
         @enderror
         @if(session('status'))
-        <span class="bg-{{ session('status') }}-500 rounded shadow text-white py-1 px-2">{{ session('message') }}</span>
+        <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+            <p class="font-bold">{{ session('message') }}</p>
+          </div>
         @endif
     </div>
     {{-- SEARCH FOR CANDIDATES --}}
@@ -97,7 +99,9 @@
     <div class="font-semibold text-2xl my-3">Candidates</div>
 
     @if($candidates->count() == 0)
-        <div class="bg-gray-100 rounded py-6 text-center mx-auto dark:text-gray-800">No candidates found</div>
+        <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+            <p class="font-bold">No Candidates Found</p>
+          </div>
     @else
         <div class="mb-3 text-gray-800">
             <label class="block font-semibold dark:text-gray-50">Filter</label>

@@ -276,6 +276,9 @@ class UserTable extends Component
 
         // RESET SCHOOLS INVOLVED
         School::where('id', '!=', 1)->update(['is_involved' => 0]);
+
+        // DELETE ADDED SPECIALIZATIONS
+        Specialization::where('school_id', '!=', 1)->delete();
         
         // DELETE REGISTER_USERS TABLE
         DB::table('register_users')->truncate();

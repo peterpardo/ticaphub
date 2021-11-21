@@ -2,12 +2,13 @@
     <div class="text-left my-1 font-semibold text-3xl">Create Awards</div>
     <div class="text-center my-2 font-semibold text-3xl">List of Awards</div>
     <div class="flex justify-between mb-2">
-        <button wire:click="addAwardForm" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">Add Award</button>
-        <a href="{{ route('set-rubrics') }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block md:w-auto bg-blue-600 dark:bg-blue-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-blue-200">Proceed</a>
+        <button wire:click="addAwardForm" class="inline-block md:w-auto bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">Add Award</button>
+        <a href="{{ route('set-rubrics') }}" class="inline-block md:w-auto bg-blue-600 dark:bg-blue-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-blue-200">Proceed</a>
     </div>
-    <div class="rounded bg-gray-200 black text-center py-5 my-1 text-gray-800">
-        Note: "Student choice award" and "Best Project Adviser" is created by default for each specialization
-    </div>
+    <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">Take Note:</p>
+        <p class="text-sm">"Student choice award" and "Best Project Adviser" is created by default for each specialization</p>
+      </div>
     {{-- AWARD TABLE --}}
     <div class="flex justify-between flex-wrap">
         <div class="flex-1">

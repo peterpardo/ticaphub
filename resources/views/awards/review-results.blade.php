@@ -104,7 +104,9 @@
         @endif
         <h1 class="font-semibold mb-2 text-2xl text-center">Individual Award Winners</h1>
         @if(session('status'))
-            <div class="bg-{{ session('status') }}-500 text-white text-center rounded py-5 my-2">{{ session('message') }}</div>
+        <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+            <p class="font-bold">{{ session('message') }}</p>
+          </div>
         @endif
         @foreach($specs as $spec)
             <h1 class="font-semibold mb-2 text-lg">{{ $spec->name }} - {{ $spec->school->name }}</h1>

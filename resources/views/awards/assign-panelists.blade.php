@@ -5,7 +5,7 @@
         method="post"
         id="panelistForm">
         @csrf
-        <div class="w-2/5 px-3 py-4 mx-auto rounded shadow">
+        <div class="bg-white text-gray-800 w-2/5 px-3 py-4 mx-auto rounded shadow">
             <h1 class="font-bold my-2 text-xl text-center">Set Panelists</h1>
             <div class="mb-2">
                 <label class="font-semibold block">Specializations</label>
@@ -23,10 +23,11 @@
             <div class="mb-2">
                 <label class="font-semibold block">
                     Panelists
-                    <a id="addBtn" class="inline-block cursor-pointer bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-2">+ panelist</a>
                 </label>
                 @if(session('status'))
-                    <div class="bg-{{ session('status') }}-500 px-2 py-1 rounded text-white mt-1">{{ session('message') }}</div>
+                <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+                    <p class="font-bold">{{ session('message') }}</p>
+                  </div>
                 @endif
                 @error('panelists')
                     <div class="bg-red-500 text-white px-2 py-1 my-1 rounded">{{ $message }}</div>
@@ -49,6 +50,7 @@
                     </div>
                 </div>
             </div>
+            <a id="addBtn" class="inline-block cursor-pointer bg-blue-500 hover:bg-blue-600 rounded text-white px-2 py-2">+ panelist</a>
             <div class="text-center">
                 <a href="/set-panelist" class="inline-block shadow rounded text-black px-2 py-2 mr-3">Cancel</a>
                 <button type="submit" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-2">Submit</button>

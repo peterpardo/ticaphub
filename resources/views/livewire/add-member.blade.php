@@ -3,9 +3,11 @@
         <a href="/committee/{{ $committee->id }}" class="inline-block bg-red-500 hover:bg-red-600 px-2 py-1 text-white rounded">Back</a>
         <div class="font-semibold text-3xl text-center">Add Members</div>
         @if(session('status'))
-            <div class="bg-{{ session('status') }}-500 rounded shadow text-white text-center py-5 tex-center my-3">{{ session('message') }}</div>
+        <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+            <p class="font-bold">{{ session('message') }}</p>
+          </div>
         @endif
-        <div class="flex justify-between my-3">
+        <div class="flex justify-between my-3 text-gray-800">
             <div class="flex-1">
                 <input type="text" class="rounded" placeholder="Search student name" autocomplete="off" wire:model.debounce.350ms="search">
             </div>
@@ -30,11 +32,11 @@
     {{-- SEARCH FOR CANDIDATES --}}
 
       {{-- STUDENT TABLE --}}
-      <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-        <div class="w-full">
-        <table class="w-full">
+      <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
             <thead>
-            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                 <th class="px-4 py-3">Student Name</th>
                 <th class="px-4 py-3">School</th>
                 <th class="px-4 py-3">Specialization</th>
@@ -80,7 +82,9 @@
     {{-- MEMBER TABLE --}}
     <div class="font-semibold text-2xl">Committee Members</div>
     @if($members->count() == 0)
-        <div class="bg-gray-100 rounded py-5 block text-center">No Members</div>
+    <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">No Members Found</p>
+      </div>
     @else
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full">

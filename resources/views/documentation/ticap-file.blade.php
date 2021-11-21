@@ -1,7 +1,7 @@
 <x-app-layout>
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
-    <div class="flex">
-        <div class="flex-1 mx-1 px-2 py-1 shadow rounded">
+    <div class="flex flex-wrap overflow-hidden">
+        <div class="flex-1 mx-1 px-2 py-1 shadow rounded bg-white text-gray-800">
             <h1 class="font-semibold text-2xl my-2">Events</h1>
             <div class="divide-y-2">
                 @if($ticap->archivedEvents->count() == 0)
@@ -13,7 +13,9 @@
                         <div class="mb-2">
                             <p class="mb-1">Program flow/s</p>
                             @if($event->archivedPrograms->count() == 0)
-                                <div class="bg-gray-100 py-5 text-center rounded my-2">No program flows</div>
+                                <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">No program flows</p>
+                                  </div>
                             @else
                                 <ul class="list-disc list-inside">
                                     @foreach($event->archivedPrograms as $program)
@@ -24,10 +26,12 @@
                                 </ul>
                             @endif
                         </div>
-                        <div class="mb-2">
+                        <div class="mb-2 ">
                             <p class="mb-1">Files</p>
                             @if($event->archivedFiles()->count() == 0)
-                                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+                                <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">No files uploaded</p>
+                                  </div>
                             @else
                             <ul class="list-inside list-disc">
                                 @foreach ($event->archivedFiles as $file)
@@ -44,14 +48,17 @@
             </div>
         </div>
 
-        <div class="flex-1 mx-1 px-2 py-1 shadow rounded">
+        <div class="mt-5 sm:mt-0 flex-1 mx-1 px-2 py-1 shadow rounded bg-white text-gray-800">
             <h1 class="font-semibold text-2xl mt-2">Files</h1>
-            <table class="table-fixed w-full ">
-                <thead>
-                    <tr>
-                        <td class="border bg-gray-100 px-3 py-2 font-semibold">Name</td>
-                        <td class="border bg-gray-100 px-3 py-2 font-semibold">File Name</td>
-                        <td class="border bg-gray-100 px-3 py-2 font-semibold">Download</td>
+            <div class="flex justify-center">
+            <div class="bg-white w-11/12 mb-8 overflow-hidden rounded-lg shadow-lg">
+                <div class="w-full overflow-x-auto">
+                <table class="w-auto table-auto">
+                    <thead>
+                    <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
+                        <td class=" border px-3 py-2 font-semibold">Name</td>
+                        <td class=" border px-3 py-2 font-semibold">File Name</td>
+                        <td class=" border px-3 py-2 font-semibold">Download</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,15 +261,22 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
 
             <h1 class="font-semibold text-2xl my-2">Capstone Group Files</h1>
             @if($ticap->archivedExhibits->count() == 0) 
-                <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+                <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">No files uploaded</p>
+                                  </div>
             @else
                 @foreach($ticap->archivedExhibits as $exhibit)
                     <div>{{ $exhibit->name }}</div>
                     @if($exhibit->files()->count() == 0)
-                        <div class="bg-gray-100 py-5 text-center rounded my-2">No files uploaded</div>
+                        <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                                    <p class="font-bold">No files uploaded</p>
+                                  </div>
                     @else
                     <ul class="list-inside list-disc">
                         @foreach ($exhibit->files as $file)

@@ -11,7 +11,9 @@
     @foreach($elections as $election)
         <div class="w-full mb-6">
             @if(session('status'))
-                <div class="bg-{{ session('status') }}-500 my-2 text-center px-2 py-1 rounded text-white">{{ session('message') }}</div>
+            <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+                <p class="font-bold">{{ session('message') }}</p>
+              </div>
             @endif
             <h1 class="text-xl text-center font-semibold mb-3">{{ $election->name }}</h1>
             <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">

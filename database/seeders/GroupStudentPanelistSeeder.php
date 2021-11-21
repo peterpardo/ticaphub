@@ -111,16 +111,7 @@ class GroupStudentPanelistSeeder extends Seeder
         
         // GENERATE STUDENTS
         for ($x = 0; $x < 71; $x++) {
-            $user = \App\Models\User::create([
-                'first_name' => Str::random(5),
-                'middle_name' => Str::random(5),
-                'last_name' => Str::random(5),
-                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
-                'password' => Hash::make('123'), // password
-                'remember_token' => Str::random(10),
-                'ticap_id' => Ticap::latest()->pluck('id')->first(),
-                'email_verified' => 1,
-            ]);
+            $user = User::factory()->create();
             $flag = false;
             while(!$flag) {
                 $spec = Specialization::find(rand(1,6));
@@ -204,16 +195,7 @@ class GroupStudentPanelistSeeder extends Seeder
         $panel->assignRole('panelist');
         // DUMMY PANELISTS
         for($i = 0; $i < 17; $i++) {
-            $user = User::create([
-                'first_name' => Str::random(5),
-                'middle_name' => Str::random(5),
-                'last_name' => Str::random(5),
-                'email' => Str::random(5) . "@" . Str::random(5) . ".com",
-                'password' => Hash::make('123'), // password
-                'remember_token' => Str::random(10),
-                'ticap_id' => Ticap::latest()->pluck('id')->first(),
-                'email_verified' => 1,
-            ]);
+            $user = User::factory()->create();
             $user->assignRole('panelist');
         }
     }

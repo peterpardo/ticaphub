@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function home() {
-        $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles'])->first();
+        $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles', 'ticap'])->first();
 
         return $user;
     }

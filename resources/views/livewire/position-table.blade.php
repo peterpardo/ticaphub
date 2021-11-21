@@ -1,23 +1,30 @@
 <div>
     @if(session('error'))
-        <div class="rounded-md px-2 font-semibold leading-tight text-red-700 bg-red-100 mb-2 py-5 text-center">{{ session('error') }}</div>
-    @endif
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
+        <strong class="font-bold">{{ session('error') }}</strong>
+      </div>
+@endif
     <h1 class="font-semibold text-xl mb-2">Set Position</h1>
     <div class="flex justify-between">
         <form wire:submit.prevent='addPosition' class='mb-5'>
             <div class="mb-2">
                 <input type="text" wire:model='newPosition' class="text-gray-800 rounded" placeholder="New Position Name">
-                <button class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
+                <button class="text-white rounded bg-green-500 hover:bg-green-600 px-5 py-2">Add</button>
             </div>
             @if(session('status'))
-                <div class="rounded-md px-2 py-1 font-semibold leading-tight text-green-700">{{ session('message') }}</div>
+            <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+                <p class="font-bold">{{ session('message') }}</p>
+              </div>
             @endif
             @error('newPosition')
-            <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700">{{ $message }}</span>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+                <p class="font-bold">{{ $message }} </p>
+              </div>
+            {{-- <span class="rounded-md px-2 py-1 font-semibold leading-tight text-red-700">{{ $message }}</span> --}}
             @enderror
         </form>
         <div>
-            <a class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block font-bold bg-blue-500 hover:bg-blue-600 px-5 py-3 text-white rounded" href="{{ route('set-candidates') }}">Proceed to Candidates</a>
+            <a class="inline-block font-bold bg-blue-500 hover:bg-blue-600 px-5 py-3 text-white rounded" href="{{ route('set-candidates') }}">Proceed to Candidates</a>
         </div>
     </div>
 
