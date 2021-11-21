@@ -4,14 +4,16 @@
         <div class="flex items-center px-10 mt-6">
             <div class="flex flex-col">
                 <h1 class="text-2xl font-bold mr-4 text-gray-800 dark:text-white">{{ $event->name }}</h1>
-                <button wire:click.prevent="openModal('add', {{ $event->id }})" class="bg-white inline-block border rounded-md shadow hover:bg-gray-100 px-2 p-1">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        <span class="ml-1 text-lg">Add List</span>
-                    </div>
-                </button>
+                @can('add list')
+                    <button wire:click.prevent="openModal('add', {{ $event->id }})" class="bg-white inline-block border rounded-md shadow hover:bg-gray-100 px-2 p-1">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span class="ml-1 text-lg">Add List</span>
+                        </div>
+                    </button>
+                @endcan
             </div>
         </div>
         <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-hidden">
@@ -23,6 +25,7 @@
                             <span class="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">{{ $list->tasks->count() }}</span>
                         </div>
                         <div class="flex items-center">
+                            @can('add task')
                             <div class="flex items-centerw-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100 mr-2">
                                 <a href="/events/{{ $event->id }}/list/{{ $list->id }}/add-task" class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,6 +33,8 @@
                                     </svg>
                                 </a>
                             </div>
+                            @endcan
+                            @can('edit list')
                             <div class="flex items-centerw-6 h-6 ml-auto text-blue-500 rounded hover:bg-blue-500 hover:text-indigo-100 mr-2">
                                 <button wire:click="openModal('update', {{ $list->id }})" class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -37,6 +42,8 @@
                                     </svg>
                                 </button>
                             </div>
+                            @endcan
+                            @can('delete list')
                             <div class="flex items-center w-6 h-6 ml-auto text-red-500 rounded hover:bg-red-500 hover:text-indigo-100">
                                 <button wire:click="openModal('delete', {{ $list->id }})" class="flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,24 +51,27 @@
                                     </svg>
                                 </button>
                             </div>
+                            @endcan
                         </div>
                     </div>
                     <div class="flex flex-col pb-2 overflow-hidden shadow-lg rounded-lg"> 
                         @if($list->tasks->count() > 0)
                             @foreach($list->tasks as $task)
                                 <div class="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90">
-                                    <div class="absolute flex top-0 right-0 items-center justify-center w-5 h-5 mt-3 mr-6">
+                                    <div class="absolute flex top-0 right-0 items-center justify-center w-5 h-5 mt-3 mr-1">
                                         <a href="/events/{{ $event->id }}/list/{{ $list->id }}/task/{{ $task->id }}" class="inline-block text-blue-500 rounded hover:bg-gray-200 hover:text-blue-700 mr-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </a>
-                                        <button wire:click="openModal('delete', {{ $task->id }}, 'task')" class=" text-red-500 rounded hover:bg-gray-200 hover:text-red-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
+                                        @if(Auth::user()->id == $task->taskCreator->id) 
+                                            <button wire:click="openModal('delete', {{ $task->id }}, 'task')" class=" text-red-500 rounded hover:bg-gray-200 hover:text-red-700m mr-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        @endif
                                     </div>
                                     <span class="flex items-center h-6 px-3 text-xs font-semibold text-green-500 bg-green-100 rounded-full">{{ $task->taskCreator->first_name }} {{ $task->taskCreator->last_name }}</span>
                                     <h4 class="mt-3 text-sm font-medium">{{ $task->title }}</h4>

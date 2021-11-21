@@ -105,9 +105,17 @@ class SchoolTable extends Component
     public function addSpecialization() {
         $this->validate();
         $school = School::find($this->selectedSchool);
+        $spec = trim(Str::title($this->specialization));
+        if($school->specializations()->where('name', $spec)->exists()) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Specialization already exists');
+            return back();
+        }
+
         $school->specializations()->create([
-            'name' => Str::title($this->specialization)
+            'name' => $spec
         ]);
+
         session()->flash('status', 'green');
         session()->flash('message', 'Specialization successfully added');
         $this->reset();

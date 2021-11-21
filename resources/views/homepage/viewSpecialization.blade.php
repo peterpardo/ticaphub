@@ -3,7 +3,7 @@
   
   {{-- PROJECT TITLE AND DESCRIPTION --}}
   @if($group->groupExhibit->title == null)
-  <div class="hidden"></div>
+    <div class="bg-gray-100 shadow-md rounded text-center py-5 my-1">Exhibit empty</div>
   @else
   <div class="container mx-auto w-8/12 bg-white rounded shadow-md mt-5">
     <div class="container px-5 py-5 mx-auto">
@@ -21,7 +21,7 @@
   
   {{-- LIVE STREAM --}}
   @if($group->groupExhibit->link == null)
-  <div class="hidden"></div>
+    <div class="bg-gray-100 shadow-md rounded text-center py-5 my-1">Livestream empty</div>
   @else
   <section>
       <div class="container mx-auto text-gray-600 body-font w-8/12">
@@ -39,23 +39,29 @@
         <div class="flex flex-wrap md:m-2 m-1">
           <div class="flex flex-wrap w-1/2">
             <div class="md:p-5 p-1 w-full mx-1 my-3">
-              @if($group->groupExhibit->video_path == 'assets/sample-video.mp4')
-              <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
+              @if($group->groupExhibit->video_path == null)
+              <div class="flex justify-center items-center bg-gray-100 shadow-md rounded py-20 px-20 w-full">
+                  <span>System teaser empty</span>
+              </div>
+              {{-- <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
                 <source src="{{ url(asset('assets/sample-video.mp4')) }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-              </video>
+              </video> --}}
               @else
-              <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-                <source src="{{ Storage::url($group->groupExhibit->video_path) }}">
-              </video>
+                <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
+                  <source src="{{ Storage::url($group->groupExhibit->video_path) }}">
+                </video>  
               @endif
             </div>
           </div>
           <div class="flex flex-wrap w-1/2 cursor-pointer">
             <div class="md:p-5 p-1 w-full mx-1 my-3">
-              @if($group->groupExhibit->banner_path == 'assets/banner.png')
-                <a href="{{ url(asset('assets/banner.png')) }}" data-featherlight="image">
+              @if($group->groupExhibit->banner_path == null)
+                <div class="flex justify-center items-center bg-gray-100 shadow-md rounded py-20 px-20 w-full">
+                    <span>Banner empty</span>
+                </div>
+                {{-- <a href="{{ url(asset('assets/banner.png')) }}" data-featherlight="image">
                   <img class="w-full h-full object-cover object-center block rounded" src="{{ url(asset('assets/banner.png')) }}">
-                </a>
+                </a> --}}
               @else
               <a href="{{ Storage::url($group->groupExhibit->banner_path) }}" data-featherlight="image">
                 <img src="{{ Storage::url($group->groupExhibit->banner_path) }}" class="w-full h-full object-cover object-center block rounded" >

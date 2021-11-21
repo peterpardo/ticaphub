@@ -4,7 +4,7 @@
         <div class="bg-gray-100 text-center py-6 rounded">No Tasks for you</div>
     @else
         @foreach($user->tasks()->orderBy('updated_at', 'desc')->get() as $task)
-        <div class="relative lg:flex shadow rounded-lg border-gray-400 my-5 cursor-pointer">
+        <div class="relative lg:flex shadow rounded-lg border-gray-400 my-5">
             @if(!$task->pivot->is_read)
                 <span class="absolute -top-4 -left-3 text-white bg-green-500 w-auto px-2 py-1 rounded shadow">NEW</span>
             @endif

@@ -1,7 +1,7 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <div>
-        <a href="/events/{{ $event->id }}/list/{{ $list->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
+        <a href="/events/{{ $event->id }}" class="rounded bg-red-500 text-white px-5 py-1">Back</a>
         <h1 class="text-center text-5xl font-bold mb-4">{{ $event->name }}</h1>
         <input type="hidden" name="event" id="event" value="{{ $event->id }}">
         <h1 class="text-center text-4xl font-semibold">{{ $list->title }}</h1>
