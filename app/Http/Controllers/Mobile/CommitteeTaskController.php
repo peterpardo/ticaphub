@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Committee;
+use App\Models\CommitteeMember;
 use App\Models\CommitteeTask;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,11 +18,12 @@ class CommitteeTaskController extends Controller
         return $committee;
     }
 
-    public function getMembers($commId) {
-        $committee = Committee::find($commId);
+    // public function getMembers($commId) {
+    //     $members = CommitteeMember::where('id', $commId)->get();
+    //     // $committee = Committee::find($commId)->with('');
 
-        return $committee->committeeMembers();
-    }
+    //     return $members;
+    // }
 
     public function viewTask($commId, $taskId) {
         $task = CommitteeTask::find($taskId);

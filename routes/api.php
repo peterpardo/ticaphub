@@ -55,8 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/download/{path}', [EventController::class, 'download']);
 
     // Committee Tasks
+    // Route::get('/committees/{commId}/members', [CommitteeTaskController::class, 'getMembers']);
     Route::get('/committees/{commId}', [CommitteeTaskController::class, 'index']);
-    Route::get('/committees/{commId}/members', [CommitteeTaskController::class, 'getMembers']);
     Route::get('/committees/{commId}/tasks/{taskId}', [CommitteeTaskController::class, 'viewTask']);
     Route::post('/committees/{commId}', [CommitteeTaskController::class, 'addTask']);
     Route::put('/committees/{commId}/tasks/{taskId}', [CommitteeTaskController::class, 'editTask']);

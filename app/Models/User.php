@@ -50,6 +50,9 @@ class User extends Authenticatable
     public function userElection() {
         return $this->hasOne(UserElection::class, 'user_id', 'id');
     }
+    public function ticap() {
+        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }

@@ -44,11 +44,22 @@ class SetPanelistGroupAdviserSeeder extends Seeder
 
         // SET ADVISER NAMES AND EMAILS FOR CERTIFICATIONS
         $groups = Group::all();
+        $fname = [
+            'Joshua', 'John Paul', 'Christian', 'Justine', 'John Mark', ' John Lloyd', 'Jerome', 'Adrian', 'John Michael', 'Angelo',
+            'Angel', 'Angelica', 'Nicole', 'Angela', 'Mary Joy', 'Mariel', 'Jasmine', 'Mary Grace', 'Kimberly', 'Stephanie'
+        ];
+        $lname = [
+            'Garcia', 'Reyes', 'Ramos', 'Mendoza', 'Santos', 'Flores', 'dela Cruz', 'Gonzales', 'Bautista', 'Villanueva', 'Fernandez', 'Cruz',
+            'de Guzman', 'Lopez', 'Perez', 'Castillo', 'Francisco', 'Rivera', 'Aquino', 'Castro'
+        ];
         foreach($groups as $group) {
+            $randFname = array_rand($fname);
+            $randLname = array_rand($lname);
             // SET GROUP ADVISER IF IT'S STILL NULL
             if($group->adviser == null) {
-                $group->adviser = Str::random(5) . ' ' . Str::random(5);
-                $group->adviser_email = Str::random(5) . '@' . Str::random(5) . '.com';
+                $email = str_replace(' ', '', $fname[$randFname] . $lname[$randLname]) . rand(111, 999);
+                $group->adviser = $fname[$randFname] . ' ' . $lname[$randLname];
+                $group->adviser_email = strtolower($email) . '@gmail.com';
                 $group->save();
             }
         }

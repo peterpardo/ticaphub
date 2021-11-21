@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\CommitteeMember;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,8 +13,13 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function home() {
-        $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles', 'ticap'])->first();
-
+        $user = User::find(Auth::user()->id);
+        if(CommitteeMember::where('user_id', Auth::user()->id)->exists()) {
+            $user = User::where('id', Auth::user()->id)->with(['committeeTasks', 'roles', 'ticap'])->first();
+        } else if($user->hasAnyRole(['officer', 'chairman'])){
+            $user = User::where('id', Auth::user()->id)->with(['tasks', 'roles', 'ticap'])->first();
+        }
+       
         return $user;
     }
 

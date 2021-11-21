@@ -28,10 +28,11 @@ class RubricSeeder extends Seeder
         ]);
 
         // INSERT RUBRIC TO EACH AWARDS
+        $length = Rubric::all()->count();
         foreach(Award::all() as $award) {
             if($award->awardRubric == null) {
                 $award->awardRubric()->create([
-                    'rubric_id' => rand(1,2)
+                    'rubric_id' => rand(1, $length),
                 ]);
             }
         }

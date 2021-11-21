@@ -1,13 +1,13 @@
 <div>
     <div class="w-1/2 mx-auto">
          <h1 class="text-center text-3xl font-semibold">Import Students</h1>
-        <form 
+        <form a
             action="{{ route('import-users') }}"
             method="POST"
             enctype="multipart/form-data">
             @csrf
             @if(session('status'))
-            <div class="text-white w-full bg-{{ session('status') }}-500 rounded px-2 py-1">{{ session('message') }}</div>
+                <div class="text-white w-full bg-{{ session('status') }}-500 rounded px-2 py-1">{{ session('message') }}</div>
             @endif
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">School</label>
@@ -39,9 +39,9 @@
             @endif
             <div class="text-center mb-3">
                 <label for="file" class="block">Upload File</label>
-                <input type="file" name="file" id="file" class="border-2 border-black rounded mb-2" required/>
+                <input type="file" name="file" wire:model="file" id="file" class="border-2 border-black rounded mb-2" required/>
                 @error('file')
-                <div class="text-red-500">{{ $message }}</div>
+                    <div class="text-red-500">{{ $message }}</div>
                 @enderror
             </div>
             <div class="text-xs text-center">

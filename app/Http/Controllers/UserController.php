@@ -270,11 +270,18 @@ class UserController extends Controller
 
     public function importFile(Request $request) {
         return DB::transaction(function() use ($request){
+            if($request->file) {
+                if($request->file->getClientOriginalExtension() != 'csv') {
+                    throw new GeneralException('File must be in csv format'); 
+                }
+            }
+
             $request->validate([
                 'school' => 'required',
                 'specialization' => 'required',
-                'file' => 'required|mimes:csv',
+                'file' => 'required',
             ]);
+
             $file = $request->file;
             $specialization = $request->specialization;
              // READ FILE
