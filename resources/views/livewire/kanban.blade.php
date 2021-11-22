@@ -1,20 +1,32 @@
 <div class="overflow-hidden">
    {{-- START --}}
    <div class="rounded flex flex-col w-screen h-screen overflow-hidden text-gray-700">
-        <div class="flex items-center px-10 mt-6">
-            <div class="flex flex-col">
-                <h1 class="text-2xl font-bold mr-4 text-gray-800 dark:text-white">{{ $event->name }}</h1>
+        <div class="flex flex-col px-10 mt-6">
+            {{-- <div class="flex flex-col"> --}}
+                <h1 class="text-2xl font-bold mr-4 text-gray-800 dark:text-white mb-2">{{ $event->name }}</h1>
                 @can('add list')
-                    <button wire:click.prevent="openModal('add', {{ $event->id }})" class="bg-white inline-block border rounded-md shadow hover:bg-gray-100 px-2 p-1">
+                <div class="flex items-center">
+                    <button wire:click.prevent="openModal('add', {{ $event->id }})" class="bg-white border rounded-md shadow hover:bg-gray-100 px-2 p-1">
                         <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            <span class="ml-1 text-lg">Add List</span>
+                            <span class="ml-1">Add List</span>
                         </div>
                     </button>
+                    <div class="ml-2">
+                        <a href="/events/{{ $event->id }}/program-flow" class="inline-block bg-white border rounded-md shadow hover:bg-gray-100 px-2 p-1">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                                <span class="ml-1">Post Program Flow</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 @endcan
-            </div>
+            {{-- </div> --}}
         </div>
         <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-hidden">
             @foreach($event->lists as $list)
