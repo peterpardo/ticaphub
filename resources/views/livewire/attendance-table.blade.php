@@ -4,7 +4,9 @@
     <h1 class="font-semibold text-xl my-2 text-center">Attendance</h1>
 
     @if($attendees->count() == 0)
-        <div class="bg-gray-100 text-center rounded py-5 my-1">No Attendees</div>
+    <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+        <p class="font-bold">No Attendees</p>
+      </div>
     @else
         <input type="text" class="rounded mb-2" wire:model.debounce.150ms="search" placeholder="Search attendee">
         <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">

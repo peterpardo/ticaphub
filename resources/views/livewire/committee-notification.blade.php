@@ -1,7 +1,9 @@
 <div class="mb-5">
     <h1 class="text-start font-bold text-2xl">Tasks</h1>
     @if($user->committeeTasks()->count() == 0)
-        <div class="bg-gray-100 text-center py-6 rounded">No Tasks Assigned To You</div>
+        <div class="text-center bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+            <p class="font-bold">No Tasks Assigned To You</p>
+          </div>
     @else
         @foreach($user->committeeTasks()->orderBy('updated_at', 'desc')->get() as $task)
         <div class="relative lg:flex shadow rounded-lg border-gray-400 my-5">

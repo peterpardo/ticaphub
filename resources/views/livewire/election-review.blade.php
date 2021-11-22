@@ -4,9 +4,11 @@
             <div class="w-2/5 mb-5">
                 <h1 class="text-xl font-semibold mb-2">{{ $election->name }}</h1>
                 <div>
-                    <table class="w-full rounded-t-lg shadow-lg mx-1 text-center my-3 overflow-hidden">
-                        <thead>
-                            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-gray-600">
+                    <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                        <div class="w-full overflow-x-auto">
+                        <table class="w-full table-auto">
+                            <thead>
+                            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                                 <th class="px-4 py-3 text-center">Position</th>
                                 <th class="px-4 py-3 text-center">Officer</th>
                                 <th class="px-4 py-3 text-center">Status</th>
@@ -54,6 +56,8 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
                 </div>
             </div>
         @endforeach

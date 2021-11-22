@@ -18,9 +18,9 @@
                     $showExhibit = $ticap->finalize_award;
                   }
                 @endphp
-                <a href="/group/{{ $group->id }}" class="inline-block rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">View</a>
+                <a href="/group/{{ $group->id }}" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">View</a>
                 @if(!$showExhibit )
-                  <a href="/student-choice-award/{{ $group->id }}" class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Vote</a>
+                  <a href="/student-choice-award/{{ $group->id }}" class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Vote</a>
                 @endif
               </div>
             </div>
@@ -30,79 +30,3 @@
       </div>
   </div>
   </x-guest-layout>
-
-  {{-- backup --}}
-
-   {{-- <div class="grid grid-cols-1 sm:grid-cols-2 w-auto md:w-9/12 mx-auto">
-      <div class="p-8 w-full">
-          <div class="shadow-xl rounded-lg">
-            <div style="background-image: url('https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')" class="h-64 bg-gray-200 bg-cover bg-center rounded-t-lg flex items-center justify-center">
-              <p class="text-white font-bold text-4xl">CYBERACE</p>
-            </div>
-              <div class="bg-white rounded-b-lg px-8 flex justify-around mx-auto">
-                  <a
-                    class="my-5 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">
-                      View
-                  </a>
-                  <a
-                  class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                    Vote
-                </a>
-              </div>
-          </div>
-        </div>
-
-      <div class="p-8 w-full">
-          <div class="shadow-xl rounded-lg">
-            <div style="background-image: url('https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')" class="h-64 bg-gray-200 bg-cover bg-center rounded-t-lg flex items-center justify-center">
-              <p class="text-white font-bold text-4xl">LSMR</p>
-            </div>
-              <div class="bg-white rounded-b-lg px-8 flex justify-around mx-auto">
-                  <a
-                    class="my-5 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">
-                      View
-                  </a>
-                  <a
-                  class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                    Vote
-                </a>
-              </div>
-          </div>
-        </div>
-
-        <div class="p-8 w-full">
-          <div class="shadow-xl rounded-lg">
-            <div style="background-image: url('https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')" class="h-64 bg-gray-200 bg-cover bg-center rounded-t-lg flex items-center justify-center">
-              <p class="text-white font-bold text-4xl">ALTWAV</p>
-            </div>
-              <div class="bg-white rounded-b-lg px-8 flex justify-around mx-auto">
-                  <a
-                  class="my-5 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">
-                      View
-                  </a>
-                  <a
-                  class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                    Vote
-                </a>
-              </div>
-            </div>
-          </div>
-
-        <div class="p-8 w-full">
-          <div class="shadow-xl rounded-lg">
-            <div style="background-image: url('https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')" class="h-64 bg-gray-200 bg-cover bg-center rounded-t-lg flex items-center justify-center">
-              <p class="text-white font-bold text-4xl">BITS & BYTES</p>
-            </div>
-              <div class="bg-white rounded-b-lg px-8 flex justify-around mx-auto">
-                  <a
-                    class="my-5 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600">
-                      View
-                  </a>
-                  <a
-                  class="my-5 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">
-                    Vote
-                </a>
-              </div>
-            </div>
-          </div>
-        </div> --}}

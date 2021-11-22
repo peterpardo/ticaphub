@@ -29,9 +29,9 @@
                 <th class="px-4 py-3">Action</th>
             </tr>
             </thead>
-            <tbody class="bg-white">
+            <tbody class="w-auto bg-white text-center">
             @foreach($users as $user)
-            <tr class="text-gray-700">
+            <tr class="text-gray-800">
                 <td class="px-4 py-3 border">
                 <div class="flex items-center text-sm">
                     <div class="flex items-center text-sm">
@@ -74,11 +74,11 @@
         <p class="font-bold">No Committees</p>
       </div>
     @else
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-            <div class="w-full">
-            <table class="w-full">
-                <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+    <div class="mt-5 bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+        <div class="w-full overflow-x-auto">
+        <table class="w-full table-auto">
+            <thead>
+            <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                     <th class="px-4 py-3">Committee Name</th>
                     <th class="px-4 py-3">Committee Head</th>
                     <th class="px-4 py-3">School</th>
@@ -86,9 +86,9 @@
                     <th class="px-4 py-3">Action</th>
                 </tr>
                 </thead>
-                <tbody class="bg-white">
+                <tbody class="w-auto bg-white text-center">
                 @foreach($committees as $committee)
-                <tr class="text-gray-700">
+                <tr class="text-gray-800">
                     <td class="px-4 py-3 border">{{ $committee->name }}</td>
                     <td class="px-4 py-3 border">
                         <div class="flex items-center text-sm">

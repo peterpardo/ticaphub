@@ -3,7 +3,7 @@
   
   {{-- PROJECT TITLE AND DESCRIPTION --}}
   @if($group->groupExhibit->title == null)
-    <div class="bg-gray-100 shadow-md rounded text-center py-5 my-1">Exhibit empty</div>
+    <div class="text-gray-600 text-center py-5 my-1">Exhibit empty</div>
   @else
   <div class="container mx-auto w-8/12 bg-white rounded shadow-md mt-5">
     <div class="container px-5 py-5 mx-auto">
@@ -21,10 +21,10 @@
   
   {{-- LIVE STREAM --}}
   @if($group->groupExhibit->link == null)
-    <div class="bg-gray-100 shadow-md rounded text-center py-5 my-1">Livestream empty</div>
+    <div class="text-gray-600 text-center py-5 my-1">Livestream empty</div>
   @else
   <section>
-      <div class="container mx-auto text-gray-600 body-font w-8/12">
+      <div class="container mx-auto text-gray-600 body-font w-1/2 mt-10">
           <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
               <source src="{{ $group->groupExhibit->link }}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
           </video>
@@ -40,32 +40,38 @@
           <div class="flex flex-wrap w-1/2">
             <div class="md:p-5 p-1 w-full mx-1 my-3">
               @if($group->groupExhibit->video_path == null)
-              <div class="flex justify-center items-center bg-gray-100 shadow-md rounded py-20 px-20 w-full">
+              <div class="flex justify-center items-center py-20 px-20 w-full">
                   <span>System teaser empty</span>
               </div>
-              {{-- <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-                <source src="{{ url(asset('assets/sample-video.mp4')) }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-              </video> --}}
               @else
-                <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-                  <source src="{{ Storage::url($group->groupExhibit->video_path) }}">
-                </video>  
+                @if($group->groupExhibit->video_path == 'assets/sample-video.mp4')
+                  <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
+                    <source src="{{ url(asset($group->groupExhibit->video_path)) }}">
+                  </video>  
+                @else
+                  <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
+                    <source src="{{ Storage::url($group->groupExhibit->video_path) }}">
+                  </video>  
+                @endif
               @endif
             </div>
           </div>
           <div class="flex flex-wrap w-1/2 cursor-pointer">
             <div class="md:p-5 p-1 w-full mx-1 my-3">
               @if($group->groupExhibit->banner_path == null)
-                <div class="flex justify-center items-center bg-gray-100 shadow-md rounded py-20 px-20 w-full">
+                <div class="flex justify-center items-center py-20 px-20 w-full">
                     <span>Banner empty</span>
                 </div>
-                {{-- <a href="{{ url(asset('assets/banner.png')) }}" data-featherlight="image">
-                  <img class="w-full h-full object-cover object-center block rounded" src="{{ url(asset('assets/banner.png')) }}">
-                </a> --}}
               @else
-              <a href="{{ Storage::url($group->groupExhibit->banner_path) }}" data-featherlight="image">
-                <img src="{{ Storage::url($group->groupExhibit->banner_path) }}" class="w-full h-full object-cover object-center block rounded" >
-              </a>
+                @if($group->groupExhibit->banner_path == 'assets/banner.png')
+                  <a href="{{ url(asset($group->groupExhibit->banner_path)) }}" data-featherlight="image">
+                    <img src="{{ url(asset($group->groupExhibit->banner_path)) }}" class="w-full h-full object-cover object-center block rounded" >
+                  </a>
+                @else
+                  <a href="{{ Storage::url($group->groupExhibit->banner_path) }}" data-featherlight="image">
+                    <img src="{{ Storage::url($group->groupExhibit->banner_path) }}" class="w-full h-full object-cover object-center block rounded" >
+                  </a>
+                @endif
               @endif
             </div>
           </div>
@@ -91,41 +97,4 @@
   </section>
   </x-guest-layout>
   
-  
-    {{-- BANNER --}}
-    {{-- <div class="text-center py-5">
-    <h1 class="text-5xl font-semibold">{{ $group->groupExhibit->title }}</h1>
-  </div>
-    <div class="text-gray-600 body-font">
-      <div class="container px-5 py-5 mx-auto flex">
-        <div class="w-full mx-auto">
-          <div class="flex flex-wrap w-full bg-gray-100 py-44 px-20 relative mb-4 shadow-md"> --}}
-            {{-- @if($group->groupExhibit->video_path == 'assets/sample-video.mp4') --}}
-            {{-- <img src="{{ asset(url(assetsvideo_path)) }}" alt=""> --}}
-            {{-- @else --}}
-            {{-- <a href="{{ asset($group->groupExhibit->banner_path) }}" data-featherlight="image">
-            <img alt="group photo" class="rounded w-full object-cover h-full object-center block absolute inset-0" src="{{ asset($group->groupExhibit->banner_path) }}">
-            </a> --}}
-            {{-- @endif --}}
-          {{-- </div>
-        </div>
-      </div>
-    </div>
-     --}}
-  
-     {{-- <div class="mt-8 lg:mt-0 lg:w-1/2">
-                <div class="flex items-center justify-center lg:justify-end">
-                    <div class="max-w-lg">
-                      <a href="{{ asset($group->groupExhibit->banner_path) }}" data-featherlight="image">
-                        <img class="object-cover object-center w-full h-64 rounded-md shadow" src="{{ asset($group->groupExhibit->banner_path) }}" alt="">
-                      </a>
-                    </div>
-                </div>
-            </div> --}}
-  
-              {{-- <div class="lg:w-2/3 mx-auto">
-          <div class="flex flex-wrap w-full bg-gray-100 px-10 relative mb-4">
-            <iframe class="w-full h-96 object-cover object-center block rounded" src="{{ asset($group->groupExhibit->video_path) }}" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-      </div> --}}
   

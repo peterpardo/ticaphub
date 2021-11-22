@@ -59,7 +59,7 @@
                     <button wire:click="saveBanner" class="bg-green-500 hover:bg-green-600 rounded text-white px-2 py-1 mt-2">Save</button>
                 </div>
                 @error('banner')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+               <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             @else
                 <div class="flex justify-end">
@@ -88,7 +88,7 @@
                 <input type="file" wire:model="video" class="rounded mt-2 block">
                 <span wire:loading wire:target="video" class="text-green-500">Uploading...</span>
                 @error('video')
-                <span class="bg-red-500 px-2 py-1 rounded text-white block my-2">{{ $message }}</span>
+               <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
                 <div class="flex justify-end">
                     <button wire:click="closeVideo" class="border hover:bg-gray-300 rounded px-2 py-1 mt-2 mr-3">Cancel</button>

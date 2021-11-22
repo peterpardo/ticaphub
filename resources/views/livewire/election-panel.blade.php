@@ -1,6 +1,8 @@
 <div>
     @if(session('status'))
-    <div class="text-center bg-red-500 text-white rounded px-2 py-5 my-3">{{ session('message') }}</div>
+    <div class="text-center bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
+        <p class="font-bold">{{ session('message') }}</p>
+    </div>
     @endif
     <div class="text-right my-3">
         <button wire:click='endElection' class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
@@ -13,17 +15,19 @@
                 <div class="mb-3">
                     <p>{{ \App\Models\UserElection::all()->where('election_id', $election->id)->where('has_voted', 1)->count() }} out of   {{ \App\Models\UserElection::all()->where('election_id', $election->id)->count() }} has voted</p>
                 </div>
-                <table class="w-full rounded-t-lg shadow-lg mx-1 text-center my-3 overflow-hidden text-gray-800">
-                    <thead>
-                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase border-gray-600">
+                <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                    <div class="w-full overflow-x-auto">
+                    <table class="w-full table-auto">
+                        <thead>
+                        <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                             <th class="px-4 py-3">Position</th>
                             <th class="px-4 py-3">Candidate</th>
                             <th class="px-4 py-3">Votes</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white">
+                    <tbody class="w-auto bg-white text-center">
                         @foreach($positions as $position)
-                        <tr>
+                        <tr class="text-gray-800">
                             <td class="border">{{ $position->name }}</td>
                             <td class="border py-2">
                                 @foreach($election->candidates as $candidate)
@@ -63,6 +67,8 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
             </div>
         </div>
         @endforeach

@@ -83,8 +83,7 @@
                   <div>
                       <h1 class="text-xl font-semibold">{{ $sched->name }}</h1>
                       <div class="text-gray-500">
-                          <span class="block"><span class="font-semibold">Start Date: </span>{{ \Carbon\Carbon::parse($sched->start_date)->format('F j, Y')}}</span>
-                          <span class="block"><span class="font-semibold">End Date: </span>{{ \Carbon\Carbon::parse($sched->end_date)->format('F j, Y')}}</span>
+                          <span class="block"><span class="font-semibold">Date: </span>{{ \Carbon\Carbon::parse($sched->date . "23:59:59", "Asia/Manila")->format('F j, Y')}}</span>
                           <span class="block"><span class="font-semibold">Attendees:</span>
                           <div class="divide-x-2 inline-block">
                               @foreach($sched->attendees as $attendee)

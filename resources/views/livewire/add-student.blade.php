@@ -2,7 +2,7 @@
     <h1 class="font-bold text-center text-3xl my-4">Add Student</h1>
     {{-- ADD STUDENT FORM --}}
     <div class="w-full text-gray-800">
-        <form wire:submit.prevent='addStudent' class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
+        <form wire:submit.prevent='addStudent' class="w-auto sm:w-96 mx-auto bg-white rounded shadow px-4 py-2">
             @csrf
             @if(session('status'))
             <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
@@ -101,8 +101,8 @@
             </div>
             @endif
             <div class="flex justify-evenly my-3 text-gray-800">
-                <a href="{{ route('users') }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
-                <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Add</button>
+                <a href="{{ route('users') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Add</button>
             </div>
         </form>
     </div>
