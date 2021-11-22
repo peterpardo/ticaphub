@@ -16,7 +16,7 @@
     </head>
 
     <style>
-
+  [x-cloak] { display: none !important; }
   /* Compiled dark classes from Tailwind */
   .dark .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
     border-color: rgba(55, 65, 81);
