@@ -258,7 +258,7 @@
         {{-- FINALIZE EVALUATION MODAL --}}
 
         {{-- EMAIL CERTIFICATES OF WINNERS MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openWinnerModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openWinnerModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
@@ -285,7 +285,7 @@
         {{-- EMAIL CERTIFICATES OF WINNERS MODAL --}}
 
         {{-- EMAIL CERTIFICATE OF RECOGNITION MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openRecognitionModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openRecognitionModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
@@ -312,7 +312,7 @@
         {{-- EMAIL CERTIFICATE OF RECOGNITION MODAL --}}
 
         {{-- EMAIL CERTIFICATE OF PANELISTS MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openPanelistModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openPanelistModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
@@ -339,7 +339,7 @@
         {{-- EMAIL CERTIFICATE OF PANELISTS MODAL --}}
 
         {{-- EMAIL INDIVIDUAL CERTIFICATE MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openCertificateModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openCertificateModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
@@ -368,7 +368,7 @@
         {{-- EMAIL INDIVIDUAL CERTIFICATE MODAL --}}
 
         {{-- EMAIL GROUP CERTIFICATE MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openGroupCertificateModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openGroupCertificateModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
@@ -397,7 +397,7 @@
         {{-- EMAIL GROUP CERTIFICATE MODAL --}}
 
         {{-- EMAIL STUDENT CHOICE CERTIFICATE MODAL --}}
-        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-show="openStudentChoiceCertificateModal">
+        <div class="min-w-screen h-screen flex animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" x-cloak x-show="openStudentChoiceCertificateModal">
             <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
             <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
                 <!--content-->
