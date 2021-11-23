@@ -191,7 +191,7 @@ class UserController extends Controller
             'password' => $tempPassword,
             'ticap_id' => $ticap,
         ]);
-        // ASSIGN STUDENT ROLE
+        // ASSIGN ADMIN ROLE
         $user->assignRole('admin');
        // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();

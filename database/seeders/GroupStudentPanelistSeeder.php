@@ -22,20 +22,29 @@ class GroupStudentPanelistSeeder extends Seeder
     {
          // GENERATE GROUPS
         // FEU TECH
+
+        if(!Group::where('name', 'CYBER ACE')->exists()) {
+            Group::create([
+                'name' => 'Cyber Ace',
+                'specialization_id' => 1,
+                'ticap_id' => Ticap::latest()->pluck('id')->first(),
+            ]);
+        }
+
         Group::create([
             'name' => 'LSMR',
             'specialization_id' => 1,
-            'ticap_id' => 1
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
         ]);
         Group::create([
             'name' => 'Code Brewers',
             'specialization_id' => 1,
-            'ticap_id' => 1
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
         ]);
         Group::create([
             'name' => 'Envisioners',
             'specialization_id' => 2,
-            'ticap_id' => 1
+            'ticap_id' => Ticap::latest()->pluck('id')->first(),
         ]);
         Group::create([
             'name' => 'BLANK',

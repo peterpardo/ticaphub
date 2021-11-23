@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
         Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
         Route::get('/event-programs/{file}', [EventController::class, 'downloadEventPrograms']);
+        Route::get('/group-files/{file}', [EventController::class, 'downloadGroupFiles']);
     });
     Route::middleware(['set.ticap'])->group(function() {
         // OFFICERS AND COMMITTEES

@@ -20,7 +20,7 @@
                                 <ul class="list-disc list-inside">
                                     @foreach($event->archivedPrograms as $program)
                                     <li>
-                                        <a href="/{{ $program->path }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
+                                        <a href="/{{ $program->path }}" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -280,9 +280,15 @@
                     @else
                     <ul class="list-inside list-disc">
                         @foreach ($exhibit->files as $file)
-                        <li>
-                            <a href="{{ Storage::url($file->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
-                        </li>
+                            @if($file->path == 'assets/banner.png' || $file->path == 'assets/sample-video.mp4')
+                                <li>
+                                    <a href="{{ url(asset($file->path)) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="/{{ $file->path }}" class="text-blue-500 hover:text-blue-600 underline">{{ $file->name }}</a>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                     @endif
