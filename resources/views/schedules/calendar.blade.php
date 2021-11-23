@@ -94,7 +94,7 @@
             </div>
     
             <!-- Modal -->
-            <div style=" background-color: rgba(0, 0, 0, 0.8)" class="fixed z-40 top-0 right-0 left-0 bottom-0 h-full w-full" x-show.transition.opacity="openEventModal">
+            <div style=" background-color: rgba(0, 0, 0, 0.8)" class="fixed z-40 top-0 right-0 left-0 bottom-0 h-full w-full" x-cloak x-show.transition.opacity="openEventModal">
                 <div class="p-4 max-w-xl mx-auto relative left-0 right-0 overflow-hidden mt-24">
                     <div class="shadow absolute right-0 top-0 w-10 h-10 rounded-full bg-white text-gray-500 hover:text-gray-800 inline-flex items-center justify-center cursor-pointer"
                         x-on:click="openEventModal = !openEventModal">
