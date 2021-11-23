@@ -30,7 +30,7 @@ class SchoolSeeder extends Seeder
             'name' => 'Animation and Game Development',
         ]);
         $school->specializations()->create([
-            'name' => 'System Management and Business Analytics',
+            'name' => 'Service Management and Business Analytics',
         ]);
         // // // FEU DILIMAN
         $school = School::create([
