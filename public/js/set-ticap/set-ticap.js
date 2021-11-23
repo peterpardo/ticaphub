@@ -33,6 +33,10 @@ function setTicap() {
                 } else {
                     alert(msg.success);
                     location.reload();
+                    this.isOpen = false;
+                    this.message = "";
+                    this.ticap = "";
+                    this.showMessage = false;
                 }
             })
         },

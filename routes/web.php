@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/documentation/delete-ticap', [DocumentationController::class, 'deleteTicap']);
         Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
         Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
+        Route::get('/event-programs/{file}', [EventController::class, 'downloadEventPrograms']);
     });
     Route::middleware(['set.ticap'])->group(function() {
         // OFFICERS AND COMMITTEES

@@ -361,6 +361,10 @@ class EventController extends Controller
         return response()->download(storage_path('app/public/event-files/' . $file));
     }
 
+    public function downloadEventPrograms($file) {  
+        return response()->download(storage_path('app/public/event-programs/' . $file));
+    }
+
     public function fetchFiles($taskId) {
         $files = File::where('task_id', $taskId)->get();
         return response()->json([

@@ -20,7 +20,7 @@
                                 <ul class="list-disc list-inside">
                                     @foreach($event->archivedPrograms as $program)
                                     <li>
-                                        <a href="{{ Storage::url($program->path) }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
+                                        <a href="/{{ $program->path }}" target="_blank" class="text-blue-500 hover:text-blue-600 underline">{{ $program->name }}</a>
                                     </li>
                                     @endforeach
                                 </ul>
