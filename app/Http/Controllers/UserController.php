@@ -301,6 +301,9 @@ class UserController extends Controller
                     $fields['id_number'] = trim($row[4]);
                     $fields['group'] = trim($row[5]);
                     foreach($fields as $key => $value) {
+                        if($key == "middle_name") {
+                            continue;
+                        }
                         if($value == null || $value == "") {
                             throw new GeneralException('Line ' . $ctr . ' - ' . $key . ' is missing.'); 
                         }
