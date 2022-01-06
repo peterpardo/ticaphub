@@ -29,16 +29,6 @@ class UserSeeder extends Seeder
         ]);
 
         $admin2 = User::create([
-            'first_name' => 'Miguel Bryan',
-            'middle_name' => 'M',
-            'last_name' => 'Pajarillo',
-            'email' => 'admin1@admin1.com',
-            'password' => Hash::make('thisisadmin'), // password
-            'ticap_id' => null,
-            'email_verified' => 1,
-        ]);
-
-        $admin3 = User::create([
             'first_name' => 'John Raymond',
             'middle_name' => 'M',
             'last_name' => 'Arriesgado',
@@ -147,6 +137,5 @@ class UserSeeder extends Seeder
         // ASSIGN ROLE
         $admin1->assignRole($admin);
         $admin2->assignRole($admin);
-        $admin3->assignRole($admin);
     }
 }
