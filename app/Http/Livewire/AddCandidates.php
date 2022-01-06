@@ -112,7 +112,6 @@ class AddCandidates extends Component
                     $q->where('specialization_id', $this->selectedSpec);
                 });
             })
-            ->where('email_verified', 1)
             ->search(trim($this->search))
             ->paginate(4),
         ]);
