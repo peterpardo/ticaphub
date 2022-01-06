@@ -32,7 +32,7 @@ class GroupStudentPanelistSeeder extends Seeder
         }
 
         Group::create([
-            'name' => 'LSMR',
+            'name' => 'A-TEAM',
             'specialization_id' => 1,
             'ticap_id' => Ticap::latest()->pluck('id')->first(),
         ]);
