@@ -22,7 +22,7 @@ class UserProfile extends Component
     public $profileChanged = false;
     protected $rules = [
         'first_name' => 'required|string',
-        'middle_name' => 'required|string',
+        'middle_name' => 'string',
         'last_name' => 'required|string',
     ];
 

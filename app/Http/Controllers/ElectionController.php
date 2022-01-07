@@ -13,6 +13,7 @@ use App\Models\Specialization;
 use App\Models\SpecializationPanelist;
 use App\Models\Ticap;
 use App\Models\User;
+use App\Models\UserElection;
 use App\Models\UserSpecialization;
 use App\Models\Vote;
 use Illuminate\Http\Request;
@@ -73,7 +74,7 @@ class ElectionController extends Controller
         if($ticap->election_review) {
             return redirect()->route('election-result');
         }
-        if($ticap->election_has_started) {
+        if($ticap->election_has_started && !$ticap->election_updated) {
             return redirect()->route('election');
         }
         $title = 'Officers and Committees';
@@ -102,12 +103,12 @@ class ElectionController extends Controller
         if($ticap->election_review) {
             return redirect()->route('election-result');
         }
-        if($ticap->election_has_started) {
-            return redirect()->route('election');
-        }
-        if($ticap->election_has_started) {
-            return back();
-        }
+        // if($ticap->election_has_started) {
+        //     return redirect()->route('election');
+        // }
+        // if($ticap->election_has_started) {
+        //     return back();
+        // }
         // CHECK IF POSITIONS ARE ENOUGH FOR THE ELECTION
         if(Position::all()->count() < 2 ){
             session()->flash('status', 'red');
@@ -210,14 +211,34 @@ class ElectionController extends Controller
 
     public function electionPanel() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        $ticap->election_has_started = 1;
+
+        // RESET VOTES IF ELECTION IS UPDATED
+        if($ticap->election_updated) {
+            // TRUNCATE VOTES TABLE
+            Vote::truncate();
+
+            // RESET USER VOTES
+            foreach(UserElection::where('has_voted', 1)->get() as $voter) {
+                $voter->has_voted = 0;
+                $voter->save();
+            } 
+            $ticap->election_updated = 0;
+        }
+        
+        // START ELECTION
+        if(!$ticap->election_has_started) {
+            $ticap->election_has_started = 1;
+        }
+        
         $ticap->save();
+        
         if($ticap->election_finished) {
             return redirect()->route('officers');
         }
         if($ticap->election_review) {
             return redirect()->route('election-result');
         }
+
         $title = 'Officers and Committees';
         $scripts = [
             asset('js/officersandcommittees/election.js'),

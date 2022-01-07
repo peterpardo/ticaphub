@@ -12,8 +12,14 @@
         @csrf
         @foreach($positions as $position) 
         <div class="mb-3 w-1/5 mx-auto text-center">
-            @error($position->name)
+            {{-- @error($position->name)
             <div class="text-center text-red-500">{{ $message }}</div>
+            @enderror --}}
+            @php
+                $name = str_replace(' ', '_', $position->name);
+            @endphp
+            @error($name)
+                <div class="text-center text-red-500">{{ $message }}</div>
             @enderror
             <div class="font-semibold text-xl border-b-2 border-gray-500 px-3 mb-2">{{ $position->name }}</div>
             <table class="mb-2 mx-auto">

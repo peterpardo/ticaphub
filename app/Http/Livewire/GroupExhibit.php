@@ -55,7 +55,7 @@ class GroupExhibit extends Component
     }
     public function saveVideo() {
         $this->validate([
-            'video' => 'required|file|mimes:mp4,ogx,oga,ogv,ogg,webm'
+            'video' => 'required|file|mimes:mp4,ogx,oga,ogv,ogg,webm|max:400000'
         ]);
         if($this->group->groupExhibit->video_path != null && $this->group->groupExhibit->video_path != 'assets/sample-video.mp4') {
             unlink(storage_path('app/public/' . $this->group->groupExhibit->video_path));

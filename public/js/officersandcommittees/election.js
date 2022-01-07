@@ -7,4 +7,12 @@ $(document).ready(function() {
         $('#confirmationModal').removeClass('flex');
         $('#confirmationModal').addClass('hidden');
     });
+    window.addEventListener('openUpdateElectionModal', function() {
+        $('#updateElectionModal').addClass('flex');
+        $('#updateElectionModal').removeClass('hidden');
+    });
+    window.addEventListener('closeUpdateElectionModal', function() {
+        $('#updateElectionModal').removeClass('flex');
+        $('#updateElectionModal').addClass('hidden');
+    });
 });

@@ -31,7 +31,7 @@ class AddStudent extends Component
     protected $rules = [
         'id_number' => 'required|numeric|max:99999999999',
         'first_name' => 'required',
-        'middle_name' => 'required',
+        'middle_name' => 'string',
         'last_name' => 'required',
         'email' => 'required|email|unique:users,email',
         'selectedSchool' => 'required',

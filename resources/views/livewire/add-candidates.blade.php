@@ -1,10 +1,11 @@
 <div>
-    <div class="flex justify-between">
-        <div class="font-semibold text-2xl dark:text-gray-50">Nominate Students</div>
-        @if($users->count() > 0)
-            <button wire:click="confirmCandidates" class="inline-block bg-green-600 py-2 px-10 rounded mr-10 text-white hover:bg-green-500">Start Election</button>
-        @endif
-    </div>
+    @if($users->count() > 0)
+        <div class="flex justify-between mb-3">
+            <a href="/officers-and-committees/positions" class="inline-block bg-red-500 px-10 py-2 rounded text-white">Back</a>
+            <button wire:click="confirmCandidates" class="inline-block bg-green-600 py-2 px-10 rounded text-white hover:bg-green-500">Start Election</button>
+        </div>
+    @endif
+    <div class="font-semibold text-2xl dark:text-gray-50">Nominate Students</div>    
     {{-- STUDENT TABLE --}}
     {{-- SEARCH FOR CANDIDATES --}}
     <div class="mb-2 text-gray-800">

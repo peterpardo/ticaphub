@@ -78,4 +78,16 @@ class ElectionPanel extends Component
         $this->positions = Position::all();
         return view('livewire.election-panel');
     }
+    public function openUpdateModal() {
+        $this->dispatchBrowserEvent('openUpdateElectionModal');
+    }
+    public function closeUpdateModal() {
+        $this->dispatchBrowserEvent('closeUpdateElectionModal');
+    }
+    public function updateElection() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+        $ticap->election_updated = 1;
+        $ticap->save();
+        return redirect()->route('set-candidates');
+    }
 }

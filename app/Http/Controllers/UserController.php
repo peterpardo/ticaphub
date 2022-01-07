@@ -120,12 +120,12 @@ class UserController extends Controller
         // VALIDATION OF INPUT
         $request->validate([
             'first_name' => 'required',
-            'middle_name' => 'required',
+            'middle_name' => 'string',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
         ]); 
         // GENERATE DEFAULT PASSWORD
-        $tempPassword = "admin123";
+        $tempPassword = "panelist123";
          // CREATE USER
         $user = User::create([
             'first_name' => Str::title($request->first_name),
@@ -135,7 +135,7 @@ class UserController extends Controller
             'password' => $tempPassword,
             'ticap_id' => $ticap,
         ]);
-        // ASSIGN STUDENT ROLE
+        // ASSIGN PANELIST ROLE
         $user->assignRole('panelist');
        // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
@@ -176,10 +176,12 @@ class UserController extends Controller
         // VALIDATION OF INPUT
         $request->validate([
             'first_name' => 'required',
-            'middle_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
         ]); 
+        if($request->middle_name) {
+            $request->validate(['middle_name' => 'string']);
+        }
         // GENERATE DEFAULT PASSWORD
         $tempPassword = "admin123";
          // CREATE USER
@@ -331,6 +333,25 @@ class UserController extends Controller
                         'specialization_id' => $specialization,
                         'id_number' => $fields['id_number'],
                     ]);
+                    // ASSIGN STUDENT WHICH ELECTION TO VOTE
+                    if($user->userSpecialization->specialization->school->id == 1) {
+                        $spec = Specialization::find($user->userSpecialization->specialization->id);
+                        $spec->election->userElections()->create([
+                            'user_id' => $user->id,
+                        ]);
+                    } else {
+                        if($user->userSpecialization->specialization->school->name == 'FEU DILIMAN') {
+                            $election = Election::with(['candidates'])->where('name', 'FEU DILIMAN')->first();
+                            $election->userElections()->create([
+                                'user_id' => $user->id,
+                            ]);
+                        } elseif($user->userSpecialization->specialization->school->name == 'FEU ALABANG') {
+                            $election = Election::with(['candidates'])->where('name', 'FEU ALABANG')->first();
+                            $election->userElections()->create([
+                                'user_id' => $user->id,
+                            ]);
+                        }
+                    }
                     // CHECK IF GROUP EXISTS
                     $groupName = Str::upper($fields['group']);
                     if(!Group::where('name', $groupName)->exists()) {
@@ -392,6 +413,9 @@ class UserController extends Controller
                         'created_at' =>  date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
+                    // RegisterUserJob::dispatch($email, $details)
+                    //     ->delay(now()->addMinutes(1));
+                    // // dispatch(new RegisterUserJob($email, $details))->delay(now()->addMinutes(1));
                     dispatch(new RegisterUserJob($email, $details));
                 }
             }
@@ -444,13 +468,18 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         $request->validate([
             'first_name' => 'required|string',
-            'middle_name' => 'required|string',
             'last_name' => 'required|string',
         ]);
 
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
-        $user->middle_name = $request->middle_name;
+        if($request->middle_name != " ") {
+            dd('sop');
+            $request->validate([
+                'middle_name' => 'string',
+            ]);
+            $user->middle_name = $request->middle_name;
+        }
         $user->last_name = $request->last_name;
         $user->save();
 

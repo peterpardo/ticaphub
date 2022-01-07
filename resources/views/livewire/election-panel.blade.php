@@ -4,8 +4,9 @@
         <p class="font-bold">{{ session('message') }}</p>
     </div>
     @endif
-    <div class="text-right my-3">
-        <button wire:click='endElection' class="bg-green-600 py-2 px-5 rounded mr-1 text-white hover:bg-green-500">Get Election Results</button>
+    <div class="flex justify-between my-3">
+        <button wire:click="openUpdateModal" class="inline-block bg-blue-600 hover:bg-blue-500 rounded text-white px-5 py-2">Update Election</button>
+        <button wire:click='endElection' class="bg-green-600 py-2 px-5 rounded text-white hover:bg-green-500">Get Election Results</button>
     </div>
     <div class="flex flex-wrap justify-evenly w-full">
         @foreach($elections as $election)
@@ -119,4 +120,25 @@
         </div>
     </div>
     {{-- CONFIRMATION MODAL --}}
+
+    {{-- UPDATE ELECTION MODAL --}}
+    <div class="hidden min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none" id="updateElectionModal">
+        <div class="absolute bg-white opacity-80 inset-0 z-0"></div>
+        <div class="w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white ">
+            <!--content-->
+            <div class="text-gray-800">
+                <!--body-->
+                <div class="text-center p-5 flex-auto justify-center">
+                    <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
+                    <p class="text-sm text-gray-500 px-8 mb-3">Do you want to update the election? The votes will be reset once you proceed.</p>
+                </div>
+                <!--footer-->
+                <div class="p-3 mt-2 text-center space-x-4 md:block">
+                    <button wire:click="closeUpdateModal" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                    <button wire:click="updateElection" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- UPDATE ELECTION MODAL --}}
 </div>

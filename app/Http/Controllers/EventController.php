@@ -306,6 +306,7 @@ class EventController extends Controller
         // VALIDATED ACTIVITY REPORT
         $validator = Validator::make($request->all(), [
             'description' => 'required',
+            'files' => 'max:10000',
         ], [
             'description.required' => 'Activity Report is required'
         ]);

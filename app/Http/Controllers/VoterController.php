@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
+use App\Models\UserElection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,16 +65,18 @@ class VoterController extends Controller
         }
         // GET POSITIONS IN RE-ELECTION
         if($ticap->has_new_election) {
-            $elections = Election::all();
-            foreach($elections as $election) {
-                if($election->officers()->where('is_elected', 0)->exists()) {
-                    $position = $election->officers()->where('is_elected', 0)->distinct()->pluck('position_id');
-                    $pos = Position::find($position[0]);
+            // FIND ELECTION ID OF THE VOTER
+            $userElection = UserElection::where('user_id', Auth::user()->id)->first();
+            $election = Election::find($userElection->election_id);
+            if($election->officers()->where('is_elected', 0)->exists()) {
+                $officers = $election->officers()->where('is_elected', 0)->get();
+                foreach ($officers as $officer) {
+                    $pos = Position::find($officer->position->id);
                     $name = str_replace(' ', '_', $pos->name);
                     if(!array_key_exists($name, $fields)){
                         $fields[$name] = 'required';
                     }
-                }
+                }    
             }
         } else {
             foreach($positions as $position) {
