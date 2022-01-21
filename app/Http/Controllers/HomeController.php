@@ -116,7 +116,7 @@ class HomeController extends Controller
             if($ticap->election_review) {
                 return redirect()->route('election-result');
             }
-            if($ticap->election_has_started && !$ticap->election_has_started && $ticap->has_new_election) {
+            if($ticap->election_has_started && $ticap->has_new_election) {
                 return redirect()->route('new-election');
             }
             if($ticap->election_has_started && !$ticap->election_finished) {
