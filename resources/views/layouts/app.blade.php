@@ -265,7 +265,7 @@
               </a>
             </li>
             @endcan
-            {{-- @role('admin')
+            @role('admin')
             <li>
               <a href="{{ route('schedules') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
                 <span class="inline-flex justify-center items-center ml-4">
@@ -275,7 +275,7 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Schedules</span>
               </a>
             </li>
-            @endrole --}}
+            @endrole
             @if(Auth::user()->hasAnyRole('admin', 'student', 'officer'))
             <li>
               <a href="{{ route('officers') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
@@ -296,7 +296,7 @@
               </a>
             </li>
             @endrole
-            {{-- @can('access events')
+            @can('access events')
             <li>
               <a href="{{ route('events') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
                 <span class="inline-flex justify-center items-center ml-4">
@@ -305,8 +305,8 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Manage Events</span>
               </a>
             </li>
-            @endcan --}}
-            {{-- @if(Auth::user()->committeeMember()->exists() || Auth::user()->committee()->exists())
+            @endcan
+            @if(Auth::user()->committeeMember()->exists() || Auth::user()->committee()->exists())
             <li>
               @if(Auth::user()->committeeMember()->exists())
               <a href="/committee/{{ Auth::user()->committeeMember->committee->id }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
@@ -323,8 +323,8 @@
                 @endif
               </a>
             </li>
-            @endif --}}
-            {{-- @can('access awards')
+            @endif
+            @can('access awards')
             <li>
               <a href="{{ route('assessment-panel') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
                 <span class="inline-flex justify-center items-center ml-4">
@@ -333,7 +333,7 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Project Assessment</span>
               </a>
             </li>
-            @endcan --}}
+            @endcan
             @can('access documents')
             <li>
               <a href="{{ route('documentation') }}"  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6">
@@ -374,7 +374,7 @@
                 <span class="ml-2 text-sm tracking-wide truncate">Home Page</span>
               </a>
             </li>
-            {{-- @role('admin')
+            @role('admin')
             <div class="overflow-y-hidden overflow-x-hidden flex flex-col justify-between flex-grow">
                 <button class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-red-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-red-500 dark:hover:border-gray-800 pr-6" type="button" data-dropdown-toggle="dropdown"><span class="inline-flex justify-center items-center">
                     <span class="inline-flex justify-center items-center mx-4">
@@ -417,7 +417,7 @@
                     </ul>
                 </div>
             </div>
-            @endrole --}}
+            @endrole
           </ul>
         </div>
       </div>

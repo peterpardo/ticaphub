@@ -6,7 +6,7 @@
             @csrf
             <div class="grid grid-cols-1 gap-6 mt-4">
                 <div>
-                    <label class="text-gray-700 dark:text-gray-200">Stream Title</label>
+                    <label class="text-gray-700 dark:text-gray-200">Slider Title</label>
                     <input name="title" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
                     @error('title')
                     <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
