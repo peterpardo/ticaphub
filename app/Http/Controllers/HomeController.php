@@ -40,19 +40,22 @@ class HomeController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-        // INSERT TICAP NAME TO TICAPS TABLE
+
+        // Create ticap
         $ticap = Ticap::create([
             'name' => $request->ticap,
         ]);
 
-        // FIND ADMIN ID
+        // Get admins
         $admins = User::role('admin')->get();
-        // SET TICAP_ID OF ADMIN TO PRESENT TICAP
+
+        // Set ticap id of admins
         foreach($admins as $admin) {
             $admin->ticap_id = $ticap->id;
             $admin->save();
         }
-        // ASSGIN TICAP ID TO EVENTS
+
+        // Set ticap id of default events
         foreach(Event::all() as $event) {
             $event->ticap_id = $ticap->id;
             $event->save();
@@ -88,15 +91,21 @@ class HomeController extends Controller
     }
 
     public function users() {
-        // REDIRECTS TO SET OF INVITATION TO USERS
+        // TEST CASES
+        // Check if user is an admin
+        // Check if user ticap_id is not null
+
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        if(!$ticap->invitation_is_set){
-            return redirect()->route('set-invitation');
-        }
         $title = 'User Accounts';
         $scripts = [
             asset('js/useraccounts/users.js')
         ];
+
+        // REDIRECTS TO SET OF INVITATION TO USERS
+        if(!$ticap->invitation_is_set){
+            return redirect()->route('set-invitation');
+        }
+
         return view('user-accounts.users', [
             'title' => $title,
             'scripts' => $scripts,

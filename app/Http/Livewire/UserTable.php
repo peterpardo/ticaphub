@@ -24,7 +24,7 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
 class UserTable extends Component
-{       
+{
     use WithPagination;
 
     public $search;
@@ -34,6 +34,7 @@ class UserTable extends Component
         $this->selectedUser = $userId;
         $this->dispatchBrowserEvent('openModal');
     }
+
     public function deleteUser(){
         $user = User::find($this->selectedUser);
         // INVALIDATE REGISTRATION LINK SENT TO USER IF STILL NOT VERIFIED
@@ -42,12 +43,15 @@ class UserTable extends Component
         $this->emit('userDeleted');
         $this->dispatchBrowserEvent('closeModal');
     }
+
     public function closeModal(){
         $this->dispatchBrowserEvent('closeModal');
     }
+
     public function resetUserBtn() {
         $this->dispatchBrowserEvent('openResetModal');
     }
+
     public function resetUsers() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
         // ARCHIVE EVENTS AND EVENT FILES
@@ -102,7 +106,7 @@ class UserTable extends Component
                         ]);
                     }
                 }
-            } 
+            }
 
             //  GENERATE AND DOCUMENT CAPSTONE GROUPS
             $path = 'public/reports/' . Str::uuid() . '.pdf';
@@ -118,10 +122,10 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.groups', $data);
             Storage::put($path, $pdf->output());
         }
-        
+
         // ARCHIVE PROJECT ASSESSMENT FILES IF AWARDS IS SET
         if($ticap->awards_is_set) {
-            // GENERATE AND DOCUMENT THE PDF FILE FOR WINNER CERTIFICATES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR WINNER CERTIFICATES
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'winner-certificates';
             $ticap->archivedWinnerCertificates()->create([
@@ -135,7 +139,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.certificate', $data)->setPaper('a4', 'landscape');
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR RECOGNITION CERTIFICATES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR RECOGNITION CERTIFICATES
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'recognition-certificates';
             $ticap->archivedRecognitionCertificates()->create([
@@ -149,7 +153,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.student-certificate', $data)->setPaper('a4', 'landscape');
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELIST CERTIFICATES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELIST CERTIFICATES
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'panelist-certificates';
             $ticap->archivedPanelistCertificates()->create([
@@ -163,7 +167,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.panelist-certificate', $data)->setPaper('a4', 'landscape');
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR RUBRICS
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'rubrics';
             $ticap->archivedRubrics()->create([
@@ -177,7 +181,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.rubrics', $data);
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR GRADED RUBRICS 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR GRADED RUBRICS
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'graded-rubrics';
             $ticap->archivedGradedRubrics()->create([
@@ -191,7 +195,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.graded-rubrics', $data);
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELISTS 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR PANELISTS
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'panelists';
             $ticap->archivedPanelists()->create([
@@ -205,7 +209,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.panelists', $data);
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR AWARDEES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR AWARDEES
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'awardees';
             $ticap->archivedAwardees()->create([
@@ -219,9 +223,9 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.awards', $data);
             Storage::put($path, $pdf->output());
         }
-       
+
         if($ticap->election_finished) {
-            // GENERATE AND DOCUMENT THE PDF FILE FOR OFFICERS 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR OFFICERS
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'officers';
             $ticap->archivedOfficers()->create([
@@ -235,7 +239,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.officers', $data);
             Storage::put($path, $pdf->output());
 
-            // GENERATE AND DOCUMENT THE PDF FILE FOR COMMITTEES 
+            // GENERATE AND DOCUMENT THE PDF FILE FOR COMMITTEES
             $path = 'public/reports/' . Str::uuid() . '.pdf';
             $fileName = 'committees';
             $ticap->archivedCommittees()->create([
@@ -249,7 +253,7 @@ class UserTable extends Component
             $pdf = PDF::loadView('reports.committees', $data);
             Storage::put($path, $pdf->output());
         }
-       
+
         // DELETE ALL STUDENTS
         $users = User::role(['student', 'panelist'])->get();
         foreach($users as $user) {
@@ -279,10 +283,10 @@ class UserTable extends Component
 
         // DELETE ADDED SPECIALIZATIONS
         Specialization::where('school_id', '!=', 1)->delete();
-        
+
         // DELETE REGISTER_USERS TABLE
         DB::table('register_users')->truncate();
-        
+
         // DELETE ALL ADDED EVENTS
         Event::where('id', '!=', 1)
         ->where('id', '!=', 2)
@@ -309,9 +313,11 @@ class UserTable extends Component
         session()->flash('message', 'TICaP successfully saved');
         return redirect()->route('dashboard');
     }
+
     public function closeResetModal(){
         $this->dispatchBrowserEvent('closeResetModal');
     }
+
     public function render()
     {
         return view('livewire.user-table',[

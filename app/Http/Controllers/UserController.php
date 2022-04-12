@@ -21,88 +21,23 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
-{   
+{
     public function invitationForm() {
-        $user = User::find(1);
+        $user = User::find(Auth::user()->id);
         $ticap = Ticap::find($user->ticap_id);
-        if($ticap->invitation_is_set) {
-            return redirect()->route('users');
-        }
         $title = 'User Accounts';
         $scripts = [
             asset('js/useraccounts/setInvitation.js'),
         ];
+
+        // if($ticap->invitation_is_set) {
+        //     return redirect()->route('users');
+        // }
+
         return view('user-accounts.set-invitation', [
             'title' => $title,
             'scripts' => $scripts,
         ]);
-    }
-
-    public function setInvitation(Request $request) {
-        $request->validate([
-            'FEU_Diliman' => 'numeric',
-            'FEU_Alabang' => 'numeric',
-        ]);
-        if($request->FEU_Diliman != null) {
-            $school = School::find($request->FEU_Diliman);
-            $school->is_involved = 1;
-            $school->save();
-        } 
-        if($request->FEU_Alabang != null) {
-            $school = School::find($request->FEU_Alabang);
-            $school->is_involved = 1;
-            $school->save();
-        } 
-        $ticap = Ticap::find(Auth::user()->ticap_id);
-        $ticap->invitation_is_set = 1;
-        $ticap->save();
-        return redirect()->route('users');
-    }
-
-    public function fetchSpecializations(){
-        $specializations = Specialization::all();
-        return response()->json([
-            'specializations' =>  $specializations,
-        ]);
-    }
-
-    public function addSpecialization(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'specialization' => 'required|unique:specializations,name',
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->getMessageBag(),
-            ]);
-        } else {
-            Specialization::create([
-                'name' => Str::title($request->specialization)
-            ]);
-            return response()->json([
-                'status' => 200,
-                'message' => 'Specialization Added SuccessFully',
-            ]);
-        }
-    }
-
-    public function deleteSpecialization(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'specialization_id' => 'required',
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => 400,
-                'errors' => $validator->getMessageBag(),
-            ]);
-        } else {
-            Specialization::find($request->specialization_id)->delete();
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'Specialization Deleted SuccessFully',
-            ]);
-        }
     }
 
     // ADD PANELISTS FOR USERS ACCOUNT
@@ -123,7 +58,7 @@ class UserController extends Controller
             'middle_name' => 'string',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
-        ]); 
+        ]);
         // GENERATE DEFAULT PASSWORD
         $tempPassword = "panelist123";
          // CREATE USER
@@ -140,7 +75,7 @@ class UserController extends Controller
        // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            'token' => $token, 
+            'token' => $token,
             'ticap' => $ticap,
             'email' => $request->email,
         ]);
@@ -178,7 +113,7 @@ class UserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
-        ]); 
+        ]);
         if($request->middle_name) {
             $request->validate(['middle_name' => 'string']);
         }
@@ -198,7 +133,7 @@ class UserController extends Controller
        // SEND LINK FOR CHANGING PASSWORD TO USER
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            'token' => $token, 
+            'token' => $token,
             'ticap' => $ticap,
             'email' => $request->email,
         ]);
@@ -252,10 +187,10 @@ class UserController extends Controller
                 ->exists();
         if(!$user){
             return back()->with('error', 'Current doesn\'t match the expected account.');
-        } 
+        }
         // DELETE REGISTER TOKEN
         DB::table('register_users')->where('token', $request->token)->delete();
-        // UPDATE USER 
+        // UPDATE USER
         $user = User::where('email', $request->email)->update([
             'password' => Hash::make($request->password),
             'email_verified' => 1,
@@ -274,7 +209,7 @@ class UserController extends Controller
         return DB::transaction(function() use ($request){
             if($request->file) {
                 if($request->file->getClientOriginalExtension() != 'csv') {
-                    throw new GeneralException('File must be in csv format'); 
+                    throw new GeneralException('File must be in csv format');
                 }
             }
 
@@ -307,14 +242,14 @@ class UserController extends Controller
                             continue;
                         }
                         if($value == null || $value == "") {
-                            throw new GeneralException('Line ' . $ctr . ' - ' . $key . ' is missing.'); 
+                            throw new GeneralException('Line ' . $ctr . ' - ' . $key . ' is missing.');
                         }
                     }
                     // GENERATE RANDOM PASSWORD
                     $tempPassword = "picab" . $fields['email'];
                     // VALIDATE EMAIL AND STUDENT NUMBER
-                    if(User::where('email', $fields['email'])->exists() ){     
-                        throw new GeneralException('Line ' . $ctr . ' - Email must be unique'); 
+                    if(User::where('email', $fields['email'])->exists() ){
+                        throw new GeneralException('Line ' . $ctr . ' - Email must be unique');
                     }
                     // CREATE USER
                     $ticap = Auth::user()->ticap_id;
@@ -398,7 +333,7 @@ class UserController extends Controller
                     // SEND LINK FOR CHANGING PASSWORD TO USER
                     $token = Str::random(60) . time();
                     $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-                        'token' => $token, 
+                        'token' => $token,
                         'ticap' => Auth::user()->ticap_id,
                         'email' => $email,
                     ]);
@@ -430,6 +365,7 @@ class UserController extends Controller
         $scripts = [
             asset('js/useraccounts/editUser.js'),
         ];
+
         return view('user-accounts.edit-user', [
             'title' => $title,
             'user' => $user,

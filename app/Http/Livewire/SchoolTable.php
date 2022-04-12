@@ -28,17 +28,21 @@ class SchoolTable extends Component
         'selectedSchool.required' => 'School is required',
         'specialization.required' => 'Specialization is required',
     ];
-    
+
     public function setInvitation() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
-        // CREATE ELECTIONS
+
+        // Get all schools involved in current ticap
         $schools = School::where('is_involved', 1)->get();
+
         foreach($schools as $school) {
+            // Check if a school has a specialization
             if($school->specializations->count() < 1) {
                 session()->flash('status', 'red');
                 session()->flash('message', $school->name . ' has no specializaions created');
                 return back();
             }
+
             if($school->id == 1){
                 // CREATE ELECTIONS PER SPECIALIZATION FOR FEU TECH
                 foreach($school->specializations as $spec) {
@@ -55,8 +59,8 @@ class SchoolTable extends Component
                 ]);
             }
         }
-        
-        // CREATE DEFUALT AWARDS
+
+        // Create default awards
         foreach(Specialization::all() as $spec) {
             // BEST CAPSTONE PROJECT AWARD
             $spec->awards()->create([
@@ -71,28 +75,35 @@ class SchoolTable extends Component
                 'type' => 'individual',
                 'school_id' => $spec->school->id,
                 'ticap_id' => $ticap->id,
-            ]); 
+            ]);
         }
 
         // SET INVITATION
         $ticap->invitation_is_set = 1;
         $ticap->save();
+
         return redirect()->route('users');
     }
+
     public function closeConfirmationModal() {
         $this->dispatchBrowserEvent('closeConfModal');
     }
+
     public function openConfirmationModal() {
         $this->dispatchBrowserEvent('openConfModal');
     }
+
     public function closeDeleteModal() {
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
+
     public function deleteSpec() {
         Specialization::find($this->selectedSpec)->delete();
+
         $this->emit('specDeleted');
         $this->dispatchBrowserEvent('closeDeleteModal');
     }
+
     public function selectSpec($specId, $action) {
         if($action == 'update') {
             $this->emit('getSpecId', $specId);
@@ -102,16 +113,21 @@ class SchoolTable extends Component
             $this->dispatchBrowserEvent('openDeleteModal');
         }
     }
+
     public function addSpecialization() {
         $this->validate();
+
         $school = School::find($this->selectedSchool);
         $spec = trim(Str::title($this->specialization));
+
+        // Check if specialization already exist in school
         if($school->specializations()->where('name', $spec)->exists()) {
             session()->flash('status', 'red');
             session()->flash('message', 'Specialization already exists');
             return back();
         }
 
+        // Create specialization
         $school->specializations()->create([
             'name' => $spec
         ]);
@@ -120,20 +136,28 @@ class SchoolTable extends Component
         session()->flash('message', 'Specialization successfully added');
         $this->reset();
     }
+
     public function removeSchool($id) {
+        // Remove all specializations under removed school
         Specialization::where('school_id', $id)->delete();
+
+        // Set the school to not involved
         School::find($id)->update(['is_involved' => 0]);
     }
+
     public function addSchool($id) {
         School::find($id)->update(['is_involved' => 1]);
     }
+
     public function render()
     {
         $schools = School::all();
+
         $this->involvedSchools = School::where('is_involved', 1)->get();
         $this->specs = Specialization::whereHas('school', function($q){
             $q->where('is_involved', 1);
         })->get();
+
         return view('livewire.school-table', [
             'schools' => $schools
         ]);
