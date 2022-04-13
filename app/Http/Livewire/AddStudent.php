@@ -29,10 +29,10 @@ class AddStudent extends Component
     public $groups = null;
     public $selectedGroup;
     protected $rules = [
-        'id_number' => 'required|numeric|max:99999999999',
-        'first_name' => 'required',
-        'middle_name' => 'string',
-        'last_name' => 'required',
+        'id_number' => 'required|digits:9',
+        'first_name' => 'required|max:30',
+        'middle_name' => 'nullable|string|max:30',
+        'last_name' => 'required|max:30',
         'email' => 'required|email|unique:users,email',
         'selectedSchool' => 'required',
         'selectedSpec' => 'required',
@@ -51,22 +51,30 @@ class AddStudent extends Component
             'schools' => $schools,
         ]);
     }
+
     public function insertGroup($group) {
         $this->selectedGroup = $group;
     }
+
     public function updatedSelectedSchool($schoolId){
+        // Reset selected specialization
         $this->selectedSpec = null;
+
         $this->specializations = Specialization::where('school_id', $schoolId)->get();
     }
+
     public function updatedSelectedSpec($specId){
         $this->groups = Group::where('specialization_id', $specId)->get();
     }
+
     public function addStudent() {
         $this->validate();
-        
+
         $ticap = Auth::user()->ticap_id;
-        // GENERATE DEFAULT PASSWORD
+        // Generate default password Ex. picab201811780
         $tempPassword = "picab" . $this->id_number;
+
+        // Add Student
         $user = User::create([
             'first_name' => Str::title($this->first_name),
             'middle_name' => Str::title($this->middle_name),
@@ -75,12 +83,16 @@ class AddStudent extends Component
             'email' => $this->email,
             'ticap_id' => $ticap,
         ]);
+
+        // Assign user as a student and assign to selected specialization and id number
         $user->assignRole('student');
         $user->userSpecialization()->create([
             'specialization_id' => $this->selectedSpec,
             'id_number' => $this->id_number,
         ]);
-        // ASSIGN STUDENT WHICH ELECTION TO VOTE
+
+        // Assign student which election to vote
+        // Check if student is from FEU TECH, FEU Diliman, or FEU Alabang
         if($user->userSpecialization->specialization->school->id == 1) {
             $spec = Specialization::find($user->userSpecialization->specialization->id);
             $spec->election->userElections()->create([
@@ -99,39 +111,47 @@ class AddStudent extends Component
                 ]);
             }
         }
-        // CHECK IF GROUP ALREADY EXIST
+
+        // Add capstone group to ticap
+        // Capitalize group name for comparison
         $groupName = Str::upper(trim($this->selectedGroup));
+
+        // If group doesn't exist in the selected specializaiton, add the group
         if(!Group::where('name', $groupName)
-        ->where('specialization_id', $this->selectedSpec)
-        ->exists()) {
-            // CREATE GROUP
-            $group = Group::create([
-                'name' => $groupName,
-                'specialization_id' => $this->selectedSchool,
-                'ticap_id' => $ticap,
-            ]);
-            $user->userGroup()->create([
-                'group_id' => $group->id,
-            ]);
-        } else {
-            // ADD USER TO EXISTING GROUP
-            $group = Group::where('name', $groupName)
             ->where('specialization_id', $this->selectedSpec)
-            ->first();
+            ->exists()) {
+                // Create Group
+                $group = Group::create([
+                    'name' => $groupName,
+                    'specialization_id' => $this->selectedSchool,
+                    'ticap_id' => $ticap,
+                ]);
+                $user->userGroup()->create([
+                    'group_id' => $group->id,
+                ]);
+        } else {
+            // Add student to existing capstone group
+            $group = Group::where('name', $groupName)
+                ->where('specialization_id', $this->selectedSpec)
+                ->first();
             $user->userGroup()->create([
                 'group_id' => $group->id,
             ]);
         };
-        // CREATE GROUP EXHIBIT FOR THE GROUP
+
+        // Create Capstone Group exhibit
+        // If the group doesn't have a group exhibit, create the exhibit
         if(!$user->userGroup->group->groupExhibit()->exists()) {
             $user->userGroup->group->groupExhibit()->create([
                 'ticap_id' => $ticap,
             ]);
         }
-        // SEND LINK FOR CHANGING PASSWORD TO USER
+
+        // Send link for password change
+        // Link is valid for 5 days once sent to the student
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            'token' => $token, 
+            'token' => $token,
             'ticap' => $ticap,
             'email' => $this->email,
         ]);
@@ -147,8 +167,10 @@ class AddStudent extends Component
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         dispatch(new RegisterUserJob($this->email, $details));
+
         session()->flash('status', 'green');
         session()->flash('message', 'Invitation has been sent successfully');
+
         $this->resetValidation();
         $this->reset();
     }

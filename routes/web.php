@@ -35,7 +35,7 @@ Route::view('/url', 'emails.certificate');
 Route::get('/', function () { return view('home'); })->name('home');
 Route::get('/about-ticap', function () { return view('about-ticap'); })->name('about-ticap');
 Route::get('/test', [ElectionController::class, 'test']);
-Route::get('/schools', function () { 
+Route::get('/schools', function () {
     $admin = User::find(1);
     if($admin->ticap_id == null) {
         return redirect('/');
@@ -43,18 +43,18 @@ Route::get('/schools', function () {
     $schools = School::where('is_involved', 1)->get();
     return view('schools', ['schools' => $schools]);
 })->name('schools');
-Route::get('/schools/{schoolId}/specializations', function ($schoolId) { 
+Route::get('/schools/{schoolId}/specializations', function ($schoolId) {
     $specializations = Specialization::where('school_id', $schoolId)->get();
-    return view('specialization', ['specializations' => $specializations]); 
+    return view('specialization', ['specializations' => $specializations]);
 });
-Route::get('/specializations/{specId}/groups', function ($specId) { 
+Route::get('/specializations/{specId}/groups', function ($specId) {
     $groups = Group::where('specialization_id', $specId)->get();
-    return view('homepage.groupView', ['groups' => $groups]); 
+    return view('homepage.groupView', ['groups' => $groups]);
 });
-Route::get('/group/{groupId}', function ($groupId) { 
+Route::get('/group/{groupId}', function ($groupId) {
     $group = Group::find($groupId);
-    
-    return view('homepage.viewSpecialization', ['group' => $group]); 
+
+    return view('homepage.viewSpecialization', ['group' => $group]);
 });
 
 // ATTENDANCE FOR GUESTS
@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     // UPDATE USER
     Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
-    Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');    
+    Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');
     // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
@@ -207,7 +207,7 @@ Route::middleware(['auth'])->group(function(){
                     Route::get('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTaskForm']);
                     Route::post('/events/{eventId}/list/{listId}/add-task', [EventController::class, 'addTask'])
                         ->withoutMiddleware(['list', 'event']);
-                    Route::post('/events/{eventId}/list/{listId}/delete-task', [EventController::class, 'deleteTask']);   
+                    Route::post('/events/{eventId}/list/{listId}/delete-task', [EventController::class, 'deleteTask']);
                     Route::get('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'viewTask']);
                     Route::get('/events/{eventId}/list/{listId}/task/{taskId}/update-task', [EventController::class, 'updateTaskForm']);
                     Route::post('/events/{eventId}/list/{listId}/task/{taskId}', [EventController::class, 'addActivity']);

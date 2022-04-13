@@ -51,17 +51,20 @@ class UserController extends Controller
     }
 
     public function addPanelist(Request $request) {
+        // Get ticap id of current admin
         $ticap = Auth::user()->ticap_id;
-        // VALIDATION OF INPUT
+
         $request->validate([
-            'first_name' => 'required',
-            'middle_name' => 'string',
-            'last_name' => 'required',
+            'first_name' => 'required|max:30',
+            'middle_name' => 'nullable|string|max:30',
+            'last_name' => 'required|max:30',
             'email' => 'required|email|unique:users,email',
         ]);
-        // GENERATE DEFAULT PASSWORD
+
+        // Generate default panelist password Ex. panelist123
         $tempPassword = "panelist123";
-         // CREATE USER
+
+        // Add panelist
         $user = User::create([
             'first_name' => Str::title($request->first_name),
             'middle_name' => Str::title($request->middle_name),
@@ -70,9 +73,12 @@ class UserController extends Controller
             'password' => $tempPassword,
             'ticap_id' => $ticap,
         ]);
-        // ASSIGN PANELIST ROLE
+
+        // Assign user as panelist
         $user->assignRole('panelist');
-       // SEND LINK FOR CHANGING PASSWORD TO USER
+
+        // Send link for password change
+        // Link is valid for 5 days once sent to the admin
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
             'token' => $token,
@@ -84,22 +90,27 @@ class UserController extends Controller
             'body' => "You are invited! Click the link below",
             'link' => $link,
         ];
+
         DB::table('register_users')->insert([
             'email' => $request->email,
             'token' => $token,
             'created_at' =>  date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
         dispatch(new RegisterUserJob($request->email, $details));
+
         $request->session()->flash('message', 'Invitation has been sent successfully');
         $request->session()->flash('status', 'green');
+
         return back();
     }
 
-    // ADD ADMIN FOR USER ACCOUNTS
+    // Add admin to ticap
     public function adminForm() {
         $title = 'User Accounts';
         $schools = School::all();
+
         return view('user-accounts.add-admin', [
             'title' => $title,
             'schools' => $schools,
@@ -107,19 +118,20 @@ class UserController extends Controller
     }
 
     public function addAdmin(Request $request) {
+        // Get ticap id of current admin
         $ticap = Auth::user()->ticap_id;
-        // VALIDATION OF INPUT
+
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|max:30',
+            'middle_name' => 'nullable|string|max:30',
+            'last_name' => 'required|max:30',
             'email' => 'required|email|unique:users,email',
         ]);
-        if($request->middle_name) {
-            $request->validate(['middle_name' => 'string']);
-        }
-        // GENERATE DEFAULT PASSWORD
+
+        // Generate default admin password Ex. admin123
         $tempPassword = "admin123";
-         // CREATE USER
+
+        // Add admin
         $user = User::create([
             'first_name' => Str::title($request->first_name),
             'middle_name' => Str::title($request->middle_name),
@@ -128,9 +140,12 @@ class UserController extends Controller
             'password' => $tempPassword,
             'ticap_id' => $ticap,
         ]);
-        // ASSIGN ADMIN ROLE
+
+        // Assign user as admin
         $user->assignRole('admin');
-       // SEND LINK FOR CHANGING PASSWORD TO USER
+
+        // Send link for password change
+        // Link is valid for 5 days once sent to the admin
         $token = Str::random(60) . time();
         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
             'token' => $token,
@@ -142,19 +157,23 @@ class UserController extends Controller
             'body' => "You are invited! Click the link below",
             'link' => $link,
         ];
+
         DB::table('register_users')->insert([
             'email' => $request->email,
             'token' => $token,
             'created_at' =>  date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
+
         dispatch(new RegisterUserJob($request->email, $details));
+
         $request->session()->flash('message', 'Invitation has been sent successfully');
         $request->session()->flash('status', 'green');
+
         return back();
     }
 
-    // ADD ADMIN FOR USER(STUDENTS) ACCOUNTS
+    // Add students to ticap
     public function userForm() {
         $title = 'User Accounts';
 
@@ -164,10 +183,12 @@ class UserController extends Controller
     }
 
     public function setPasswordForm(Request $request) {
+        // Check if token exists in the registered table
         $isInvited = true;
         if(!DB::table('register_users')->where('token', $request->token)->exists()){
             $isInvited = false;
         }
+
         return view('user-accounts.set-password', [
             'token' => $request->token,
             'ticap' => $request->ticap,
@@ -178,24 +199,30 @@ class UserController extends Controller
 
     public function setPassword(Request $request) {
         $request->validate([
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6',
         ]);
-        // CHECK IF EMAIL AND TOKEN EXISTS
+
+        // Check if email and token exists
         $user = DB::table('register_users')
                 ->where('email', $request->email)
                 ->where('token', $request->token)
                 ->exists();
+
+        // Throw error if user doesn't exists
         if(!$user){
             return back()->with('error', 'Current doesn\'t match the expected account.');
         }
-        // DELETE REGISTER TOKEN
+
+        // Delete registered token
         DB::table('register_users')->where('token', $request->token)->delete();
-        // UPDATE USER
+
+        // Verify email of user
         $user = User::where('email', $request->email)->update([
             'password' => Hash::make($request->password),
             'email_verified' => 1,
         ]);
-        return redirect()->route('login');
+
+        return redirect()->route('login')->with('status', 'Password has been saved');
     }
 
     public function importUsers() {
