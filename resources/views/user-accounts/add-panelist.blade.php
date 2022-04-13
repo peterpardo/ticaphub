@@ -3,10 +3,10 @@
         {{-- ADD ADMIN FORM --}}
         <h1 class="font-bold text-center text-3xl my-4">Add Panelist</h1>
         <div class="w-full">
-            <form 
+            <form
                 action="{{ route('add-panelist') }}"
                 method="POST"
-                class="w-auto sm:w-96 mx-auto bg-white rounded shadow px-4 py-2">
+                class="w-96 mx-auto bg-white rounded-xl shadow-xl px-4 py-2">
                 @csrf
                 @if(session('status'))
                 <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">

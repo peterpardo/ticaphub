@@ -4,7 +4,7 @@
     <h1 class="text-center text-2xl mb-3">Election of Officers</h1>
     @can('generate report')
         @if($ticap->election_finished)
-            <a href="/generate-officers" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded my-3">Download Officer List</a>
+            <a href="/generate-officers" class="inline-block bg-blue-500 hover:bg-blue-600 px-2 py-1 text-white rounded my-3">Download Officer List</a>
         @endif
     @endcan
     <div class="flex flex-wrap flex-col sm:flex-row justify-evenly w-full">

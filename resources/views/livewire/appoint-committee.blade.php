@@ -9,7 +9,7 @@
             </div>
         </div>
         @error('name')
-        <div class="text-base font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">{{ $message }}</div>
         @enderror
         @if(session('status'))
         <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
@@ -54,7 +54,7 @@
                 <td class="px-4 py-3 text-md font-semibold border">{{ $user->userSpecialization->specialization->school->name }}</td>
                 <td class="px-4 py-3 text-md border">{{ $user->userSpecialization->specialization->name }}</td>
                 <td class="px-4 py-3 text-md border text-center">
-                    <button wire:click="appoint({{ $user->id }})" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Appoint</button>
+                    <button wire:click="appoint({{ $user->id }})" class="rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Appoint</button>
                 </td>
             </tr>
             @endforeach
@@ -110,8 +110,8 @@
                     <td class="px-4 py-3 text-md font-semibold border">{{ $committee->user->userSpecialization->specialization->school->name }}</td>
                     <td class="px-4 py-3 text-md border">{{ $committee->user->userSpecialization->specialization->name }}</td>
                     <td class="px-4 py-3 text-md border text-center">
-                        <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
-                        <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'update')" class="rounded shadow px-2 py-2 text-white bg-blue-500 hover:bg-blue-600">Edit</button>
+                        <button wire:click="selectCommittee({{ $committee->id }}, 'delete')" class="rounded shadow px-2 py-2 text-white bg-red-500 hover:bg-red-600">Delete</button>
                     </td>
                 </tr>
                 @endforeach

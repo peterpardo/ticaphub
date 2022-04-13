@@ -1,20 +1,20 @@
 <x-app-layout :scripts="$scripts">
     <h1 class="font-bold text-3xl my-3">{{ $title }}</h1>
     <h1 class="text-center font-semibold text-4xl mb-5">Create Rubric</h1>
-    <form 
-        action="{{ route('rubric') }}" 
+    <form
+        action="{{ route('rubric') }}"
         method="post"
         id="rubricForm">
         @csrf
-        <div class="w-1/2 mx-auto shadow px-2 py-5 bg-white text-gray-800 rounded">
+        <div class="w-1/2 mx-auto bg-white rounded-xl shadow-xl px-4 py-2">
             <div class="mb-5">
                 <label class="font-semibold mr-3">Rubric Name</label>
                 <input type="text" name="name" id="name" class="text-gray-800 rounded">
                 <div id="nameError" class="my-2"></div>
             </div>
 
-            <div id="criteriaList">   
-                <div class="flex flex-col mx-auto mb-2 text-gray-800">  
+            <div id="criteriaList">
+                <div class="flex flex-col mx-auto mb-2 text-gray-800">
                     <h1 class="font-semibold mb-2">Criteria</h1>
                     <div class="flex">
                         <input type="text" name="criteria[]" id="criteria" class="flex-1 rounded mr-3" placeholder="Criteria name">

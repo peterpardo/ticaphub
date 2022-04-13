@@ -2,7 +2,7 @@
     <h1 class="font-bold text-center text-3xl my-4">Add Student</h1>
     {{-- ADD STUDENT FORM --}}
     <div class="w-full text-gray-800">
-        <form wire:submit.prevent='addStudent' class="w-auto sm:w-96 mx-auto bg-white rounded shadow px-4 py-2">
+        <form wire:submit.prevent='addStudent' class="w-96 mx-auto bg-white rounded-xl shadow-xl px-4 py-2">
             @csrf
             @if(session('status'))
             <div class="bg-{{ session('status') }}-100 border-l-4 border-{{ session('status') }}-500 text-{{ session('status') }}-700 p-4" role="alert">
@@ -71,7 +71,7 @@
                   <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
-            @endif  
+            @endif
             @if(!is_null($selectedSpec))
             <div class="my-3">
                 <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Group</label>
@@ -79,7 +79,7 @@
                 @if($groups != null)
                 <ul class="my-2">
                     <p class="font-semibold">Existing Groups</p>
-                    @if($groups->count() == 0) 
+                    @if($groups->count() == 0)
                         <div class="bg-gray-100 rounded text-center py-3">No Groups</div>
                     @else
                         <table class="table-fixed w-full mt-2">
@@ -112,7 +112,7 @@
     </div>
 </div>
 
-   
 
-    
+
+
 
