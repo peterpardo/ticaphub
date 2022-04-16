@@ -37,9 +37,19 @@ class UserTable extends Component
 
     public function deleteUser(){
         $user = User::find($this->selectedUser);
-        // INVALIDATE REGISTRATION LINK SENT TO USER IF STILL NOT VERIFIED
+
+        // Invalidate registration link sent to the user it's still not verified
         DB::table('register_users')->where('email', $user->email)->delete();
+
+        // Remove role/s to the user model
+        foreach($user->getRoleNames() as $role) {
+            $user->removeRole($role);
+        }
+
+        // Delete user
         $user->delete();
+
+        // Show alert and close the modal
         $this->emit('userDeleted');
         $this->dispatchBrowserEvent('closeModal');
     }

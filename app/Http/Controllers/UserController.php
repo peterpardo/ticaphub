@@ -24,15 +24,10 @@ class UserController extends Controller
 {
     public function invitationForm() {
         $user = User::find(Auth::user()->id);
-        $ticap = Ticap::find($user->ticap_id);
         $title = 'User Accounts';
         $scripts = [
             asset('js/useraccounts/setInvitation.js'),
         ];
-
-        // if($ticap->invitation_is_set) {
-        //     return redirect()->route('users');
-        // }
 
         return view('user-accounts.set-invitation', [
             'title' => $title,
@@ -40,7 +35,7 @@ class UserController extends Controller
         ]);
     }
 
-    // ADD PANELISTS FOR USERS ACCOUNT
+    // Add panelist form
     public function panelistForm() {
         $title = 'User Accounts';
         $schools = School::all();
@@ -375,13 +370,6 @@ class UserController extends Controller
                         ]);
                     }
 
-                    // CREATE GROUP EXHIBIT FOR THE GROUP
-                    // if(!$user->userGroup->group->groupExhibit()->exists()) {
-                    //     $user->userGroup->group->groupExhibit()->create([
-                    //         'ticap_id' => $ticap,
-                    //     ]);
-                    // }
-
                     // Send invitation email to the student
                     // Email contains link to set their password
                     $token = Str::random(60) . time();
@@ -413,41 +401,6 @@ class UserController extends Controller
                 fclose($handle);
             }
 
-            // Send invitation email to the student
-            // Read
-            // $ctr = 1;
-            // if (($handle = fopen($file, "r")) !== FALSE) {
-            //     while (($row = fgetcsv($handle, 1000)) !== FALSE) {
-            //         if($ctr == 1){
-            //             $ctr++;
-            //             continue;
-            //         }
-            //         // GET EMAIL
-            //         $email = trim($row[3]);
-            //         // SEND LINK FOR CHANGING PASSWORD TO USER
-            //         $token = Str::random(60) . time();
-            //         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            //             'token' => $token,
-            //             'ticap' => Auth::user()->ticap_id,
-            //             'email' => $email,
-            //         ]);
-            //         $details = [
-            //             'title' => 'Welcome to TICaP Hub ' . $email,
-            //             'body' => "You are invited! Click the link below",
-            //             'link' => $link,
-            //         ];
-            //         DB::table('register_users')->insert([
-            //             'email' => $email,
-            //             'token' => $token,
-            //             'created_at' =>  date('Y-m-d H:i:s'),
-            //             'updated_at' => date('Y-m-d H:i:s'),
-            //         ]);
-            //         // RegisterUserJob::dispatch($email, $details)
-            //         //     ->delay(now()->addMinutes(1));
-            //         // // dispatch(new RegisterUserJob($email, $details))->delay(now()->addMinutes(1));
-            //         dispatch(new RegisterUserJob($email, $details));
-            //     }
-            // }
             $request->session()->flash('message', 'Users have been added. Invitation Emails will be sent.');
             $request->session()->flash('status', 'green');
 
