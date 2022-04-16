@@ -225,21 +225,44 @@ class UserController extends Controller
         return redirect()->route('login')->with('status', 'Password has been saved');
     }
 
+    public function downloadImportStudentsExample() {
+        return response()->download(asset("example.csv"));
+    }
+
     public function importUsers() {
         $title = 'User Accounts';
+        $schools = School::where('is_involved', 1)->get();
+        $scripts = [
+            asset('js/useraccounts/importStudents.js')
+        ];
+
         return view('user-accounts.upload-student', [
             'title' => $title,
+            'schools' => $schools,
+            'scripts' => $scripts
         ]);
     }
 
+    public function getSpecializations(Request $request) {
+        // Check if school id is not null
+        if($request->schoolId != "") {
+            $specs = Specialization::where('school_id', $request->schoolId)->get();
+            return $specs;
+        }
+    }
+
     public function importFile(Request $request) {
+
+        // Rollbacks all inserted students if a signle field is missing
         return DB::transaction(function() use ($request){
+            // File type must be CSV
             if($request->file) {
                 if($request->file->getClientOriginalExtension() != 'csv') {
                     throw new GeneralException('File must be in csv format');
                 }
             }
 
+            // Validate input fields
             $request->validate([
                 'school' => 'required',
                 'specialization' => 'required',
@@ -248,7 +271,7 @@ class UserController extends Controller
 
             $file = $request->file;
             $specialization = $request->specialization;
-             // READ FILE
+            // Read file
             $ctr = 1;
             if (($handle = fopen($file, "r")) !== FALSE) {
                 while (($row = fgetcsv($handle, 1000)) !== FALSE) {
@@ -256,6 +279,7 @@ class UserController extends Controller
                         $ctr++;
                         continue;
                     }
+
                     // HEADERS
                     $fields = [];
                     $fields['first_name'] = trim($row[0]);
@@ -264,21 +288,27 @@ class UserController extends Controller
                     $fields['email'] = trim($row[3]);
                     $fields['id_number'] = trim($row[4]);
                     $fields['group'] = trim($row[5]);
+
+                    // Checks if each cell is filled out
                     foreach($fields as $key => $value) {
-                        if($key == "middle_name") {
-                            continue;
-                        }
-                        if($value == null || $value == "") {
-                            throw new GeneralException('Line ' . $ctr . ' - ' . $key . ' is missing.');
+                        // Exclude middle name of student as required
+                        if($key != "middle_name" && $value == "") {
+                            $newKey = str_replace('_', ' ', $key);
+                            throw new GeneralException('Line ' . $ctr . ' - ' . $newKey . ' is missing.');
                         }
                     }
-                    // GENERATE RANDOM PASSWORD
-                    $tempPassword = "picab" . $fields['email'];
-                    // VALIDATE EMAIL AND STUDENT NUMBER
-                    if(User::where('email', $fields['email'])->exists() ){
+
+                    // Generate default password Ex. picab201811780
+                    $tempPassword = "picab" . $fields['id_number'];
+
+                    // Check if email and student number is unique
+                    if(User::where('email', $fields['email'])->exists()){
                         throw new GeneralException('Line ' . $ctr . ' - Email must be unique');
+                    } else if (User::where('email', $fields['id_number'])->exists()) {
+                        throw new GeneralException('Line ' . $ctr . ' - Student number must be unique');
                     }
-                    // CREATE USER
+
+                    // Create student account
                     $ticap = Auth::user()->ticap_id;
                     $user = User::create([
                         'first_name' => Str::title($fields['first_name']),
@@ -288,14 +318,17 @@ class UserController extends Controller
                         'email' => $fields['email'],
                         'ticap_id' => $ticap,
                     ]);
-                    // ASSIGN STUDENT ROLE
+
+                    // Assign users as student
                     $user->assignRole('student');
-                    // ADD STUDENT WITH SPECIALIZATION
+
+                    // Add student to their respective specialization
                     $user->userSpecialization()->create([
                         'specialization_id' => $specialization,
                         'id_number' => $fields['id_number'],
                     ]);
-                    // ASSIGN STUDENT WHICH ELECTION TO VOTE
+
+                    // Assign student which election to vote for
                     if($user->userSpecialization->specialization->school->id == 1) {
                         $spec = Specialization::find($user->userSpecialization->specialization->id);
                         $spec->election->userElections()->create([
@@ -314,15 +347,18 @@ class UserController extends Controller
                             ]);
                         }
                     }
-                    // CHECK IF GROUP EXISTS
+
+                    // Check if the capstone group exists in the database
                     $groupName = Str::upper($fields['group']);
                     if(!Group::where('name', $groupName)->exists()) {
+                        // Create new group
                         $group = Group::create([
                             'name' => $groupName,
                             'specialization_id' => $specialization,
                             'ticap_id' => $ticap,
                         ]);
-                        // CREATE DEFAULT GROUP EXHIBIT
+
+                        // Create new group exhibit
                         if(!$group->groupExhibit()->exists()) {
                             $group->groupExhibit()->create([
                                 'ticap_id' => $ticap,
@@ -332,57 +368,89 @@ class UserController extends Controller
                             'group_id' => $group->id,
                         ]);
                     } else {
+                        // Assign the student to the existing group
                         $group = Group::where('name', $groupName)->first();
                         $user->userGroup()->create([
                             'group_id' => $group->id,
                         ]);
                     }
+
                     // CREATE GROUP EXHIBIT FOR THE GROUP
-                    if(!$user->userGroup->group->groupExhibit()->exists()) {
-                        $user->userGroup->group->groupExhibit()->create([
-                            'ticap_id' => $ticap,
-                        ]);
-                    }
-                    $ctr++;
-                }
-                fclose($handle);
-            }
-            // SEND EMAILS
-            $ctr = 1;
-            if (($handle = fopen($file, "r")) !== FALSE) {
-                while (($row = fgetcsv($handle, 1000)) !== FALSE) {
-                    if($ctr == 1){
-                        $ctr++;
-                        continue;
-                    }
-                    // GET EMAIL
-                    $email = trim($row[3]);
-                    // SEND LINK FOR CHANGING PASSWORD TO USER
+                    // if(!$user->userGroup->group->groupExhibit()->exists()) {
+                    //     $user->userGroup->group->groupExhibit()->create([
+                    //         'ticap_id' => $ticap,
+                    //     ]);
+                    // }
+
+                    // Send invitation email to the student
+                    // Email contains link to set their password
                     $token = Str::random(60) . time();
                     $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
                         'token' => $token,
                         'ticap' => Auth::user()->ticap_id,
-                        'email' => $email,
+                        'email' => $fields['email'],
                     ]);
                     $details = [
-                        'title' => 'Welcome to TICaP Hub ' . $email,
+                        'title' => 'Welcome to TICaP Hub ' . $fields['email'],
                         'body' => "You are invited! Click the link below",
                         'link' => $link,
                     ];
+
+                    // Insert email as a registered email in the system
                     DB::table('register_users')->insert([
-                        'email' => $email,
+                        'email' => $fields['email'],
                         'token' => $token,
                         'created_at' =>  date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
-                    // RegisterUserJob::dispatch($email, $details)
-                    //     ->delay(now()->addMinutes(1));
-                    // // dispatch(new RegisterUserJob($email, $details))->delay(now()->addMinutes(1));
-                    dispatch(new RegisterUserJob($email, $details));
+
+                    // Dispatch job for sending the email
+                    dispatch(new RegisterUserJob($fields['email'], $details));
+
+                    // Increment ctr to proceed to next student
+                    $ctr++;
                 }
+                fclose($handle);
             }
-            $request->session()->flash('message', 'Email has been sent successfully');
+
+            // Send invitation email to the student
+            // Read
+            // $ctr = 1;
+            // if (($handle = fopen($file, "r")) !== FALSE) {
+            //     while (($row = fgetcsv($handle, 1000)) !== FALSE) {
+            //         if($ctr == 1){
+            //             $ctr++;
+            //             continue;
+            //         }
+            //         // GET EMAIL
+            //         $email = trim($row[3]);
+            //         // SEND LINK FOR CHANGING PASSWORD TO USER
+            //         $token = Str::random(60) . time();
+            //         $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+            //             'token' => $token,
+            //             'ticap' => Auth::user()->ticap_id,
+            //             'email' => $email,
+            //         ]);
+            //         $details = [
+            //             'title' => 'Welcome to TICaP Hub ' . $email,
+            //             'body' => "You are invited! Click the link below",
+            //             'link' => $link,
+            //         ];
+            //         DB::table('register_users')->insert([
+            //             'email' => $email,
+            //             'token' => $token,
+            //             'created_at' =>  date('Y-m-d H:i:s'),
+            //             'updated_at' => date('Y-m-d H:i:s'),
+            //         ]);
+            //         // RegisterUserJob::dispatch($email, $details)
+            //         //     ->delay(now()->addMinutes(1));
+            //         // // dispatch(new RegisterUserJob($email, $details))->delay(now()->addMinutes(1));
+            //         dispatch(new RegisterUserJob($email, $details));
+            //     }
+            // }
+            $request->session()->flash('message', 'Users have been added. Invitation Emails will be sent.');
             $request->session()->flash('status', 'green');
+
             return back();
         });
     }

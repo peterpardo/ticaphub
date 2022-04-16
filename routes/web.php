@@ -170,7 +170,9 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/users/invite-users', [UserController::class, 'importFile']);
             Route::get('/users/groups', [UserController::class, 'groups']);
             Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
-            Route::get('/download', function(){$file = public_path()."/example.csv"; return response()->download($file);});
+            Route::get('/download', [UserController::class, 'downloadImportStudentsExample']);
+            Route::post('/get-specializations', [UserController::class, 'getSpecializations']);
+
             // OFFICERS AND COMMITTEES
             Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
             Route::get('/fetch-positions', [ElectionController::class, 'fetchPositions']);

@@ -1,53 +1,72 @@
-<x-app-layout>
+<x-app-layout :scripts="$scripts">
     <x-page-title>{{ $title }}</x-page-title>
-    @livewire('import-student')
-    {{-- <div class="w-1/2 mx-auto">
+
+    {{-- Livewire import student blade --}}
+    {{-- @livewire('import-student') --}}
+
+    <div class="w-1/2 mx-auto">
         <h1 class="text-center text-3xl font-semibold">Import Students</h1>
-        <form 
+
+        <form
             action="{{ route('import-users') }}"
+            {{-- wire:submit.prevent="importStudents" --}}
             method="POST"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+            id="upload-student-form">
             @csrf
+
+            {{-- Alert Message --}}
             @if(session('status'))
-            <div class="text-white w-full bg-{{ session('status') }}-500 rounded px-2 py-1">{{ session('message') }}</div>
+                <div class="text-white w-full bg-{{ session('status') }}-500 rounded px-2 py-1">{{ session('message') }}</div>
             @endif
+
+            {{-- Select School --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">School</label>
-                <select name="school" class="w-full rounded">
+                <select name="school" id="school-container" class="w-full rounded" value="{{ old('school') }}">
                     <option value="">--select school--</option>
                     @foreach ($schools as $school)
-                    @if($school->is_involved)
-                    <option value="{{ $school->id }}">{{ $school->name }}</option>
-                    @endif
+                        <option value="{{ $school->id }}">{{ $school->name }}</option>
                     @endforeach
                 </select>
+
                 @error('school')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
+
+
+            {{-- Select specialization --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2">Specialization</label>
-                <select name="specialization" class="w-full rounded">
+                <select name="specialization" id="specialization-container" class="w-full rounded">
                     <option value="">--select specialization--</option>
-                    @foreach ($specializations as $specialization)
-                    <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
-                    @endforeach
                 </select>
+
                 @error('specialization')
-                <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
+                    <div class="bg-red-500 rounded w-full py-1 px-2 mt-1 text-white">{{ $message }}</div>
                 @enderror
             </div>
+
+            {{-- Upload an csv file --}}
             <div class="text-center mb-3">
                 <label for="file" class="block">Upload File</label>
                 <input type="file" name="file" id="file" class="border-2 border-black rounded mb-2" required/>
+
                 @error('file')
-                <div class="text-red-500"></div>
+                    <div class="text-red-500">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="text-xs text-center">
+                <p class="font-thin italic">The file type must be CSV</p>
+                <p class="font-thin italic">Download <a href="/download"><span class="text-blue-700">here </span></a>for an example format.</p>
+            </div>
+
             <div class="p-3 mt-2 text-center space-x-4 md:block">
-                <a href="/users/add-student" id="closeUploadBtn" class="inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</a>
-                <button type="submit" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Invite</button>
+                <a href="{{ route('add-student') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
+                <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Import</button>
             </div>
         </form>
-    </div> --}}
+    </div>
 </x-app-layout>
