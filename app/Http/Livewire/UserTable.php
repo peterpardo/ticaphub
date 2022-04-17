@@ -46,6 +46,17 @@ class UserTable extends Component
             $user->removeRole($role);
         }
 
+        // Check if the deleted user is a student
+        if ($user->hasRole('student')) {
+            // Get group of the student
+            $group = Group::find($user->userGroup->group->id);
+
+            // Delete group if there are no members left
+            if ($group->userGroups->count() == 0) {
+                $group->delete();
+            }
+        }
+
         // Delete user
         $user->delete();
 

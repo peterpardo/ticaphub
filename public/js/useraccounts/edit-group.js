@@ -1,6 +1,5 @@
-const specializationContainer = document.getElementById('specialization-container');
-const schoolContainer = document.getElementById('school-container');
-const uploadForm = document.getElementById('upload-student-form');
+const specializationContainer = document.getElementById('specialization');
+const schoolContainer = document.getElementById('school');
 const token = document.getElementById('ticap-token');
 
 // Listen for changes in the school input

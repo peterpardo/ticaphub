@@ -3,33 +3,52 @@
     <div class="w-full">
         <form class="w-96 mx-auto bg-white rounded shadow px-4 py-2" wire:submit.prevent='updateUser'>
             @csrf
+
+            {{-- First name --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2 text-gray-800">First Name</label>
                 <input type="text" wire:model="first_name" class="rounded w-full text-gray-800 dark:text-gray-900">
+
                 @error('first_name')
-                <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Middle name --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2 text-gray-800">Middle Name</label>
                 <input type="text" wire:model="middle_name" class="rounded w-full text-gray-800 dark:text-gray-900">
+
+                @error('middle_name')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                @enderror
             </div>
 
+            {{-- Last name --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2 text-gray-800">Last Name</label>
                 <input type="text" wire:model="last_name" class="rounded w-full text-gray-800 dark:text-gray-900">
+
+                @error('last_name')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                @enderror
             </div>
 
+            {{-- Email --}}
             <div class="my-3">
                 <label class="block font-semibold text-lg mb-2 text-gray-800">Email</label>
                 <input type="email" wire:model="email" class="rounded w-full text-gray-800 dark:text-gray-900">
+
+                @error('email')
+                    <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
+                @enderror
             </div>
 
             {{-- Show other input fields if user is a student --}}
             @if($user->hasRole('student'))
+                {{-- Student number --}}
                 <div class="my-3">
-                    <label class="block font-semibold text-lg mb-2 text-gray-800">ID Number</label>
+                    <label class="block font-semibold text-lg mb-2 text-gray-800">Student Number</label>
                     <input type="text" wire:model="id_number" class="rounded w-full text-gray-800 dark:text-gray-900">
 
                     @error('id_number')
@@ -37,11 +56,13 @@
                     @enderror
                 </div>
 
+                {{-- School --}}
                 <div class="my-3">
                     <label class="block font-semibold text-lg mb-2 text-gray-800">School</label>
                     <select wire:model="selectedSchool" class="w-full rounded">
+                        <option value="">--select school--</option>
                         @foreach ($schools as $school)
-                        <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            <option value="{{ $school->id }}">{{ $school->name }}</option>
                         @endforeach
                     </select>
 
@@ -50,11 +71,13 @@
                     @enderror
                 </div>
 
+                {{-- Specialization --}}
                 <div class="my-3">
                     <label class="block font-semibold text-lg mb-2 text-gray-800">Specialization</label>
                     <select wire:model="selectedSpec" class="w-full rounded">
+                        <option value="">--select specialization--</option>
                         @foreach ($specs as $spec)
-                        <option value="{{ $spec->id }}">{{ $spec->name }}</option>
+                            <option value="{{ $spec->id }}">{{ $spec->name }}</option>
                         @endforeach
                     </select>
 
@@ -63,11 +86,13 @@
                     @enderror
                 </div>
 
+                {{-- Group --}}
                 <div class="my-3">
                     <label class="block font-semibold text-lg mb-2 text-gray-800">Group</label>
                     <select class="rounded w-full text-gray-800 dark:text-gray-900" wire:model="selectedGroup">
+                        <option value="">--select group--</option>
                         @foreach($groups as $group)
-                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            <option value="{{ $group->id }}">{{ $group->name }}</option>
                         @endforeach
                     </select>
 

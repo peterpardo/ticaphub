@@ -170,6 +170,8 @@ Route::middleware(['auth'])->group(function(){
             Route::post('/users/invite-users', [UserController::class, 'importFile']);
             Route::get('/users/groups', [UserController::class, 'groups']);
             Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
+            Route::get('/users/groups/{id}/edit', [UserController::class, 'editGroupFrom']);
+            Route::post('/users/groups/{id}/edit', [UserController::class, 'editGroup']);
             Route::get('/download', [UserController::class, 'downloadImportStudentsExample']);
             Route::post('/get-specializations', [UserController::class, 'getSpecializations']);
 

@@ -489,4 +489,45 @@ class UserController extends Controller
             'title' => $title,
         ]);
     }
+
+    public function editGroupFrom($id) {
+        $group = Group::find($id);
+        $schools = School::where('is_involved', 1 )->get();
+        $specializations = Specialization::where('school_id', $group->specialization->school->id)->get();
+        $title = 'User Accounts';
+        $scripts = [
+            asset('js/useraccounts/edit-group.js')
+        ];
+
+        return view('user-accounts.edit-group', [
+            'group' => $group,
+            'schools' => $schools,
+            'specializations' => $specializations,
+            'scripts' => $scripts,
+            'title' => $title,
+        ]);
+    }
+
+    public function editGroup(Request $request, $id) {
+        $request->validate([
+            'group' => 'required|max:20',
+            'school' => 'required',
+            'specialization' => 'required',
+        ]);
+
+        // Uppercase new group name
+        $newGroupName = Str::upper($request->group);
+
+        // Update group details
+        $group = Group::find($id);
+        $group->name = $newGroupName;
+        $group->specialization_id = $request->specialization;
+        $group->save();
+
+        $request->session()->flash('message', 'Group has been successfully updated');
+        $request->session()->flash('status', 'green');
+
+        return back();
+
+    }
 }
