@@ -2,6 +2,8 @@ const specializationContainer = document.getElementById('specialization-containe
 const schoolContainer = document.getElementById('school-container');
 const uploadForm = document.getElementById('upload-student-form');
 const token = document.getElementById('ticap-token');
+const submitBtnDiv = document.getElementById('submit-btn-div');
+const spinner = document.getElementById('loading-spinner');
 
 // Listen for changes in the school input
 schoolContainer.addEventListener('change', () => {
@@ -41,6 +43,19 @@ schoolContainer.addEventListener('change', () => {
             specializationContainer.append(option);
         });
     });
+});
+
+// Submit Form
+uploadForm.addEventListener('submit', e => {
+    e.preventDefault();
+    // Hide submit button
+    submitBtnDiv.classList.add('hidden');
+
+    // Show spinner
+    spinner.classList.remove('hidden');
+    spinner.classList.add('flex');
+
+    uploadForm.submit();
 });
 
 

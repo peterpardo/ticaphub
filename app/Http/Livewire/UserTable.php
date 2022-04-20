@@ -75,6 +75,7 @@ class UserTable extends Component
 
     public function resetUsers() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
+
         // ARCHIVE EVENTS AND EVENT FILES
         foreach($ticap->events as $event) {
             // EVENT
@@ -320,15 +321,17 @@ class UserTable extends Component
         // DELETE ALL ADDED STREAMS
         Stream::truncate();
 
-        // RESET TICAP
+        // Set ticap id of admins to null
         $admins = User::role('admin')->get();
         foreach($admins as $admin) {
             $admin->ticap_id = null;
             $admin->save();
         }
+
         // SET TICAP TO FINISHED
         $ticap->is_done = 1;
         $ticap->save();
+
         $this->dispatchBrowserEvent('closeResetModal');
         session()->flash('status', 'green');
         session()->flash('message', 'TICaP successfully saved');

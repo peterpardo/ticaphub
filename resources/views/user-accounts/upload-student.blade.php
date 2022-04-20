@@ -63,10 +63,27 @@
                 <p class="font-thin italic">Download <a href="/download"><span class="text-blue-700">here </span></a>for an example format.</p>
             </div>
 
-            <div class="p-3 mt-2 text-center space-x-4 md:block">
+            <div class="p-3 mt-2 text-center space-x-4" id="submit-btn-div">
                 <a href="{{ route('add-student') }}" class="inline-block rounded shadow-lg px-4 py-2 hover:bg-gray-100">Cancel</a>
                 <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Import</button>
             </div>
         </form>
+
+        {{-- Spinner --}}
+        <div class="hidden justify-center items-center p-3 mt-2 space-x-4" id="loading-spinner">
+            <div class="
+                spinner-border
+                animate-spin
+                inline-block
+                w-8
+                h-8
+                border-4
+                rounded-full
+                text-green-500
+            " role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Importing Users. Please Wait.</p>
+        </div>
     </div>
 </x-app-layout>
