@@ -91,10 +91,6 @@ class HomeController extends Controller
     }
 
     public function users() {
-        // TEST CASES
-        // Check if user is an admin
-        // Check if user ticap_id is not null
-
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $title = 'User Accounts';
         $scripts = [

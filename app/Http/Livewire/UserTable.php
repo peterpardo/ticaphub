@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
@@ -37,9 +37,30 @@ class UserTable extends Component
 
     public function deleteUser(){
         $user = User::find($this->selectedUser);
-        // INVALIDATE REGISTRATION LINK SENT TO USER IF STILL NOT VERIFIED
+
+        // Invalidate registration link sent to the user it's still not verified
         DB::table('register_users')->where('email', $user->email)->delete();
+
+        // Remove role/s to the user model
+        foreach($user->getRoleNames() as $role) {
+            $user->removeRole($role);
+        }
+
+        // Check if the deleted user is a student
+        if ($user->hasRole('student')) {
+            // Get group of the student
+            $group = Group::find($user->userGroup->group->id);
+
+            // Delete group if there are no members left
+            if ($group->userGroups->count() == 0) {
+                $group->delete();
+            }
+        }
+
+        // Delete user
         $user->delete();
+
+        // Show alert and close the modal
         $this->emit('userDeleted');
         $this->dispatchBrowserEvent('closeModal');
     }
@@ -54,6 +75,7 @@ class UserTable extends Component
 
     public function resetUsers() {
         $ticap = Ticap::find(Auth::user()->ticap_id);
+
         // ARCHIVE EVENTS AND EVENT FILES
         foreach($ticap->events as $event) {
             // EVENT
@@ -299,15 +321,17 @@ class UserTable extends Component
         // DELETE ALL ADDED STREAMS
         Stream::truncate();
 
-        // RESET TICAP
+        // Set ticap id of admins to null
         $admins = User::role('admin')->get();
         foreach($admins as $admin) {
             $admin->ticap_id = null;
             $admin->save();
         }
+
         // SET TICAP TO FINISHED
         $ticap->is_done = 1;
         $ticap->save();
+
         $this->dispatchBrowserEvent('closeResetModal');
         session()->flash('status', 'green');
         session()->flash('message', 'TICaP successfully saved');
