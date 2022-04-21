@@ -15,7 +15,7 @@
             </div>
 
             <div class="flex justify-end mt-6">
-                <button class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  px-6 py-2 leading-5 text-white bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Save</button>
+                <button class="px-6 py-2 leading-5 text-white bg-blue-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Save</button>
             </div>
         </form>
     </section>

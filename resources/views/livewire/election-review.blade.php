@@ -45,9 +45,9 @@
                                     <ul>
                                     @foreach($election->officers->where('position_id', $position->id) as $officer)
                                         @if($officer->is_elected)
-                                        <li class="text-green-500 py-4">elected</li>
+                                        <li class="text-green-500 py-4">Elected</li>
                                         @else
-                                        <li class="text-red-500 py-4">tie</li>
+                                        <li class="text-red-500 py-4">Tie</li>
                                         @endif
                                     @endforeach
                                     </ul>
@@ -96,9 +96,9 @@
                                 </td>
                                 <td class="border-black border">
                                 @if(!$election->officers()->where('is_elected', 0)->exists())
-                                    <span class="text-green-500">ok</span>
+                                    <span class="text-green-500">Ok</span>
                                 @else
-                                    <span class="text-red-500">error</span>
+                                    <span class="text-red-500">Error</span>
                                 @endif
                                 </td>
                             </tr>

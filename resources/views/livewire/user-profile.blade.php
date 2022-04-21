@@ -1,5 +1,5 @@
 <div class="mx-auto w-1/2">
-    <form class="w-96 mx-auto bg-white rounded shadow px-4 py-2" wire:submit.prevent='updateUserDetails'>
+    <form class="w-96 mx-auto bg-white rounded-xl shadow-xl px-4 py-2" wire:submit.prevent='updateUserDetails'>
         @csrf
         <div class="my-3">
             <label class="font-semibold text-base text-gray-900 dark:text-gray-900">Profile Picture</label>
@@ -53,7 +53,7 @@
         </div>
         @endrole
         <div class="text-center">
-            <button type="submit" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Update</button>
+            <button type="submit" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">Update</button>
         </div>
     </form>
 </div>

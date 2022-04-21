@@ -56,7 +56,7 @@
                 <input type="file" name="file" wire:model="file" id="file" class="border-2 border-black rounded mb-2" required/>
 
                 @error('file')
-                    <div class="text-red-500">{{ $message }}</div>
+                <div class="text-xs font-semibold leading-tight text-red-700 rounded-sm">{{ $message }}</div>
                 @enderror
             </div>
 

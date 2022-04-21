@@ -1,7 +1,7 @@
 <x-app-layout>
     <h1 class="font-bold text-3xl my-3">Home Slider</h1>
     <div class="flex justify-between my-4">
-        <a href="{{ route('add.slider') }}" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">+ Slider</a>
+        <a href="{{ route('add.slider') }}" class="inline-block md:w-32 bg-green-600 dark:bg-green-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-green-500 dark:hover:bg-green-200">+ Slider</a>
     </div>
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">

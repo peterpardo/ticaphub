@@ -74,7 +74,7 @@
     {{-- Student Table --}}
     <div class="bg-white w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">
-            <table class="w-full table-auto">
+            <table class="w-full table-fixed text-center">
                 <thead>
                     <tr class="text-center text-md font-semibold tracking-wide text-gray-900 bg-indigo-100 uppercase border-b border-gray-600">
                         <th class="px-4 py-3">Name</th>
@@ -134,10 +134,10 @@
 
                             <td class="px-4 text-md border text-center">
                                 <div class="grid grid-rows-1 mx-auto w-full justify-center text-center">
-                                    <a href="/users/{{ $user->id }}/edit-user" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">
+                                    <a href="/users/{{ $user->id }}/edit-user" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-blue-500 hover:bg-blue-600">
                                         View/Edit
                                     </a>
-                                    <button wire:click="selectUser({{ $user->id }})" class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110  w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">
+                                    <button wire:click="selectUser({{ $user->id }})" class="w-24 rounded shadow px-2 py-1 my-0.5 text-white bg-red-500 hover:bg-red-600">
                                         Delete
                                     </button>
                                 </div>

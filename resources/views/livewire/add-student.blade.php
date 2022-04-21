@@ -3,7 +3,7 @@
 
     {{-- ADD STUDENT FORM --}}
     <div class="w-full text-gray-800">
-        <form wire:submit.prevent='addStudent' class="w-auto sm:w-96 mx-auto bg-white rounded shadow px-4 py-2">
+        <form wire:submit.prevent='addStudent' class="w-96 mx-auto bg-white rounded-xl shadow-xl px-4 py-2">
             @csrf
 
             {{-- Alert Message --}}
