@@ -8,7 +8,7 @@
     <div class="w-96 mx-auto bg-white rounded shadow px-4 py-2">
         {{-- Group name --}}
         <div class="my-3">
-            <label class="block font-semibold text-lg mb-2 text-gray-800">Group name</label>
+            <label class="block font-semibold text-lg mb-2 text-gray-800">Group Name</label>
             <input type="text" value="{{ $group->name }}" class="rounded w-full text-gray-800 dark:text-gray-900" disabled>
         </div>
 
