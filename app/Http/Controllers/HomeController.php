@@ -31,7 +31,7 @@ class HomeController extends Controller
 
     public function addTicap(Request $request) {
         $validator = Validator::make($request->all(), [
-            'ticap' => 'required|unique:ticaps,name'
+            'ticap' => 'required|unique:ticaps,name|max:20'
         ]);
 
         if($validator->fails()) {
@@ -69,14 +69,17 @@ class HomeController extends Controller
     public function dashboard() {
         $title = 'Dashboard';
         $user = User::find(Auth::user()->id);
+        $scripts = [
+            asset('js/set-ticap/set-ticap.js')
+        ];
+
+        // Check if ticap is set
         if($user->ticap_id == null) {
             $ticap = false;
         } else {
             $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
         }
-        $scripts = [
-            asset('js/set-ticap/set-ticap.js')
-        ];
+
         return view('dashboard', [
             'title' => $title,
             'ticap' => $ticap,
@@ -91,16 +94,10 @@ class HomeController extends Controller
     }
 
     public function users() {
-        $ticap = Ticap::find(Auth::user()->ticap_id);
         $title = 'User Accounts';
         $scripts = [
             asset('js/useraccounts/users.js')
         ];
-
-        // REDIRECTS TO SET OF INVITATION TO USERS
-        if(!$ticap->invitation_is_set){
-            return redirect()->route('set-invitation');
-        }
 
         return view('user-accounts.users', [
             'title' => $title,
@@ -156,12 +153,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function test() {
-        return view('welcome');
-    }
-
     // SLIDER
-
     public function HomeSlider(){
         $sliders = Slider::all();
         return view('slider.index', compact('sliders'));

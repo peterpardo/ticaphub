@@ -22,21 +22,22 @@ class EditUser extends Component
     public $specs;
     public $groups;
     protected $rules = [
-        'first_name' => 'required|max:30',
-        'middle_name' => 'nullable|string|max:30',
-        'last_name' => 'required|max:30',
+        'first_name' => 'required|alpha|max:30',
+        'middle_name' => 'nullable|alpha|max:30',
+        'last_name' => 'required|alpha|max:30',
         'email' => 'required|email',
     ];
 
     // Initialize the details of the user
-    public function mount() {
+    public function mount()
+    {
         $this->first_name = $this->user->first_name;
         $this->middle_name = $this->user->middle_name;
         $this->last_name = $this->user->last_name;
         $this->email = $this->user->email;
 
         // Check if user is a student
-        if($this->user->hasRole('student')) {
+        if ($this->user->hasRole('student')) {
             $this->selectedSpec = $this->user->userSpecialization->specialization->id;
             $this->selectedSchool = $this->user->userSpecialization->specialization->school->id;
             $this->id_number = $this->user->userSpecialization->id_number;
@@ -56,25 +57,28 @@ class EditUser extends Component
         ]);
     }
 
-    public function updatedSelectedSchool($schoolId) {
+    public function updatedSelectedSchool($schoolId)
+    {
         $this->selectedSpec = null;
         $this->selectedGroup = null;
         $this->specs = Specialization::where('school_id', $schoolId)->get();
     }
 
-    public function updatedSelectedSpec($specId) {
+    public function updatedSelectedSpec($specId)
+    {
         $this->selectedGroup = null;
         $this->groups = Group::where('specialization_id', $specId)->get();
     }
 
-    public function updateUser() {
+    public function updateUser()
+    {
         $this->validate();
 
         // Check if admin changed the email of the user
         $user = User::find($this->user->id);
-        if($user->email != $this->email) {
+        if ($user->email != $this->email) {
             // Check if the new email is unique
-            if(User::where('email', $this->email)->exists()) {
+            if (User::where('email', $this->email)->exists()) {
                 $this->addError('email', 'Email already exists');
                 return back();
             }
@@ -87,7 +91,7 @@ class EditUser extends Component
         $user->email = $this->email;
         $user->save();
 
-        // Check if user is a student
+        // Check if updated user is a student
         if ($this->user->hasRole('student')) {
             $this->validate([
                 'id_number' => 'required|digits:9',
@@ -115,5 +119,4 @@ class EditUser extends Component
         $this->emit('userUpdated');
         return redirect()->route('users');
     }
-
 }
