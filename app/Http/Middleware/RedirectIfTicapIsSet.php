@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckIfInvitationHasBeenSet
+class RedirectIfTicapIsSet
 {
     /**
      * Handle an incoming request.
@@ -22,9 +22,9 @@ class CheckIfInvitationHasBeenSet
         $user = User::find(Auth::user()->id);
         $ticap = Ticap::find($user->ticap_id);
 
-        // Check if ticap settings has not yet been set
-        if (!$ticap->invitation_is_set) {
-            return redirect()->route('set-invitation');
+        // Check if user is an admin and ticap settings is not yet set
+        if ($user->hasRole('admin') && $ticap->invitation_is_set) {
+            return redirect()->route('dashboard');
         }
 
         return $next($request);
