@@ -4,10 +4,10 @@
 
     $navs = collect([
         (object) [
-            'name' => 'User Accounts',
-            'route' => route('users'),
+            'name' => 'User Accounts',              // name of sidebar link
+            'route' => route('users'),              // route
             'hasAccess' => $user->hasRole('admin'), // Check whether user has access to the specified link
-            'icon' => 'fa-solid fa-user'
+            'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
         (object) [
             'name' => 'Schedules',
@@ -48,15 +48,18 @@
     ]);
 @endphp
 
-<div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-red-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
+{{-- Sidebar Component --}}
+<div class="fixed flex flex-col top-0 left-0 w-16 filter drop-shadow hover:w-64 md:w-64 bg-red-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10">
     <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
         {{-- Sidebar links --}}
-        <ul class="flex flex-col py-4 space-y-1 overflow-y-hidden">
+        <ul class="flex flex-col py-4 gap-y-1 overflow-hidden">
             {{-- App Logo --}}
-            <li class="px-5 hidden md:block">
-                <div class="flex flex-row items-center h-8">
-                    <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-8" alt="">
-                    <span class="ml-2 text-sm tracking-wide truncate">TICAP HUB</span>
+            <li class="ml-3 mb-5 transition-all duration-300 md:ml-14">
+                <div class="flex flex-row items-center">
+                    {{-- <div class="w-10 h-10"> --}}
+                        <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
+                    {{-- </div> --}}
+                    <span class="hidden ml-1 text-base tracking-wide md:inline-block">TICAP HUB</span>
                 </div>
             </li>
 
