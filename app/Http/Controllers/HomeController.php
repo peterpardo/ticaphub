@@ -24,48 +24,6 @@ use Intervention\Image\Facades\Image;
 
 class HomeController extends Controller
 {
-    public function sidebarLinks() {
-        $user = User::find(Auth::id());
-
-        $links = collect([
-            (object) [
-                'name' => 'User Accounts',
-                'link' => route('users'),
-                'hasAccess' => $user->hasRole('admin')
-            ],
-            (object) [
-                'name' => 'Schedules',
-                'link' => route('schedules'),
-                'hasAccess' => $user->hasRole('admin')
-            ],
-            (object) [
-                'name' =>  'Officers',
-                'link' => route('officers'),
-                'hasAccess' => $user->hasAnyRole(['admin', 'student', 'officer'])
-            ],
-            (object) [
-                'name' => 'Committee Heads',
-                'link' => route('committee-heads'),
-                'hasAccess' => $user->hasRole(['admin'])
-            ],
-            (object) [
-                'name' => 'Manage Events',
-                'link' => route('events'),
-                'hasAccess' => $user->hasPermissionTo('access events')
-            ],
-            (object) [
-                'name' => 'Project Assessment',
-                'link' => route('awards'),
-                'hasAccess' => $user->hasRole('admin')
-            ],
-            (object) [
-                'name' => 'Documentation',
-                'link' => route('awards'),
-                'hasAccess' => $user->hasRole('admin')
-            ]
-        ]);
-    }
-
     public function setTicap() {
 
         return view('set-ticap');
@@ -109,8 +67,6 @@ class HomeController extends Controller
     }
 
     public function dashboard() {
-        $this->sidebarLinks();
-
         $title = 'Dashboard';
         $user = User::find(Auth::user()->id);
         $scripts = [

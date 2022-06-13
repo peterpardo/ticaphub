@@ -1,5 +1,8 @@
-<x-app-layout :scripts="$scripts">
-    <x-page-title>{{ $title }}</x-page-title>
+<x-app-layout :scripts="$scripts" title="Dashboard">
+    {{--
+        scripts - set needed scripts for this view from its respective controller
+        title - set title of the page (Ex: Dashboard)
+    --}}
 
     {{-- Check if ticap name is set --}}
     @if($ticap)
@@ -9,18 +12,18 @@
     @endif
 
     <section>
-        {{-- Alert Message --}}
-        @if(session('status'))
-            <div role="alert">
-                <div class="bg-{{ session('status') }}-500 text-white font-bold rounded-t px-4 py-2">
-                    Greetings
-                </div>
-
-                <div class="text-center border border-t-0 border-{{ session('status') }}-400 rounded-b bg-{{ session('status') }}-100 px-4 py-3 text-{{ session('status') }}-700">
-                    <p class="font-bold">{{ session('message') }}</p>
-                </div>
+    {{-- Flash Message --}}
+    @if(session('status'))
+        <div role="alert">
+            <div class="bg-{{ session('status') }}-500 text-white font-bold rounded-t px-4 py-2">
+                Greetings
             </div>
-        @endif
+
+            <div class="text-center border border-t-0 border-{{ session('status') }}-400 rounded-b bg-{{ session('status') }}-100 px-4 py-3 text-{{ session('status') }}-700">
+                <p class="font-bold">{{ session('message') }}</p>
+            </div>
+        </div>
+    @endif
 
     {{-- Report Cards --}}
     @if($user->hasRole('admin'))
@@ -77,7 +80,7 @@
                 </div>
             </div>
         </div>
-        </section>
+    </section>
 
         <hr class="border-gray-300 border-2 rounded mb-3 bg-gray-200 dark:border-gray-600 dark:bg-gray-800">
     @endif

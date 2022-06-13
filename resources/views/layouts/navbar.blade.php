@@ -1,5 +1,7 @@
 <div class="fixed top-0 left-0 w-screen flex items-center bg-white filter drop-shadow-md h-14 z-10 px-5">
-    <div class="ml-auto flex flex-row-reverse items-center">
+    <div class="ml-auto flex w-full justify-between items-center">
+        <h1 class="ml-14 font-bold text-3xl transition-all duration-300 md:ml-64">{{ $title }}</h1>
+
         <div class="relative block" x-data="{ open: false }">
             <!-- Dropdown toggle button -->
             <button @click="open = !open" class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border border-transparent rounded-md focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:text-white dark:bg-gray-800 focus:outline-none">
