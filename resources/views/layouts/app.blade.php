@@ -50,9 +50,15 @@
         {{-- Sidebar --}}
         @include('layouts.sidebar')
 
-        {{-- Main Content --}}
+        {{-- Main Container --}}
         <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'p4']) }}>
+            <div {{ $attributes->merge(['class' => 'p-4']) }}>
+                {{-- Alert --}}
+                @if (session('status'))
+                    <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+                @endif
+
+                {{-- Content --}}
                 {{ $slot }}
             </div>
         </div>

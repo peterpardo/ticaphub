@@ -9,11 +9,13 @@ async function addTicap() {
             body: JSON.stringify({ ticap: this.ticap }),
         });
         const data = await response.json();
-        console.log("🚀 ~ file: set-ticap.js ~ line 12 ~ addTicap ~ data", data)
         // Show error message
         if (data?.errors) {
             this.message = data?.errors?.ticap[0];
             this.showMessage = true;
+        } else {
+            // reload the page
+            location.reload();
         }
     } catch (err) {
         console.log("🚀 ~ file: set-ticap.js ~ line 18 ~ addTicap ~ err", err);

@@ -79,7 +79,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     // SET TICAP NAME
-    Route::get('/set-ticap', [HomeController::class, 'setTicap']);
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
 
     // UPDATE USER

@@ -1,5 +1,4 @@
 <x-app-layout
-    :scripts="$scripts"
     showSidebar="{{ false }}"
     x-data="{
         isOpen: false,
@@ -8,10 +7,12 @@
         showMessage: '',
     }">
 
+    {{-- Set ticap button --}}
     <div class="text-gray-800 dark:text-white mt-6 text-center">
-        <button @click.prevent="isOpen = true" class="inline-block text-white text-xl bg-green-500 hover:bg-green-600 px-5 py-2 rounded">Set TICaP</button>
+        <button @click.prevent="isOpen = true" class="inline-block font-semibold text-white text-lg drop-shadow-lg filter bg-red-800 hover:bg-red-700 hover:text-white px-5 py-2 rounded">Set TICaP</button>
     </div>
 
+    {{-- Set ticap modal --}}
     <x-modal.input-modal
         title="set ticap"
         btnColor="green"
