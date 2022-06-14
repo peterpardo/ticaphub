@@ -18,9 +18,8 @@
                     @csrf
 
                     <div class="px-5 py-7">
-
                         <label class="font-semibold text-sm text-gray-600 pb-1 block">E-mail</label>
-                        <input type="email" name="email" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" :value="old('email')" required />
+                        <input type="email" name="email" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" :value="old('email')"  required />
 
                         <label class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
                         <input type="password" name="password" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" :value="__('Password')" required/>

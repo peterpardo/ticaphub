@@ -64,21 +64,27 @@ Route::get('/group/{groupId}', function ($groupId) {
 
 // ATTENDANCE FOR GUESTS
 Route::get('/attendance/{eventId}', [EventController::class, 'attendance']);
+
 // STUDENT CHOICE AWARD VOTE FORM
 Route::get('/student-choice-award/{groupId}', [AwardController::class, 'studentChoiceVote']);
+
 // PASSWORD RESET FOR FIRST LOGIN
 Route::middleware(['guest'])->group(function () {
     Route::get('/users/set-password', [UserController::class, 'setPasswordForm'])->name('set-password');
     Route::post('/users/set-password', [UserController::class, 'setPassword']);
 });
+
 Route::middleware(['auth'])->group(function () {
-    // SET TICAP NAME
-    Route::post('/set-ticap', [HomeController::class, 'addTicap']);
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+
+    // SET TICAP NAME
+    Route::post('/set-ticap', [HomeController::class, 'addTicap']);
+
     // UPDATE USER
     Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
     Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');
+
     // SCHEDULES
     Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
@@ -86,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
     Route::post('/schedules/delete/{id}', [ScheduleController::class, 'deleteSchedule']);
     Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
+
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function () {
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
@@ -95,9 +102,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/event-programs/{file}', [EventController::class, 'downloadEventPrograms']);
         Route::get('/group-files/{file}', [EventController::class, 'downloadGroupFiles']);
     });
+
     Route::middleware(['set.ticap'])->group(function () {
         // OFFICERS AND COMMITTEES
         Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
+
         // PANELISTS ROUTE
         Route::get('/evaluate-groups', [PanelistController::class, 'index'])->name('evaluate-groups');
         Route::post('/evaluate-groups', [PanelistController::class, 'computeGrades']);
@@ -108,6 +117,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/set-individual-awards', [PanelistController::class, 'setIndividualAwards'])->name('set-individual-awards');
         Route::post('/set-individual-awards', [PanelistController::class, 'setAward']);
         Route::get('/results-panel', [PanelistController::class, 'resultsPanel'])->name('results-panel');
+
         // PROJECT ASSESSMENT
         Route::get('/awards', [AwardController::class, 'index'])->name('awards');
         Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
@@ -208,6 +218,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/events/add-event', [EventController::class, 'addEvent']);
             Route::post('/events/delete-event', [EventController::class, 'deleteEvent']);
             Route::get('/check-attendance', [AwardController::class, 'checkAttendance']);
+
             // APPOINT COMMITTEE HEADS
             Route::get('/committee-heads', [ElectionController::class, 'appointForm'])->name('committee-heads');
             Route::middleware(['event'])->group(function () {
@@ -235,6 +246,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/fetch-members/{taskId}', [EventController::class, 'fetchMembers']);
         Route::get('/fetch-activity/{taskId}', [EventController::class, 'fetchActivities']);
         Route::get('/fetch-files/{taskId}', [EventController::class, 'fetchFiles']);
+
         // STUDENT ROUTE
         Route::middleware(['student'])->group(function () {
             Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
@@ -242,6 +254,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/group-exhibit', [StudentController::class, 'index'])->name('exhibit');
             Route::get('/group-exhibit/{groupId}/update', [StudentController::class, 'updateForm']);
             Route::post('/group-exhibit/{groupId}/update', [StudentController::class, 'update']);
+
             // ASSIGN TASK TO COMMITTEE MEMBERS
             Route::get('/committee/{commId}', [CommitteeController::class, 'index']);
             Route::get('/committee/{commId}/add-task', [CommitteeController::class, 'addTaskForm']);

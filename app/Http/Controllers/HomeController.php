@@ -2,31 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Event;
-use App\Models\Officer;
 use App\Models\Position;
-use App\Models\School;
 use App\Models\Slider;
 use App\Models\Stream;
 use App\Models\Brand;
 use App\Models\Ticap;
 use App\Models\User;
-use Barryvdh\DomPDF\PDF as DomPDFPDF;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
-    public function setTicap() {
+    public function dashboard() {
+        $user = User::find(Auth::user()->id);
 
-        return view('set-ticap');
+        // Check if ticap is set
+        if (is_null($user->ticap_id)) {
+            return view('set-ticap');
+        } else {
+            $ticap = Ticap::find($user->ticap_id)->pluck('name')->first();
+
+            return view('dashboard', [
+                'user' => $user,
+                'ticap' => $ticap,
+                'students' => User::role('student')->count(),
+                'panelists' => User::role('panelist')->count(),
+                'officers' => User::role('officer')->count(),
+                'admins' => User::role('admin')->count(),
+                'events' => Event::all(),
+            ]);
+        }
     }
 
     public function addTicap(Request $request) {
@@ -34,16 +45,16 @@ class HomeController extends Controller
             'ticap' => 'required|unique:ticaps,name|max:20'
         ]);
 
+        // Return error response
         if($validator->fails()) {
-            return response([
-                'status' => 403,
+            return response()->json([
                 'errors' => $validator->errors()
             ]);
         }
 
         // Create ticap
         $ticap = Ticap::create([
-            'name' => $request->ticap,
+            'name' => Str::upper($request->input('ticap')),
         ]);
 
         // Get admins
@@ -61,35 +72,12 @@ class HomeController extends Controller
             $event->save();
         }
 
-        return response([
-            'success' => 'TICaP is set',
-        ]);
-    }
+        // Set flash data
+        $request->session()->flash('status', 'green');
+        $request->session()->flash('message', 'Welcome to TICAPHUB! TICAP has been set.');
 
-    public function dashboard() {
-        $title = 'Dashboard';
-        $user = User::find(Auth::user()->id);
-        $scripts = [
-            asset('js/set-ticap/set-ticap.js')
-        ];
-
-        // Check if ticap is set
-        if($user->ticap_id == null) {
-            $ticap = false;
-        } else {
-            $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
-        }
-
-        return view('dashboard', [
-            'title' => $title,
-            'ticap' => $ticap,
-            'user' => $user,
-            'scripts' => $scripts,
-            'students' => User::role('student')->get(),
-            'panelists' => User::role('panelist')->get(),
-            'officers' => User::role('officer')->get(),
-            'admins' => User::role('admin')->get(),
-            'events' => Event::all(),
+        return response()->json([
+            'success' => route('dashboard')
         ]);
     }
 

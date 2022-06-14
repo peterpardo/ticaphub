@@ -7,10 +7,14 @@ use Illuminate\View\Component;
 class AppLayout extends Component
 {
     public $scripts;
-    
-    public function __construct($scripts = [])
+    public $title;
+    public $showSidebar;
+
+    public function __construct($scripts = [], $title = '', $showSidebar = true)
     {
         $this->scripts = $scripts;
+        $this->title= $title;
+        $this->showSidebar = $showSidebar;
     }
     /**
      * Get the view / contents that represents the component.
