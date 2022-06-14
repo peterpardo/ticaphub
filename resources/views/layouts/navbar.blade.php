@@ -2,9 +2,9 @@
     <div class="ml-auto flex w-full justify-between items-center">
         <h1 class="ml-14 font-bold text-3xl transition-all duration-300 md:ml-64">{{ $title }}</h1>
 
-        <div class="relative block" x-data="{ open: false }">
+        <div class="relative block" x-data="{ open: false, count: 0, }">
             <!-- Dropdown toggle button -->
-            <button @click="open = !open" class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border border-transparent rounded-md focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:text-white dark:bg-gray-800 focus:outline-none">
+            <button type="button" @click.prevent="open = !open; count++; console.log(count)" class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border border-transparent rounded-md focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:text-white dark:bg-gray-800 focus:outline-none">
                 <span class="mx-1">Hello, {{ Auth::user()->first_name }}!</span>
                 <svg class="w-5 h-5 mx-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 8.28799L5.98999 9.70199L12 15.713Z" fill="currentColor"></path>
@@ -12,7 +12,7 @@
             </button>
 
             <!-- Dropdown menu -->
-            <div x-show="open" @click.outside="open = false" class="absolute top-9 right-0 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl dark:bg-gray-800">
+            <div x-cloak x-show="open" @click.outside="open = false" class="absolute top-9 right-0 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl dark:bg-gray-800">
                 {{-- User Image and Name --}}
                 <div class="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                     <img

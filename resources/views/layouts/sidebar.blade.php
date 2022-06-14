@@ -67,11 +67,14 @@
             <x-app.sidebar-link route="{{ route('dashboard') }}" name="Dashboard" icon="fa-solid fa-border-all" />
 
             {{-- Loop all other links --}}
-            @foreach ($navs as $nav)
-                @if($nav->hasAccess)
-                    <x-app.sidebar-link :route="$nav->route" :name="$nav->name" :icon="$nav->icon" />
-                @endif
-            @endforeach
+            {{-- Hide Sidebar links if ticap is not set --}}
+            @if ($showSidebar)
+                @foreach ($navs as $nav)
+                    @if($nav->hasAccess)
+                        <x-app.sidebar-link :route="$nav->route" :name="$nav->name" :icon="$nav->icon" />
+                    @endif
+                @endforeach
+            @endif
         </ul>
     </div>
 </div>

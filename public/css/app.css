@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -450,6 +450,18 @@ textarea::placeholder {
 button,
 [role="button"] {
   cursor: pointer;
+}
+
+/**
+ * Override legacy focus reset from Normalize with modern Firefox focus styles.
+ *
+ * This is actually an improvement over the new defaults in Firefox in our testing,
+ * as it triggers the better focus styles even for links, which still use a dotted
+ * outline in Firefox by default.
+ */
+
+:-moz-focusring {
+  outline: auto;
 }
 
 table {
@@ -6731,7 +6743,7 @@ select {
 }
 
 .min-h-0 {
-  min-height: 0px;
+  min-height: 0;
 }
 
 .min-h-full {
@@ -6740,6 +6752,18 @@ select {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-1\/4 {
+  min-height: 25%;
+}
+
+.min-h-1\/2 {
+  min-height: 50%;
+}
+
+.min-h-3\/4 {
+  min-height: 75%;
 }
 
 .w-0 {
@@ -22541,7 +22565,7 @@ select {
 }
 
 .text-xs {
-  font-size: 0.5rem;
+  font-size: 0.55rem;
   line-height: 1rem;
 }
 
@@ -38096,7 +38120,7 @@ select {
   }
 
   .sm\:min-h-0 {
-    min-height: 0px;
+    min-height: 0;
   }
 
   .sm\:min-h-full {
@@ -38105,6 +38129,18 @@ select {
 
   .sm\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .sm\:min-h-1\/4 {
+    min-height: 25%;
+  }
+
+  .sm\:min-h-1\/2 {
+    min-height: 50%;
+  }
+
+  .sm\:min-h-3\/4 {
+    min-height: 75%;
   }
 
   .sm\:w-0 {
@@ -69383,7 +69419,7 @@ select {
   }
 
   .md\:min-h-0 {
-    min-height: 0px;
+    min-height: 0;
   }
 
   .md\:min-h-full {
@@ -69392,6 +69428,18 @@ select {
 
   .md\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .md\:min-h-1\/4 {
+    min-height: 25%;
+  }
+
+  .md\:min-h-1\/2 {
+    min-height: 50%;
+  }
+
+  .md\:min-h-3\/4 {
+    min-height: 75%;
   }
 
   .md\:w-0 {
@@ -100670,7 +100718,7 @@ select {
   }
 
   .lg\:min-h-0 {
-    min-height: 0px;
+    min-height: 0;
   }
 
   .lg\:min-h-full {
@@ -100679,6 +100727,18 @@ select {
 
   .lg\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .lg\:min-h-1\/4 {
+    min-height: 25%;
+  }
+
+  .lg\:min-h-1\/2 {
+    min-height: 50%;
+  }
+
+  .lg\:min-h-3\/4 {
+    min-height: 75%;
   }
 
   .lg\:w-0 {
@@ -131957,7 +132017,7 @@ select {
   }
 
   .xl\:min-h-0 {
-    min-height: 0px;
+    min-height: 0;
   }
 
   .xl\:min-h-full {
@@ -131966,6 +132026,18 @@ select {
 
   .xl\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .xl\:min-h-1\/4 {
+    min-height: 25%;
+  }
+
+  .xl\:min-h-1\/2 {
+    min-height: 50%;
+  }
+
+  .xl\:min-h-3\/4 {
+    min-height: 75%;
   }
 
   .xl\:w-0 {
@@ -163244,7 +163316,7 @@ select {
   }
 
   .\32xl\:min-h-0 {
-    min-height: 0px;
+    min-height: 0;
   }
 
   .\32xl\:min-h-full {
@@ -163253,6 +163325,18 @@ select {
 
   .\32xl\:min-h-screen {
     min-height: 100vh;
+  }
+
+  .\32xl\:min-h-1\/4 {
+    min-height: 25%;
+  }
+
+  .\32xl\:min-h-1\/2 {
+    min-height: 50%;
+  }
+
+  .\32xl\:min-h-3\/4 {
+    min-height: 75%;
   }
 
   .\32xl\:w-0 {
@@ -188559,126 +188643,3 @@ select {
   }
 }
 
-   [x-cloak] { display: none !important; }
-            /* Compiled dark classes from Tailwind */
-            .dark .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
-                border-color: rgba(55, 65, 81);
-            }
-            .dark .dark\:bg-gray-50 {
-                background-color: rgba(249, 250, 251);
-            }
-            .dark .dark\:bg-gray-100 {
-                background-color: rgba(243, 244, 246);
-            }
-            .dark .dark\:bg-gray-600 {
-                background-color: rgba(75, 85, 99);
-            }
-            .dark .dark\:bg-gray-700 {
-                background-color: rgba(55, 65, 81);
-            }
-            .dark .dark\:bg-gray-800 {
-                background-color: rgba(31, 41, 55);
-            }
-            .dark .dark\:bg-gray-900 {
-                background-color: rgba(17, 24, 39);
-            }
-            .dark .dark\:bg-red-700 {
-                background-color: rgba(185, 28, 28);
-            }
-            .dark .dark\:bg-green-700 {
-                background-color: rgba(4, 120, 87);
-            }
-            .dark .dark\:hover\:bg-gray-200:hover {
-                background-color: rgba(229, 231, 235);
-            }
-            .dark .dark\:hover\:bg-gray-600:hover {
-                background-color: rgba(75, 85, 99);
-            }
-            .dark .dark\:hover\:bg-gray-700:hover {
-                background-color: rgba(55, 65, 81);
-            }
-            .dark .dark\:hover\:bg-gray-900:hover {
-                background-color: rgba(17, 24, 39);
-            }
-            .dark .dark\:border-gray-100 {
-                border-color: rgba(243, 244, 246);
-            }
-            .dark .dark\:border-gray-400 {
-                border-color: rgba(156, 163, 175);
-            }
-            .dark .dark\:border-gray-500 {
-                border-color: rgba(107, 114, 128);
-            }
-            .dark .dark\:border-gray-600 {
-                border-color: rgba(75, 85, 99);
-            }
-            .dark .dark\:border-gray-700 {
-                border-color: rgba(55, 65, 81);
-            }
-            .dark .dark\:border-gray-900 {
-                border-color: rgba(17, 24, 39);
-            }
-            .dark .dark\:hover\:border-gray-800:hover {
-                border-color: rgba(31, 41, 55);
-            }
-            .dark .dark\:text-white {
-                color: rgba(255, 255, 255);
-            }
-            .dark .dark\:text-gray-50 {
-                color: rgba(249, 250, 251);
-            }
-            .dark .dark\:text-gray-100 {
-                color: rgba(243, 244, 246);
-            }
-            .dark .dark\:text-gray-200 {
-                color: rgba(229, 231, 235);
-            }
-            .dark .dark\:text-gray-400 {
-                color: rgba(156, 163, 175);
-            }
-            .dark .dark\:text-gray-500 {
-                color: rgba(107, 114, 128);
-            }
-            .dark .dark\:text-gray-700 {
-                color: rgba(55, 65, 81);
-            }
-            .dark .dark\:text-gray-800 {
-                color: rgba(31, 41, 55);
-            }
-            .dark .dark\:text-red-100 {
-                color: rgba(254, 226, 226);
-            }
-            .dark .dark\:text-green-100 {
-                color: rgba(209, 250, 229);
-            }
-            .dark .dark\:text-red-400 {
-                color: rgba(96, 165, 250);
-            }
-            .dark .group:hover .dark\:group-hover\:text-gray-500 {
-                color: rgba(107, 114, 128);
-            }
-            .dark .group:focus .dark\:group-focus\:text-gray-700 {
-                color: rgba(55, 65, 81);
-            }
-            .dark .dark\:hover\:text-gray-100:hover {
-                color: rgba(243, 244, 246);
-            }
-            .dark .dark\:hover\:text-red-500:hover {
-                color: rgba(59, 130, 246);
-            }
-
-            /* Custom style */
-            .header-right {
-                width: calc(100% - 3.5rem);
-            }
-            .sidebar:hover {
-                width: 16rem;
-            }
-            @media only screen and (min-width: 768px) {
-                .header-right {
-                    width: calc(100% - 16rem);
-                }
-            }
-            .dropdown:hover > .dropdown-content {
-                display: block;
-            }

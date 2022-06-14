@@ -20,29 +20,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/alpine.css') }}">
     {{-- Livewire Styles --}}
     @livewireStyles
 
     {{-- Scripts --}}
-    <script defer src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- @foreach ($scripts as $script)
+        <script src="{{ $script }}" defer></script>
+    @endforeach --}}
     {{-- Alipine.js --}}
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
     <!-- Feather Light -->
-    <script defer src="//code.jquery.com/jquery-latest.js"></script>
-    <script defer src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="//code.jquery.com/jquery-latest.js" defer></script>
+    <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8" defer></script>
     <!-- Flowbite Dropdown -->
-    <script defer src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js"></script>
+    <script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js" defer></script>
     {{-- Jquery --}}
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
     {{-- Facebook --}}
-    <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2" defer></script>
 </head>
 
 <body>
-    <div
-        x-data="setup()"
-        class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
-
+    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
         {{-- Header --}}
         @include('layouts.navbar')
 
@@ -50,19 +51,17 @@
         @include('layouts.sidebar')
 
         {{-- Main Content --}}
-        <div class="h-full ml-14 mt-14 mb-10 md:ml-64">
-            <div class="flex-1 px-4 py-2">
+        <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
+            <div {{ $attributes->merge(['class' => 'p4']) }}>
                 {{ $slot }}
             </div>
         </div>
     </div>
 
     {{-- Scripts --}}
-    @foreach ($scripts as $script)
-        <script src="{{ $script }}"></script>
-    @endforeach
+    @stack('scripts')
     {{-- Livewire Scripts --}}
-    @livewireScripts
+    {{-- @livewireScripts --}}
 </body>
 
 </html>

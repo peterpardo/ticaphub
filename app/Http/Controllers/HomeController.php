@@ -25,8 +25,14 @@ use Intervention\Image\Facades\Image;
 class HomeController extends Controller
 {
     public function setTicap() {
+        $data = [
+            'scripts' => [
+                asset('js/set-ticap/set-ticap.js')
 
-        return view('set-ticap');
+            ],
+        ];
+
+        return view('set-ticap', $data);
     }
 
     public function addTicap(Request $request) {
@@ -35,8 +41,7 @@ class HomeController extends Controller
         ]);
 
         if($validator->fails()) {
-            return response([
-                'status' => 403,
+            return response()->json([
                 'errors' => $validator->errors()
             ]);
         }
@@ -67,30 +72,26 @@ class HomeController extends Controller
     }
 
     public function dashboard() {
-        $title = 'Dashboard';
         $user = User::find(Auth::user()->id);
-        $scripts = [
-            asset('js/set-ticap/set-ticap.js')
-        ];
 
         // Check if ticap is set
-        if($user->ticap_id == null) {
-            $ticap = false;
+        if (is_null($user->ticap_id)) {
+            return view('set-ticap', [
+                'scripts' => [
+                    // asset('js/set-ticap/set-ticap.js')
+                    // asset('js/test.js')
+                ],
+            ]);
         } else {
-            $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
+            return view('dashboard', [
+                'user' => $user,
+                'students' => User::role('student')->get(),
+                'panelists' => User::role('panelist')->get(),
+                'officers' => User::role('officer')->get(),
+                'admins' => User::role('admin')->get(),
+                'events' => Event::all(),
+            ]);
         }
-
-        return view('dashboard', [
-            'title' => $title,
-            'ticap' => $ticap,
-            'user' => $user,
-            'scripts' => $scripts,
-            'students' => User::role('student')->get(),
-            'panelists' => User::role('panelist')->get(),
-            'officers' => User::role('officer')->get(),
-            'admins' => User::role('admin')->get(),
-            'events' => Event::all(),
-        ]);
     }
 
     public function users() {
