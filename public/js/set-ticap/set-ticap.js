@@ -3,7 +3,7 @@ async function addTicap() {
         const response = await fetch('/set-ticap', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 'Content-Type': 'application/json;charset=utf-8',
             },
             body: JSON.stringify({ ticap: this.ticap }),
