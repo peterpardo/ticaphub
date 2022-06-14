@@ -9,12 +9,13 @@
             'hasAccess' => $user->hasRole('admin'), // Check whether user has access to the specified link
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
-        (object) [
-            'name' => 'Schedules',
-            'route' => route('schedules'),
-            'hasAccess' => $user->hasRole('admin'),
-            'icon' => 'fa-solid fa-calendar'
-        ],
+        // Schedules Link (temporarily disabled)
+        // (object) [
+        //     'name' => 'Schedules',
+        //     'route' => route('schedules'),
+        //     'hasAccess' => $user->hasRole('admin'),
+        //     'icon' => 'fa-solid fa-calendar'
+        // ],
         (object) [
             'name' =>  'Officers',
             'route' => route('officers'),
@@ -27,12 +28,13 @@
             'hasAccess' => $user->hasRole(['admin']),
             'icon' => 'fa-solid fa-user-group'
         ],
-        (object) [
-            'name' => 'Manage Events',
-            'route' => route('events'),
-            'hasAccess' => $user->hasPermissionTo('access events'),
-            'icon' => 'fa-solid fa-calendar-check'
-        ],
+        // Manage Events Link (temporarily disabled)
+        // (object) [
+        //     'name' => 'Manage Events',
+        //     'route' => route('events'),
+        //     'hasAccess' => $user->hasPermissionTo('access events'),
+        //     'icon' => 'fa-solid fa-calendar-check'
+        // ],
         (object) [
             'name' => 'Project Assessment',
             'route' => route('awards'),
@@ -56,9 +58,7 @@
             {{-- App Logo --}}
             <li class="ml-3 mb-5 transition-all duration-300 md:ml-14">
                 <div class="flex flex-row items-center">
-                    {{-- <div class="w-10 h-10"> --}}
-                        <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
-                    {{-- </div> --}}
+                    <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
                     <span class="hidden ml-1 text-base tracking-wide md:inline-block">TICAP HUB</span>
                 </div>
             </li>

@@ -26,12 +26,15 @@ class HomeController extends Controller
         if (is_null($user->ticap_id)) {
             return view('set-ticap');
         } else {
+            $ticap = Ticap::find($user->ticap_id)->pluck('name')->first();
+
             return view('dashboard', [
                 'user' => $user,
-                'students' => User::role('student')->get(),
-                'panelists' => User::role('panelist')->get(),
-                'officers' => User::role('officer')->get(),
-                'admins' => User::role('admin')->get(),
+                'ticap' => $ticap,
+                'students' => User::role('student')->count(),
+                'panelists' => User::role('panelist')->count(),
+                'officers' => User::role('officer')->count(),
+                'admins' => User::role('admin')->count(),
                 'events' => Event::all(),
             ]);
         }
@@ -76,9 +79,6 @@ class HomeController extends Controller
         return response()->json([
             'success' => route('dashboard')
         ]);
-        // return response([
-        //     'success' => 'TICaP is set',
-        // ]);
     }
 
     public function users() {

@@ -81,7 +81,6 @@
             </div>
         </div>
     </section>
-
         <hr class="border-gray-300 border-2 rounded mb-3 bg-gray-200 dark:border-gray-600 dark:bg-gray-800">
     @endif
 
