@@ -1,4 +1,3 @@
-<x-app-layout :scripts="$scripts">
-    <x-page-title>{{ $title }}</x-page-title>
+<x-app-layout :scripts="$scripts" title="User Accounts">
     <livewire:school-table />
 </x-app-layout>

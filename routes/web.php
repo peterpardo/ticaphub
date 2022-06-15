@@ -78,20 +78,29 @@ Route::middleware(['auth'])->group(function () {
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
+    // USER ACCOUNTS
+    Route::get('/users', [HomeController::class, 'users'])->name('users');
+
+    // Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
+    // Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
+    // Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);
+    // Route::post('/add-specialization', [UserController::class, 'addSpecialization']);
+    // Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
+
     // SET TICAP NAME
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
 
-    // UPDATE USER
+    // MANAGE USER PROFILE
     Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
     Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');
 
-    // SCHEDULES
-    Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
-    Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
-    Route::get('/schedules/events', [ScheduleController::class, 'getSchedules']);
-    Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
-    Route::post('/schedules/delete/{id}', [ScheduleController::class, 'deleteSchedule']);
-    Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
+    // SCHEDULES (temporarily disabled)
+    // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+    // Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
+    // Route::get('/schedules/events', [ScheduleController::class, 'getSchedules']);
+    // Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
+    // Route::post('/schedules/delete/{id}', [ScheduleController::class, 'deleteSchedule']);
+    // Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
 
     // DOCUMENTATION
     Route::middleware(['admin'])->group(function () {
@@ -103,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/group-files/{file}', [EventController::class, 'downloadGroupFiles']);
     });
 
-    Route::middleware(['set.ticap'])->group(function () {
+    Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
         // OFFICERS AND COMMITTEES
         Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
 
@@ -158,7 +167,6 @@ Route::middleware(['auth'])->group(function () {
         // ADMIN ROUTE
         Route::middleware(['admin', 'set.invitation'])->group(function () {
             // USER ACCOUNTS
-            Route::get('/users', [HomeController::class, 'users'])->name('users');
             Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
             Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
             Route::post('/users/add-admin', [UserController::class, 'addAdmin']);

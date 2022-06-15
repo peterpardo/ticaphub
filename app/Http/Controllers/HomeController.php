@@ -82,12 +82,38 @@ class HomeController extends Controller
     }
 
     public function users() {
+        $ticap = Ticap::find(Auth::user()->ticap_id);
+
+        // Check if ticap settings has not yet been set
+        if (!$ticap->invitation_is_set) {
+            $scripts = [
+                asset('js/useraccounts/setInvitation.js'),
+            ];
+
+            return view('user-accounts.set-invitation', [
+                'scripts' => $scripts,
+            ]);
+        } else {
+            $title = 'User Accounts';
+            $scripts = [
+                asset('js/useraccounts/users.js')
+            ];
+
+            return view('user-accounts.users', [
+                'title' => $title,
+                'scripts' => $scripts,
+            ]);
+        }
+    }
+
+    public function invitationForm()
+    {
         $title = 'User Accounts';
         $scripts = [
-            asset('js/useraccounts/users.js')
+            asset('js/useraccounts/setInvitation.js'),
         ];
 
-        return view('user-accounts.users', [
+        return view('user-accounts.set-invitation', [
             'title' => $title,
             'scripts' => $scripts,
         ]);
