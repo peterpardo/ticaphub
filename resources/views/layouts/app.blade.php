@@ -8,6 +8,8 @@
     <title>{{ config('app.name', 'TICaP HUB') }}</title>
     <link rel="icon" class="w-10 h-10" href="{{ url('assets/ticap-logo.png') }}" />
 
+    {{-- Data Tables --}}
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- Feather Light -->
     <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet" />
     {{-- FontAwesome --}}
@@ -40,6 +42,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
     {{-- Facebook --}}
     <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2" defer></script>
+    {{-- Data Tables --}}
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
