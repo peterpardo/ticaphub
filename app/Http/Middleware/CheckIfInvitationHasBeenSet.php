@@ -19,12 +19,13 @@ class CheckIfInvitationHasBeenSet
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = User::find(Auth::user()->id);
-        $ticap = Ticap::find($user->ticap_id);
+        $ticap = Ticap::find(Auth::user()->ticap_id);
 
         // Check if ticap settings has not yet been set
         if (!$ticap->invitation_is_set) {
-            return redirect()->route('set-invitation');
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Set schools that are involved in this TICAP');
+            return redirect()->route('users');
         }
 
         return $next($request);

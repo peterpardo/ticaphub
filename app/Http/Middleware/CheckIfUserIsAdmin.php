@@ -17,15 +17,13 @@ class CheckIfUserIsAdmin
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {   
+    {
         $user = User::find(Auth::user()->id);
 
         if($user->hasRole('admin')) {
             return $next($request);
-        } 
-        
+        }
+
         return redirect()->route('dashboard');
-        
-        
     }
 }

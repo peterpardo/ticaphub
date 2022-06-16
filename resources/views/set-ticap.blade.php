@@ -34,6 +34,6 @@
 
     {{-- Scripts --}}
     @push('scripts')
-        <script src="{{ asset('js/set-ticap/set-ticap.js') }}"></script>>
+        <script src="{{ asset('js/set-ticap/set-ticap.js') }}"></script>
     @endpush
 </x-app-layout>

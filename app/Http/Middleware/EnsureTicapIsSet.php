@@ -17,14 +17,16 @@ class EnsureTicapIsSet
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {   
+    {
+        // Get current user (must be admin)
         $user = User::find(Auth::user()->id);
 
-        if ($user->hasRole('admin') && $user->ticap_id == null) {
-            session()->flash('status', 'red');
-            session()->flash('message', 'Set TICaP first');
+        // check if user is admin and ticap is null or not set
+        if ($user->hasRole('admin') && is_null($user->ticap_id)) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Set TICaP first');
             return redirect()->route('dashboard');
-        } 
+        }
 
         return $next($request);
 

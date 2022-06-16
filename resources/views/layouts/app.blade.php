@@ -32,18 +32,17 @@
         <script src="{{ $script }}" defer></script>
     @endforeach --}}
     {{-- Alipine.js --}}
-    <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+    {{-- <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script> --}}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Feather Light -->
-    <script src="//code.jquery.com/jquery-latest.js" defer></script>
-    <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8" defer></script>
+    {{-- <script src="//code.jquery.com/jquery-latest.js" defer></script> --}}
+    {{-- <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8" defer></script> --}}
     <!-- Flowbite Dropdown -->
-    <script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js" defer></script>
+    {{-- <script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js" defer></script> --}}
     {{-- Jquery --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script> --}}
     {{-- Facebook --}}
-    <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2" defer></script>
-    {{-- Data Tables --}}
-    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    {{-- <script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2" defer></script> --}}
 </head>
 
 <body>
@@ -56,7 +55,7 @@
 
         {{-- Main Container --}}
         <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'p-4']) }}>
+            <div {{ $attributes->merge(['class' => 'py-4 pl-6 pr-4']) }}>
                 {{-- Alert --}}
                 @if (session('status'))
                     <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
