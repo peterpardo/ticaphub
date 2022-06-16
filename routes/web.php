@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     // USER ACCOUNTS
     Route::get('/users', [HomeController::class, 'users'])->name('users');
 
+    Route::get('/users/schools', [HomeController::class, 'getSchools']);
+    Route::post('users/update-school-status', [HomeController::class, 'updateSchoolStatus']);
     // Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
     // Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
     // Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);

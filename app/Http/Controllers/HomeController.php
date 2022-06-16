@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\Slider;
 use App\Models\Stream;
 use App\Models\Brand;
+use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -86,13 +87,7 @@ class HomeController extends Controller
 
         // Check if ticap settings has not yet been set
         if (!$ticap->invitation_is_set) {
-            $scripts = [
-                asset('js/useraccounts/setInvitation.js'),
-            ];
-
-            return view('user-accounts.set-invitation', [
-                'scripts' => $scripts,
-            ]);
+            return view('user-accounts.set-invitation');
         } else {
             $title = 'User Accounts';
             $scripts = [
@@ -106,17 +101,14 @@ class HomeController extends Controller
         }
     }
 
-    public function invitationForm()
-    {
-        $title = 'User Accounts';
-        $scripts = [
-            asset('js/useraccounts/setInvitation.js'),
-        ];
+    public function getSchools() {
+        $schools = School::with(['specializations'])->get();
 
-        return view('user-accounts.set-invitation', [
-            'title' => $title,
-            'scripts' => $scripts,
-        ]);
+        return response()->json($schools);
+    }
+
+    public function updateSchoolStatus(Request $request) {
+        dd($request->all());
     }
 
     public function officers() {
