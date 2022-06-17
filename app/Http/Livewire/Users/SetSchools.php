@@ -6,11 +6,12 @@ use App\Models\School;
 use App\Models\Specialization;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\WithPagination;
 
 class SetSchools extends Component
 {
-    public $schools;
-    public $specializations = [];
+    use WithPagination;
+
     public $name = "";
     public $selectedSchool = 1; // id of FEU TECH
 
@@ -24,9 +25,10 @@ class SetSchools extends Component
         'selectedSchool' => 'School'
     ];
 
-    public function mount() {
-        $this->schools = School::all(['id', 'name']);
-        $this->specializations = Specialization::with('school')->get();
+    // Change status of school
+    public function changeSchoolStatus($status, $id) {
+        School::where('id', $id)->update(['is_involved' => !$status]);
+        $this->reset();
     }
 
     public function updatedName() {
@@ -49,19 +51,20 @@ class SetSchools extends Component
                 'name' => $formattedName
             ]);
 
-            // Update specialization table
-            $this->specializations = Specialization::with('school')->get();
-
             // Return success message
             session()->flash('status', 'green');
             session()->flash('message', 'Specialization successfully added');
 
+            // Reset input fields
             $this->reset(['name', 'selectedSchool']);
         }
     }
 
     public function render()
     {
-        return view('livewire.users.set-schools');
+        return view('livewire.users.set-schools', [
+            'schools' => School::all(['id', 'name', 'is_involved']),
+            'specializations' => Specialization::with('school')->paginate(5)
+        ]);
     }
 }

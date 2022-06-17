@@ -8,25 +8,36 @@
         <span class="font-bold">Note:</span> You can set the TICAP settings here, which schools are involved, and what specializations are included in each school.
     </div>
 
-    <h1 class="inline-block text-2xl font-bold mr-3">Schools</h1>
-    <span class="inline-block px-2 py-.5 bg-gray-100 rounded text-sm text-gray-500">Check the box to include the school</span>
+    <div class="flex items-center mb-3">
+        <h1 class="inline-block text-2xl font-bold mr-3">Schools</h1>
+        <span class="inline-block px-2 py-.5 bg-gray-100 rounded text-sm text-gray-500">Check the box to include the school</span>
+    </div>
 
     {{-- Schools --}}
-    <div class="flex flex-col w-full space-y-2 my-3">
+    <div class="flex flex-col w-full space-y-2">
         @foreach ($schools as $school)
             @if ($school->id !== 1)
                 <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="{{ $school->slug_name  }}" class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                    <input
+                        type="checkbox"
+                        @if($school->is_involved)
+                            checked
+                        @endif
+                        wire:click.prevent="changeSchoolStatus({{ $school->is_involved }}, {{ $school->id }})"
+                        id="{{ $school->slug_name  }}"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
                     <label for="{{ $school->slug_name  }}">{{ $school->name }}</label>
                 </div>
             @endif
         @endforeach
     </div>
 
+    <hr class="my-3 h-1 rounded-lg bg-gray-100">
+
     {{-- Specializations --}}
     <body class="antialiased font-sans bg-gray-200">
         <div class="mx-auto">
-            <div class="mb-2">
+            <div class="flex items-center mb-2">
                 <h2 class="inline-block text-2xl font-bold mr-2">Specializations</h2>
                 <span class="inline-block px-2 py-.5 bg-gray-100 rounded text-sm text-gray-500">Add specializations for each school</span>
             </div>
@@ -36,7 +47,7 @@
                 <div class="flex flex-col space-y-1">
                     <label for="selectedSchool" class="text-sm tracking-wide">Select School</label>
                     <select wire:model="selectedSchool" id="selectedSchool" class="w-full py-2 px-3 rounded border border-gray-500 text-sm">
-                        @foreach($schools as $school)
+                        @foreach($schools->where('is_involved', 1) as $school)
                             <option value="{{ $school->id }}">{{ $school->name }}</option>
                         @endforeach
                     </select>
@@ -95,6 +106,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $specializations->links() }}
             </div>
         </div>
     </body>
