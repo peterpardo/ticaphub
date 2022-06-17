@@ -87,7 +87,7 @@ class HomeController extends Controller
 
         // Check if ticap settings has not yet been set
         if (!$ticap->invitation_is_set) {
-            return view('user-accounts.set-invitation');
+            return view('user-accounts.set-schools');
         } else {
             $title = 'User Accounts';
             $scripts = [
