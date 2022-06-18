@@ -5,19 +5,19 @@
     @endif
 
     {{-- Note --}}
-    <div class="bg-yellow-100 py-5 px-6 rounded-lg text-sm text-yellow-600 mb-3">
-        <span class="font-bold">Note:</span> You can set the TICAP settings here, which schools are involved, and what specializations are included in each school.
-    </div>
+    <x-info-box color="yellow">
+        You can set the TICAP settings here, which schools are involved, and what specializations are included in each school.
+    </x-info-box>
 
     <div class="flex flex-col-reverse justify-between sm:flex-row">
         <div class="flex flex-col mb-3 space-y-2 sm:flex-row sm:items-center sm:space-y-0">
-            <h1 class="inline-block text-2xl font-bold mr-3">Schools</h1>
-            <span class="inline-block px-2 py-.5 bg-gray-100 rounded text-sm text-gray-500">Check the box to include the school</span>
+            <x-title>Schools</x-title>
+            <x-title-info>Check the box to include the school</x-title-info>
         </div>
 
         {{-- Confirm Button --}}
         <div class="self-end mb-2 sm:self-auto sm:mb-0">
-           <x-app.button color="blue">Confirm Settings</x-app.button>
+           <x-app.button wire:click="openModal('confirm')" color="blue">Confirm Settings</x-app.button>
         </div>
     </div>
 
@@ -44,8 +44,8 @@
 
     {{-- Specializations --}}
     <div class="flex flex-col mb-3 space-y-2 sm:flex-row sm:items-center sm:space-y-0">
-        <h2 class="inline-block text-2xl font-bold mr-2">Specializations</h2>
-        <span class="inline-block px-2 py-.5 bg-gray-100 rounded text-sm text-gray-500">Add specializations for each school</span>
+        <x-title>Specializations</x-title>
+        <x-title-info>Add specializations for each school</x-title-info>
     </div>
 
     {{-- Specialization Form --}}
@@ -61,6 +61,7 @@
                 <x-form.error>{{ $message }}</x-form.error>
             @enderror
         </x-form.form-control>
+
         <x-form.form-control>
             <x-form.label for="name">Specialization Name (Complete Name)</x-form.label>
             <x-form.input wire:model.defer="name" id="name" placeholder="Ex: Web and Mobile Application" />
@@ -68,6 +69,7 @@
                 <x-form.error>{{ $message }}</x-form.error>
             @enderror
         </x-form.form-control>
+
         <div class="text-right">
             <x-app.button color="green" type="submit">Add Specialization</x-app.button>
         </div>
@@ -76,9 +78,11 @@
     {{-- Specialization Table --}}
     <x-table>
         <x-slot name="heading">
-           <x-table.thead>school</x-table.thead>
-           <x-table.thead>specialization</x-table.thead>
-           <x-table.thead>actions</x-table.thead>
+            <tr>
+                <x-table.thead>school</x-table.thead>
+                <x-table.thead>specialization</x-table.thead>
+                <x-table.thead>actions</x-table.thead>
+            </tr>
         </x-slot>
 
         <x-slot name="body">
@@ -109,44 +113,32 @@
     {{-- NOTE: This modal can only be used inside a livewire component --}}
     @if ($showDeleteModal)
         <x-modal.delete-modal>
-            <x-slot name="title">
-                Delete Specialization
-            </x-slot>
-            <x-slot name="description">
-                Are you sure? Continuing this will permanently delete the specialization.
-            </x-slot>
+            <x-modal.title>Delete Specialization</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
         </x-modal.delete-modal>
     @endif
 
     {{-- Confirm modal --}}
     @if ($showConfirmModal)
         <x-modal.confirm-modal>
-            <x-slot name="title">
-                TICAP Settings
-            </x-slot>
+            <x-modal.title>TICAP Settings</x-modal.title>
+            <x-modal.description>Do you want to start the TICaP with these specializations? You will not be able to change it once you proceed.</x-modal.description>
 
-            <x-slot name="content">
-                <p class="text-sm text-gray-500 px-8 mb-5">Do you want to start the TICaP with these settings?
-                    You will not be able to change it once you proceed.</p>
-                <table class="w-full border-collapse border border-black">
-                    <thead>
+            <x-modal.table>
+                <x-slot name="heading">
+                    <x-modal.table.thead>School</x-modal.table.thead>
+                    <x-modal.table.thead>Specializations</x-modal.table.thead>
+                </x-slot>
+
+                <x-slot name="body">
+                    @foreach ($schools->where('is_involved', 1) as $school)
                         <tr>
-                            <th class="border-black border">School</th>
-                            <th class="border-black border">No. of Specializations</th>
+                            <x-modal.table.tdata>{{ $school->name }}</x-modal.table.tdata>
+                            <x-modal.table.tdata>{{ $school->specializations_count}}</x-modal.table.tdata>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($schools as $school)
-                            @if ($school->is_involved)
-                                <tr>
-                                    <td class="border-black border">{{ $school->name }}</td>
-                                    <td class="border-black border">{{ $school->specializations_count }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </x-slot>
+                    @endforeach
+                </x-slot>
+            </x-modal.table>
         </x-modal.confirm-modal>
     @endif
 </div>
