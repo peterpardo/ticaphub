@@ -76,41 +76,23 @@
     {{-- Specialization Table --}}
     <x-table>
         <x-slot name="heading">
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                School
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Specialization
-            </th>
-            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Actions
-            </th>
+           <x-table.thead>school</x-table.thead>
+           <x-table.thead>specialization</x-table.thead>
+           <x-table.thead>actions</x-table.thead>
         </x-slot>
 
         <x-slot name="body">
             @forelse ($specializations as $specialization)
                 <tr>
-                    {{-- School Name --}}
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $specialization->school->name }}</p>
-                    </td>
-                    {{-- Specialization Name --}}
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">{{ $specialization->name }}</p>
-                    </td>
-                    {{-- Actions --}}
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <button type="button" wire:click="openModal('delete', {{ $specialization->id }})"class="text-white rounded p-2 text-xs tracking-wide bg-red-600 hover:bg-red-500">
-                            <i class="fa-solid fa-trash"></i>
-                            <span class="hidden tracking-wide md:inline-block">Delete</span>
-                        </button>
-                    </td>
+                    <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
+                    <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
+                    <x-table.tdata-actions>
+                        <x-table.delete-btn wire:click="openModal('delete', {{ $specialization->id }})"   />
+                    </x-table.tdata-actions>
                 </tr>
             @empty
                 <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">No specializations found</p>
-                    </td>
+                    <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
                 </tr>
             @endforelse
         </x-slot>
