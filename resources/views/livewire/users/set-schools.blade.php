@@ -17,7 +17,7 @@
 
         {{-- Confirm Button --}}
         <div class="self-end mb-2 sm:self-auto sm:mb-0">
-            <button type="button" wire:click="openModal('confirm')" class="p-2 text-sm text-white rounded-lg bg-blue-600 hover:bg-blue-500">Confirm Settings</button>
+           <x-app.button color="blue">Confirm Settings</x-app.button>
         </div>
     </div>
 
@@ -49,29 +49,31 @@
     </div>
 
     {{-- Specialization Form --}}
-    <form wire:submit.prevent="addSpecialization" class="space-y-3 w-full max-w-xs">
-        <div class="flex flex-col space-y-1">
-            <label for="selectedSchool" class="text-sm tracking-wide">Select School</label>
-            <select wire:model="selectedSchool" id="selectedSchool" class="w-full py-2 px-3 rounded border border-gray-500 text-sm">
+    <x-form wire:submit.prevent="addSpecialization">
+        <x-form.form-control>
+            <x-form.label for="selectedSchool">Select School</x-form.label>
+            <x-form.select wire:model="selectedSchool" id="selectedSchool">
                 @foreach($schools->where('is_involved', 1) as $school)
                     <option value="{{ $school->id }}">{{ $school->name }}</option>
                 @endforeach
-            </select>
+            </x-form.select>
             {{-- Error message --}}
             @error('selectedSchool')
-                <span class="text-sm tracking-wide bg-red-100 text-red-500 rounded-lg py-1 px-3">{{ $message }}</span>
+                <x-form.error>{{ $message }}</x-form.error>
             @enderror
-        </div>
-        <div class="flex flex-col space-y-1">
-            <label for="name" class="text-sm tracking-wide">Specialization Name (Complete Name)</label>
-            <input type="text" wire:model.defer="name" id="name" class="w-full py-2 px-3 rounded border border-gray-500 text-sm" placeholder="Ex: Web and Mobile Application" autocomplete="off">
+        </x-form.form-control>
+        <x-form.form-control>
+            <x-form.label for="name">Specialization Name (Complete Name)</x-form.label>
+            <x-form.input wire:model.defer="name" id="name" placeholder="Ex: Web and Mobile Application" />
             {{-- Error message --}}
             @error('name')
-                <span class="text-sm tracking-wide bg-red-100 text-red-500 rounded-lg py-1 px-3">{{ $message }}</span>
+                <x-form.error>{{ $message }}</x-form.error>
             @enderror
+        </x-form.form-control>
+        <div class="text-right">
+            <x-app.button color="green" type="submit">Add Specialization</x-app.button>
         </div>
-        <button type="submit" class="p-2 text-sm text-white rounded-lg bg-green-600 hover:bg-green-500">Add Specialization</button>
-    </form>
+    </x-form>
 
     {{-- Specialization Table --}}
     <x-table>
