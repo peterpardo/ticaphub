@@ -8,8 +8,6 @@
     <title>{{ config('app.name', 'TICaP HUB') }}</title>
     <link rel="icon" class="w-10 h-10" href="{{ url('assets/ticap-logo.png') }}" />
 
-    {{-- Data Tables --}}
-    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <!-- Feather Light -->
     <link href="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css" type="text/css" rel="stylesheet" />
     {{-- FontAwesome --}}

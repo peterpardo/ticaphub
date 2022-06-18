@@ -43,15 +43,4 @@
             </x-dashboard.report-card>
         </div>
     @endrole
-    <script>
-        $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-    </script>
-
-    <table id="myTable">
-        <thead>
-
-        </thead>
-    </table>
 </x-app-layout>
