@@ -57,7 +57,6 @@
                     <option value="{{ $school->id }}">{{ $school->name }}</option>
                 @endforeach
             </x-form.select>
-            {{-- Error message --}}
             @error('selectedSchool')
                 <x-form.error>{{ $message }}</x-form.error>
             @enderror
@@ -65,7 +64,6 @@
         <x-form.form-control>
             <x-form.label for="name">Specialization Name (Complete Name)</x-form.label>
             <x-form.input wire:model.defer="name" id="name" placeholder="Ex: Web and Mobile Application" />
-            {{-- Error message --}}
             @error('name')
                 <x-form.error>{{ $message }}</x-form.error>
             @enderror
@@ -85,13 +83,15 @@
 
         <x-slot name="body">
             @forelse ($specializations as $specialization)
-                <tr>
-                    <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
-                    <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
-                    <x-table.tdata-actions>
-                        <x-table.delete-btn wire:click="openModal('delete', {{ $specialization->id }})"   />
-                    </x-table.tdata-actions>
-                </tr>
+                @if($specialization->school->is_involved)
+                    <tr>
+                        <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
+                        <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
+                        <x-table.tdata-actions>
+                            <x-table.delete-btn wire:click="openModal('delete', {{ $specialization->id }})"   />
+                        </x-table.tdata-actions>
+                    </tr>
+                @endif
             @empty
                 <tr>
                     <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>

@@ -34,6 +34,10 @@ class SetSchools extends Component
     // Change status of school
     public function changeSchoolStatus($status, $id) {
         School::where('id', $id)->update(['is_involved' => !$status]);
+
+        // Delete All specializations of removed school
+        Specialization::where('school_id', $id)->delete();
+
         $this->reset();
     }
 
