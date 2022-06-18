@@ -6,6 +6,7 @@ use App\Models\Election;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -36,7 +37,8 @@ class SetSchools extends Component
         $this->reset();
     }
 
-    public function updatedName() {
+    public function updated() {
+        $this->resetErrorBag('name');
         $this->resetValidation();
     }
 
@@ -44,12 +46,11 @@ class SetSchools extends Component
         $this->validate();
 
         // Check if specialization already exists in the school
-        $school = School::with('specializations')->find($this->selectedSchool);
+        $school = School::with('specializations:id,name')->find($this->selectedSchool);
         $formattedName = Str::title($this->name);
         if ($school->specializations()->where('name', $formattedName)->exists()) {
             // Return error message
-            session()->flash('status', 'red');
-            session()->flash('message', $formattedName . ' already exists in ' . $school->name);
+            $this->addError('name', 'The Specialization Name must be unique.');
         } else {
             // Create specialization
             $school->specializations()->create([

@@ -17,7 +17,7 @@
 
         {{-- Confirm Button --}}
         <div class="self-end mb-2 sm:self-auto sm:mb-0">
-            <button type="button" wire:click="confirmSettings" class="p-2 text-sm text-white rounded-lg bg-blue-600 hover:bg-blue-500">Confirm Settings</button>
+            <button type="button" wire:click="openModal('confirm')" class="p-2 text-sm text-white rounded-lg bg-blue-600 hover:bg-blue-500">Confirm Settings</button>
         </div>
     </div>
 

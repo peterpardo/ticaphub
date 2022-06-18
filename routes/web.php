@@ -78,8 +78,11 @@ Route::middleware(['auth'])->group(function () {
     // DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
+    // SET TICAP NAME
+    Route::post('/set-ticap', [HomeController::class, 'addTicap']);
+
     // USER ACCOUNTS
-    Route::get('/users', [HomeController::class, 'users'])->name('users');
+    Route::get('/users', [HomeController::class, 'users'])->name('users')->middleware('set.ticap');
 
     Route::get('/users/schools', [HomeController::class, 'getSchools']);
     Route::post('users/update-school-status', [HomeController::class, 'updateSchoolStatus']);
@@ -89,8 +92,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/add-specialization', [UserController::class, 'addSpecialization']);
     // Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
 
-    // SET TICAP NAME
-    Route::post('/set-ticap', [HomeController::class, 'addTicap']);
+
 
     // MANAGE USER PROFILE
     Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
