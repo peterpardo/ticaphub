@@ -7,6 +7,12 @@
         showMessage: '',
     }">
 
+   {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
+
+
     {{-- Set ticap button --}}
     <div class="text-gray-800 dark:text-white mt-6 text-center">
         <button @click.prevent="isOpen = true" class="inline-block font-semibold text-white text-lg drop-shadow-lg filter bg-red-800 hover:bg-red-700 hover:text-white px-5 py-2 rounded">Set TICaP</button>

@@ -1,4 +1,9 @@
 <div>
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+    @endif
+
     {{-- Actions dropdown --}}
     <div class="ml-auto" style="width: fit-content">
         @include('users.users-dropdown')

@@ -1,3 +1,3 @@
-<x-app-layout git putitle="User Accounts">
+<x-app-layout title="User Accounts">
     @livewire('users')
 </x-app-layout>

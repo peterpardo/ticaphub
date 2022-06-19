@@ -102,7 +102,7 @@
         <x-form.form-control>
             <x-form.label for="selectedAdviser">Group Adviser/Mentor</x-form.label>
             <x-form.select wire:model="selectedAdviser" id="selectedAdviser">
-                <option value="" selected>---select mentor---</option>
+                <option value="" selected>---select adviser---</option>
                 @foreach($advisers as $adviser)
                     <option value="{{ $adviser->id }}">{{ $adviser->name }}</option>
                 @endforeach

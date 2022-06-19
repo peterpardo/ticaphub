@@ -137,7 +137,7 @@ class SetSchools extends Component
 
             // Return success message
             session()->flash('status', 'green');
-            session()->flash('message', 'TICAP settings has been set.');
+            session()->flash('message', 'Awesome! The TICAP settings has been set.');
 
             return redirect('users');
         }
