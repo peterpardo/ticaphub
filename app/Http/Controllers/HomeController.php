@@ -99,7 +99,7 @@ class HomeController extends Controller
             //     'scripts' => $scripts,
             // ]);
 
-            return view('user-accounts.users');
+            return view('users');
         }
     }
 

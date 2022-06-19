@@ -1,4 +1,10 @@
 <div>
+    {{-- Actions dropdown --}}
+    <div class="ml-auto" style="width: fit-content">
+        @include('users.users-dropdown')
+    </div>
+
+    {{-- User table --}}
     <x-table>
         <x-slot name="heading">
             <x-table.thead>Name</x-table.thead>
