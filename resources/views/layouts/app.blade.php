@@ -53,7 +53,7 @@
 
         {{-- Main Container --}}
         <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'container mx-auto p-4']) }}>
+            <div {{ $attributes->merge(['class' => 'container mx-auto px-5 py-2']) }}>
                 {{-- Content --}}
                 {{ $slot }}
             </div>

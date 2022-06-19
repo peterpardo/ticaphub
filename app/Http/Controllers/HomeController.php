@@ -89,15 +89,17 @@ class HomeController extends Controller
         if (!$ticap->invitation_is_set) {
             return view('user-accounts.set-schools');
         } else {
-            $title = 'User Accounts';
-            $scripts = [
-                asset('js/useraccounts/users.js')
-            ];
+            // $title = 'User Accounts';
+            // $scripts = [
+            //     asset('js/useraccounts/users.js')
+            // ];
 
-            return view('user-accounts.users', [
-                'title' => $title,
-                'scripts' => $scripts,
-            ]);
+            // return view('user-accounts.users', [
+            //     'title' => $title,
+            //     'scripts' => $scripts,
+            // ]);
+
+            return view('user-accounts.users');
         }
     }
 

@@ -85,14 +85,6 @@ class User extends Authenticatable
     public function activities() {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
-    public function scopeSearch($query, $term) {
-        $term  = "%$term%";
-        $query->where(function($query) use ($term){
-            $query->where('first_name', 'LIKE', $term)
-                ->orWhere('middle_name', 'LIKE', $term)
-                ->orWhere('last_name', 'LIKE', $term);
-        });
-    }
     public function committee() {
         return $this->hasOne(Committee::class, 'user_id', 'id');
     }
@@ -115,5 +107,18 @@ class User extends Authenticatable
     }
     public function schedules() {
         return $this->belongsToMany(Schedule::class, 'user_schedule', 'user_id', 'schedule_id');
+    }
+
+    public function scopeSearch($query, $term) {
+        $term  = "%$term%";
+        $query->where(function($query) use ($term){
+            $query->where('first_name', 'LIKE', $term)
+                ->orWhere('middle_name', 'LIKE', $term)
+                ->orWhere('last_name', 'LIKE', $term);
+        });
+    }
+
+    public function getFullnameAttribute() {
+        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
     }
 }
