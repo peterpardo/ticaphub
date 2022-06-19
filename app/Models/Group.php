@@ -15,9 +15,13 @@ class Group extends Model
         'specialization_id',
         'ticap_id',
         'adviser',
-        'adviser_email'
+        'adviser_email',
+        'adviser_id'
     ];
 
+    public function adviser() {
+        return $this->belongsTo(Adviser::class, 'adviser_id', 'id');
+    }
     public function ticap() {
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
     }

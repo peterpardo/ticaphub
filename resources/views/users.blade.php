@@ -1,4 +1,3 @@
-<x-app-layout title="User Accounts">
-    {{-- @livewire('user-table') --}}
+<x-app-layout git putitle="User Accounts">
     @livewire('users')
 </x-app-layout>

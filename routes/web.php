@@ -81,11 +81,14 @@ Route::middleware(['auth'])->group(function () {
     // SET TICAP NAME
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
 
-    // USER ACCOUNTS
-    Route::get('/users', [HomeController::class, 'users'])->name('users')->middleware('set.ticap');
+    Route::middleware(['set.ticap'])->group(function () {
+        // USER ACCOUNTS
+        Route::get('/users', [HomeController::class, 'users'])->name('users')->middleware('set.ticap');
 
-    Route::get('/users/schools', [HomeController::class, 'getSchools']);
-    Route::post('users/update-school-status', [HomeController::class, 'updateSchoolStatus']);
+    });
+
+    // Route::get('/users/schools', [HomeController::class, 'getSchools']);
+    // Route::post('users/update-school-status', [HomeController::class, 'updateSchoolStatus']);
     // Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
     // Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
     // Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);

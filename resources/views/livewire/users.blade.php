@@ -42,4 +42,7 @@
             {{ $users->links() }}
         </x-slot>
     </x-table>
+
+    {{-- Modals --}}
+    @include('users.users-modals')
 </div>
