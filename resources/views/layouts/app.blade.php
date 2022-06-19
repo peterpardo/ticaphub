@@ -44,7 +44,7 @@
 </head>
 
 <body>
-    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
+    <div class="overflow-x-hidden antialiased bg-white text-black">
         {{-- Header --}}
         @include('layouts.navbar')
 
@@ -53,7 +53,7 @@
 
         {{-- Main Container --}}
         <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'container mx-auto py-4 pl-6 pr-4']) }}>
+            <div {{ $attributes->merge(['class' => 'container mx-auto p-4']) }}>
                 {{-- Content --}}
                 {{ $slot }}
             </div>

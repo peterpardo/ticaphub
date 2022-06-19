@@ -15,21 +15,21 @@ class SetSchools extends Component
 {
     use WithPagination;
 
-    public $name = "";
-    public $selectedSchool = 1;     // id of FEU TECH
     public $selectedSpecialization;
     public $showDeleteModal = false;
     public $showConfirmModal = false;
+    public $showFormModal = false;
 
-    protected $rules = [
-        'name' => 'required|min:5',
-        'selectedSchool' => 'required',
-    ];
+    protected $listeners = ['refreshParent'];
 
-    protected $validationAttributes = [
-        'name' => 'Specialization Name',
-        'selectedSchool' => 'School'
-    ];
+    public function refreshParent($message = null) {
+        if ($message === 'success') {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Specialization successfully added');
+        }
+
+        $this->showFormModal = false;
+    }
 
     // Change status of school
     public function changeSchoolStatus($status, $id) {
@@ -75,6 +75,8 @@ class SetSchools extends Component
         if ($action === 'delete') {
             $this->selectedSpecialization = $id;
             $this->showDeleteModal = true;
+        } else if ($action === 'add') {
+            $this->showFormModal = true;
         } else {
             $this->showConfirmModal = true;
         }
@@ -85,6 +87,8 @@ class SetSchools extends Component
         if ($action === 'delete') {
             $this->selectedSpecialization = null;
             $this->showDeleteModal = false;
+        }  else if ($action === 'add') {
+            $this->showFormModal = false;
         } else {
             $this->showConfirmModal = false;
         }
@@ -138,7 +142,6 @@ class SetSchools extends Component
             return redirect('users');
         }
     }
-
 
     public function render()
     {

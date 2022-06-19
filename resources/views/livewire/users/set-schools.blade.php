@@ -48,32 +48,12 @@
         <x-title-info>Add specializations for each school</x-title-info>
     </div>
 
-    {{-- Specialization Form --}}
-    <x-form wire:submit.prevent="addSpecialization">
-        <x-form.form-control>
-            <x-form.label for="selectedSchool">Select School</x-form.label>
-            <x-form.select wire:model="selectedSchool" id="selectedSchool">
-                @foreach($schools->where('is_involved', 1) as $school)
-                    <option value="{{ $school->id }}">{{ $school->name }}</option>
-                @endforeach
-            </x-form.select>
-            @error('selectedSchool')
-                <x-form.error>{{ $message }}</x-form.error>
-            @enderror
-        </x-form.form-control>
+    {{-- Add Specialization --}}
+    <x-app.button color="green" wire:click="openModal('add')">Add Specialization</x-app.button>
+    @if ($showFormModal)
+        @livewire('users.add-specialization-form', ['schools' => $schools])
+    @endif
 
-        <x-form.form-control>
-            <x-form.label for="name">Specialization Name (Complete Name)</x-form.label>
-            <x-form.input wire:model.defer="name" id="name" placeholder="Ex: Web and Mobile Application" />
-            @error('name')
-                <x-form.error>{{ $message }}</x-form.error>
-            @enderror
-        </x-form.form-control>
-
-        <div class="text-right">
-            <x-app.button color="green" type="submit">Add Specialization</x-app.button>
-        </div>
-    </x-form>
 
     {{-- Specialization Table --}}
     <x-table>
@@ -98,7 +78,7 @@
                 @endif
             @empty
                 <tr>
-                    <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
+                    <x-table.tdata>No Specializations are found</x-table.tdata>
                 </tr>
             @endforelse
         </x-slot>
