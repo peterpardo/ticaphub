@@ -1,4 +1,6 @@
-<div>
+<div x-data="{
+    showAddModal: false
+}">
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
@@ -48,6 +50,11 @@
         </x-slot>
     </x-table>
 
+    {{-- @include('users.users-modals') --}}
     {{-- Modals --}}
-    @include('users.users-modals')
+    {{-- Add User Modal --}}
+    @if ($showFormModal)
+        @livewire('users.add-user-form')
+    @endif
+
 </div>
