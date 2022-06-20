@@ -27,31 +27,39 @@ class AddUserForm extends Component
     public $advisers = [];
     public $selectedAdviser;
 
-    protected $rules = [
+    public $userRules = [
         'email' => 'required|email|unique:users,email',
         'fname' => 'required|max:30',
         'lname' => 'required|max:30',
-        'selectedSchool' => 'required',
-        // 'selectedSpecialization' => 'required',
-        // 'selectedGroup' => 'required',
-        // 'selectedAdviser' => 'required',
     ];
 
-    protected $validationAttributes = [
+    public $studentRules = [
+        'selectedSchool' => 'required',
+        'selectedSpecialization' => 'required',
+        'selectedGroup' => 'required',
+        'selectedAdviser' => 'required',
+    ];
+
+    public $userRuleAttributes = [
         'email' => 'Email',
         'fname' => 'First Name',
         'lname' => 'Last Name',
-        // 'selectedSchool' => 'School',
-        // 'selectedSpecialization' => 'Specialization',
-        // 'selectedGroup' => 'Group',
-        // 'selectedAdviser' => 'Adviser',
     ];
+
+    public $studentRuleAttributes = [
+        'selectedSchool' => 'School',
+        'selectedSpecialization' => 'Specialization',
+        'selectedGroup' => 'Group',
+        'selectedAdviser' => 'Adviser',
+    ];
+
 
     public function mount() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
     }
 
     public function updatedRole($value) {
+        // Check if show the student fields
         if ($value !== 'student') {
             $this->showStudentFields = false;
         } else {
@@ -60,11 +68,6 @@ class AddUserForm extends Component
 
         // Remove validation errors
         $this->resetValidation();
-    }
-
-    public function addUser() {
-        $validated = $this->validate();
-        dd($validated);
     }
 
     public function closeModal() {
@@ -84,6 +87,21 @@ class AddUserForm extends Component
 
     public function updatedSelectedSpecialization() {
         $this->groups = Group::where('specialization_id', $this->selectedSpecialization)->get(['id', 'name']);
+    }
+
+    public function addUser() {
+        // Validation for all user roles
+        $validations = $this->userRules;
+        $attributes = $this->userRuleAttributes;
+
+        // Check if user role is student
+        if ($this->showStudentFields) {
+            $validations = array_merge($this->userRules, $this->studentRules);
+            $attributes = array_merge($this->userRuleAttributes, $this->studentRuleAttributes);
+        }
+
+        // Validation
+        $this->validate($validations, [], $attributes);
     }
 
     public function render()
