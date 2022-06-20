@@ -1,5 +1,5 @@
 <div x-data="{
-    showAddModal: false
+    showAddModal: @entangle('showAddModal').defer
 }">
     {{-- Alert --}}
     @if (session('status'))
@@ -50,11 +50,7 @@
         </x-slot>
     </x-table>
 
-    {{-- @include('users.users-modals') --}}
     {{-- Modals --}}
-    {{-- Add User Modal --}}
-    @if ($showFormModal)
-        @livewire('users.add-user-form')
-    @endif
+    @include('users.users-modals')
 
 </div>

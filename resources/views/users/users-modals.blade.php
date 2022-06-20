@@ -1,4 +1,3 @@
-{{-- Add User Modal --}}
-@if ($showFormModal)
+<div x-cloak x-show="showAddModal">
     @livewire('users.add-user-form')
-@endif
+</div>
