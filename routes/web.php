@@ -83,8 +83,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
-        Route::get('/users', [HomeController::class, 'users'])->name('users')->middleware('set.ticap');
-
+        Route::get('/users', [HomeController::class, 'users'])->name('users');
     });
 
     // Route::get('/users/schools', [HomeController::class, 'getSchools']);

@@ -8,7 +8,7 @@
     <h1 class="font-bold text-3xl tracking-wide mb-5">{{ $ticap }}</h1>
 
     {{-- Report Cards (admin) --}}
-    @role('admin')
+    @role('superadmin')
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {{-- Student Card --}}
             <x-dashboard.report-card name="students" count="{{ $students }}">

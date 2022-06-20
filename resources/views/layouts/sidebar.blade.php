@@ -6,26 +6,26 @@
         (object) [
             'name' => 'User Accounts',              // name of sidebar link
             'route' => route('users'),              // route
-            'hasAccess' => $user->hasRole('admin'), // Check whether user has access to the specified link
+            'hasAccess' => $user->hasRole('superadmin'), // Check whether user has access to the specified link
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
         // Schedules Link (temporarily disabled)
         // (object) [
         //     'name' => 'Schedules',
         //     'route' => route('schedules'),
-        //     'hasAccess' => $user->hasRole('admin'),
+        //     'hasAccess' => $user->hasRole('superadmin'),
         //     'icon' => 'fa-solid fa-calendar'
         // ],
         (object) [
             'name' =>  'Officers',
             'route' => route('officers'),
-            'hasAccess' => $user->hasAnyRole(['admin', 'student', 'officer']),
+            'hasAccess' => $user->hasAnyRole(['superadmin', 'student', 'officer']),
             'icon' => 'fa-solid fa-user-shield'
         ],
         (object) [
             'name' => 'Committee Heads',
             'route' => route('committee-heads'),
-            'hasAccess' => $user->hasRole(['admin']),
+            'hasAccess' => $user->hasRole(['superadmin']),
             'icon' => 'fa-solid fa-user-group'
         ],
         // Manage Events Link (temporarily disabled)
@@ -38,13 +38,13 @@
         (object) [
             'name' => 'Project Assessment',
             'route' => route('awards'),
-            'hasAccess' => $user->hasRole('admin'),
+            'hasAccess' => $user->hasRole('superadmin'),
             'icon' => 'fa-solid fa-diagram-project'
         ],
         (object) [
             'name' => 'Documentation',
             'route' => route('awards'),
-            'hasAccess' => $user->hasRole('admin'),
+            'hasAccess' => $user->hasRole('superadmin'),
             'icon' => 'fa-solid fa-file'
         ]
     ]);

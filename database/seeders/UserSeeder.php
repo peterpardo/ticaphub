@@ -19,21 +19,11 @@ class UserSeeder extends Seeder
     public function run()
     {
         $admin1 = User::create([
-            'first_name' => 'Peter Carl',
-            'middle_name' => 'Munoz',
-            'last_name' => 'Pardo',
+            'first_name' => 'SuperAdmin',
+            'middle_name' => '',
+            'last_name' => 'Admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('thisisadmin'), // password
-            'ticap_id' => null,
-            'email_verified' => 1,
-        ]);
-
-        $admin2 = User::create([
-            'first_name' => 'John Raymond',
-            'middle_name' => 'M',
-            'last_name' => 'Arriesgado',
-            'email' => 'admin2@admin2.com',
-            'password' => Hash::make('thisisadmin'), // password
+            'password' => Hash::make('admin123'), // password
             'ticap_id' => null,
             'email_verified' => 1,
         ]);
@@ -86,7 +76,7 @@ class UserSeeder extends Seeder
         $admin->givePermissionTo('delete list');
         $admin->givePermissionTo('view list');
         $admin->givePermissionTo('add task');
-        $admin->givePermissionTo('edit task'); 
+        $admin->givePermissionTo('edit task');
         $admin->givePermissionTo('delete task');
         $admin->givePermissionTo('view task');
         $admin->givePermissionTo('move task');
@@ -96,7 +86,7 @@ class UserSeeder extends Seeder
         $admin->givePermissionTo('generate report');
         $admin->givePermissionTo('set schedule');
         $admin->givePermissionTo('access slider');
-        
+
         // CHAIRMAN
         $chairman = Role::create(['name' => 'chairman']);
         $chairman->givePermissionTo('access events');
@@ -116,7 +106,7 @@ class UserSeeder extends Seeder
         $chairman->givePermissionTo('appoint committee head');
         $chairman->givePermissionTo('access slider');
         $chairman->givePermissionTo('set schedule');
-        
+
         // OFFICER
         $officer = Role::create(['name' => 'officer']);
         $officer->givePermissionTo('access events');
@@ -136,6 +126,5 @@ class UserSeeder extends Seeder
         $student->givePermissionTo('access group exhibit');
         // ASSIGN ROLE
         $admin1->assignRole($admin);
-        $admin2->assignRole($admin);
     }
 }

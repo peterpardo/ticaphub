@@ -59,7 +59,7 @@ class HomeController extends Controller
         ]);
 
         // Get admins
-        $admins = User::role('admin')->get();
+        $admins = User::role('superadmin')->get();
 
         // Set ticap id of admins
         foreach($admins as $admin) {
