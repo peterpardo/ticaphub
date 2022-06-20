@@ -1,4 +1,8 @@
-<div>
+<div x-data="{
+    showAddModal: @entangle('showAddModal').defer,
+    showDeleteModal: false,
+    showConfirmModal: @entangle('showConfirmModal').defer
+}">
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
@@ -17,7 +21,8 @@
 
         {{-- Confirm Button --}}
         <div class="self-end mb-2 sm:self-auto sm:mb-0">
-           <x-app.button wire:click="openModal('confirm')" color="blue">Confirm Settings</x-app.button>
+           {{-- <x-app.button wire:click="openModal('confirm')" color="blue">Confirm Settings</x-app.button> --}}
+           <x-app.button @click.prevent="showConfirmModal = !showConfirmModal" color="blue">Confirm Settings</x-app.button>
         </div>
     </div>
 
@@ -49,11 +54,8 @@
     </div>
 
     {{-- Add Specialization --}}
-    <x-app.button color="green" wire:click="openModal('add')">Add Specialization</x-app.button>
-    @if ($showFormModal)
-        @livewire('users.add-specialization-form', ['schools' => $schools])
-    @endif
-
+    {{-- <x-app.button color="green" wire:click="openModal('add')">Add Specialization</x-app.button> --}}
+    <x-app.button color="green" @click.prevent="showAddModal = !showAddModal">Add Specialization</x-app.button>
 
     {{-- Specialization Table --}}
     <x-table>
@@ -72,7 +74,7 @@
                         <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
                         <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
                         <x-table.tdata-actions>
-                            <x-table.delete-btn wire:click="openModal('delete', {{ $specialization->id }})"   />
+                            <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $specialization->id }})"   />
                         </x-table.tdata-actions>
                     </tr>
                 @endif
@@ -89,17 +91,32 @@
     </x-table>
 
 
+    {{-- Modals --}}
+    {{-- Add specialization modal --}}
+     {{-- @if ($showFormModal)
+        @livewire('users.add-specialization-form', ['schools' => $schools])
+    @endif --}}
+    <div x-clock x-show="showAddModal">
+        @livewire('users.add-specialization-form', ['schools' => $schools])
+    </div>
+
     {{-- Delete modal --}}
     {{-- NOTE: This modal can only be used inside a livewire component --}}
-    @if ($showDeleteModal)
+    {{-- @if ($showDeleteModal)
         <x-modal.delete-modal>
             <x-modal.title>Delete Specialization</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
         </x-modal.delete-modal>
-    @endif
+    @endif --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal.delete-modal>
+            <x-modal.title>Delete Specialization</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
+        </x-modal.delete-modal>
+    </div>
 
     {{-- Confirm modal --}}
-    @if ($showConfirmModal)
+    {{-- @if ($showConfirmModal)
         <x-modal.confirm-modal>
             <x-modal.title>TICAP Settings</x-modal.title>
             <x-modal.description>Do you want to start the TICaP with these specializations? You will not be able to change it once you proceed.</x-modal.description>
@@ -120,5 +137,27 @@
                 </x-slot>
             </x-modal.table>
         </x-modal.confirm-modal>
-    @endif
+    @endif --}}
+    <div x-cloak x-show="showConfirmModal">
+        <x-modal.confirm-modal>
+            <x-modal.title>TICAP Settings</x-modal.title>
+            <x-modal.description>Do you want to start the TICaP with these specializations? You will not be able to change it once you proceed.</x-modal.description>
+
+            <x-modal.table>
+                <x-slot name="heading">
+                    <x-modal.table.thead>School</x-modal.table.thead>
+                    <x-modal.table.thead>Specializations</x-modal.table.thead>
+                </x-slot>
+
+                <x-slot name="body">
+                    @foreach ($schools->where('is_involved', 1) as $school)
+                    <tr>
+                        <x-modal.table.tdata>{{ $school->name }}</x-modal.table.tdata>
+                        <x-modal.table.tdata>{{ $school->specializations_count}}</x-modal.table.tdata>
+                    </tr>
+                    @endforeach
+                </x-slot>
+            </x-modal.table>
+        </x-modal.confirm-modal>
+    </div>
 </div>

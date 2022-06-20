@@ -6,7 +6,7 @@
         <x-form.form-control>
             <x-form.label for="selectedSchool">Select School</x-form.label>
             <x-form.select wire:model="selectedSchool" id="selectedSchool">
-                @foreach($schools->where('is_involved', 1) as $school)
+                @foreach($schools->where('is_involved') as $school)
                     <option value="{{ $school->id }}">{{ $school->name }}</option>
                 @endforeach
             </x-form.select>
@@ -25,7 +25,8 @@
 
 
         <div class="text-right">
-            <x-app.button color="gray" wire:click.prevent="$emit('refreshParent')">Cancel</x-app.button>
+            {{-- <x-app.button color="gray" wire:click.prevent="$emit('refreshParent')">Cancel</x-app.button> --}}
+            <x-app.button color="gray" @click.prevent="showAddModal = false" wire:click.prevent="closeModal">Cancel</x-app.button>
             <x-app.button color="green" type="submit">Add Specialization</x-app.button>
         </div>
     </x-form>

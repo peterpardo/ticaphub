@@ -16,9 +16,8 @@ class SetSchools extends Component
     use WithPagination;
 
     public $selectedSpecialization;
-    public $showDeleteModal = false;
     public $showConfirmModal = false;
-    public $showFormModal = false;
+    public $showAddModal = false;
 
     protected $listeners = ['refreshParent'];
 
@@ -28,7 +27,7 @@ class SetSchools extends Component
             session()->flash('message', 'Specialization successfully added');
         }
 
-        $this->showFormModal = false;
+        $this->showAddModal = false;
     }
 
     // Change status of school
@@ -38,32 +37,37 @@ class SetSchools extends Component
         // Delete All specializations of removed school
         Specialization::where('school_id', $id)->delete();
 
-        $this->reset();
+        // Refresh add specialization form
+        $this->emit('refreshForm');
     }
 
 
-    // Open modal
-    public function openModal($action, $id = null) {
-        if ($action === 'delete') {
-            $this->selectedSpecialization = $id;
-            $this->showDeleteModal = true;
-        } else if ($action === 'add') {
-            $this->showFormModal = true;
-        } else {
-            $this->showConfirmModal = true;
-        }
-    }
+    // // Open modal
+    // public function openModal($action, $id = null) {
+    //     if ($action === 'delete') {
+    //         $this->selectedSpecialization = $id;
+    //         $this->showDeleteModal = true;
+    //     } else if ($action === 'add') {
+    //         $this->showAddModal = true;
+    //     } else {
+    //         $this->showConfirmModal = true;
+    //     }
+    // }
 
-    // Close modal
-    public function closeModal($action) {
-        if ($action === 'delete') {
-            $this->selectedSpecialization = null;
-            $this->showDeleteModal = false;
-        }  else if ($action === 'add') {
-            $this->showFormModal = false;
-        } else {
-            $this->showConfirmModal = false;
-        }
+    // // Close modal
+    // public function closeModal($action) {
+    //     if ($action === 'delete') {
+    //         $this->selectedSpecialization = null;
+    //         $this->showDeleteModal = false;
+    //     }  else if ($action === 'add') {
+    //         $this->showAddModal = false;
+    //     } else {
+    //         $this->showConfirmModal = false;
+    //     }
+    // }
+
+    public function selectItem($id) {
+        $this->selectedSpecialization = $id;
     }
 
     public function deleteItem() {
@@ -80,8 +84,6 @@ class SetSchools extends Component
 
     // Finalize Settings
     public function confirmSettings() {
-        $this->showConfirmModal = true;
-
         // Check if involved schools has atleast 1 specialization
         $schools = School::where('is_involved', 1)->doesntHave('specializations')->get('name');
         if ($schools->isNotEmpty()) {

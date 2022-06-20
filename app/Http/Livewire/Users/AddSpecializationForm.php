@@ -8,9 +8,11 @@ use Illuminate\Support\Str;
 
 class AddSpecializationForm extends Component
 {
-    public $schools;
     public $name = "";
     public $selectedSchool = 1;     // id of FEU TECH
+    public $schools;
+
+    protected $listeners = ['refreshForm' => '$refresh'];
 
     protected $rules = [
         'name' => 'required|min:5',
@@ -21,6 +23,14 @@ class AddSpecializationForm extends Component
         'name' => 'Specialization Name',
         'selectedSchool' => 'School'
     ];
+
+    public function closeModal() {
+        // Reset fiels and remove validations if there's any
+        $this->reset('name');
+        $this->resetValidation();
+
+        $this->emit('refreshParent');
+    }
 
     public function addSpecialization() {
         $this->validate();
@@ -39,6 +49,8 @@ class AddSpecializationForm extends Component
 
             // Refresh parent component and return success message
             $this->emit('refreshParent', 'success');
+
+            $this->reset('name', 'selectedSchool');
         }
     }
 

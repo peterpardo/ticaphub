@@ -9,7 +9,7 @@
             </div>
             <!--footer-->
             <div class="p-3 text-center space-x-4 md:block">
-                <button type="button" wire:click="closeModal('confirm')" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
+                <button type="button" @click.prevent="showConfirmModal = false" class="close-btn inline-block mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">Cancel</button>
                 <button type="button" wire:click="confirmSettings" class="mb-2 md:mb-0 bg-green-500 border border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-600">Proceed</button>
             </div>
         </div>
