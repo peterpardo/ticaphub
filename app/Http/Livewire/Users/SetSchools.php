@@ -41,34 +41,6 @@ class SetSchools extends Component
         $this->reset();
     }
 
-    public function updated() {
-        $this->resetErrorBag('name');
-        $this->resetValidation();
-    }
-
-    public function addSpecialization() {
-        $this->validate();
-
-        // Check if specialization already exists in the school
-        $school = School::with('specializations:id,name')->find($this->selectedSchool);
-        $formattedName = Str::title($this->name);
-        if ($school->specializations()->where('name', $formattedName)->exists()) {
-            // Return error message
-            $this->addError('name', 'The Specialization Name must be unique.');
-        } else {
-            // Create specialization
-            $school->specializations()->create([
-                'name' => $formattedName
-            ]);
-
-            // Return success message
-            session()->flash('status', 'green');
-            session()->flash('message', 'Specialization successfully added');
-
-            // Reset input fields
-            $this->reset(['name', 'selectedSchool']);
-        }
-    }
 
     // Open modal
     public function openModal($action, $id = null) {

@@ -2,9 +2,14 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Election;
 use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
+use App\Models\User;
+use App\Models\UserSpecialization;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class AddUserForm extends Component
@@ -90,6 +95,8 @@ class AddUserForm extends Component
     }
 
     public function addUser() {
+        dd(Election::select('id')->where('specialization_id', $this->selectedSpecialization)->get());
+
         // Validation for all user roles
         $validations = $this->userRules;
         $attributes = $this->userRuleAttributes;
@@ -102,6 +109,43 @@ class AddUserForm extends Component
 
         // Validation
         $this->validate($validations, [], $attributes);
+
+        // Add user
+        $user = User::create([
+            'first_name' => Str::title($this->first_name),
+            'last_name' => Str::title($this->last_name),
+            'password' => Hash::make('ticaphub123'),
+            'email' => $this->email,
+            'ticap_id' => auth()->user()->ticap_id,
+        ]);
+
+        // Add roles
+        if ($this->role === 'panelist') {
+            $user->assignRole('panelist');
+        } else if ($this->role === 'admin') {
+            $user->assignRole('admin');
+        } else {
+            $user->assignRole('student');
+
+            // Set student specialization and group
+            $user->userSpecialization()->create([
+                'specialization_id' => $this->selectedSpecialization,
+                'group_id' => $this->selectedGroup
+            ]);
+
+            // Assign user which electiom to vote
+            if ($this->selectedSchool == 1) {
+                $electionId = Election::select('id')->where('specialization_id', $this->selectedSpecialization)->get();
+                UserSpecialization::insert([
+                    'user_id' => $user->id,
+                    'election_id' => $$electionId,
+                    'has_voted' => 0,
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ]);
+            }
+        }
+
     }
 
     public function render()
