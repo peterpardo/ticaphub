@@ -15,11 +15,20 @@ class SetSchools extends Component
 {
     use WithPagination;
 
+    public $dilimanCheckbox;
+    public $alabangCheckbox;
     public $selectedSpecialization;
     public $showConfirmModal = false;
     public $showAddModal = false;
 
     protected $listeners = ['refreshParent'];
+
+    public function mount() {
+        // Get diliman and alabang status (is_involved column)
+        $schoolStatus = School::where('id', '!=', 1)->pluck('is_involved');
+        $this->dilimanCheckbox = $schoolStatus[0];
+        $this->alabangCheckbox = $schoolStatus[1];
+    }
 
     public function refreshParent($message = null) {
         if ($message === 'success') {
@@ -31,40 +40,19 @@ class SetSchools extends Component
     }
 
     // Change status of school
-    public function changeSchoolStatus($status, $id) {
-        School::where('id', $id)->update(['is_involved' => !$status]);
+    public function changeSchoolStatus($id) {
+        if ($id === 2) {
+            School::where('id', $id)->update(['is_involved' => $this->dilimanCheckbox]);
+        } else {
+            School::where('id', $id)->update(['is_involved' => $this->alabangCheckbox]);
+        }
 
-        // Delete All specializations of removed school
+        // // Delete All specializations of removed school
         Specialization::where('school_id', $id)->delete();
 
         // Refresh add specialization form
         $this->emit('refreshForm');
     }
-
-
-    // // Open modal
-    // public function openModal($action, $id = null) {
-    //     if ($action === 'delete') {
-    //         $this->selectedSpecialization = $id;
-    //         $this->showDeleteModal = true;
-    //     } else if ($action === 'add') {
-    //         $this->showAddModal = true;
-    //     } else {
-    //         $this->showConfirmModal = true;
-    //     }
-    // }
-
-    // // Close modal
-    // public function closeModal($action) {
-    //     if ($action === 'delete') {
-    //         $this->selectedSpecialization = null;
-    //         $this->showDeleteModal = false;
-    //     }  else if ($action === 'add') {
-    //         $this->showAddModal = false;
-    //     } else {
-    //         $this->showConfirmModal = false;
-    //     }
-    // }
 
     public function selectItem($id) {
         $this->selectedSpecialization = $id;

@@ -21,28 +21,30 @@
 
         {{-- Confirm Button --}}
         <div class="self-end mb-2 sm:self-auto sm:mb-0">
-           {{-- <x-app.button wire:click="openModal('confirm')" color="blue">Confirm Settings</x-app.button> --}}
            <x-app.button @click.prevent="showConfirmModal = !showConfirmModal" color="blue">Confirm Settings</x-app.button>
         </div>
     </div>
 
     {{-- Schools --}}
     <div class="flex flex-col w-full space-y-2">
-        @foreach ($schools as $school)
-            @if ($school->id !== 1)
-                <div class="flex items-center space-x-2">
-                    <input
-                        type="checkbox"
-                        @if($school->is_involved)
-                            checked
-                        @endif
-                        wire:click.prevent="changeSchoolStatus({{ $school->is_involved }}, {{ $school->id }})"
-                        id="{{ $school->slug_name  }}"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                    <label for="{{ $school->slug_name  }}">{{ $school->name }}</label>
-                </div>
-            @endif
-        @endforeach
+        <div class="flex items-center space-x-2">
+            <input
+                type="checkbox"
+                wire:model="dilimanCheckbox"
+                wire:click="changeSchoolStatus(2)"
+                id="diliman"
+                class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+            <label for="dilimna">FEU Diliman</label>
+        </div>
+        <div class="flex items-center space-x-2">
+            <input
+            type="checkbox"
+            wire:model="alabangCheckbox"
+            wire:click="changeSchoolStatus(3)"
+            id="alabang"
+            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+            <label for="alabang">FEU Alabang</label>
+        </div>
     </div>
 
     <hr class="my-3 h-1 rounded-lg bg-gray-100">
@@ -54,7 +56,6 @@
     </div>
 
     {{-- Add Specialization --}}
-    {{-- <x-app.button color="green" wire:click="openModal('add')">Add Specialization</x-app.button> --}}
     <x-app.button color="green" @click.prevent="showAddModal = !showAddModal">Add Specialization</x-app.button>
 
     {{-- Specialization Table --}}
@@ -93,21 +94,12 @@
 
     {{-- Modals --}}
     {{-- Add specialization modal --}}
-     {{-- @if ($showFormModal)
-        @livewire('users.add-specialization-form', ['schools' => $schools])
-    @endif --}}
     <div x-clock x-show="showAddModal">
         @livewire('users.add-specialization-form', ['schools' => $schools])
     </div>
 
     {{-- Delete modal --}}
     {{-- NOTE: This modal can only be used inside a livewire component --}}
-    {{-- @if ($showDeleteModal)
-        <x-modal.delete-modal>
-            <x-modal.title>Delete Specialization</x-modal.title>
-            <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
-        </x-modal.delete-modal>
-    @endif --}}
     <div x-cloak x-show="showDeleteModal">
         <x-modal.delete-modal>
             <x-modal.title>Delete Specialization</x-modal.title>
@@ -116,28 +108,6 @@
     </div>
 
     {{-- Confirm modal --}}
-    {{-- @if ($showConfirmModal)
-        <x-modal.confirm-modal>
-            <x-modal.title>TICAP Settings</x-modal.title>
-            <x-modal.description>Do you want to start the TICaP with these specializations? You will not be able to change it once you proceed.</x-modal.description>
-
-            <x-modal.table>
-                <x-slot name="heading">
-                    <x-modal.table.thead>School</x-modal.table.thead>
-                    <x-modal.table.thead>Specializations</x-modal.table.thead>
-                </x-slot>
-
-                <x-slot name="body">
-                    @foreach ($schools->where('is_involved', 1) as $school)
-                        <tr>
-                            <x-modal.table.tdata>{{ $school->name }}</x-modal.table.tdata>
-                            <x-modal.table.tdata>{{ $school->specializations_count}}</x-modal.table.tdata>
-                        </tr>
-                    @endforeach
-                </x-slot>
-            </x-modal.table>
-        </x-modal.confirm-modal>
-    @endif --}}
     <div x-cloak x-show="showConfirmModal">
         <x-modal.confirm-modal>
             <x-modal.title>TICAP Settings</x-modal.title>
