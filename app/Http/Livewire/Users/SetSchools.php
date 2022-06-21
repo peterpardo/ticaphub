@@ -62,10 +62,8 @@ class SetSchools extends Component
         // dd(Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first());
         $specialization = Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first();
 
-
         // Check school of specialization
         if ($specialization->school_id === 1) {
-            dd('error');
             // Delete election and specialization
             Election::destroy($specialization->election->id);
         } else {
@@ -92,24 +90,23 @@ class SetSchools extends Component
             session()->flash('status', 'red');
             session()->flash('message', $schools[0]->name . ' has no specializations.');
         } else {
-            $specializations = Specialization::select('id', 'name', 'school_id')->with('school:id,name')->get();
-            dd($specializations);
+            // Check if diliman and alabang are involved in the ticap
+            $schools = School::where([
+                ['id', '!=',  1],
+                ['is_involved', '=', 1]
+            ])->get();
 
-            // Insert elections (Ex: FEU TECH | Web And Mobile Application)
-            foreach ($specializations as $specialization) {
-                if ($specialization->school->id === 1) {
-                    Election::insert([
-                        'name' => $specialization->school->name . ' | ' . $specialization->name,
-                        'specialization_id' => $specialization->id,
-                        'ticap_id' => auth()->user()->ticap_id,
-                        'created_at' => now()->toDateTimeString(),
-                        'updated_at' => now()->toDateTimeString(),
-                    ]);
-                }
+            // Create an election for each school if involved and assign each specialization to their respective election
+            foreach ($schools as $school) {
+                $election = Election::create([
+                    'name' => $school->name,
+                    'ticap_id' => auth()->user()->ticap_id
+                ]);
 
+                Specialization::where('school_id', $school->id)->update(['election_id' => $election->id]);
             }
 
-            // Change TICAP status - invitation_is_set
+            // Change TICAP status column(invitation_is_set)
             Ticap::where('id', auth()->user()->ticap_id)->update(['invitation_is_set' => 1]);
 
             // Return success message

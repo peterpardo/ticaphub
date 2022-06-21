@@ -40,8 +40,8 @@ class AddSpecializationForm extends Component
         // Check if specialization already exists in the school
         $formattedName = Str::title($this->name);
         $nameExists = Specialization::where([
-            'school_id' => $this->selectedSchool,
-            'name' => $formattedName,
+            ['school_id', '=', $this->selectedSchool],
+            ['name', '=', $formattedName],
         ])->exists();
 
         if ($nameExists) {
@@ -56,7 +56,6 @@ class AddSpecializationForm extends Component
 
             // Check school (for creation of election)
             if ($this->selectedSchool == 1) {
-                dd('error');
                 $school = School::where('id', $this->selectedSchool)->pluck('name')->first();
                 // Create election for each specialization in FEU TECH
                 $election = Election::create([

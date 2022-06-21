@@ -22,12 +22,12 @@
             'hasAccess' => $user->hasAnyRole(['superadmin', 'student', 'officer']),
             'icon' => 'fa-solid fa-user-shield'
         ],
-        (object) [
-            'name' => 'Committee Heads',
-            'route' => route('committee-heads'),
-            'hasAccess' => $user->hasRole(['superadmin']),
-            'icon' => 'fa-solid fa-user-group'
-        ],
+        // (object) [
+        //     'name' => 'Committee Heads',
+        //     'route' => route('committee-heads'),
+        //     'hasAccess' => $user->hasRole(['superadmin']),
+        //     'icon' => 'fa-solid fa-user-group'
+        // ],
         // Manage Events Link (temporarily disabled)
         // (object) [
         //     'name' => 'Manage Events',
