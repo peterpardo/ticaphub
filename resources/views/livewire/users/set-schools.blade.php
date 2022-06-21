@@ -94,7 +94,7 @@
 
     {{-- Modals --}}
     {{-- Add specialization modal --}}
-    <div x-clock x-show="showAddModal">
+    <div x-cloak x-show="showAddModal">
         @livewire('users.add-specialization-form', ['schools' => $schools])
     </div>
 

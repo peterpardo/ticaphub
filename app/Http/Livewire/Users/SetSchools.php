@@ -59,13 +59,24 @@ class SetSchools extends Component
     }
 
     public function deleteItem() {
-        // Delete selected specialization
-        Specialization::destroy($this->selectedSpecialization);
+        // dd(Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first());
+        $specialization = Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first();
 
-        // Reset properties to default value
+
+        // Check school of specialization
+        if ($specialization->school_id === 1) {
+            dd('error');
+            // Delete election and specialization
+            Election::destroy($specialization->election->id);
+        } else {
+            // Delete only specialization
+            Specialization::destroy($this->selectedSpecialization);
+        }
+
+        // // Reset properties to default value
         $this->reset(['selectedSpecialization']);
 
-        // Return success message
+        // // Return success message
         session()->flash('status', 'green');
         session()->flash('message', 'Specialization successfully deleted');
     }

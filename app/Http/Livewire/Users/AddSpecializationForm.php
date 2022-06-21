@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Election;
 use App\Models\School;
+use App\Models\Specialization;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -36,16 +38,35 @@ class AddSpecializationForm extends Component
         $this->validate();
 
         // Check if specialization already exists in the school
-        $school = School::with('specializations:id,name')->find($this->selectedSchool);
         $formattedName = Str::title($this->name);
-        if ($school->specializations()->where('name', $formattedName)->exists()) {
-            // Return error message
-            $this->addError('name', 'The Specialization Name must be unique.');
+        $nameExists = Specialization::where([
+            'school_id' => $this->selectedSchool,
+            'name' => $formattedName,
+        ])->exists();
+
+        if ($nameExists) {
+           // Return error message
+           $this->addError('name', 'The Specialization Name must be unique.');
         } else {
             // Create specialization
-            $school->specializations()->create([
-                'name' => $formattedName
+            $specialization = Specialization::create([
+                'name' => $formattedName,
+                'school_id' => $this->selectedSchool,
             ]);
+
+            // Check school (for creation of election)
+            if ($this->selectedSchool == 1) {
+                dd('error');
+                $school = School::where('id', $this->selectedSchool)->pluck('name')->first();
+                // Create election for each specialization in FEU TECH
+                $election = Election::create([
+                    'name' => $school . ' | ' . $formattedName,
+                    'ticap_id' => auth()->user()->ticap_id,
+                ]);
+
+                // Add Election id to FEU TECH specializations
+                Specialization::where('id', $specialization->id)->update(['election_id' => $election->id]);
+            }
 
             // Refresh parent component and return success message
             $this->emit('refreshParent', 'success');

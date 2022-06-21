@@ -27,7 +27,7 @@ class SpecializationSeeder extends Seeder
         //     ]);
         // }
 
-        $school = School::where('id', 1)->get();
+        $school = School::where('id', 1)->first();
 
         $election1 = Election::create([
             'name' => $school->name  . ' | Web and Mobile Application',

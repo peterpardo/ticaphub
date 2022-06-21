@@ -15,6 +15,7 @@ class AddElectionIdOnSpecializationsTable extends Migration
     {
         Schema::table('specializations', function (Blueprint $table) {
             $table->foreignId('election_id')
+                ->nullable()
                 ->constrained('elections')
                 ->onDelete('cascade');
         });
