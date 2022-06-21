@@ -63,7 +63,7 @@ class SetSchools extends Component
         Specialization::destroy($this->selectedSpecialization);
 
         // Reset properties to default value
-        $this->reset(['showDeleteModal', 'selectedSpecialization']);
+        $this->reset(['selectedSpecialization']);
 
         // Return success message
         session()->flash('status', 'green');
@@ -82,16 +82,20 @@ class SetSchools extends Component
             session()->flash('message', $schools[0]->name . ' has no specializations.');
         } else {
             $specializations = Specialization::select('id', 'name', 'school_id')->with('school:id,name')->get();
+            dd($specializations);
 
             // Insert elections (Ex: FEU TECH | Web And Mobile Application)
             foreach ($specializations as $specialization) {
-                Election::insert([
-                    'name' => $specialization->school->name . ' | ' . $specialization->name,
-                    'specialization_id' => $specialization->id,
-                    'ticap_id' => auth()->user()->ticap_id,
-                    'created_at' => now()->toDateTimeString(),
-                    'updated_at' => now()->toDateTimeString(),
-                ]);
+                if ($specialization->school->id === 1) {
+                    Election::insert([
+                        'name' => $specialization->school->name . ' | ' . $specialization->name,
+                        'specialization_id' => $specialization->id,
+                        'ticap_id' => auth()->user()->ticap_id,
+                        'created_at' => now()->toDateTimeString(),
+                        'updated_at' => now()->toDateTimeString(),
+                    ]);
+                }
+
             }
 
             // Change TICAP status - invitation_is_set

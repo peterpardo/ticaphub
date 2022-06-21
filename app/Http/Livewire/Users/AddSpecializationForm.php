@@ -26,7 +26,7 @@ class AddSpecializationForm extends Component
 
     public function closeModal() {
         // Reset fiels and remove validations if there's any
-        $this->reset('name');
+        $this->reset('name', 'selectedSchool');
         $this->resetValidation();
 
         $this->emit('refreshParent');
