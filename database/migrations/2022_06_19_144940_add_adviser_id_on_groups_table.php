@@ -15,6 +15,7 @@ class AddAdviserIdOnGroupsTable extends Migration
     {
         Schema::table('groups', function (Blueprint $table) {
             $table->foreignId('adviser_id')
+                ->nullable()
                 ->constrained('advisers')
                 ->onDelete('cascade');
         });
