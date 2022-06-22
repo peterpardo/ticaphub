@@ -10,9 +10,9 @@ class Users extends Component
 {
     use WithPagination;
 
-    // public $showDeleteModal = false;
-    // public $showConfirmModal = false;
-    // public $showFormModal = false;
+    public $showDeleteModal = false;
+    public $showConfirmModal = false;
+    public $showAddModal = false;
 
     protected $listeners = ['refreshParent'];
 
@@ -20,30 +20,6 @@ class Users extends Component
         if ($status === 'success') {
             session()->flash('status', 'green');
             session()->flash('message', 'Specialization successfully added');
-        }
-
-        // $this->showFormModal = false;
-    }
-
-    // Open modal
-    public function openModal($action) {
-        if ($action === 'delete') {
-            $this->showDeleteModal = true;
-        } else if ($action === 'add') {
-            $this->showFormModal = true;
-        } else {
-            $this->showConfirmModal = true;
-        }
-    }
-
-    // Close modal
-    public function closeModal($action) {
-        if ($action === 'delete') {
-            $this->showDeleteModal = false;
-        }  else if ($action === 'add') {
-            $this->showFormModal = false;
-        } else {
-            $this->showConfirmModal = false;
         }
     }
 

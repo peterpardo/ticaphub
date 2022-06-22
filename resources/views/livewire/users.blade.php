@@ -1,5 +1,7 @@
 <div x-data="{
-    showAddModal: @entangle('showAddModal').defer
+    showAddModal: @entangle('showAddModal').defer,
+    showDeleteModal: false,
+    showConfirmModal: @entangle('showConfirmModal').defer
 }">
     {{-- Alert --}}
     @if (session('status'))

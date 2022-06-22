@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Adviser;
 use App\Models\Election;
 use App\Models\Group;
 use App\Models\School;
@@ -26,11 +27,18 @@ class AddUserForm extends Component
     public $idNumber;
     public $selectedSchool = 1;
     public $specializations = [];
-    public $selectedSpecialization = "";
-    public $groups = [];
-    public $selectedGroup = "";
+    public $selectedSpecialization = 1;
+
     public $advisers = [];
+    public $newAdviser;
     public $selectedAdviser;
+    public $adviserStatus = false;
+
+    public $groups = [];
+    public $newGroup;
+    public $selectedGroup = "";
+    public $groupStatus = false;
+
 
     public $userRules = [
         'email' => 'required|email|unique:users,email',
@@ -61,6 +69,8 @@ class AddUserForm extends Component
 
     public function mount() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
+        $this->advisers = Adviser::select('id', 'name')->get();
+        $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
     }
 
     public function updatedRole($value) {
@@ -75,8 +85,15 @@ class AddUserForm extends Component
         $this->resetValidation();
     }
 
+    // Always remove validation of newGroup and newAdviser
+    public function updated() {
+        $this->reset('adviserStatus', 'groupStatus');
+        $this->resetValidation(['newGroup', 'newAdviser']);
+    }
+
     public function closeModal() {
         // Remove validations if there's any
+        $this->reset('adviserStatus', 'groupStatus');
         $this->resetValidation();
 
         $this->emit('refreshParent');
@@ -94,8 +111,90 @@ class AddUserForm extends Component
         $this->groups = Group::where('specialization_id', $this->selectedSpecialization)->get(['id', 'name']);
     }
 
+    // Add new adviser
+    public function addAdviser() {
+        $this->validate([
+            'newAdviser' => 'required|string',
+        ], [], [
+            'newAdviser' => 'New Adviser'
+        ]);
+
+        // Check if name is uniqe
+        if ($this->checkIfNameExists('adviser', $this->newAdviser)) return;
+
+        // Add adviser
+        Adviser::create([ 'name' => Str::title($this->newAdviser) ]);
+
+        // Show flash message
+        $this->adviserStatus = true;
+
+        // Update advisers array
+        $this->advisers = Adviser::select('id', 'name')->get();
+
+        // Empty input field
+        $this->reset('newAdviser');
+    }
+
+    // Add new group
+    public function addGroup() {
+        // Specialization and Adviser must be selected before creating a Group
+        if ($this->selectedSpecialization == ''){
+           $this->addError('newGroup', 'Please select a specialization first.');
+           return;
+        }
+        if ($this->selectedAdviser == '') {
+            $this->addError('newGroup', 'Please select an adviser for the group first.');
+            return;
+        }
+        $this->validate([
+            'newGroup' => 'required|string',
+        ], [], [
+            'newGroup' => 'Group'
+        ]);
+
+        // Check if name is uniqe
+        if ($this->checkIfNameExists('group', $this->newAdviser)) return;
+
+        // Add group
+        Group::create([
+            'name' => $this->newGroup,
+            'specialization_id' => $this->selectedSpecialization,
+            'ticap_id' => auth()->user()->ticap_id,
+            'adviser_id' => $this->selectedAdviser
+        ]);
+
+        // Show flash message
+        $this->groupStatus = true;
+
+        // Update groups array
+        $this->groups = Group::select('id', 'name')->get();
+
+        // Empty input field
+        $this->reset(['newGroup', 'selectedAdviser', 'selectedSpecialization']);
+    }
+
+    public function checkIfNameExists($field, $name) {
+        $formattedName = Str::title($name);
+        $nameExists = null;
+        $fieldName = '';
+        if ($field === 'adviser') {
+            $nameExists = Adviser::where('name', '=', $formattedName)->exists();
+            $fieldName = 'newAdviser';
+        } else {
+            $nameExists = Group::where('name', '=', $formattedName)->exists();
+            $fieldName = 'newGroup';
+        }
+
+        if ($nameExists) {
+            $this->addError($fieldName, 'The ' . Str::title($field) . ' Name must be unique.');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function addUser() {
-        dd(Election::select('id')->where('specialization_id', $this->selectedSpecialization)->get());
+        dd('adding user');
 
         // Validation for all user roles
         $validations = $this->userRules;
