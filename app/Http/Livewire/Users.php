@@ -11,7 +11,7 @@ class Users extends Component
     use WithPagination;
 
     public $showDeleteModal = false;
-    public $showConfirmModal = false;
+    // public $showConfirmModal = false;
     public $showAddModal = false;
 
     protected $listeners = ['refreshParent'];
@@ -21,12 +21,14 @@ class Users extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'Specialization successfully added');
         }
+
+        $this->showAddModal = false;
     }
 
     public function render()
     {
         return view('livewire.users', [
-            'users' => User::paginate(5)
+            'users' => User::orderBy('id')->paginate(5)
         ]);
     }
 }

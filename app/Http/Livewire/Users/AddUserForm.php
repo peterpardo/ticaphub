@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
+use App\Models\UserElection;
 use App\Models\UserSpecialization;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -19,20 +20,14 @@ class AddUserForm extends Component
     public $fname;
     public $lname;
     public $email;
-    public $isStudent = true;
-    public $role = 'student';
-    public $showStudentFields = true;
+    public $role = '';
+    public $showStudentFields = false;
 
     // Students info only
     public $idNumber;
     public $selectedSchool = 1;
     public $specializations = [];
-    public $selectedSpecialization = 1;
-
-    public $advisers = [];
-    public $newAdviser;
-    public $selectedAdviser;
-    public $adviserStatus = false;
+    public $selectedSpecialization = '';
 
     public $groups = [];
     public $newGroup;
@@ -44,13 +39,13 @@ class AddUserForm extends Component
         'email' => 'required|email|unique:users,email',
         'fname' => 'required|max:30',
         'lname' => 'required|max:30',
+        'role' => 'required'
     ];
 
     public $studentRules = [
         'selectedSchool' => 'required',
         'selectedSpecialization' => 'required',
         'selectedGroup' => 'required',
-        'selectedAdviser' => 'required',
     ];
 
     public $userRuleAttributes = [
@@ -63,13 +58,11 @@ class AddUserForm extends Component
         'selectedSchool' => 'School',
         'selectedSpecialization' => 'Specialization',
         'selectedGroup' => 'Group',
-        'selectedAdviser' => 'Adviser',
     ];
 
 
     public function mount() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
-        $this->advisers = Adviser::select('id', 'name')->get();
         $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
     }
 
@@ -83,17 +76,13 @@ class AddUserForm extends Component
 
         // Remove validation errors
         $this->resetValidation();
-    }
 
-    // Always remove validation of newGroup and newAdviser
-    public function updated() {
-        $this->reset('adviserStatus', 'groupStatus');
-        $this->resetValidation(['newGroup', 'newAdviser']);
+        $this->reset('selectedSchool', 'selectedSpecialization', 'selectedGroup');
     }
 
     public function closeModal() {
         // Remove validations if there's any
-        $this->reset('adviserStatus', 'groupStatus');
+        $this->reset('groupStatus');
         $this->resetValidation();
 
         $this->emit('refreshParent');
@@ -103,36 +92,12 @@ class AddUserForm extends Component
     public function updatedSelectedSchool() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
 
-        $this->reset('selectedSpecialization');
-        $this->reset('selectedGroup');
+        $this->reset('selectedSpecialization', 'groupStatus');
+        $this->reset('selectedGroup', 'newGroup');
     }
 
     public function updatedSelectedSpecialization() {
         $this->groups = Group::where('specialization_id', $this->selectedSpecialization)->get(['id', 'name']);
-    }
-
-    // Add new adviser
-    public function addAdviser() {
-        $this->validate([
-            'newAdviser' => 'required|string',
-        ], [], [
-            'newAdviser' => 'New Adviser'
-        ]);
-
-        // Check if name is uniqe
-        if ($this->checkIfNameExists('adviser', $this->newAdviser)) return;
-
-        // Add adviser
-        Adviser::create([ 'name' => Str::title($this->newAdviser) ]);
-
-        // Show flash message
-        $this->adviserStatus = true;
-
-        // Update advisers array
-        $this->advisers = Adviser::select('id', 'name')->get();
-
-        // Empty input field
-        $this->reset('newAdviser');
     }
 
     // Add new group
@@ -142,25 +107,25 @@ class AddUserForm extends Component
            $this->addError('newGroup', 'Please select a specialization first.');
            return;
         }
-        if ($this->selectedAdviser == '') {
-            $this->addError('newGroup', 'Please select an adviser for the group first.');
-            return;
-        }
         $this->validate([
             'newGroup' => 'required|string',
         ], [], [
             'newGroup' => 'Group'
         ]);
 
-        // Check if name is uniqe
-        if ($this->checkIfNameExists('group', $this->newAdviser)) return;
+        // Check if name is unique
+        $formattedName = Str::title($this->newGroup);
+        $nameExists = Group::where('name', '=', $formattedName)->exists();
+        if ($nameExists) {
+            $this->addError('newGroup', 'The New Group Name must be unique.');
+            return;
+        };
 
         // Add group
         Group::create([
             'name' => $this->newGroup,
             'specialization_id' => $this->selectedSpecialization,
             'ticap_id' => auth()->user()->ticap_id,
-            'adviser_id' => $this->selectedAdviser
         ]);
 
         // Show flash message
@@ -170,32 +135,10 @@ class AddUserForm extends Component
         $this->groups = Group::select('id', 'name')->get();
 
         // Empty input field
-        $this->reset(['newGroup', 'selectedAdviser', 'selectedSpecialization']);
-    }
-
-    public function checkIfNameExists($field, $name) {
-        $formattedName = Str::title($name);
-        $nameExists = null;
-        $fieldName = '';
-        if ($field === 'adviser') {
-            $nameExists = Adviser::where('name', '=', $formattedName)->exists();
-            $fieldName = 'newAdviser';
-        } else {
-            $nameExists = Group::where('name', '=', $formattedName)->exists();
-            $fieldName = 'newGroup';
-        }
-
-        if ($nameExists) {
-            $this->addError($fieldName, 'The ' . Str::title($field) . ' Name must be unique.');
-            return true;
-        } else {
-            return false;
-        }
+        $this->reset(['newGroup', 'selectedSpecialization']);
     }
 
     public function addUser() {
-        dd('adding user');
-
         // Validation for all user roles
         $validations = $this->userRules;
         $attributes = $this->userRuleAttributes;
@@ -207,13 +150,15 @@ class AddUserForm extends Component
         }
 
         // Validation
-        $this->validate($validations, [], $attributes);
+        $validated = $this->validate($validations, [], $attributes);
+
+        // dd($validated);
 
         // Add user
         $user = User::create([
-            'first_name' => Str::title($this->first_name),
-            'last_name' => Str::title($this->last_name),
-            'password' => Hash::make('ticaphub123'),
+            'first_name' => Str::title($this->fname),
+            'last_name' => Str::title($this->lname),
+            'password' => Hash::make('ticaphub123'), // default password
             'email' => $this->email,
             'ticap_id' => auth()->user()->ticap_id,
         ]);
@@ -232,19 +177,26 @@ class AddUserForm extends Component
                 'group_id' => $this->selectedGroup
             ]);
 
-            // Assign user which electiom to vote
-            if ($this->selectedSchool == 1) {
-                $electionId = Election::select('id')->where('specialization_id', $this->selectedSpecialization)->get();
-                UserSpecialization::insert([
-                    'user_id' => $user->id,
-                    'election_id' => $$electionId,
-                    'has_voted' => 0,
-                    'created_at' => now()->toDateTimeString(),
-                    'updated_at' => now()->toDateTimeString(),
-                ]);
-            }
+            // Assign user which election to vote
+            $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+            UserElection::insert([
+                'user_id' => $user->id,
+                'election_id' => $electionId,
+                'has_voted' => 0,
+                'created_at' => now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ]);
         }
 
+        // TODO: Send email to user for resetting of password
+
+        // dd('users added');
+
+        // Refresh parent component and return success message
+        $this->emit('refreshParent', 'success');
+
+        // Reset input fields
+        // $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
     }
 
     public function render()

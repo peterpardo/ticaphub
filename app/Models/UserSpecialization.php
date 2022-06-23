@@ -11,10 +11,9 @@ class UserSpecialization extends Model
 
     protected $table = 'user_specialization';
     protected $fillable = [
+        'user_id',
         'specialization_id',
-        'school_id',
-        'id_number',
-        'has_voted',
+        'group_id',
     ];
 
     public function user() {
