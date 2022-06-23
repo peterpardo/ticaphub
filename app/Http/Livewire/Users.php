@@ -19,7 +19,7 @@ class Users extends Component
     public function refreshParent($status = null) {
         if ($status === 'success') {
             session()->flash('status', 'green');
-            session()->flash('message', 'Specialization successfully added');
+            session()->flash('message', 'User successfully added');
         }
 
         $this->showAddModal = false;

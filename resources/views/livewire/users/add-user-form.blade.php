@@ -100,7 +100,7 @@
             <x-form.form-control>
                 <x-form.label for="selectedGroup">Group</x-form.label>
                 <x-form.select wire:model="selectedGroup" id="selectedGroup">
-                    <option value="" selected>---select group---</option>
+                    <option value="">---select group---</option>
                     @foreach($groups as $group)
                         <option value="{{ $group->id }}">{{ $group->name }}</option>
                     @endforeach

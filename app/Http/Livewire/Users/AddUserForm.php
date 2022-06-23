@@ -63,7 +63,6 @@ class AddUserForm extends Component
 
     public function mount() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
-        $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
     }
 
     public function updatedRole($value) {
@@ -98,6 +97,12 @@ class AddUserForm extends Component
 
     public function updatedSelectedSpecialization() {
         $this->groups = Group::where('specialization_id', $this->selectedSpecialization)->get(['id', 'name']);
+
+        $this->reset('selectedGroup', 'newGroup');
+    }
+
+    public function updatedSelectedGroup() {
+        $this->reset('groupStatus');
     }
 
     // Add new group
@@ -131,11 +136,11 @@ class AddUserForm extends Component
         // Show flash message
         $this->groupStatus = true;
 
-        // Update groups array
-        $this->groups = Group::select('id', 'name')->get();
+        // Update groups select field
+        $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
 
         // Empty input field
-        $this->reset(['newGroup', 'selectedSpecialization']);
+        $this->reset('newGroup', 'selectedGroup');
     }
 
     public function addUser() {
@@ -150,7 +155,7 @@ class AddUserForm extends Component
         }
 
         // Validation
-        $validated = $this->validate($validations, [], $attributes);
+        $this->validate($validations, [], $attributes);
 
         // dd($validated);
 
@@ -190,19 +195,18 @@ class AddUserForm extends Component
 
         // TODO: Send email to user for resetting of password
 
-        // dd('users added');
-
         // Refresh parent component and return success message
         $this->emit('refreshParent', 'success');
 
         // Reset input fields
-        // $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
+        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
     }
 
     public function render()
     {
         return view('livewire.users.add-user-form', [
             'schools' => School::where('is_involved', 1)->get(),
+            'groups' => Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get()
         ]);
     }
 }
