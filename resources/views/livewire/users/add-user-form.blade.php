@@ -1,6 +1,11 @@
 
 <x-modal>
-    <x-form.title>Add User</x-form.title>
+    @if ($action == 'update')
+        <x-form.title>Update User</x-form.title>
+    @else
+        <x-form.title>Add User</x-form.title>
+    @endif
+
     {{-- Form --}}
     <x-form wire:submit.prevent="addUser">
         {{-- Type --}}
@@ -127,7 +132,7 @@
                 wire:loading.attr="disabled"
                 color="green"
                 type="submit">
-                Add User
+                Save
             </x-app.button>
         </div>
     </x-form>

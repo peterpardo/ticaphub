@@ -35,11 +35,12 @@ class AddUserForm extends Component
 
     // Action (add or update)
     public $action;
+    public $userId;
 
     protected $listeners = ['getUser'];
 
     public $userRules = [
-        'email' => 'required|email|unique:users,email',
+        'email' => 'required|email',
         'fname' => 'required|max:30',
         'lname' => 'required|max:30',
         'role' => 'required'
@@ -71,6 +72,7 @@ class AddUserForm extends Component
     public function getUser($userId) {
         // Retrieve data of selected user
         $user = User::find($userId);
+        $this->userId = $user->id;
 
         $this->fname = $user->first_name;
         $this->lname = $user->last_name;
@@ -118,7 +120,7 @@ class AddUserForm extends Component
 
     public function closeModal() {
         // Remove validations if there's any
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
+        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
         $this->resetValidation();
 
         $this->emit('refreshParent');
@@ -197,13 +199,33 @@ class AddUserForm extends Component
         // dd($validated);
 
         // Add user
-        $user = User::create([
-            'first_name' => Str::title($this->fname),
-            'last_name' => Str::title($this->lname),
-            'password' => Hash::make('ticaphub123'), // default password
-            'email' => $this->email,
-            'ticap_id' => auth()->user()->ticap_id,
-        ]);
+        if ($this->action == 'update') {
+            $user = User::find($this->userId);
+
+            // Check if the email is changed
+            if ($user->email !== $this->email) {
+                $this->validate([
+                    'email' => 'unique:users,email'
+                ]);
+            }
+
+            // Update user info
+            $user->first_name = Str::title($this->fname);
+            $user->last_name = Str::title($this->lname);
+            $user->email = $this->email;
+            $user->save();
+
+            // Remove previous roles
+            $user->syncRoles([]);
+        } else {
+            $user = User::create([
+                'first_name' => Str::title($this->fname),
+                'last_name' => Str::title($this->lname),
+                'password' => Hash::make('ticaphub123'), // default password
+                'email' => $this->email,
+                'ticap_id' => auth()->user()->ticap_id,
+            ]);
+        }
 
         // Add roles
         if ($this->role === 'panelist') {
@@ -213,21 +235,35 @@ class AddUserForm extends Component
         } else {
             $user->assignRole('student');
 
-            // Set student specialization and group
-            $user->userSpecialization()->create([
-                'specialization_id' => $this->selectedSpecialization,
-                'group_id' => $this->selectedGroup
-            ]);
+            if ($this->action == 'update') {
+                // Update student specialization and group
+                $user->userSpecialization()->update([
+                    'specialization_id' => $this->selectedSpecialization,
+                    'group_id' => $this->selectedGroup
+                ]);
 
-            // Assign user which election to vote
-            $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
-            UserElection::insert([
-                'user_id' => $user->id,
-                'election_id' => $electionId,
-                'has_voted' => 0,
-                'created_at' => now()->toDateTimeString(),
-                'updated_at' => now()->toDateTimeString(),
-            ]);
+                // Update user which election to vote
+                $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+                $user->userElection()->update([
+                    'election_id' => $electionId,
+                ]);
+            } else {
+                $user->userSpecialization()->create([
+                    'specialization_id' => $this->selectedSpecialization,
+                    'group_id' => $this->selectedGroup
+                ]);
+
+                // Assign user which election to vote
+                $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+                UserElection::insert([
+                    'user_id' => $user->id,
+                    'election_id' => $electionId,
+                    'has_voted' => 0,
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ]);
+            }
+
         }
 
         // TODO: Send email to user for resetting of password
@@ -236,7 +272,7 @@ class AddUserForm extends Component
         $this->emit('refreshParent', 'success');
 
         // Reset input fields
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
+        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
     }
 
     public function render()

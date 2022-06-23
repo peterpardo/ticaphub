@@ -10,7 +10,6 @@
     {{-- Add user --}}
     <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">Add User</x-app.button>
 
-
     {{-- User table --}}
     <x-table>
         <x-slot name="heading">
