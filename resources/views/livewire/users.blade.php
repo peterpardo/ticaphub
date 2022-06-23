@@ -36,7 +36,7 @@
                     </x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $user->id }})"   />
-                        <x-table.edit-btn  @click.prevent="showAddModal = !showAddModal"/>
+                        <x-table.edit-btn  @click.prevent="showAddModal = !showAddModal" wire:click="$emitTo('users.add-user-form', 'getUser', {{ $user->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty

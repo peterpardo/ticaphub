@@ -24,7 +24,6 @@ class AddUserForm extends Component
     public $showStudentFields = false;
 
     // Students info only
-    public $idNumber;
     public $selectedSchool = 1;
     public $specializations = [];
     public $selectedSpecialization = '';
@@ -34,6 +33,10 @@ class AddUserForm extends Component
     public $selectedGroup = "";
     public $groupStatus = false;
 
+    // Action (add or update)
+    public $action;
+
+    protected $listeners = ['getUser'];
 
     public $userRules = [
         'email' => 'required|email|unique:users,email',
@@ -65,6 +68,40 @@ class AddUserForm extends Component
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
     }
 
+    public function getUser($userId) {
+        // Retrieve data of selected user
+        $user = User::find($userId);
+
+        $this->fname = $user->first_name;
+        $this->lname = $user->last_name;
+        $this->email = $user->email;
+
+        // Check role of selected user
+        if ($user->hasRole('panelist')) {
+            $this->role = 'panelist';
+        } else if ($user->hasRole('admin')){
+            $this->role = 'admin';
+        } else {
+            $studentInfo = UserSpecialization::where('user_id', $user->id)->with('specialization')->first();
+            $this->role = 'student';
+            $this->showStudentFields = true;
+
+            // Retrieve student info
+            $this->selectedSchool = $studentInfo->specialization->school_id;
+
+            // Update specialization list based on selected school
+            $this->selectedSpecialization = $studentInfo->specialization_id;
+            $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
+
+            // Update group list based on selected specialization
+            $this->selectedGroup = $studentInfo->group_id;
+            $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
+        }
+
+        // Set action as updating
+        $this->action = 'update';
+    }
+
     public function updatedRole($value) {
         // Check if show the student fields
         if ($value !== 'student') {
@@ -81,7 +118,7 @@ class AddUserForm extends Component
 
     public function closeModal() {
         // Remove validations if there's any
-        $this->reset('groupStatus');
+        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
         $this->resetValidation();
 
         $this->emit('refreshParent');
