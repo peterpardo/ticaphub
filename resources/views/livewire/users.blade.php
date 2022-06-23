@@ -8,7 +8,10 @@
     @endif
 
     {{-- Add user --}}
-    <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">Add User</x-app.button>
+    <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">
+        <i class="fa-solid fa-user-plus mr-1"></i>
+        Add User
+    </x-app.button>
 
     {{-- User table --}}
     <x-table>

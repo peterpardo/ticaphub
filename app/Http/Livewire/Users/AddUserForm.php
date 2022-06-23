@@ -34,7 +34,7 @@ class AddUserForm extends Component
     public $groupStatus = false;
 
     // Action (add or update)
-    public $action;
+    public $action = 'add';
     public $userId;
 
     protected $listeners = ['getUser'];
@@ -269,7 +269,7 @@ class AddUserForm extends Component
         // TODO: Send email to user for resetting of password
 
         // Refresh parent component and return success message
-        $this->emit('refreshParent', 'success');
+        $this->emit('refreshParent', $this->action);
 
         // Reset input fields
         $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');

@@ -21,10 +21,13 @@ class Users extends Component
 
     protected $listeners = ['refreshParent'];
 
-    public function refreshParent($status = null) {
-        if ($status == 'success') {
+    public function refreshParent($action = null) {
+        if ($action == 'add') {
             session()->flash('status', 'green');
             session()->flash('message', 'User successfully added');
+        } else {
+            session()->flash('status', 'green');
+            session()->flash('message', 'User successfully updated');
         }
         $this->showAddModal = false;
     }
