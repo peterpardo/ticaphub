@@ -59,7 +59,6 @@ class SetSchools extends Component
     }
 
     public function deleteItem() {
-        // dd(Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first());
         $specialization = Specialization::where('id', $this->selectedSpecialization)->with('election:id')->get()->first();
 
         // Check school of specialization

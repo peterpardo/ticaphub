@@ -199,7 +199,7 @@ class AddUserForm extends Component
         $this->emit('refreshParent', 'success');
 
         // Reset input fields
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
+        // $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup');
     }
 
     public function render()

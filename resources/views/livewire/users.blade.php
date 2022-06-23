@@ -37,9 +37,7 @@
                         @endforeach
                     </x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.delete-btn />
-                        <x-table.delete-btn />
-                        <x-table.delete-btn />
+                        <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $user->id }})"   />
                     </x-table.tdata-actions>
                 </tr>
             @empty
@@ -53,6 +51,17 @@
     </x-table>
 
     {{-- Modals --}}
-    @include('users.users-modals')
+    {{-- @include('users.users-modals') --}}
+    <div x-cloak x-show="showAddModal">
+        @livewire('users.add-user-form')
+    </div>
+
+    {{-- Delete user --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal.delete-modal>
+            <x-modal.title>Delete User</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the user.</x-modal.description>
+        </x-modal.delete-modal>
+    </div>
 
 </div>
