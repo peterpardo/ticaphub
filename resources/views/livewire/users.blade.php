@@ -1,17 +1,15 @@
 <div x-data="{
     showAddModal: @entangle('showAddModal').defer,
     showDeleteModal: false,
-    {{-- showConfirmModal: @entangle('showConfirmModal').defer --}}
 }">
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
     @endif
 
-    {{-- Actions dropdown --}}
-    <div class="ml-auto" style="width: fit-content">
-        @include('users.users-dropdown')
-    </div>
+    {{-- Add user --}}
+    <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">Add User</x-app.button>
+
 
     {{-- User table --}}
     <x-table>
@@ -38,6 +36,7 @@
                     </x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $user->id }})"   />
+                        <x-table.edit-btn  @click.prevent="showAddModal = !showAddModal"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty
@@ -51,7 +50,7 @@
     </x-table>
 
     {{-- Modals --}}
-    {{-- @include('users.users-modals') --}}
+    {{-- Add user --}}
     <div x-cloak x-show="showAddModal">
         @livewire('users.add-user-form')
     </div>

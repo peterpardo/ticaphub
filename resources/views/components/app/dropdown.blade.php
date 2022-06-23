@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false }" {{ $attributes->merge(['class' => 'relative']) }} style="width: fit-content">
+<div x-data="{isOpen: false}" {{ $attributes->merge(['class' => 'relative']) }} style="width: fit-content">
     <!-- Dropdown toggle button -->
     <button
         @click.prevent="isOpen = !isOpen"

@@ -14,19 +14,18 @@ class Users extends Component
     use WithPagination;
 
     public $showDeleteModal = false;
-    // public $showConfirmModal = false;
     public $showAddModal = false;
+    // public $showConfirmModal = false;
 
     public $selectedUser;
 
     protected $listeners = ['refreshParent'];
 
     public function refreshParent($status = null) {
-        if ($status === 'success') {
+        if ($status == 'success') {
             session()->flash('status', 'green');
             session()->flash('message', 'User successfully added');
         }
-
         $this->showAddModal = false;
     }
 
@@ -41,23 +40,20 @@ class Users extends Component
         DB::table('register_users')->where('email', $user->email)->delete();
 
         // Remove role/s to the user model
-        // foreach($user->getRoleNames() as $role) {
-        //     $user->removeRole($role);
-        // }
         $user->syncRoles([]);
 
         // Check if the deleted user is a student
-        if ($user->hasRole('student')) {
-            // Get group of the student
-            // $group = Group::find($user->userGroup->group->id);
-            // $memberCount = UserSpecialization::where('group_id', $user->userSpecialization->group_id)->count();
+        // if ($user->hasRole('student')) {
+        //     Get group of the student
+        //     $group = Group::find($user->userGroup->group->id);
+        //     $memberCount = UserSpecialization::where('group_id', $user->userSpecialization->group_id)->count();
 
-            // Delete group if there are no members left
-            // if ($memberCount == 0) {
-            //     // $group->delete();
-            //     Group::destroy($user->userSpecialization->group_id);
-            // }
-        }
+        //     Delete group if there are no members left
+        //     if ($memberCount == 0) {
+        //         // $group->delete();
+        //         Group::destroy($user->userSpecialization->group_id);
+        //     }
+        // }
 
         // Delete user
         $user->delete();
