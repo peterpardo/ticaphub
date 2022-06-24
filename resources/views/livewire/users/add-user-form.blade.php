@@ -9,18 +9,21 @@
     {{-- Form --}}
     <x-form wire:submit.prevent="addUser">
         {{-- Type --}}
-        <x-form.form-control>
-            <x-form.label for="role">Role</x-form.label>
-            <x-form.select wire:model="role" id="role">
-                <option value="">---select role---</option>
-                <option value="student">Student</option>
-                <option value="panelist">Panelist</option>
-                <option value="admin">Admin</option>
-            </x-form.select>
-            @error('role')
-                <x-form.error>{{ $message }}</x-form.error>
-            @enderror
-        </x-form.form-control>
+        {{-- Hide selecting of role if action is update --}}
+        @if ($action != 'update')
+            <x-form.form-control>
+                <x-form.label for="role">Role</x-form.label>
+                <x-form.select wire:model="role" id="role">
+                    <option value="">---select role---</option>
+                    <option value="student">Student</option>
+                    <option value="panelist">Panelist</option>
+                    <option value="admin">Admin</option>
+                </x-form.select>
+                @error('role')
+                    <x-form.error>{{ $message }}</x-form.error>
+                @enderror
+            </x-form.form-control>
+        @endif
 
         {{-- Email --}}
         <x-form.form-control>
