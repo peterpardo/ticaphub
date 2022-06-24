@@ -233,43 +233,43 @@ class AddUserForm extends Component
             ]);
         }
 
-        // // Add roles
-        // if ($this->role === 'panelist') {
-        //     $user->assignRole('panelist');
-        // } else if ($this->role === 'admin') {
-        //     $user->assignRole('admin');
-        // } else {
-        //     $user->assignRole('student');
+        // Add roles
+        if ($this->role === 'panelist') {
+            $user->assignRole('panelist');
+        } else if ($this->role === 'admin') {
+            $user->assignRole('admin');
+        } else {
+            $user->assignRole('student');
 
-        //     if ($this->action == 'update') {
-        //         // Update student specialization and group
-        //         $user->userSpecialization()->update([
-        //             'specialization_id' => $this->selectedSpecialization,
-        //             'group_id' => $this->selectedGroup
-        //         ]);
+            if ($this->action == 'update') {
+                // Update student specialization and group
+                $user->userSpecialization()->update([
+                    'specialization_id' => $this->selectedSpecialization,
+                    'group_id' => $this->selectedGroup
+                ]);
 
-        //         // Update user which election to vote
-        //         $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
-        //         $user->userElection()->update([
-        //             'election_id' => $electionId,
-        //         ]);
-        //     } else {
-        //         $user->userSpecialization()->create([
-        //             'specialization_id' => $this->selectedSpecialization,
-        //             'group_id' => $this->selectedGroup
-        //         ]);
+                // Update user which election to vote
+                $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+                $user->userElection()->update([
+                    'election_id' => $electionId,
+                ]);
+            } else {
+                $user->userSpecialization()->create([
+                    'specialization_id' => $this->selectedSpecialization,
+                    'group_id' => $this->selectedGroup
+                ]);
 
-        //         // Assign user which election to vote
-        //         $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
-        //         UserElection::insert([
-        //             'user_id' => $user->id,
-        //             'election_id' => $electionId,
-        //             'has_voted' => 0,
-        //             'created_at' => now()->toDateTimeString(),
-        //             'updated_at' => now()->toDateTimeString(),
-        //         ]);
-        //     }
-        // }
+                // Assign user which election to vote
+                $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+                UserElection::insert([
+                    'user_id' => $user->id,
+                    'election_id' => $electionId,
+                    'has_voted' => 0,
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ]);
+            }
+        }
 
         // TODO: Send email to user for resetting of password
         // Link is valid for 5 days once sent to the student
@@ -280,8 +280,8 @@ class AddUserForm extends Component
             'email' => $this->email,
         ]);
         $details = [
-            'title' => 'Welcome to TICaP Hub ' . Str::title($this->fname),
-            'body' => "You are invited! Click the link below",
+            'title' => 'Welcome to TICAPHUB, ' . Str::title($this->fname) . '!',
+            'body' => 'Click the link to confirm your email.',
             'link' => $link,
         ];
         DB::table('register_users')->insert([
@@ -290,7 +290,6 @@ class AddUserForm extends Component
             'created_at' =>  now()->toDateTimeString(),
             'updated_at' => now()->toDateTimeString(),
         ]);
-        // dispatch(new RegisterUserJob($this->email, $details));
         RegisterUserJob::dispatch($this->email, $details)->delay(now()->addSeconds(30));
 
         // Refresh parent component and return success message

@@ -229,7 +229,7 @@ class UserController extends Controller
 
     public function downloadImportStudentsExample()
     {
-        return response()->download(asset("example.csv"));
+        return response()->download(public_path('student-list-template.csv'));
     }
 
     public function importUsers()

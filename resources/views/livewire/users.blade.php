@@ -1,5 +1,6 @@
 <div x-data="{
     showAddModal: @entangle('showAddModal').defer,
+    showImportModal: false,
     showDeleteModal: false,
 }">
     {{-- Alert --}}
@@ -11,6 +12,12 @@
     <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">
         <i class="fa-solid fa-user-plus mr-1"></i>
         Add User
+    </x-app.button>
+
+    {{-- Import students --}}
+    <x-app.button color='indigo' @click.prevent="showImportModal = !showImportModal">
+        <i class="fa-solid fa-file-import mr-1"></i>
+        Import Students
     </x-app.button>
 
     {{-- User table --}}
@@ -57,6 +64,12 @@
         @livewire('users.add-user-form')
     </div>
 
+    {{-- Import students --}}
+    <div x-cloak x-show="showImportModal">
+        @livewire('users.import-students-form')
+    </div>
+
+
     {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">
         <x-modal.delete-modal>
@@ -65,4 +78,11 @@
         </x-modal.delete-modal>
     </div>
 
+    @push('scripts')
+        <script>
+            window.addEventListener('refreshFile', () => {
+                document.getElementById('file').value = '';
+            })
+        </script>
+    @endpush
 </div>

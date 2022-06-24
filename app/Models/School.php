@@ -35,4 +35,8 @@ class School extends Model
     public function getSlugNameAttribute() {
         return Str::of($this->name)->slug('-');
     }
+
+    public function scopeActive($query) {
+        return $query->where('is_involved', 1);
+    }
 }

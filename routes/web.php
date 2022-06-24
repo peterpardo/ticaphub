@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [HomeController::class, 'users'])->name('users');
+        Route::get('/download-sample', [UserController::class, 'downloadImportStudentsExample']);
     });
 
     // Route::get('/users/schools', [HomeController::class, 'getSchools']);
@@ -186,7 +187,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
             Route::get('/users/groups/{id}/edit', [UserController::class, 'editGroupFrom']);
             Route::post('/users/groups/{id}/edit', [UserController::class, 'editGroup']);
-            Route::get('/download', [UserController::class, 'downloadImportStudentsExample']);
             Route::post('/get-specializations', [UserController::class, 'getSpecializations']);
 
             // OFFICERS AND COMMITTEES
