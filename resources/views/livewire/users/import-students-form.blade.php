@@ -34,7 +34,7 @@
         <x-form.form-control>
             <x-form.label for="file">Upload File</x-form.label>
             <span class="block py-1 px-2 rounded bg-gray-100 text-gray-500 text-xs">
-                <span class="font-bold">Note:</span> Use this <a href="{{ url('download-sample') }}" class="text-blue-700 font-bold italic hover:text-blue-500 underline">Sample Template</a> in collecting the list of students.
+                <span class="font-bold">Note:</span> Use this <span wire:click.prevent="downloadTemplate" class="text-blue-700 cursor-pointer font-bold italic hover:text-blue-500 underline">Sample Template</span> in collecting the list of students.
             </span>
             <x-form.input type="file" wire:model="file" id="file"/>
             @error('file')

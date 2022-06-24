@@ -8,6 +8,7 @@ use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PanelistController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
@@ -84,6 +85,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [HomeController::class, 'users'])->name('users');
+        Route::get('/users/import-students', [AdminController::class, 'importStudents']);
+        Route::get('/get-schools', [AdminController::class, 'getSchools']);
+        Route::get('/get-specializations/{id}', [AdminController::class, 'getSpecializations']);
         Route::get('/download-sample', [UserController::class, 'downloadImportStudentsExample']);
     });
 
