@@ -6,6 +6,11 @@
             Go back
         </x-app.button>
 
+        {{-- Alert --}}
+        @if (session('status'))
+            <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+        @endif
+
 
         {{-- Form --}}
         <x-app.form action="{{ url('users/import-students') }}" method="POST" enctype="multipart/form-data">
