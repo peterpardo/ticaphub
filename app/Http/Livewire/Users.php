@@ -45,13 +45,13 @@ class Users extends Component
         // Remove role/s to the user model
         $user->syncRoles([]);
 
-        // // Check if the deleted user is a student
+        // Check if the deleted user is a student
         // if ($user->hasRole('student')) {
-        //     // Get group of the student
+        //     Get group of the student
         //     $group = Group::find($user->userGroup->group->id);
         //     $memberCount = UserSpecialization::where('group_id', $user->userSpecialization->group_id)->count();
 
-        //     // Delete group if there are no members left
+        //     Delete group if there are no members left
         //     if ($memberCount == 0) {
         //         // $group->delete();
         //         Group::destroy($user->userSpecialization->group_id);

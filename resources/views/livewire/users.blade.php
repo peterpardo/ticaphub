@@ -1,5 +1,6 @@
 <div x-data="{
     showAddModal: @entangle('showAddModal').defer,
+    showImportModal: false,
     showDeleteModal: false,
 }">
     {{-- Alert --}}
@@ -14,11 +15,10 @@
     </x-app.button>
 
     {{-- Import students --}}
-    <a href="{{ url('users/import-students') }}" class="py-2 px-4 text-sm text-white rounded-lg bg-indigo-600 hover:bg-indigo-500">
+    <x-app.button color='indigo' @click.prevent="showImportModal = !showImportModal">
         <i class="fa-solid fa-file-import mr-1"></i>
         Import Students
-    </a>
-
+    </x-app.button>
 
     {{-- User table --}}
     <x-table>
@@ -65,9 +65,9 @@
     </div>
 
     {{-- Import students --}}
-    {{-- <div x-cloak x-show="showImportModal">
+    <div x-cloak x-show="showImportModal">
         @livewire('users.import-students-form')
-    </div> --}}
+    </div>
 
 
     {{-- Delete user --}}
