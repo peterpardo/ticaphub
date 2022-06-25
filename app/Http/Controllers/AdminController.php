@@ -21,4 +21,14 @@ class AdminController extends Controller
     public function getSpecializations($id) {
         return Specialization::where('school_id', $id)->get()->toJson();
     }
+
+    public function uploadFile(Request $request) {
+        $validated = $request->validate([
+            'school' => 'required',
+            'specialization' => 'required',
+            'file' => 'required|mimes:txt,csv'
+        ]);
+
+        dd($validated);
+    }
 }
