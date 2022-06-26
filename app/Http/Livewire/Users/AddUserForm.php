@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Users;
 
 use App\Jobs\RegisterUserJob;
-use App\Models\Adviser;
-use App\Models\Election;
 use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
@@ -34,9 +32,7 @@ class AddUserForm extends Component
     public $selectedSpecialization = '';
 
     public $groups = [];
-    public $newGroup;
     public $selectedGroup = "";
-    public $groupStatus = false;
 
     // Action (add or update)
     public $action = 'add';
@@ -116,12 +112,8 @@ class AddUserForm extends Component
 
     public function closeModal() {
         $this->showForm = false;
-        $this->resetInputFields();
+        $this->reset();
         $this->resetValidation();
-    }
-
-    public function resetInputFields() {
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
     }
 
     public function updatedRole($value) {
@@ -142,57 +134,50 @@ class AddUserForm extends Component
     public function updatedSelectedSchool() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
 
-        $this->reset('selectedSpecialization', 'groupStatus');
-        $this->reset('selectedGroup', 'newGroup');
+        $this->reset('selectedSpecialization');
+        $this->reset('selectedGroup');
     }
 
     public function updatedSelectedSpecialization() {
         $this->groups = Group::where('specialization_id', $this->selectedSpecialization)->get(['id', 'name']);
 
-        $this->reset('selectedGroup', 'newGroup');
-    }
-
-    public function updatedSelectedGroup() {
-        $this->reset('groupStatus');
+        $this->reset('selectedGroup');
     }
 
     // Add new group
-    public function addGroup() {
-        // Specialization and Adviser must be selected before creating a Group
-        if ($this->selectedSpecialization == ''){
-           $this->addError('newGroup', 'Please select a specialization first.');
-           return;
-        }
-        $this->validate([
-            'newGroup' => 'required|string',
-        ], [], [
-            'newGroup' => 'Group'
-        ]);
+    // public function addGroup() {
+    //     // Specialization and Adviser must be selected before creating a Group
+    //     if ($this->selectedSpecialization == ''){
+    //        $this->addError('newGroup', 'Please select a specialization first.');
+    //        return;
+    //     }
+    //     $this->validate([
+    //         'newGroup' => 'required|string',
+    //     ], [], [
+    //         'newGroup' => 'Group'
+    //     ]);
 
-        // Check if name is unique
-        $formattedName = Str::title($this->newGroup);
-        $nameExists = Group::where('name', '=', $formattedName)->exists();
-        if ($nameExists) {
-            $this->addError('newGroup', 'The New Group Name must be unique.');
-            return;
-        };
+    //     // Check if name is unique
+    //     $formattedName = Str::title($this->newGroup);
+    //     $nameExists = Group::where('name', '=', $formattedName)->exists();
+    //     if ($nameExists) {
+    //         $this->addError('newGroup', 'The New Group Name must be unique.');
+    //         return;
+    //     };
 
-        // Add group
-        Group::create([
-            'name' => $this->newGroup,
-            'specialization_id' => $this->selectedSpecialization,
-            'ticap_id' => auth()->user()->ticap_id,
-        ]);
+    //     // Add group
+    //     Group::create([
+    //         'name' => $this->newGroup,
+    //         'specialization_id' => $this->selectedSpecialization,
+    //         'ticap_id' => auth()->user()->ticap_id,
+    //     ]);
 
-        // Show flash message
-        $this->groupStatus = true;
+    //     // Update groups select field
+    //     $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
 
-        // Update groups select field
-        $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
-
-        // Empty input field
-        $this->reset('newGroup', 'selectedGroup');
-    }
+    //     // Empty input field
+    //     $this->reset('newGroup', 'selectedGroup');
+    // }
 
     public function addUser() {
         // Validation for all user roles

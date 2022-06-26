@@ -83,30 +83,7 @@
                         @enderror
                     </x-form.form-control>
 
-                    <hr class="full h-1 bg-gray-700">
-
                     {{-- Group --}}
-                    <x-form.form-control>
-                        {{-- Alert message --}}
-                        @if ($groupStatus)
-                            <x-alert.basic-alert color="green" message="Group successfully added."/>
-                        @endif
-                        <div class="mb-1">
-                            <x-form.label for="newGroup">New Group (Optional)</x-form.label>
-                            <x-form.input-info>
-                                <span class="font-bold">Note:</span>
-                                You can create a new group for the <span class="font-bold italic">selected specialization</span> if it's empty or if the group you're searching for doesn't exists.
-                            </x-form.input-info>
-                        </div>
-                        <x-form.input wire:model="newGroup" id="newGroup" placeholder="Enter group name here..."/>
-                        @error('newGroup')
-                            <x-form.error>{{ $message }}</x-form.error>
-                        @enderror
-                        <div class="text-right">
-                            <x-app.button wire:loading.attr="disabled" color="blue" wire:click.prevent="addGroup">Add Group</x-app.button>
-                        </div>
-                    </x-form.form-control>
-
                     <x-form.form-control>
                         <x-form.label for="selectedGroup">Group</x-form.label>
                         <x-form.select wire:model="selectedGroup" id="selectedGroup">
@@ -119,7 +96,6 @@
                             <x-form.error>{{ $message }}</x-form.error>
                         @enderror
                     </x-form.form-control>
-
                 @endif
 
                 {{-- Spinner --}}
@@ -132,7 +108,6 @@
                         Cancel
                     </x-app.button>
                     <x-app.button
-                        wire:loading.attr="disabled"
                         color="green"
                         type="submit">
                         Save
