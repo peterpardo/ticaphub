@@ -16,12 +16,12 @@
         //     'hasAccess' => $user->hasRole('superadmin'),
         //     'icon' => 'fa-solid fa-calendar'
         // ],
-        (object) [
-            'name' =>  'Officers',
-            'route' => route('officers'),
-            'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
-            'icon' => 'fa-solid fa-user-shield'
-        ],
+        // (object) [
+        //     'name' =>  'Officers',
+        //     'route' => route('officers'),
+        //     'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
+        //     'icon' => 'fa-solid fa-user-shield'
+        // ],
         // (object) [
         //     'name' => 'Committee Heads',
         //     'route' => route('committee-heads'),
@@ -35,18 +35,18 @@
         //     'hasAccess' => $user->hasPermissionTo('access events'),
         //     'icon' => 'fa-solid fa-calendar-check'
         // ],
-        (object) [
-            'name' => 'Project Assessment',
-            'route' => route('awards'),
-            'hasAccess' => $user->hasRole('superadmin'),
-            'icon' => 'fa-solid fa-diagram-project'
-        ],
-        (object) [
-            'name' => 'Documentation',
-            'route' => route('awards'),
-            'hasAccess' => $user->hasRole('superadmin'),
-            'icon' => 'fa-solid fa-file'
-        ]
+        // (object) [
+        //     'name' => 'Project Assessment',
+        //     'route' => route('awards'),
+        //     'hasAccess' => $user->hasRole('superadmin'),
+        //     'icon' => 'fa-solid fa-diagram-project'
+        // ],
+        // (object) [
+        //     'name' => 'Documentation',
+        //     'route' => route('awards'),
+        //     'hasAccess' => $user->hasRole('superadmin'),
+        //     'icon' => 'fa-solid fa-file'
+        // ]
     ]);
 @endphp
 

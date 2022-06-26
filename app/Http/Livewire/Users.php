@@ -32,6 +32,14 @@ class Users extends Component
 
     public function selectItem($id) {
         $this->selectedUser = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeModal($modal) {
+        if ($modal === 'delete') {
+            $this->showDeleteModal = false;
+        }
+        $this->refreshParent();
     }
 
     public function editUser($id) {
@@ -41,6 +49,16 @@ class Users extends Component
 
     public function deleteItem() {
         $user = User::find($this->selectedUser);
+
+        // Check if user still exists
+        if (!$user) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'User does not exist.');
+
+            $this->showDeleteModal = false;
+
+            return;
+        }
 
         // Invalidate registration link sent to the user if it's still not verified
         DB::table('register_users')->where('email', $user->email)->delete();
@@ -64,12 +82,15 @@ class Users extends Component
         // Delete user
         $user->delete();
 
-        // // Reset properties to default value
-        $this->reset(['selectedUser']);
+        // Reset properties to default value
+        $this->reset('selectedUser');
 
-        // // Return success message
+        // Return success message
         session()->flash('status', 'green');
         session()->flash('message', 'User successfully deleted');
+
+        // Close Modal
+        $this->showDeleteModal = false;
     }
 
     public function render()

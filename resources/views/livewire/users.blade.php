@@ -1,7 +1,6 @@
 <div x-data="{
-    showAddModal: @entangle('showAddModal').defer,
     showImportModal: false,
-    showDeleteModal: false,
+    showDeleteModal: @entangle('showDeleteModal').defer,
 }">
     {{-- Alert --}}
     @if (session('status'))
@@ -44,7 +43,7 @@
                         @endforeach
                     </x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $user->id }})"   />
+                        <x-table.delete-btn wire:click="selectItem({{ $user->id }})"   />
                         <x-table.edit-btn wire:click="editUser({{ $user->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
@@ -69,10 +68,15 @@
 
     {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">
-        <x-modal.delete-modal>
+        <x-modal>
             <x-modal.title>Delete User</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will permanently delete the user.</x-modal.description>
-        </x-modal.delete-modal>
+
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal('delete')">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete user.</x-app.button>
+            </div>
+        </x-modal>
     </div>
 
     @push('scripts')
