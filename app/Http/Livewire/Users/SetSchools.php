@@ -36,7 +36,7 @@ class SetSchools extends Component
             session()->flash('message', 'Specialization successfully added');
         }
 
-        $this->showAddModal = false;
+        // $this->showAddModal = false;
     }
 
     // Change status of school

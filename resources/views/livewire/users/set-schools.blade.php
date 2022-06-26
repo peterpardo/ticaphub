@@ -16,7 +16,7 @@
     <div class="flex flex-col-reverse justify-between sm:flex-row">
         <div class="flex flex-col mb-3 space-y-2 sm:flex-row sm:items-center sm:space-y-0">
             <x-title>Schools</x-title>
-            <x-title-info>Check the box to include the school</x-title-info>
+            <x-title-info>Check the box to include the school. <strong>FEU TECH</strong> is included by default.</x-title-info>
         </div>
 
         {{-- Confirm Button --}}
@@ -56,7 +56,8 @@
     </div>
 
     {{-- Add Specialization --}}
-    <x-app.button color="green" @click.prevent="showAddModal = !showAddModal">Add Specialization</x-app.button>
+    {{-- <x-app.button color="green" @click.prevent="showAddModal = !showAddModal">Add Specialization</x-app.button> --}}
+    <x-app.button color="green" wire:click.prevent="$emitTo('users.add-specialization-form', 'showModal')">Add Specialization</x-app.button>
 
     {{-- Specialization Table --}}
     <x-table>
@@ -94,9 +95,7 @@
 
     {{-- Modals --}}
     {{-- Add specialization modal --}}
-    <div x-cloak x-show="showAddModal">
-        @livewire('users.add-specialization-form', ['schools' => $schools])
-    </div>
+    @livewire('users.add-specialization-form', ['schools' => $schools])
 
     {{-- Delete modal --}}
     {{-- NOTE: This modal can only be used inside a livewire component --}}

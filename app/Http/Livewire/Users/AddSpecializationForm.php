@@ -13,8 +13,9 @@ class AddSpecializationForm extends Component
     public $name = "";
     public $selectedSchool = 1;     // id of FEU TECH
     public $schools;
+    public $showModal = false;
 
-    protected $listeners = ['refreshForm' => '$refresh'];
+    protected $listeners = ['showModal'];
 
     protected $rules = [
         'name' => 'required|min:5',
@@ -26,12 +27,22 @@ class AddSpecializationForm extends Component
         'selectedSchool' => 'School'
     ];
 
+    public function showModal() {
+        $this->showModal = true;
+    }
+
     public function closeModal() {
-        // Reset fiels and remove validations if there's any
+        // Close modal
+        $this->showModal = false;
+
+        // Reset fields and remove validations if there's any
         $this->reset('name', 'selectedSchool');
         $this->resetValidation();
+    }
 
-        $this->emit('refreshParent');
+    public function updatedName() {
+        // Remove the alert message in the parent component
+        $this->emitUp('refreshParent');
     }
 
     public function addSpecialization() {
@@ -70,6 +81,10 @@ class AddSpecializationForm extends Component
             // Refresh parent component and return success message
             $this->emit('refreshParent', 'success');
 
+            // Close modal
+            $this->showModal = false;
+
+            // Reset input fields
             $this->reset('name', 'selectedSchool');
         }
     }
