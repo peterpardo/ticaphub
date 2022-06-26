@@ -36,6 +36,11 @@ class Users extends Component
         $this->selectedUser = $id;
     }
 
+    public function editUser($id) {
+        $this->emitTo('users.add-user-form', 'getUser', $id);
+        $this->showAddModal = true;
+    }
+
     public function deleteItem() {
         $user = User::find($this->selectedUser);
 

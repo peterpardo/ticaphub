@@ -15,6 +15,7 @@ class AddGroupIdOnUserSpecializationTable extends Migration
     {
         Schema::table('user_specialization', function (Blueprint $table) {
             $table->foreignId('group_id')
+                ->nullable()
                 ->constrained('groups')
                 ->onDelete('cascade');
         });

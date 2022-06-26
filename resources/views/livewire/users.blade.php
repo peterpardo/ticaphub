@@ -9,7 +9,7 @@
     @endif
 
     {{-- Add user --}}
-    <x-app.button color='green' @click.prevent="showAddModal = !showAddModal">
+    <x-app.button color='green' wire:click="$emitTo('users.add-user-form', 'show')">
         <i class="fa-solid fa-user-plus mr-1"></i>
         Add User
     </x-app.button>
@@ -45,7 +45,7 @@
                     </x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $user->id }})"   />
-                        <x-table.edit-btn  @click.prevent="showAddModal = !showAddModal" wire:click="$emitTo('users.add-user-form', 'getUser', {{ $user->id }})"/>
+                        <x-table.edit-btn wire:click="editUser({{ $user->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty
@@ -60,9 +60,9 @@
 
     {{-- Modals --}}
     {{-- Add user --}}
-    <div x-cloak x-show="showAddModal">
-        @livewire('users.add-user-form')
-    </div>
+    {{-- <x-modal x-cloak x-show="showAddModal"> --}}
+    @livewire('users.add-user-form')
+    {{-- </x-modal> --}}
 
     {{-- Import students --}}
     <div x-cloak x-show="showImportModal">

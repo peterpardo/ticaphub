@@ -19,6 +19,8 @@ use Livewire\Component;
 
 class AddUserForm extends Component
 {
+    public $show = false;
+
     // User info
     public $fname;
     public $lname;
@@ -40,7 +42,7 @@ class AddUserForm extends Component
     public $action = 'add';
     public $userId;
 
-    protected $listeners = ['getUser'];
+    protected $listeners = ['getUser', 'show'];
 
     public $userRules = [
         'email' => 'required|email',
@@ -48,6 +50,15 @@ class AddUserForm extends Component
         'lname' => 'required|max:30',
         'role' => 'required'
     ];
+
+    public function show() {
+        $this->show = true;
+    }
+
+    public function close() {
+        $this->show = false;
+        $this->emit('refreshParent');
+    }
 
     public $studentRules = [
         'selectedSchool' => 'required',
@@ -105,6 +116,7 @@ class AddUserForm extends Component
 
         // Set action as updating
         $this->action = 'update';
+        $this->show = true;
     }
 
     public function updatedRole($value) {
