@@ -6,7 +6,7 @@
         (object) [
             'name' => 'User Accounts',              // name of sidebar link
             'route' => route('users'),              // route
-            'hasAccess' => $user->hasRole('superadmin'), // Check whether user has access to the specified link
+            'hasAccess' => $user->hasAnyRole('superadmin', 'admin'), // Check whether user has access to the specified link
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
         // Schedules Link (temporarily disabled)
@@ -19,7 +19,7 @@
         (object) [
             'name' =>  'Officers',
             'route' => route('officers'),
-            'hasAccess' => $user->hasAnyRole(['superadmin', 'student', 'officer']),
+            'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
             'icon' => 'fa-solid fa-user-shield'
         ],
         // (object) [

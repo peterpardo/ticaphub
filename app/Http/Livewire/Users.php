@@ -14,7 +14,6 @@ class Users extends Component
     use WithPagination;
 
     public $showDeleteModal = false;
-    public $showAddModal = false;
     // public $showConfirmModal = false;
 
     public $selectedUser;
@@ -29,7 +28,6 @@ class Users extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'User successfully updated');
         }
-        $this->showAddModal = false;
     }
 
     public function selectItem($id) {

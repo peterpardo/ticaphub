@@ -103,19 +103,11 @@
                 @endif
 
                 {{-- Spinner --}}
-                <x-spinner wire:loading.flex wire:target="addUser, addGroup">Please Wait. This may take a few seconds</x-spinner>
+                <x-spinner wire:loading.flex wire:target="addUser">Please Wait. This may take a few seconds</x-spinner>
 
                 <div class="text-right">
-                    <x-app.button
-                        color="gray"
-                        wire:click.prevent="closeModal">
-                        Cancel
-                    </x-app.button>
-                    <x-app.button
-                        color="green"
-                        type="submit">
-                        Save
-                    </x-app.button>
+                    <x-app.button color="gray" wire:loading.attr="disabled" wire:click.prevent="closeModal">Cancel</x-app.button>
+                    <x-app.button color="green" wire:loading.attr="disabled" type="submit">Save</x-app.button>
                 </div>
             </x-form>
         </x-modal>

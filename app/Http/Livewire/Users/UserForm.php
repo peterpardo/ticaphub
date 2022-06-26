@@ -108,11 +108,17 @@ class UserForm extends Component
 
     public function showForm() {
         $this->showForm = true;
+        $this->resetInputFields();
+    }
+
+    public function resetInputFields() {
+        $this->reset('role', 'fname', 'lname', 'email', 'selectedSchool', 'selectedSpecialization', 'selectedGroup', 'showStudentFields');
+        $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
     }
 
     public function closeModal() {
         $this->showForm = false;
-        $this->reset();
+        $this->resetInputFields();
         $this->resetValidation();
     }
 
@@ -134,8 +140,7 @@ class UserForm extends Component
     public function updatedSelectedSchool() {
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
 
-        $this->reset('selectedSpecialization');
-        $this->reset('selectedGroup');
+        $this->reset('selectedSpecialization', 'selectedGroup', 'groups');
     }
 
     public function updatedSelectedSpecialization() {
@@ -218,6 +223,7 @@ class UserForm extends Component
                 'email' => 'unique:users,email'
             ]);
 
+            // Add user
             $user = User::create([
                 'first_name' => Str::title($this->fname),
                 'last_name' => Str::title($this->lname),
@@ -225,6 +231,27 @@ class UserForm extends Component
                 'email' => $this->email,
                 'ticap_id' => auth()->user()->ticap_id,
             ]);
+
+             // TODO: Send email to user for resetting of password
+            // Link is valid for 5 days once sent to the student
+            $token = Str::random(60) . time();
+            $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+                'token' => $token,
+                'ticap' => auth()->user()->ticap_id,
+                'email' => $this->email,
+            ]);
+            $details = [
+                'title' => 'Welcome to TICAPHUB, ' . Str::title($this->fname) . '!',
+                'body' => 'Click the link to confirm your email.',
+                'link' => $link,
+            ];
+            DB::table('register_users')->insert([
+                'email' => $this->email,
+                'token' => $token,
+                'created_at' =>  now()->toDateTimeString(),
+                'updated_at' => now()->toDateTimeString(),
+            ]);
+            RegisterUserJob::dispatch($this->email, $details);
         }
 
         // Add roles
@@ -265,39 +292,20 @@ class UserForm extends Component
             }
         }
 
-        // TODO: Send email to user for resetting of password
-        // Link is valid for 5 days once sent to the student
-        $token = Str::random(60) . time();
-        $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-            'token' => $token,
-            'ticap' => auth()->user()->ticap_id,
-            'email' => $this->email,
-        ]);
-        $details = [
-            'title' => 'Welcome to TICAPHUB, ' . Str::title($this->fname) . '!',
-            'body' => 'Click the link to confirm your email.',
-            'link' => $link,
-        ];
-        DB::table('register_users')->insert([
-            'email' => $this->email,
-            'token' => $token,
-            'created_at' =>  now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString(),
-        ]);
-        RegisterUserJob::dispatch($this->email, $details)->delay(now()->addSeconds(30));
-
         // Refresh parent component and return success message
         $this->emit('refreshParent', $this->action);
 
+        // Close modal
+        $this->showForm = false;
+
         // Reset input fields
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
+        $this->resetInputFields();
     }
 
     public function render()
     {
         return view('livewire.users.user-form', [
             'schools' => School::where('is_involved', 1)->get(),
-            'groups' => Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get()
         ]);
     }
 }
