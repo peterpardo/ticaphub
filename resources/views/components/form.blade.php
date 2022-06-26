@@ -1,3 +1,3 @@
-<form {{ $attributes }} class="h-full overflow-y-auto max-h-96 space-y-3 w-full pb-8">
+<form {{ $attributes }} class="overflow-y-auto space-y-3 w-full">
     {{ $slot }}
 </form>

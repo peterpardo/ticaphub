@@ -93,10 +93,10 @@
                         @endif
                         <div class="mb-1">
                             <x-form.label for="newGroup">New Group (Optional)</x-form.label>
-                            <span class="block py-1 px-2 rounded bg-gray-100 text-gray-500 text-xs">
+                            <x-form.input-info>
                                 <span class="font-bold">Note:</span>
                                 You can create a new group for the <span class="font-bold italic">selected specialization</span> if it's empty or if the group you're searching for doesn't exists.
-                            </span>
+                            </x-form.input-info>
                         </div>
                         <x-form.input wire:model="newGroup" id="newGroup" placeholder="Enter group name here..."/>
                         @error('newGroup')

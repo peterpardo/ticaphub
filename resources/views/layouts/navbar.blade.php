@@ -1,6 +1,6 @@
 <div class="fixed top-0 left-0 w-screen flex items-center bg-white filter drop-shadow-md h-14 z-10 px-5">
     <div class="ml-auto flex w-full justify-between items-center">
-        <h1 class="ml-14 font-bold text-md sm:text-2xl md:text-3xl transition-all duration-300 md:ml-64">{{ $title }}</h1>
+        <h1 class="ml-14 font-bold text-md sm:text-2xl md:text-2xl transition-all duration-300 md:ml-64">{{ $title }}</h1>
 
         <div class="relative block" x-data="{ open: false }">
             <!-- Dropdown toggle button -->
