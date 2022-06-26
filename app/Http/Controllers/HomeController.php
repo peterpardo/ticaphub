@@ -34,7 +34,7 @@ class HomeController extends Controller
                 'ticap' => $ticap,
                 'students' => User::role('student')->count(),
                 'panelists' => User::role('panelist')->count(),
-                'officers' => User::role('officer')->count(),
+                'officers' => User::permission('access manage events')->count(),
                 'admins' => User::role('admin')->count(),
                 'events' => Event::all(),
             ]);

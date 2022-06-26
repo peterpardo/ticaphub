@@ -49,6 +49,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'access project assessment']);
         Permission::create(['name' => 'access documentation']);
         Permission::create(['name' => 'access committee heads']);
+        Permission::create(['name' => 'access manage events']);
 
         $user1->assignRole($superadmin);
         $user2->assignRole($admin);
