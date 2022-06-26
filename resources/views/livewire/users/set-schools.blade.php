@@ -1,6 +1,5 @@
 <div x-data="{
-    showAddModal: @entangle('showAddModal').defer,
-    showDeleteModal: false,
+    showDeleteModal: @entangle('showDeleteModal').defer,
     showConfirmModal: @entangle('showConfirmModal').defer
 }">
     {{-- Alert --}}
@@ -56,7 +55,6 @@
     </div>
 
     {{-- Add Specialization --}}
-    {{-- <x-app.button color="green" @click.prevent="showAddModal = !showAddModal">Add Specialization</x-app.button> --}}
     <x-app.button color="green" wire:click.prevent="$emitTo('users.add-specialization-form', 'showModal')">Add Specialization</x-app.button>
 
     {{-- Specialization Table --}}
@@ -76,7 +74,7 @@
                         <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
                         <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
                         <x-table.tdata-actions>
-                            <x-table.delete-btn @click.prevent="showDeleteModal = !showDeleteModal" wire:click="selectItem({{ $specialization->id }})"   />
+                            <x-table.delete-btn wire:click="selectItem({{ $specialization->id }})"   />
                         </x-table.tdata-actions>
                     </tr>
                 @endif
@@ -98,17 +96,20 @@
     @livewire('users.add-specialization-form', ['schools' => $schools])
 
     {{-- Delete modal --}}
-    {{-- NOTE: This modal can only be used inside a livewire component --}}
     <div x-cloak x-show="showDeleteModal">
-        <x-modal.delete-modal>
+        <x-modal>
             <x-modal.title>Delete Specialization</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
-        </x-modal.delete-modal>
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal('delete')">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete it.</x-app.button>
+            </div>
+        </x-modal>
     </div>
 
     {{-- Confirm modal --}}
     <div x-cloak x-show="showConfirmModal">
-        <x-modal.confirm-modal>
+        <x-modal>
             <x-modal.title>TICAP Settings</x-modal.title>
             <x-modal.description>Do you want to start the TICaP with these specializations? You will not be able to change it once you proceed.</x-modal.description>
 
@@ -127,6 +128,11 @@
                     @endforeach
                 </x-slot>
             </x-modal.table>
-        </x-modal.confirm-modal>
+
+            <div class="text-right">
+                <x-app.button color="gray" @click.prevent="showConfirmModal = !showConfirmModal">Cancel</x-app.button>
+                <x-app.button color="blue" wire:click.prevent="confirmSettings">Yes, save settings.</x-app.button>
+            </div>
+        </x-modal>
     </div>
 </div>

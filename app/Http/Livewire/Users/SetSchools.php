@@ -18,8 +18,8 @@ class SetSchools extends Component
     public $dilimanCheckbox;
     public $alabangCheckbox;
     public $selectedSpecialization;
+    public $showDeleteModal = false;
     public $showConfirmModal = false;
-    public $showAddModal = false;
 
     protected $listeners = ['refreshParent'];
 
@@ -35,8 +35,6 @@ class SetSchools extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'Specialization successfully added');
         }
-
-        // $this->showAddModal = false;
     }
 
     // Change status of school
@@ -56,6 +54,14 @@ class SetSchools extends Component
 
     public function selectItem($id) {
         $this->selectedSpecialization = $id;
+
+        $this->showDeleteModal = true;
+    }
+
+    public function closeModal($modal) {
+        if ($modal === 'delete') {
+            $this->showDeleteModal = false;
+        }
     }
 
     public function deleteItem() {
@@ -76,6 +82,9 @@ class SetSchools extends Component
         // // Return success message
         session()->flash('status', 'green');
         session()->flash('message', 'Specialization successfully deleted');
+
+        // Close modal
+        $this->showDeleteModal = false;
     }
 
     // Finalize Settings
@@ -97,6 +106,7 @@ class SetSchools extends Component
 
             // Create an election for each school if involved and assign each specialization to their respective election
             foreach ($schools as $school) {
+                // e.g. Election name: FEU DILIMAN
                 $election = Election::create([
                     'name' => $school->name,
                     'ticap_id' => auth()->user()->ticap_id
