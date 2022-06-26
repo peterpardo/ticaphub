@@ -43,9 +43,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     public function userElection() {
         return $this->hasOne(UserElection::class, 'user_id', 'id');
@@ -120,5 +120,13 @@ class User extends Authenticatable
 
     public function getFullnameAttribute() {
         return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
+    }
+
+    public function getStatusAttribute() {
+        return $this->email_verified === 'verified' ? 'green' : 'red';
+    }
+
+    public function getEmailVerifiedAttribute($value) {
+        return $value ? 'verified' : 'not verified';
     }
 }

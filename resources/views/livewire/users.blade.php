@@ -14,10 +14,10 @@
     </x-app.button>
 
     {{-- Import students --}}
-    <x-app.button color='indigo' @click.prevent="showImportModal = !showImportModal">
+    {{-- <x-app.button color='indigo' @click.prevent="showImportModal = !showImportModal">
         <i class="fa-solid fa-file-import mr-1"></i>
         Import Students
-    </x-app.button>
+    </x-app.button> --}}
 
     {{-- User table --}}
     <x-table>
@@ -34,7 +34,14 @@
                 <tr>
                     <x-table.tdata>{{ $user->fullname }}</x-table.tdata>
                     <x-table.tdata>{{ $user->email }}</x-table.tdata>
-                    <x-table.tdata>{{ $user->email_verified }}</x-table.tdata>
+                    <x-table.tdata>
+                        <span
+                            class="relative inline-block px-3 py-1 font-semibold text-{{ $user->status }}-900 leading-tight">
+                            <span aria-hidden
+                                class="absolute inset-0 bg-{{ $user->status }}-200 opacity-50 rounded-full"></span>
+                            <span class="relative">{{ $user->email_verified }}</span>
+                        </span>
+                    </x-table.tdata>
                     <x-table.tdata class="space-x-2">
                         @foreach($user->getRoleNames() as $role)
                             <span class="inline-block @if (!$loop->first) pl-3 @endif">
@@ -62,9 +69,9 @@
     @livewire('users.user-form')
 
     {{-- Import students --}}
-    <div x-cloak x-show="showImportModal">
+    {{-- <div x-cloak x-show="showImportModal">
         @livewire('users.import-students-form')
-    </div>
+    </div> --}}
 
     {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">
