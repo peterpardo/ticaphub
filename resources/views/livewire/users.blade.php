@@ -9,7 +9,7 @@
     @endif
 
     {{-- Add user --}}
-    <x-app.button color='green' wire:click="$emitTo('users.add-user-form', 'showForm')">
+    <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')">
         <i class="fa-solid fa-user-plus mr-1"></i>
         Add User
     </x-app.button>
@@ -60,15 +60,12 @@
 
     {{-- Modals --}}
     {{-- Add user --}}
-    {{-- <x-modal x-cloak x-show="showAddModal"> --}}
-    @livewire('users.add-user-form')
-    {{-- </x-modal> --}}
+    @livewire('users.user-form')
 
     {{-- Import students --}}
     <div x-cloak x-show="showImportModal">
         @livewire('users.import-students-form')
     </div>
-
 
     {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">
