@@ -9,7 +9,7 @@
             @endif
 
             {{-- Form --}}
-            <x-form wire:submit.prevent="addUser">
+            <x-form wire:submit.prevent="saveUser">
                 {{-- Type --}}
                 {{-- Hide selecting of role if action is update --}}
                 @if ($action != 'update')
@@ -103,7 +103,7 @@
                 @endif
 
                 {{-- Spinner --}}
-                <x-spinner wire:loading.flex wire:target="addUser">Please Wait. This may take a few seconds</x-spinner>
+                <x-spinner wire:loading.flex wire:target="saveUser">Please Wait. This may take a few seconds</x-spinner>
 
                 <div class="text-right">
                     <x-app.button color="gray" wire:loading.attr="disabled" wire:click.prevent="closeModal">Cancel</x-app.button>

@@ -43,8 +43,7 @@ class Users extends Component
     }
 
     public function editUser($id) {
-        $this->emitTo('users.add-user-form', 'getUser', $id);
-        $this->showAddModal = true;
+        $this->emitTo('users.user-form', 'getUser', $id);
     }
 
     public function deleteItem() {

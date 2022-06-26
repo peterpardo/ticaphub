@@ -6,14 +6,15 @@ use Illuminate\View\Component;
 
 class EditBtn extends Component
 {
+    public $type;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($type)
     {
-        //
+        $this->type = $type;
     }
 
     /**

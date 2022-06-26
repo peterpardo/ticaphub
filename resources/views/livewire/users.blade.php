@@ -50,8 +50,9 @@
                         @endforeach
                     </x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.delete-btn wire:click="selectItem({{ $user->id }})"   />
-                        <x-table.edit-btn wire:click="editUser({{ $user->id }})"/>
+                        <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
+                        {{-- <x-table.edit-btn wire:click="editUser({{ $user->id }})"/> --}}
+                        <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty

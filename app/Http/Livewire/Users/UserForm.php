@@ -112,7 +112,7 @@ class UserForm extends Component
     }
 
     public function resetInputFields() {
-        $this->reset('role', 'fname', 'lname', 'email', 'selectedSchool', 'selectedSpecialization', 'selectedGroup', 'showStudentFields');
+        $this->reset('role', 'fname', 'lname', 'email', 'selectedSchool', 'selectedSpecialization', 'selectedGroup', 'showStudentFields', 'action');
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
     }
 
@@ -184,7 +184,7 @@ class UserForm extends Component
     //     $this->reset('newGroup', 'selectedGroup');
     // }
 
-    public function addUser() {
+    public function saveUser() {
         // Validation for all user roles
         $validations = $this->userRules;
         $attributes = $this->userRuleAttributes;
