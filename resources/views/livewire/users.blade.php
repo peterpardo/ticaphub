@@ -9,7 +9,7 @@
     @endif
 
     {{-- Add user --}}
-    <x-app.button color='green' wire:click="$emitTo('users.add-user-form', 'show')">
+    <x-app.button color='green' wire:click="$emitTo('users.add-user-form', 'showForm')">
         <i class="fa-solid fa-user-plus mr-1"></i>
         Add User
     </x-app.button>

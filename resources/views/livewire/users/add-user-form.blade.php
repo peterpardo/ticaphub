@@ -1,6 +1,6 @@
 
 <div>
-    @if ($show)
+    @if ($showForm)
         <x-modal>
             @if ($action == 'update')
                 <x-form.title>Update User</x-form.title>
@@ -128,7 +128,7 @@
                 <div class="text-right">
                     <x-app.button
                         color="gray"
-                        wire:click.prevent="close">
+                        wire:click.prevent="closeModal">
                         Cancel
                     </x-app.button>
                     <x-app.button

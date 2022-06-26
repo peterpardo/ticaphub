@@ -19,7 +19,7 @@ use Livewire\Component;
 
 class AddUserForm extends Component
 {
-    public $show = false;
+    public $showForm = false;
 
     // User info
     public $fname;
@@ -42,7 +42,7 @@ class AddUserForm extends Component
     public $action = 'add';
     public $userId;
 
-    protected $listeners = ['getUser', 'show'];
+    protected $listeners = ['getUser', 'showForm'];
 
     public $userRules = [
         'email' => 'required|email',
@@ -50,15 +50,6 @@ class AddUserForm extends Component
         'lname' => 'required|max:30',
         'role' => 'required'
     ];
-
-    public function show() {
-        $this->show = true;
-    }
-
-    public function close() {
-        $this->show = false;
-        $this->emit('refreshParent');
-    }
 
     public $studentRules = [
         'selectedSchool' => 'required',
@@ -116,7 +107,21 @@ class AddUserForm extends Component
 
         // Set action as updating
         $this->action = 'update';
-        $this->show = true;
+        $this->showForm = true;
+    }
+
+    public function showForm() {
+        $this->showForm = true;
+    }
+
+    public function closeModal() {
+        $this->showForm = false;
+        $this->resetInputFields();
+        $this->resetValidation();
+    }
+
+    public function resetInputFields() {
+        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
     }
 
     public function updatedRole($value) {
@@ -131,14 +136,6 @@ class AddUserForm extends Component
         $this->resetValidation();
 
         $this->reset('selectedSchool', 'selectedSpecialization', 'selectedGroup');
-    }
-
-    public function closeModal() {
-        // Remove validations if there's any
-        $this->reset('fname', 'lname', 'email', 'role', 'showStudentFields', 'selectedSpecialization', 'selectedGroup', 'newGroup', 'action');
-        $this->resetValidation();
-
-        $this->emit('refreshParent');
     }
 
     // Update values of specializations and groups based on the school
