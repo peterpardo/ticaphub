@@ -1,3 +1,3 @@
 <x-app-layout title="User Accounts">
-    {{ $user->email }}
+    @livewire('users.view-user', ['user' => $user])
 </x-app-layout>

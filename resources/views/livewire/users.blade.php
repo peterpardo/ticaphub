@@ -63,9 +63,11 @@
                         @endforeach
                     </x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
-                        {{-- <x-table.edit-btn wire:click="editUser({{ $user->id }})"/> --}}
-                        <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                        {{-- Don't allow edit and delete the superadmin --}}
+                        @if(!$user->hasRole('superadmin'))
+                            <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
+                            <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                        @endif
                     </x-table.tdata-actions>
                 </tr>
             @empty
