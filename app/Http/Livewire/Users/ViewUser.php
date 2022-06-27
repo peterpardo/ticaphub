@@ -106,6 +106,21 @@ class ViewUser extends Component
         $this->user->email = $this->email;
         $this->user->save();
 
+        // Check if user is student
+        if ($this->showStudentFields) {
+            // Update student specialization and group
+            $this->user->userSpecialization()->update([
+                'specialization_id' => $this->selectedSpecialization,
+                'group_id' => $this->selectedGroup
+            ]);
+
+            // Update user which election to vote
+            $electionId = Specialization::select('election_id')->where('id', $this->selectedSpecialization)->pluck('election_id')->first();
+            $this->user->userElection()->update([
+                'election_id' => $electionId,
+            ]);
+        }
+
         // Return success message
         session()->flash('status', 'green');
         session()->flash('message', 'User successfully updated');
