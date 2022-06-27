@@ -1,12 +1,17 @@
 <div class="space-y-5 w-full mx-auto" style="max-width: 600px">
-    <x-app.button type="link" color="red" href="{{ url('users') }}">
+    <x-app.button type="link" color="red" href="{{ url('users') }}" >
         <i class="fa-solid fa-arrow-left mr-2"></i>
         Go back
     </x-app.button>
 
-    <h1 class="text-2xl font-bold">Edit User</h1>
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+    @endif
 
-    <x-form>
+    <h1 class="text-2xl font-bold pb-2 border-b-2 border-gray-300">Edit User</h1>
+
+    <x-form wire:submit.prevent="updateUser">
         <div
         class="flex flex-col items-center gap-y-2
         lg:flex-row lg:items-start">
@@ -64,6 +69,9 @@
         <x-form.form-control>
             <x-form.label>Email</x-form.label>
             <x-form.input wire:model="email"/>
+            @error('email')
+                <x-form.error>{{ $message }}</x-form.error>
+            @enderror
         </x-form.form-control>
 
         @if($showStudentFields)
@@ -84,6 +92,7 @@
             <x-form.form-control>
                 <x-form.label>Specialization</x-form.label>
                 <x-form.select wire:model="selectedSpecialization">
+                    <option value="">---select specialization---</option>
                     @foreach($specializations as $specialization)
                         <option value="{{ $specialization->id }}">{{ $specialization->name }}</option>
                     @endforeach
@@ -129,5 +138,9 @@
                 </div>
             </div>
         </x-form.form-control>
+
+        <div class="text-right">
+            <x-app.button type="submit" color="green">Save Changes</x-app.button>
+        </div>
     </x-form>
 </div>

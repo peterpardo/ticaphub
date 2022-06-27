@@ -6,7 +6,7 @@ use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
-use App\Models\UserSpecialization;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class ViewUser extends Component
@@ -14,18 +14,17 @@ class ViewUser extends Component
     public User $user;
     public $showStudentFields = false;
     public $schools;
-    public $specializations;
-    public $groups;
+    public $specializations = [];
+    public $groups = [];
     public $selectedSchool;
-    public $selectedSpecialization;
-    public $selectedGroup;
+    public $selectedSpecialization = '';
+    public $selectedGroup = '';
 
     public $userRules = [
         'email' => 'required|email',
         'fname' => 'required|max:30',
-        'mname' => 'string|max:30',
+        'mname' => 'nullable|string|max:30',
         'lname' => 'required|max:30',
-        'role' => 'required'
     ];
 
     public $studentRules = [
@@ -64,6 +63,54 @@ class ViewUser extends Component
             $this->selectedGroup = $this->user->userSpecialization->group_id;
             $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
         }
+    }
+
+     // Update values of specializations and groups based on the school
+     public function updatedSelectedSchool() {
+        $this->specializations = Specialization::select('id', 'name')->where('school_id', $this->selectedSchool)->get();
+
+        $this->reset('selectedSpecialization', 'selectedGroup', 'groups');
+    }
+
+    public function updatedSelectedSpecialization() {
+        $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
+
+        $this->reset('selectedGroup');
+    }
+
+
+    public function updateUser() {
+        // Validation for all user roles
+        $validations = $this->userRules;
+        $attributes = $this->userRuleAttributes;
+
+        // Check if user role is student
+        if ($this->showStudentFields) {
+            $validations = array_merge($this->userRules, $this->studentRules);
+            $attributes = array_merge($this->userRuleAttributes, $this->studentRuleAttributes);
+        }
+
+        // Validation
+        $validated = $this->validate($validations, [], $attributes);
+
+        // Check if the email is changed
+        if ($this->user->email !== $this->email) {
+            $this->validate([
+                'email' => 'unique:users,email'
+            ]);
+        }
+
+        // Update user info
+        $this->user->first_name = Str::title($this->fname);
+        $this->user->last_name = Str::title($this->lname);
+        $this->user->email = $this->email;
+        $this->user->save();
+
+        // Return success message
+        session()->flash('status', 'green');
+        session()->flash('message', 'User successfully updated');
+
+        return redirect('users/' . $this->user->id);
     }
 
     public function render()
