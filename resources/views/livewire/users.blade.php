@@ -32,7 +32,20 @@
         <x-slot name="body">
             @forelse ($users as $user)
                 <tr>
-                    <x-table.tdata>{{ $user->fullname }}</x-table.tdata>
+                    <x-table.tdata>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-10 h-10">
+                                <img class="w-full h-full rounded-full"
+                                    src="{{ is_null($user->profile_picture) ? url(asset('assets/default-img.png')) : Storage::url($user->profile_picture)}}"
+                                    alt="profile_picture" />
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    {{ $user->fullname }}
+                                </p>
+                            </div>
+                        </div>
+                    </x-table.tdata>
                     <x-table.tdata>{{ $user->email }}</x-table.tdata>
                     <x-table.tdata>
                         <span
