@@ -119,15 +119,15 @@ class User extends Authenticatable
     }
 
     public function getFirstNameAttribute($value) {
-        return ucfirst($value);
+        return ucwords($value);
     }
 
     public function getMiddleNameAttribute($value) {
-        return ucfirst($value);
+        return ucwords($value);
     }
 
     public function getLastNameAttribute($value) {
-        return ucfirst($value);
+        return ucwords($value);
     }
 
     public function getFullnameAttribute() {
