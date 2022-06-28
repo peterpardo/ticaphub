@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
 use App\Models\Group;
+use App\Models\GroupExhibit;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
@@ -97,6 +98,12 @@ class AdminController extends Controller
                             'name' => $formattedName,
                             'specialization_id' => $request->specialization,
                             'ticap_id' => auth()->user()->ticap_id,
+                        ]);
+
+                        // Create a exhibit for this group (to store all the files)
+                        GroupExhibit::create([
+                            'group_id' => $group->id,
+                            'ticap_id' => auth()->user()->ticap_id
                         ]);
 
                         // Get group id
