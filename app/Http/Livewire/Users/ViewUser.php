@@ -20,6 +20,11 @@ class ViewUser extends Component
     public $selectedSpecialization = '';
     public $selectedGroup = '';
 
+    public $uaPermission = false;
+    public $chPermission = false;
+    public $paPermission = false;
+    public $mePermission = false;
+
     public $userRules = [
         'email' => 'required|email',
         'fname' => 'required|max:30',
@@ -62,11 +67,25 @@ class ViewUser extends Component
             $this->specializations = Specialization::select('id', 'name')->where('school_id', $this->selectedSchool)->get();
             $this->selectedGroup = $this->user->userSpecialization->group_id;
             $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
+
+            // Check permissions of student
+            if ($this->user->hasPermissionTo('access user accounts')) {
+                 $this->uaPermission = true;
+            }
+            if ($this->user->hasPermissionTo('access project assessment')) {
+                $this->paPermission = true;
+            }
+            if ($this->user->hasPermissionTo('access committee heads')) {
+                $this->chPermission = true;
+            }
+            if ($this->user->hasPermissionTo('access manage events')) {
+                $this->mePermission = true;
+            }
         }
     }
 
-     // Update values of specializations and groups based on the school
-     public function updatedSelectedSchool() {
+    // Update values of specializations and groups based on the school
+    public function updatedSelectedSchool() {
         $this->specializations = Specialization::select('id', 'name')->where('school_id', $this->selectedSchool)->get();
 
         $this->reset('selectedSpecialization', 'selectedGroup', 'groups');
@@ -78,6 +97,27 @@ class ViewUser extends Component
         $this->reset('selectedGroup');
     }
 
+    // public function updatedUaPermission($value) {
+    //     if ($value) {
+    //         $this->user->givePermissionTo('access user accounts');
+    //     } else {
+    //         $this->user->revokePermissionTo('access user accounts');
+    //     }
+    // }
+
+    // public function editStudentPermission($permission) {
+    //     dd('change permission: ' . $this->uaPermission);
+    //     // update permissions of student
+    //     if ($permission === 'ua') {
+    //         $this->uaPermission = true;
+    //     } else if ($this->user->hasPermissionTo('access project assessment')) {
+    //         $this->paPermission = true;
+    //     } else if ($this->user->hasPermissionTo('access committee heads')) {
+    //         $this->chPermission = true;
+    //     } else if ($this->user->hasPermissionTo('access manage events')) {
+    //         $this->mePermission = true;
+    //     }
+    // }
 
     public function updateUser() {
         // Validation for all user roles
@@ -119,6 +159,35 @@ class ViewUser extends Component
             $this->user->userElection()->update([
                 'election_id' => $electionId,
             ]);
+
+            // Assign permissions to student (if there's any)
+            // User Accounts Permission
+            if ($this->uaPermission) {
+                $this->user->givePermissionTo('access user accounts');
+            } else {
+                $this->user->revokePermissionTo('access user accounts');
+            }
+
+            // Committee Heads Permission
+            if ($this->chPermission) {
+                $this->user->givePermissionTo('access committee heads');
+            } else {
+                $this->user->revokePermissionTo('access committee heads');
+            }
+
+            // Project Assessment Permission
+            if ($this->paPermission) {
+                $this->user->givePermissionTo('access project assessment');
+            } else {
+                $this->user->revokePermissionTo('access project assessment');
+            }
+
+            // Manage Events Permission
+            if ($this->mePermission) {
+                $this->user->givePermissionTo('access manage events');
+            } else {
+                $this->user->revokePermissionTo('access manage events');
+            }
         }
 
         // Return success message

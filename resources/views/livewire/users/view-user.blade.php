@@ -119,25 +119,46 @@
                     <x-form.error>{{ $message }}</x-form.error>
                 @enderror
             </x-form.form-control>
-        @endif
 
-        <x-form.form-control>
-            <x-form.label>Permissions</x-form.label>
-            <div class="flex gap-x-4">
-                <div class="flex items-center space-x-2">
-                    <input
-                    type="checkbox"
-                    class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                    <label for="alabang">First Permission</label>
+
+            <x-form.form-control>
+                <x-form.label>Permissions</x-form.label>
+                <div class="grid grid-rows-2 grid-cols-1 md:grid-cols-2 gap-y-2">
+                    <div class="flex items-center space-x-2 text-sm">
+                        <input
+                        type="checkbox"
+                        wire:model="uaPermission"
+                        id="uaPermission"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                        <label for="uaPermission">give accesss <strong>User Accounts</strong></label>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm">
+                        <input
+                        type="checkbox"
+                        wire:model="paPermission"
+                        id="paPermission"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                        <label for="paPermission">give access <strong>Project Assessment</strong></label>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm">
+                        <input
+                        type="checkbox"
+                        wire:model="chPermission"
+                        id="chPermission"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                        <label for="chPermission">give access <strong>Committee Heads</strong></label>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm">
+                        <input
+                        type="checkbox"
+                        wire:model="mePermission"
+                        id="mePermission"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                        <label for="mePermission">give access <strong>Manage Events</strong></label>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <input
-                    type="checkbox"
-                    class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                    <label for="alabang">Second Permission</label>
-                </div>
-            </div>
-        </x-form.form-control>
+            </x-form.form-control>
+        @endif
 
         <div class="text-right">
             <x-app.button type="submit" color="green">Save Changes</x-app.button>
