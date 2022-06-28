@@ -84,6 +84,9 @@ class AdminController extends Controller
                         'ticap_id' => auth()->user()->ticap_id,
                     ]);
 
+                    // Give student role
+                    $user->assignRole('student');
+
                     // Add group if it doesn't exists
                     $formattedName = Str::title($fields['group']);
                     $nameExists = Group::where('name', '=', $formattedName)->exists();
@@ -150,7 +153,7 @@ class AdminController extends Controller
             }
         });
 
-        $request->session()->flash('message', 'Users have been added. Invitation Emails will be sent.');
+        $request->session()->flash('message', 'Students have been added! Sending of email invitations may take a few hours.');
         $request->session()->flash('status', 'green');
 
         return back();
