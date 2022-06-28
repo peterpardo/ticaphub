@@ -84,40 +84,64 @@ class AdminController extends Controller
                         'ticap_id' => auth()->user()->ticap_id,
                     ]);
 
-                    // // Add group if it doesn't exists
-                    // $formattedName = Str::title($fields['group']);
-                    // $nameExists = Group::where('name', '=', $formattedName)->exists();
-                    // $groupId = '';
-                    // if (!$nameExists) {
-                    //     // Add group
-                    //     throw new GeneralException('Line ' . $ctr . ': creating group');
-                    //     $group = Group::create([
-                    //         'name' => $formattedName,
-                    //         'specialization_id' => $request->specialization,
-                    //         'ticap_id' => auth()->user()->ticap_id,
-                    //     ]);
+                    // Add group if it doesn't exists
+                    $formattedName = Str::title($fields['group']);
+                    $nameExists = Group::where('name', '=', $formattedName)->exists();
+                    $groupId = '';
+                    if (!$nameExists) {
+                        // Add group
+                        $group = Group::create([
+                            'name' => $formattedName,
+                            'specialization_id' => $request->specialization,
+                            'ticap_id' => auth()->user()->ticap_id,
+                        ]);
 
-                    //     // Get group id
-                    //     $groupId = $group->id;
-                    // } else {
-                    //     $groupId = Group::where('name', $formattedName)->pluck('id')->first();
-                    // };
+                        // Get group id
+                        $groupId = $group->id;
+                    } else {
+                        $groupId = Group::where('name', $formattedName)->pluck('id')->first();
+                    };
 
-                    // // Create student details (user_specialization)
-                    // $user->userSpecialization()->create([
-                    //     'specialization_id' => $request->specialization,
-                    //     'group_id' => $groupId,
-                    // ]);
+                    // Create student details (user_specialization)
+                    $user->userSpecialization()->create([
+                        'specialization_id' => $request->specialization,
+                        'group_id' => $groupId,
+                    ]);
 
-                    // // Assign user which election to vote
-                    // $electionId = Specialization::select('election_id')->where('id', $request->specialization)->pluck('election_id')->first();
-                    // UserElection::insert([
-                    //     'user_id' => $user->id,
-                    //     'election_id' => $electionId,
-                    //     'has_voted' => 0,
-                    //     'created_at' => now()->toDateTimeString(),
-                    //     'updated_at' => now()->toDateTimeString(),
-                    // ]);
+                    // Assign student which election to vote
+                    $electionId = Specialization::select('election_id')->where('id', $request->specialization)->pluck('election_id')->first();
+                    UserElection::insert([
+                        'user_id' => $user->id,
+                        'election_id' => $electionId,
+                        'has_voted' => 0,
+                        'created_at' => now()->toDateTimeString(),
+                        'updated_at' => now()->toDateTimeString(),
+                    ]);
+
+                    // Send invitation email to the student
+                    // Email contains link to set their password
+                    $token = Str::random(60) . time();
+                    $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+                        'token' => $token,
+                        'ticap' => auth()->user()->ticap_id,
+                        'email' => $user->email,
+                    ]);
+                    $details = [
+                        'title' => 'Welcome to TICaP Hub, ' . $user->first_name . '!',
+                        'body' => "Click the link to confirm your account.",
+                        'link' => $link,
+                    ];
+
+                    // Insert email as a registered email in the system
+                    DB::table('register_users')->insert([
+                        'email' => $user->email,
+                        'token' => $token,
+                        'created_at' =>  now()->toDateTimeString(),
+                        'updated_at' => now()->toDateTimeString(),
+                    ]);
+
+                    // Dispatch job for sending the email
+                    dispatch(new RegisterUserJob($user->email, $details));
 
                     // Increment ctr to proceed to next student
                     $ctr++;
