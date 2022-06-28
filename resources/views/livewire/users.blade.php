@@ -14,10 +14,10 @@
     </x-app.button>
 
     {{-- Import students --}}
-    {{-- <x-app.button color='indigo' @click.prevent="showImportModal = !showImportModal">
+    <x-app.button type="link" href="{{ route('import-students') }}" color='indigo' >
         <i class="fa-solid fa-file-import mr-1"></i>
         Import Students
-    </x-app.button> --}}
+    </x-app.button>
 
     {{-- User table --}}
     <x-table>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\DocumentationController;
@@ -83,9 +84,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
+        Route::get('/users/import-students', [AdminController::class, 'importStudents'])->name('import-students');
+        Route::post('/users/import-students', [AdminController::class, 'uploadFile']);
         Route::get('/users', [HomeController::class, 'users'])->name('users');
         Route::get('/users/{id}', [HomeController::class, 'viewUser']);
         Route::get('/download-sample', [UserController::class, 'downloadImportStudentsExample']);
+
+        // Used for "/users/import-students" route
+        Route::get('/get-schools', [AdminController::class, 'getSchools']);
+        Route::get('/get-specializations/{id}', [AdminController::class, 'getSpecializations']);
     });
 
     // Route::get('/users/schools', [HomeController::class, 'getSchools']);

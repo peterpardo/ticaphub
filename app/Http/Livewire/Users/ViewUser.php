@@ -97,27 +97,6 @@ class ViewUser extends Component
         $this->reset('selectedGroup');
     }
 
-    // public function updatedUaPermission($value) {
-    //     if ($value) {
-    //         $this->user->givePermissionTo('access user accounts');
-    //     } else {
-    //         $this->user->revokePermissionTo('access user accounts');
-    //     }
-    // }
-
-    // public function editStudentPermission($permission) {
-    //     dd('change permission: ' . $this->uaPermission);
-    //     // update permissions of student
-    //     if ($permission === 'ua') {
-    //         $this->uaPermission = true;
-    //     } else if ($this->user->hasPermissionTo('access project assessment')) {
-    //         $this->paPermission = true;
-    //     } else if ($this->user->hasPermissionTo('access committee heads')) {
-    //         $this->chPermission = true;
-    //     } else if ($this->user->hasPermissionTo('access manage events')) {
-    //         $this->mePermission = true;
-    //     }
-    // }
 
     public function updateUser() {
         // Validation for all user roles

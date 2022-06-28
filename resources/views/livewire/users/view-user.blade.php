@@ -1,4 +1,4 @@
-<div class="space-y-5 w-full mx-auto" style="max-width: 600px">
+<div class="space-y-5 w-full max-w-screen-sm mx-auto">
     <x-app.button type="link" color="red" href="{{ url('users') }}" >
         <i class="fa-solid fa-arrow-left mr-2"></i>
         Go back
