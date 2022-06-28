@@ -73,8 +73,7 @@
                         this.specializations = data[1];
 
                         this.selectedSchool = "{{ old('school') }}" === '' ? 1 : parseInt("{{ old('school') }}");
-                        // this.selectedSpecialization = "{{ old('specialization') }}" === '' ? '' : parseInt("{{ old('specialization') }}");
-                        this.selectedSpecialization = 13;
+                        this.selectedSpecialization = "{{ old('specialization') }}" === '' ? '' : parseInt("{{ old('specialization') }}");
 
                         // Watch for change in value of the school
                         this.$watch('selectedSchool', async (value) => {
