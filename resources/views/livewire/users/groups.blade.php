@@ -30,7 +30,7 @@
                     <x-table.tdata>{{ $group->specialization->school->name }} - {{ $group->specialization->name }}</x-table.tdata>
                     <x-table.tdata>
                         @if (!is_null($group->adviser_id))
-                            {{ $groups->adviser->name }}
+                            {{ $group->adviser->name }}
                         @else
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
@@ -49,7 +49,7 @@
                                 <span aria-hidden
                                     class="absolute inset-0 bg-red-200 opacity-50 rounded-full">
                                 </span>
-                                <span class="relative">empty</span>
+                                <span class="relative">{{ $group->user_specializations_count }}</span>
                             </span>
                         @endif
                     </x-table.tdata>

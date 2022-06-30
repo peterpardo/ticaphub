@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 class GroupForm extends Component
 {
     public $showForm = false;
+    public $action = 'add';
 
     public $schools = [];
     public $selectedSchool = 1;
@@ -92,6 +93,9 @@ class GroupForm extends Component
             'group_id' => $group->id,
             'ticap_id' => auth()->user()->ticap_id
         ]);
+
+        // Refresh parent component and return success message
+        $this->emit('refreshParent', $this->action);
 
         // Hide modal
         $this->showForm = false;

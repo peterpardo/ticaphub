@@ -12,10 +12,22 @@ class Groups extends Component
 
     public $isActive = 'groups';
 
+    protected $listeners = ['refreshParent'];
+
+    public function refreshParent($action = null) {
+        if ($action == 'add') {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Group successfully added');
+        } else if ($action == 'update') {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Group successfully updated');
+        }
+    }
+
     public function render()
     {
         return view('livewire.users.groups', [
-            'groups' => Group::withCount('userSpecializations')->with(['adviser', 'specialization', 'specialization.school'])->paginate(5)
+            'groups' => Group::select('id', 'name', 'specialization_id', 'adviser_id')->withCount('userSpecializations')->with(['adviser', 'specialization', 'specialization.school'])->paginate(5)
         ]);
     }
 }
