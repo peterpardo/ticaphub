@@ -52,8 +52,8 @@
         @include('layouts.sidebar')
 
         {{-- Main Container --}}
-        <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'container mx-auto p-5']) }}>
+        <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 lg:ml-64">
+            <div {{ $attributes->merge(['class' => 'p-5']) }}>
                 {{-- Content --}}
                 {{ $slot }}
             </div>

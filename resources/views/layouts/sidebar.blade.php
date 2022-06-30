@@ -51,15 +51,15 @@
 @endphp
 
 {{-- Sidebar Component --}}
-<div class="fixed flex flex-col top-0 left-0 w-16 filter drop-shadow hover:w-64 md:w-64 bg-red-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10">
+<div class="fixed flex flex-col top-0 left-0 w-16 filter drop-shadow hover:w-64 lg:w-64 bg-red-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10">
     <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
         {{-- Sidebar links --}}
         <ul class="flex flex-col py-4 gap-y-1 overflow-hidden">
             {{-- App Logo --}}
-            <li class="ml-3 mb-5 transition-all duration-300 md:ml-14">
+            <li class="ml-3 mb-5 transition-all duration-300 lg:ml-14">
                 <div class="flex flex-row items-center">
                     <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
-                    <span class="hidden ml-1 text-base tracking-wide md:inline-block">TICAP HUB</span>
+                    <span class="hidden ml-1 text-base tracking-wide lg:inline-block">TICAP HUB</span>
                 </div>
             </li>
 
