@@ -10,6 +10,11 @@
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
     @endif
 
+    {{-- Note --}}
+    <x-info-box color="yellow">
+        You can manually add users by clicking the <span class="font-bold">Add User</span> button below. You can also add multiple students at once by clicking the <span class="font-bold">Import Students</span> button. Keep in mind that students with unverified emails <span class="font-bold">can't be nominated as officers</span> or <span class="font-bold">vote</span> in their respective election of officers.
+    </x-info-box>
+
     {{-- Add user --}}
     <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')" class="mb-2 sm:mb-0">
         <i class="fa-solid fa-user-plus mr-1"></i>

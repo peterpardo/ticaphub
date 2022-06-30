@@ -9,6 +9,11 @@
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
     @endif
 
+    {{-- Note --}}
+    <x-info-box color="yellow">
+        You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must <span class="font-bold">atleast have 1 member</span> to be able to created awards for the TICaP.
+    </x-info-box>
+
     {{-- Add group --}}
     <x-app.button color='green' class="mb-2" wire:click.prevent="$emitTo('users.group-form', 'showForm')">
         <i class="fa-solid fa-user-group mr-1"></i>

@@ -47,6 +47,10 @@
                 {{-- Adviser --}}
                 <x-form.form-control>
                     <x-form.label for="selectedAdviser">Project Adviser</x-form.label>
+                    <x-form.input-info>
+                        <strong>Note:</strong>
+                        If there is no adviser in the options, go to <strong>User Accounts > Project Advisers</strong> tab to add a new adviser.
+                    </x-form.input-info>
                     <x-form.select wire:model="selectedAdviser" id="selectedAdviser">
                         <option value="">---select adviser---</option>
                         @foreach($advisers as $adviser)
