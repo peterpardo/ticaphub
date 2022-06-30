@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [HomeController::class, 'users'])->name('users');
         Route::get('/users/groups', [AdminController::class, 'groups']);
+        Route::get('/users/project-advisers', [AdminController::class, 'projectAdvisers']);
         Route::get('/users/import-students', [AdminController::class, 'importStudents'])->name('import-students');
         Route::post('/users/import-students', [AdminController::class, 'uploadFile']);
 

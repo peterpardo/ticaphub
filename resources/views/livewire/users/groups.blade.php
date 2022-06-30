@@ -11,12 +11,12 @@
 
     {{-- Note --}}
     <x-info-box color="yellow">
-        You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must <span class="font-bold">atleast have 1 member</span> to be able to created awards for the TICaP.
+        You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must have <strong>an adviser</strong> and <span class="font-bold">atleast have 1 member</span> to be able to created awards for the TICaP.
     </x-info-box>
 
     {{-- Add group --}}
-    <x-app.button color='green' class="mb-2" wire:click.prevent="$emitTo('users.group-form', 'showForm')">
-        <i class="fa-solid fa-user-group mr-1"></i>
+    <x-app.button color='green' wire:click.prevent="$emitTo('users.group-form', 'showForm')">
+        <i class="fa-solid fa-user-plus mr-1"></i>
         Add Group
     </x-app.button>
 
@@ -61,7 +61,6 @@
                         @endif
                     </x-table.tdata>
                     <x-table.tdata-actions>
-
                         <x-table.delete-btn wire:click="selectItem({{ $group->id }})"/>
                         <x-table.edit-btn type="button" wire:click.prevent="$emitTo('users.group-form', 'getGroup', {{ $group->id }})"/>
                     </x-table.tdata-actions>

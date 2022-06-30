@@ -2,33 +2,32 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Models\Group;
-use App\Models\User;
+use App\Models\Adviser;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class Groups extends Component
+class ProjectAdvisers extends Component
 {
     use WithPagination;
 
-    public $isActive = 'groups';
+    public $isActive = 'advisers';
     public $showDeleteModal = false;
-    public $selectedGroup;
+    public $selectedAdviser;
 
     protected $listeners = ['refreshParent'];
 
     public function refreshParent($action = null) {
         if ($action == 'add') {
             session()->flash('status', 'green');
-            session()->flash('message', 'Group successfully added');
+            session()->flash('message', 'Adviser successfully added');
         } else if ($action == 'update') {
             session()->flash('status', 'green');
-            session()->flash('message', 'Group successfully updated');
+            session()->flash('message', 'Adviser successfully updated');
         }
     }
 
     public function selectItem($id) {
-        $this->selectedGroup = $id;
+        $this->selectedAdviser = $id;
         $this->showDeleteModal = true;
     }
 
@@ -37,19 +36,19 @@ class Groups extends Component
     }
 
     public function deleteItem() {
-        $deletedGroup = Group::destroy($this->selectedGroup);
+        $deletedAdviser = Adviser::destroy($this->selectedAdviser);
 
         // Check if the group is successfully deleted
-        if ($deletedGroup >= 1) {
+        if ($deletedAdviser >= 1) {
             session()->flash('status', 'green');
-            session()->flash('message', 'Group successfully deleted');
+            session()->flash('message', 'Adviser successfully deleted');
         } else {
             session()->flash('status', 'red');
             session()->flash('message', 'Something went wrong. Try reloading the page.');
         }
 
         // Reset properties to default value
-        $this->reset('selectedGroup');
+        $this->reset('selectedAdviser');
 
         // Close Modal
         $this->showDeleteModal = false;
@@ -57,8 +56,8 @@ class Groups extends Component
 
     public function render()
     {
-        return view('livewire.users.groups', [
-            'groups' => Group::select('id', 'name', 'specialization_id', 'adviser_id')->withCount('userSpecializations')->with(['adviser', 'specialization', 'specialization.school'])->paginate(5)
+        return view('livewire.users.project-advisers', [
+            'advisers' => Adviser::paginate(5),
         ]);
     }
 }

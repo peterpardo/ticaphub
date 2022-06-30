@@ -178,4 +178,9 @@ class AdminController extends Controller
     public function groups() {
         return view('users.groups');
     }
+
+    // Project Advisers
+    public function projectAdvisers() {
+        return view('users.project-advisers');
+    }
 }

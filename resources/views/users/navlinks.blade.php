@@ -7,7 +7,7 @@
             <a href="{{ url('users/groups') }}">Groups</a>
         </li>
         <li class="font-semibold @if($isActive === 'advisers') border-b-2 border-red-700 @endif">
-            <a href="#">Project Advisers</a>
+            <a href="{{ url('users/project-advisers') }}">Project Advisers</a>
         </li>
     </ul>
 </div>

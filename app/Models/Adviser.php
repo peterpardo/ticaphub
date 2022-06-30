@@ -18,4 +18,9 @@ class Adviser extends Model
     public function groups() {
         return $this->hasMany(Group::class, 'adviser_id', 'id');
     }
+
+    public function getNameAttribute($value) {
+        return ucwords($value);
+    }
+
 }
