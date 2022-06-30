@@ -13,8 +13,8 @@ class Users extends Component
 {
     use WithPagination;
 
+    public $isActive = 'users';
     public $showDeleteModal = false;
-    // public $showConfirmModal = false;
 
     public $selectedUser;
 

@@ -3,19 +3,7 @@
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
     {{-- Navigation --}}
-    <div class="mb-5">
-        <ul class="flex gap-x-4 ">
-            <li class="font-semibold border-b-2 border-red-700">
-                <a href="{{ route('users') }}">Users</a>
-            </li>
-            <li class="font-semibold">
-                <a href="{{ url('users/groups') }}">Groups</a>
-            </li>
-            <li class="font-semibold">
-                <a href="#">Project Advisers</a>
-            </li>
-        </ul>
-    </div>
+    @include('users.navlinks')
 
     {{-- Alert --}}
     @if (session('status'))
@@ -86,7 +74,7 @@
                     </x-table.tdata-actions>
                 </tr>
             @empty
-                <x-table.tdata>No users are found</x-table.tdata>
+                <x-table.tdata>No users found</x-table.tdata>
             @endforelse
         </x-slot>
 
@@ -98,11 +86,6 @@
     {{-- Modals --}}
     {{-- Add user --}}
     @livewire('users.user-form')
-
-    {{-- Import students --}}
-    {{-- <div x-cloak x-show="showImportModal">
-        @livewire('users.import-students-form')
-    </div> --}}
 
     {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">

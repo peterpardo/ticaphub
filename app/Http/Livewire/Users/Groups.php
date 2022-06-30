@@ -10,6 +10,8 @@ class Groups extends Component
 {
     use WithPagination;
 
+    public $isActive = 'groups';
+
     public function render()
     {
         return view('livewire.users.groups', [

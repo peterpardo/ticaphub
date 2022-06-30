@@ -1,5 +1,19 @@
 <div>
-    {{-- User table --}}
+    {{-- Navigation --}}
+    @include('users.navlinks')
+
+     {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+    @endif
+
+    {{-- Add group --}}
+    <x-app.button color='green' class="mb-2">
+        <i class="fa-solid fa-user-group mr-1"></i>
+        Add Group
+    </x-app.button>
+
+    {{-- Groups table --}}
     <x-table>
         <x-slot name="heading">
             <x-table.thead>Name</x-table.thead>
@@ -46,7 +60,7 @@
                     </x-table.tdata-actions>
                 </tr>
             @empty
-                <x-table.tdata>No users are found</x-table.tdata>
+                <x-table.tdata>No groups found</x-table.tdata>
             @endforelse
         </x-slot>
 

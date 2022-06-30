@@ -17,7 +17,7 @@ class AddGroupIdOnUserSpecializationTable extends Migration
             $table->foreignId('group_id')
                 ->nullable()
                 ->constrained('groups')
-                ->onDelete('cascade');
+                ->onDelete('set null');
         });
     }
 
