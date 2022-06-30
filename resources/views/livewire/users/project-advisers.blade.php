@@ -33,7 +33,7 @@
                     <x-table.tdata>{{ $adviser->name }}</x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn wire:click="selectItem({{ $adviser->id }})"/>
-                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('users.group-form', 'getGroup', {{ $adviser->id }})"/>
+                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('users.project-adviser-form', 'getAdviser', {{ $adviser->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty

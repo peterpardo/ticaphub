@@ -20,7 +20,12 @@ class ProjectAdviserForm extends Component
     protected $listeners = ['showForm', 'getAdviser'];
 
     public function getAdviser($id) {
-        dd('update: ' . $id);
+        $this->selectedAdviser = Adviser::find($id);
+        $this->adviser = $this->selectedAdviser->name;
+
+        // Set action as update
+        $this->action = 'update';
+        $this->showForm = true;
     }
 
     public function showForm() {
@@ -37,10 +42,21 @@ class ProjectAdviserForm extends Component
     public function addAdviser() {
         $this->validate();
 
-        // Create adviser
-        Adviser::create([
-            'name' => $this->adviser
-        ]);
+        // Check action if "add" or "update"
+        if ($this->action === 'add') {
+            // Create adviser
+            Adviser::create([
+                'name' => $this->adviser
+            ]);
+        } else {
+            $adviser = Adviser::find($this->selectedAdviser->id);
+
+            // If adviser exists, update adviser name
+            if ($adviser) {
+                $adviser->name = $this->adviser;
+                $adviser->save();
+            }
+        }
 
         // Refresh parent component and return success message
         $this->emit('refreshParent', $this->action);
