@@ -42,11 +42,14 @@
 
                 {{-- Adviser --}}
                 <x-form.form-control>
-                    <x-form.label for="adviser">Project Adviser</x-form.label>
-                    <x-form.select wire:model="adviser" id="adviser">
+                    <x-form.label for="selectedAdviser">Project Adviser</x-form.label>
+                    <x-form.select wire:model="selectedAdviser" id="selectedAdviser">
                         <option value="">---select adviser---</option>
+                        @foreach($advisers as $adviser)
+                            <option value="{{ $adviser->id }}">{{ $adviser->name }}</option>
+                        @endforeach
                     </x-form.select>
-                    @error('adviser')
+                    @error('selectedAdviser')
                         <x-form.error>{{ $message }}</x-form.error>
                     @enderror
                 </x-form.form-control>
