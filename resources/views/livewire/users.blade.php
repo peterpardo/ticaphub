@@ -2,13 +2,28 @@
     showImportModal: false,
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
+    {{-- Navigation --}}
+    <div class="mb-5">
+        <ul class="flex gap-x-4 ">
+            <li class="font-semibold border-b-2 border-red-700">
+                <a href="{{ route('users') }}">Users</a>
+            </li>
+            <li class="font-semibold">
+                <a href="{{ url('users/groups') }}">Groups</a>
+            </li>
+            <li class="font-semibold">
+                <a href="#">Project Advisers</a>
+            </li>
+        </ul>
+    </div>
+
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
     @endif
 
     {{-- Add user --}}
-    <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')">
+    <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')" class="mb-2 sm:mb-0">
         <i class="fa-solid fa-user-plus mr-1"></i>
         Add User
     </x-app.button>

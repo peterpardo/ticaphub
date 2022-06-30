@@ -25,4 +25,7 @@ class UserSpecialization extends Model
     public function school() {
         return $this->belongsTo(School::class, 'school_id', 'id');
     }
+    public function group() {
+        return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
 }

@@ -18,6 +18,7 @@ class Group extends Model
         'adviser_email',
         'adviser_id'
     ];
+    protected $withCount = ['userSpecializations'];
 
     public function adviser() {
         return $this->belongsTo(Adviser::class, 'adviser_id', 'id');
@@ -30,6 +31,9 @@ class Group extends Model
     }
     public function userGroups() {
         return $this->hasMany(UserGroup::class, 'group_id', 'id');
+    }
+    public function userSpecializations() {
+        return $this->hasMany(UserSpecialization::class, 'group_id', 'id');
     }
     public function specialization() {
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');

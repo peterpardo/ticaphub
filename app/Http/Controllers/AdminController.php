@@ -173,4 +173,9 @@ class AdminController extends Controller
     public function getSpecializations($id) {
         return Specialization::select('id', 'name')->where('school_id', $id)->get()->toJson();
     }
+
+    // Groups
+    public function groups() {
+        return view('users.groups');
+    }
 }

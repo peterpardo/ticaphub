@@ -84,10 +84,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
+        Route::get('/users', [HomeController::class, 'users'])->name('users');
+        Route::get('/users/groups', [AdminController::class, 'groups']);
         Route::get('/users/import-students', [AdminController::class, 'importStudents'])->name('import-students');
         Route::post('/users/import-students', [AdminController::class, 'uploadFile']);
-        Route::get('/users', [HomeController::class, 'users'])->name('users');
+
         Route::get('/users/{id}', [HomeController::class, 'viewUser']);
+
+        // URL for downloading student list template
         Route::get('/download-sample', [UserController::class, 'downloadImportStudentsExample']);
 
         // Used for "/users/import-students" route
@@ -180,58 +184,58 @@ Route::middleware(['auth'])->group(function () {
         });
 
         // ADMIN ROUTE
-        Route::middleware(['admin', 'set.invitation'])->group(function () {
-            // USER ACCOUNTS
-            Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
-            Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
-            Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
-            Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);
-            Route::get('/users/add-panelist', [UserController::class, 'panelistForm'])->name('add-panelist');
-            Route::get('/users/{userId}/edit-user', [UserController::class, 'editUserForm']);
-            Route::post('/users/{userId}/edit-user', [UserController::class, 'editUser']);
-            Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
-            Route::post('/users/invite-users', [UserController::class, 'importFile']);
-            Route::get('/users/groups', [UserController::class, 'groups']);
-            Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
-            Route::get('/users/groups/{id}/edit', [UserController::class, 'editGroupFrom']);
-            Route::post('/users/groups/{id}/edit', [UserController::class, 'editGroup']);
-            Route::post('/get-specializations', [UserController::class, 'getSpecializations']);
+        // Route::middleware(['admin', 'set.invitation'])->group(function () {
+        //     // USER ACCOUNTS
+        //     Route::get('/users/add-student', [UserController::class, 'userForm'])->name('add-student');
+        //     Route::get('/users/add-admin', [UserController::class, 'adminForm'])->name('add-admin');
+        //     Route::post('/users/add-admin', [UserController::class, 'addAdmin']);
+        //     Route::post('/users/add-panelist', [UserController::class, 'addPanelist']);
+        //     Route::get('/users/add-panelist', [UserController::class, 'panelistForm'])->name('add-panelist');
+        //     Route::get('/users/{userId}/edit-user', [UserController::class, 'editUserForm']);
+        //     Route::post('/users/{userId}/edit-user', [UserController::class, 'editUser']);
+        //     Route::get('/users/invite-users', [UserController::class, 'importUsers'])->name('import-users');
+        //     Route::post('/users/invite-users', [UserController::class, 'importFile']);
+        //     Route::get('/users/groups', [UserController::class, 'groups']);
+        //     Route::get('/users/groups/{id}', [UserController::class, 'viewGroup']);
+        //     Route::get('/users/groups/{id}/edit', [UserController::class, 'editGroupFrom']);
+        //     Route::post('/users/groups/{id}/edit', [UserController::class, 'editGroup']);
+        //     Route::post('/get-specializations', [UserController::class, 'getSpecializations']);
 
-            // OFFICERS AND COMMITTEES
-            Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
-            Route::get('/fetch-positions', [ElectionController::class, 'fetchPositions']);
-            Route::post('/add-position', [ElectionController::class, 'addPosition']);
-            Route::post('/delete-position', [ElectionController::class, 'deletePosition']);
-            Route::get('/officers-and-committees/candidates', [ElectionController::class, 'setCandidates'])->name('set-candidates');
-            Route::get('/fetch-candidates', [ElectionController::class, 'fetchCandidates']);
-            Route::get('/search-candidate', [ElectionController::class, 'search']);
-            Route::post('/add-candidate', [ElectionController::class, 'addCandidate']);
-            Route::post('/delete-candidate', [ElectionController::class, 'deleteCandidate']);
-            Route::get('/officers-and-committees/election', [ElectionController::class, 'electionPanel'])->name('election');
-            Route::post('/officers-and-committees/election', [ElectionController::class, 'getElectionResults']);
-            Route::get('/officers-and-committees/election-result', [ElectionController::class, 'electionResults'])->name('election-result');
-            Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
-            Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
-            Route::get('/generate-officers', [ElectionController::class, 'generateOfficers']);
+        //     // OFFICERS AND COMMITTEES
+        //     Route::get('/officers-and-committees/positions', [ElectionController::class, 'setPositions'])->name('set-positions');
+        //     Route::get('/fetch-positions', [ElectionController::class, 'fetchPositions']);
+        //     Route::post('/add-position', [ElectionController::class, 'addPosition']);
+        //     Route::post('/delete-position', [ElectionController::class, 'deletePosition']);
+        //     Route::get('/officers-and-committees/candidates', [ElectionController::class, 'setCandidates'])->name('set-candidates');
+        //     Route::get('/fetch-candidates', [ElectionController::class, 'fetchCandidates']);
+        //     Route::get('/search-candidate', [ElectionController::class, 'search']);
+        //     Route::post('/add-candidate', [ElectionController::class, 'addCandidate']);
+        //     Route::post('/delete-candidate', [ElectionController::class, 'deleteCandidate']);
+        //     Route::get('/officers-and-committees/election', [ElectionController::class, 'electionPanel'])->name('election');
+        //     Route::post('/officers-and-committees/election', [ElectionController::class, 'getElectionResults']);
+        //     Route::get('/officers-and-committees/election-result', [ElectionController::class, 'electionResults'])->name('election-result');
+        //     Route::get('/officers-and-committees/new-election', [ElectionController::class, 'newElectionPanel'])->name('new-election');
+        //     Route::post('/officers-and-committees/new-election', [ElectionController::class, 'getNewElectionResults']);
+        //     Route::get('/generate-officers', [ElectionController::class, 'generateOfficers']);
 
-            // HOME SLIDER
-            Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
-            Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
-            Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
-            Route::get('/slider/delete/{id}', [HomeController::class, 'deleteSlider']);
+        //     // HOME SLIDER
+        //     Route::get('/home/slider', [HomeController::class, 'HomeSlider'])->name('home.slider');
+        //     Route::get('/add/slider', [HomeController::class, 'AddSlider'])->name('add.slider');
+        //     Route::post('/store/slider', [HomeController::class, 'StoreSlider'])->name('store.slider');
+        //     Route::get('/slider/delete/{id}', [HomeController::class, 'deleteSlider']);
 
-            //STREAM LINK
-            Route::get('/home/stream', [HomeController::class, 'HomeStream'])->name('home.stream');
-            Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
-            Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
-            Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
+        //     //STREAM LINK
+        //     Route::get('/home/stream', [HomeController::class, 'HomeStream'])->name('home.stream');
+        //     Route::get('/add/stream', [HomeController::class, 'AddStream'])->name('add.stream');
+        //     Route::post('/store/stream', [HomeController::class, 'StoreStream'])->name('store.stream');
+        //     Route::get('/stream/delete/{id}', [HomeController::class, 'deleteStream']);
 
-            // TICAP EVENTS
-            Route::get('/home/brand', [HomeController::class, 'HomeBrand'])->name('home.brand');
-            Route::get('/add/brand', [HomeController::class, 'AddBrand'])->name('add.brand');
-            Route::post('/store/brand', [HomeController::class, 'StoreBrand'])->name('store.brand');
-            Route::get('/brand/delete/{id}', [HomeController::class, 'deleteBrand']);
-        });
+        //     // TICAP EVENTS
+        //     Route::get('/home/brand', [HomeController::class, 'HomeBrand'])->name('home.brand');
+        //     Route::get('/add/brand', [HomeController::class, 'AddBrand'])->name('add.brand');
+        //     Route::post('/store/brand', [HomeController::class, 'StoreBrand'])->name('store.brand');
+        //     Route::get('/brand/delete/{id}', [HomeController::class, 'deleteBrand']);
+        // });
 
         // EVENTS AND LISTS/TASKS
         Route::middleware(['officer'])->group(function () {
