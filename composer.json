@@ -9,6 +9,7 @@
         "ext-gd": "*",
         "acaronlex/laravel-calendar": "^1.3",
         "barryvdh/laravel-dompdf": "^1.0",
+        "doctrine/dbal": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "google/apiclient": "^2.11",
         "guzzlehttp/guzzle": "^7.0.1",

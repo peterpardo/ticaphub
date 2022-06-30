@@ -17,7 +17,7 @@ class AddAdviserIdOnGroupsTable extends Migration
             $table->foreignId('adviser_id')
                 ->nullable()
                 ->constrained('advisers')
-                ->onDelete('cascade');
+                ->onDelete('set null');
         });
     }
 
