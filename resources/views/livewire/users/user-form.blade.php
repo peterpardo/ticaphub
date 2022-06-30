@@ -2,11 +2,7 @@
 <div>
     @if ($showForm)
         <x-modal>
-            @if ($action == 'update')
-                <x-form.title>Update User</x-form.title>
-            @else
-                <x-form.title>Add User</x-form.title>
-            @endif
+            <x-form.title>Add User</x-form.title>
 
             {{-- Form --}}
             <x-form wire:submit.prevent="saveUser">

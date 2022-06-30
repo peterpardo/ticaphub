@@ -1,7 +1,11 @@
 <div>
     @if ($showForm)
         <x-modal>
-            <x-form.title>Add Group</x-form.title>
+            @if ($action == 'add')
+                <x-form.title>Add Group</x-form.title>
+            @else
+                <x-form.title>Update Group</x-form.title>
+            @endif
 
             <x-form wire:submit.prevent="addGroup">
                 {{-- School --}}

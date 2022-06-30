@@ -14,6 +14,7 @@ class GroupForm extends Component
 {
     public $showForm = false;
     public $action = 'add';
+    public $selectedGroup; // selected group to be updated
 
     public $schools = [];
     public $selectedSchool = 1;
@@ -36,12 +37,25 @@ class GroupForm extends Component
         'selectedAdviser' => 'adviser'
     ];
 
-    protected $listeners = ['showForm'];
+    protected $listeners = ['showForm', 'getGroup'];
 
     public function mount() {
         $this->schools = School::select('id', 'name')->active()->get();
         $this->specializations = Specialization::select('id', 'name')->where('school_id', $this->selectedSchool)->get();
         $this->advisers = Adviser::all(['id', 'name']);
+    }
+
+    public function getGroup($id) {
+        $this->selectedGroup = Group::where('id', $id)->with(['specialization'])->first();
+        $this->selectedId = $this->selectedGroup->id;
+
+        $this->group = $this->selectedGroup->name;
+        $this->selectedSchool = $this->selectedGroup->specialization->school_id;
+        $this->selectedSpecialization = $this->selectedGroup->specialization_id;
+        $this->selectedAdviser = $this->selectedGroup->adviser_id;
+
+        $this->action = 'update';
+        $this->showForm = true;
     }
 
     public function showForm() {
@@ -51,7 +65,7 @@ class GroupForm extends Component
 
     public function closeModal() {
         $this->showForm = false;
-        $this->reset('selectedSchool', 'selectedSpecialization', 'group', 'selectedAdviser');
+        $this->reset('selectedSchool', 'selectedSpecialization', 'group', 'selectedAdviser', 'action', 'selectedGroup');
         $this->resetValidation();
         $this->specializations = Specialization::select('id', 'name')->where('school_id', $this->selectedSchool)->get();
     }
@@ -64,15 +78,31 @@ class GroupForm extends Component
     public function addGroup() {
         $this->validate();
 
-        // Check if group name is unique
+        // Lower case group name
         $formattedName = Str::lower($this->group);
-        $nameExists = Group::where('name', $formattedName)
+        $runGroupNameValidation = true;
+
+        // if action is update, check if validation for group name will be executed
+        if ($this->action === 'update') {
+            $oldGroupName = Str::lower($this->selectedGroup->name);
+
+            // If old name is equal to new name, skip the validation
+            if ($formattedName == $oldGroupName) {
+                $runGroupNameValidation = false;
+            }
+        }
+
+        // Check if group name is unique
+        // Runs by default if action is equal to "add"
+        if ($runGroupNameValidation) {
+            $nameExists = Group::where('name', $formattedName)
             ->where('specialization_id', $this->selectedSpecialization)
             ->exists();
-        if ($nameExists) {
-            $this->addError('group', 'The group name must be unique.');
-            return;
-        };
+            if ($nameExists) {
+                $this->addError('group', 'The group name must be unique.');
+                return;
+            };
+        }
 
         // Check if adviser exists
         $adviser = Adviser::find($this->selectedAdviser);
@@ -81,19 +111,32 @@ class GroupForm extends Component
             return;
         }
 
-        // Create group
-        $group = Group::create([
-            'name' => $this->group,
-            'specialization_id' => $this->selectedSpecialization,
-            'ticap_id' => auth()->user()->ticap_id,
-            'adviser_id' => $this->selectedAdviser,
-        ]);
+        // Check action if "add" or "update"
+        if ($this->action === 'add') {
+            // Create group
+            $group = Group::create([
+                'name' => $this->group,
+                'specialization_id' => $this->selectedSpecialization,
+                'ticap_id' => auth()->user()->ticap_id,
+                'adviser_id' => $this->selectedAdviser,
+            ]);
 
-        // Create a exhibit for this group (to store all the files)
-        GroupExhibit::create([
-            'group_id' => $group->id,
-            'ticap_id' => auth()->user()->ticap_id
-        ]);
+            // Create a exhibit for this group (to store all the files)
+            GroupExhibit::create([
+                'group_id' => $group->id,
+                'ticap_id' => auth()->user()->ticap_id
+            ]);
+        } else {
+            $group = Group::find($this->selectedGroup->id);
+
+            // If group exists, update group details
+            if ($group) {
+                $group->name = $this->group;
+                $group->specialization_id = $this->selectedSpecialization;
+                $group->adviser_id = $this->selectedAdviser;
+                $group->save();
+            }
+        }
 
         // Refresh parent component and return success message
         $this->emit('refreshParent', $this->action);
@@ -102,7 +145,7 @@ class GroupForm extends Component
         $this->showForm = false;
 
         // Reset input fields
-        $this->reset('selectedSchool', 'selectedSpecialization', 'group', 'selectedAdviser');
+        $this->reset('selectedSchool', 'selectedSpecialization', 'group', 'selectedAdviser', 'action');
         $this->resetValidation();
     }
 

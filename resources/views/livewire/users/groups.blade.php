@@ -58,7 +58,7 @@
                     <x-table.tdata-actions>
 
                         <x-table.delete-btn wire:click="selectItem({{ $group->id }})"/>
-                        <x-table.edit-btn type="button"/>
+                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('users.group-form', 'getGroup', {{ $group->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty
