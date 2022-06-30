@@ -73,8 +73,11 @@
                     <x-table.tdata-actions>
                         {{-- Don't allow edit and delete the superadmin --}}
                         @if(!$user->hasRole('superadmin'))
-                            <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
-                            <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                            {{-- Don't allow admin to delete/edit admin accounts --}}
+                            @if (auth()->user()->hasRole('superadmin') || (auth()->user()->hasRole('admin') && !$user->hasRole('admin')))
+                                <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
+                                <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                            @endif
                         @endif
                     </x-table.tdata-actions>
                 </tr>
