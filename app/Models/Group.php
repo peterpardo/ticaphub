@@ -18,7 +18,6 @@ class Group extends Model
         'adviser_email',
         'adviser_id'
     ];
-    protected $withCount = ['userSpecializations'];
 
     public function adviser() {
         return $this->belongsTo(Adviser::class, 'adviser_id', 'id');

@@ -8,7 +8,7 @@
     @endif
 
     {{-- Add group --}}
-    <x-app.button color='green' class="mb-2">
+    <x-app.button color='green' class="mb-2" wire:click.prevent="$emitTo('users.group-form', 'showForm')">
         <i class="fa-solid fa-user-group mr-1"></i>
         Add Group
     </x-app.button>
@@ -68,4 +68,8 @@
             {{ $groups->links() }}
         </x-slot>
     </x-table>
+
+    {{-- Modals --}}
+    {{-- Add group modal --}}
+    @livewire('users.group-form')
 </div>
