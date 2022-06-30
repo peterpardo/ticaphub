@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Users;
 
 use App\Models\Group;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 

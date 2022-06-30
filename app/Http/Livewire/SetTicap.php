@@ -37,7 +37,7 @@ class SetTicap extends Component
         ]);
 
         // Get admins
-        $admins = User::role('superadmin')->get();
+        $admins = User::role(['superadmin', 'admin'])->get();
 
         // Set ticap id of admins
         foreach($admins as $admin) {
