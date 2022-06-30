@@ -46,6 +46,7 @@ class GroupForm extends Component
 
     public function showForm() {
         $this->showForm = true;
+        $this->emitUp('refreshParent');
     }
 
     public function closeModal() {

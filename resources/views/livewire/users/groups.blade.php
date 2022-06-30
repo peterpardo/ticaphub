@@ -1,4 +1,6 @@
-<div>
+<div x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer,
+}">
     {{-- Navigation --}}
     @include('users.navlinks')
 
@@ -55,7 +57,7 @@
                     </x-table.tdata>
                     <x-table.tdata-actions>
 
-                        <x-table.delete-btn/>
+                        <x-table.delete-btn wire:click="selectItem({{ $group->id }})"/>
                         <x-table.edit-btn type="button"/>
                     </x-table.tdata-actions>
                 </tr>
@@ -70,6 +72,19 @@
     </x-table>
 
     {{-- Modals --}}
-    {{-- Add group modal --}}
+    {{-- Add group --}}
     @livewire('users.group-form')
+
+    {{-- Delete group --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal>
+            <x-modal.title>Delete Group</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the group. You will need to manually assign a new group for each member of this deleted group.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete group.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>

@@ -11,6 +11,8 @@ class Groups extends Component
     use WithPagination;
 
     public $isActive = 'groups';
+    public $showDeleteModal = false;
+    public $selectedGroup;
 
     protected $listeners = ['refreshParent'];
 
@@ -22,6 +24,34 @@ class Groups extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'Group successfully updated');
         }
+    }
+
+    public function selectItem($id) {
+        $this->selectedGroup = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeModal() {
+        $this->showDeleteModal = false;
+    }
+
+    public function deleteItem() {
+        $deletedGroup = Group::destroy($this->selectedGroup);
+
+        // Reset properties to default value
+        $this->reset('selectedGroup');
+
+        // Check if the group is successfully deleted
+        if ($deletedGroup >= 1) {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Group successfully deleted');
+        } else {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Try reloading the page.');
+        }
+
+        // Close Modal
+        $this->showDeleteModal = false;
     }
 
     public function render()
