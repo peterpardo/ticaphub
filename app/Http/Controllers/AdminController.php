@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\GroupExhibit;
 use App\Models\School;
 use App\Models\Specialization;
+use App\Models\Ticap;
 use App\Models\User;
 use App\Models\UserElection;
 use Illuminate\Http\Request;
@@ -19,8 +20,30 @@ use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
+    public function users() {
+        $ticap = Ticap::find(auth()->user()->ticap_id);
+
+        // Check if ticap settings has not yet been set
+        if (!$ticap->invitation_is_set) {
+            return view('user-accounts.set-schools');
+        } else {
+            return view('users');
+        }
+    }
+
+    public function viewUser($id) {
+        $user = User::find($id);
+        return view('users.view-user', [
+            'user' => $user,
+        ]);
+    }
+
     public function importStudents() {
         return view('users.import-students');
+    }
+
+    public function downloadImportStudentsExample() {
+        return response()->download(public_path('student-list-template.csv'));
     }
 
     public function uploadFile(Request $request) {

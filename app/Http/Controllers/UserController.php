@@ -67,34 +67,8 @@ class UserController extends Controller
         return redirect()->route('login')->with('status', 'Password has been saved');
     }
 
-    public function downloadImportStudentsExample() {
-        return response()->download(public_path('student-list-template.csv'));
-    }
-
     public function viewProfile()
     {
         return view('view-profile');
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-        ]);
-
-        $user = User::find(Auth::user()->id);
-        $user->first_name = $request->first_name;
-        if ($request->middle_name != " ") {
-            dd('sop');
-            $request->validate([
-                'middle_name' => 'string',
-            ]);
-            $user->middle_name = $request->middle_name;
-        }
-        $user->last_name = $request->last_name;
-        $user->save();
-
-        return Redirect()->back()->with('success', 'User Profile is updated sucessfully!');
     }
 }

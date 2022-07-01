@@ -41,24 +41,6 @@ class HomeController extends Controller
         }
     }
 
-    public function users() {
-        $ticap = Ticap::find(Auth::user()->ticap_id);
-
-        // Check if ticap settings has not yet been set
-        if (!$ticap->invitation_is_set) {
-            return view('user-accounts.set-schools');
-        } else {
-            return view('users');
-        }
-    }
-
-    public function viewUser($id) {
-        $user = User::find($id);
-        return view('users.view-user', [
-            'user' => $user,
-        ]);
-    }
-
     public function officers() {
         $title = 'Officers and Committees';
         $ticap = Ticap::find(Auth::user()->ticap_id);

@@ -82,22 +82,21 @@ Route::middleware(['auth'])->group(function () {
     // SET TICAP NAME
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
 
-    // VIEW USER PROFILE
-    Route::get('/users/view-profile', [UserController::class, 'viewProfile'])->name('view-profile');
-    // Route::post('/users/view-profile', [UserController::class, 'updateProfile'])->name('update.user.profile');
+    // VIEW PROFILE
+    Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('view-profile');
 
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
-        Route::get('/users', [HomeController::class, 'users'])->name('users');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/users/groups', [AdminController::class, 'groups']);
         Route::get('/users/project-advisers', [AdminController::class, 'projectAdvisers']);
         Route::get('/users/import-students', [AdminController::class, 'importStudents'])->name('import-students');
         Route::post('/users/import-students', [AdminController::class, 'uploadFile']);
 
-        Route::get('/users/{id}', [HomeController::class, 'viewUser']);
+        Route::get('/users/{id}', [AdminController::class, 'viewUser']);
 
         // URL for downloading student list template
-        Route::get('/download-sample', [UserController::class, 'downloadImportStudentsExample']);
+        Route::get('/download-sample', [AdminController::class, 'downloadImportStudentsExample']);
 
         // Used for "/users/import-students" route
         Route::get('/get-schools', [AdminController::class, 'getSchools']);
