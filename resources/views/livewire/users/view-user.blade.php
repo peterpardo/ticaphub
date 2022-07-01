@@ -13,8 +13,7 @@
 
     <x-form wire:submit.prevent="updateUser">
         <div
-        class="flex flex-col items-center gap-y-2
-        lg:flex-row lg:items-start">
+        class="flex flex-col items-center gap-y-2 pb-5 border-b-2 border-gray-300 lg:flex-row lg:items-start">
             <div class="flex-1 w-40">
                 <img class="w-40 mx-auto rounded-full"
                 src="{{ is_null($user->profile_picture) ? url(asset('assets/default-img.png')) : Storage::url($user->profile_picture)}}"
@@ -25,11 +24,11 @@
                 <p class="font-bold">{{ $user->fullname }}</p>
                 <p class="text-gray-400">{{ $user->email }}</p>
                 @if ($user->getRoleNames()->first() === 'student')
-                    <span class="bg-indigo-500 text-white rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
+                    <span class="bg-indigo-100 text-indigo-400 rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
                 @elseif ($user->getRoleNames()->first() === 'panelist')
-                    <span class="bg-yellow-500 text-white rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
+                    <span class="bg-yellow-100 text-yellow-400 rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
                 @else
-                    <span class="bg-blue-500 text-white rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
+                    <span class="bg-blue-100 text-blue-400 rounded-lg inline-block px-2 py-1 text-sm">{{ $user->getRoleNames()->first() }}</span>
                 @endif
             </div>
         </div>

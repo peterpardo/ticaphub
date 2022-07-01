@@ -1,4 +1,6 @@
 <div class="space-y-5 w-full max-w-screen-sm mx-auto">
+    {{-- {{ dd(Storage::url($user->profile_picture)) }} --}}
+
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
@@ -15,18 +17,43 @@
 
     <x-form wire:submit.prevent="updateProfile">
         <div
-        class="flex flex-col items-center gap-y-2
+        class="flex flex-col items-center gap-y-2 pb-5 border-b-2 border-gray-300
         lg:flex-row lg:items-start">
             {{-- Profile image --}}
-            <div class="flex-1 w-40">
-                <img class="w-40 mx-auto rounded-full mb-3"
-                src="{{ is_null($user->profile_picture) ? url(asset('assets/default-img.png')) : Storage::url($user->profile_picture)}}"
-                alt="profile_picture" />
+            <div class="flex-1 w-40 space-y-2">
+                {{-- Preview image --}}
+                @if ($image && ($image->getClientOriginalExtension() === 'jpg' || $image->getClientOriginalExtension() === 'png' || $image->getClientOriginalExtension() === 'jpeg'))
+                    <div class="w-40 h-40 mx-auto rounded-full overflow-hidden object-cover">
+                        <img
+                            class="w-full"
+                            src="{{ $image->temporaryUrl() }}"
+                            alt="profile_picture" />
+                    </div>
+                @else
+                    <div class="w-40 h-40 mx-auto rounded-full overflow-hidden object-cover">
+                        {{-- Check if user has a profile picture --}}
+                        <img
+                            class="w-full"
+                            @if (is_null($user->profile_picture))
+                                src="{{ url(asset('assets/default-img.png')) }}"
+                            @else
+                                src="{{ url(asset($user->profile_picture)) }}"
+                            @endif
+                            alt="profile_picture"
+                            loading="lazy" />
+                    </div>
+                @endif
 
                 {{-- File input --}}
-                <label for="uploadFile" class="block text-center text-sm">
-                    <input type="file" id="uploadFile" class="hidden">
+                <label for="image" class="flex flex-col gap-y-2 items-center text-center text-sm">
+                    {{-- Spinner --}}
+                    <x-spinner wire:loading.flex wire:target="image">Updating...</x-spinner>
+
+                    <input type="file" wire:model="image" id="image" class="hidden" accept="image/*">
                     <span class="border bg-gray-100 rounded px-2 py-1 text-gray-400 cursor-pointer hover:bg-gray-200">Update profile picture</span>
+                    @error('image')
+                        <x-form.error>{{ $message }}</x-form.error>
+                    @enderror
                 </label>
             </div>
 
