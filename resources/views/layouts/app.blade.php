@@ -44,7 +44,7 @@
 </head>
 
 <body>
-    <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
+    <div class="overflow-x-hidden antialiased bg-white text-black">
         {{-- Header --}}
         @include('layouts.navbar')
 
@@ -52,13 +52,8 @@
         @include('layouts.sidebar')
 
         {{-- Main Container --}}
-        <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 md:ml-64">
-            <div {{ $attributes->merge(['class' => 'py-4 pl-6 pr-4']) }}>
-                {{-- Alert --}}
-                @if (session('status'))
-                    <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
-                @endif
-
+        <div class="h-full ml-14 mt-14 mb-10 transition-all duration-300 lg:ml-64">
+            <div {{ $attributes->merge(['class' => 'p-5']) }}>
                 {{-- Content --}}
                 {{ $slot }}
             </div>
@@ -68,7 +63,7 @@
     {{-- Scripts --}}
     @stack('scripts')
     {{-- Livewire Scripts --}}
-    {{-- @livewireScripts --}}
+    @livewireScripts
 </body>
 
 </html>

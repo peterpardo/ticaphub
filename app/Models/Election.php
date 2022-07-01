@@ -14,7 +14,7 @@ class Election extends Model
         'specialization_id',
         'ticap_id'
     ];
-    
+
     public function officers() {
         return $this->hasMany(Officer::class, 'election_id', 'id');
     }
@@ -22,9 +22,12 @@ class Election extends Model
         return $this->hasMany(Candidate::class, 'election_id', 'id');
     }
     public function specialization() {
-        return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
+        return $this->hasMany(Specialization::class, 'election_id', 'id');
     }
     public function userElections() {
         return $this->hasMany(UserElection::class, 'election_id', 'id');
+    }
+    public function ticap() {
+        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
     }
 }

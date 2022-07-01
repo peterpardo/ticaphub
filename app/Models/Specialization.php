@@ -13,11 +13,12 @@ class Specialization extends Model
 
     protected $fillable = [
         'name',
+        'election_id',
         'school_id',
     ];
 
     public function election() {
-        return $this->hasOne(Election::class, 'specialization_id', 'id');
+        return $this->belongsTo(Election::class, 'election_id', 'id');
     }
     public function groups() {
         return $this->hasMany(Group::class, 'specialization_id', 'id');
@@ -45,5 +46,5 @@ class Specialization extends Model
     }
     public function attendance() {
         return $this->hasMany(Attendance::class, 'specialization_id', 'id');
-    } 
+    }
 }

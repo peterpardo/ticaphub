@@ -22,7 +22,7 @@ class EnsureTicapIsSet
         $user = User::find(Auth::user()->id);
 
         // check if user is admin and ticap is null or not set
-        if ($user->hasRole('admin') && is_null($user->ticap_id)) {
+        if ($user->hasRole('superadmin') && is_null($user->ticap_id)) {
             $request->session()->flash('status', 'red');
             $request->session()->flash('message', 'Set TICaP first');
             return redirect()->route('dashboard');

@@ -4,7 +4,7 @@
 {{ $details['body'] }}
 
 @component('mail::button', ['url' => $details['link']])
-Register
+Confirm Email
 @endcomponent
 
 Thanks,<br>

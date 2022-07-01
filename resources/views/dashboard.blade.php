@@ -1,10 +1,15 @@
 <x-app-layout title="Dashboard">
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
+
     {{-- Ticap name --}}
-    <h1 class="text-center font-bold text-3xl">{{ $ticap }}</h1>
+    <h1 class="font-bold text-3xl tracking-wide mb-5">{{ $ticap }}</h1>
 
     {{-- Report Cards (admin) --}}
-    @role('admin')
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
+    @hasanyrole('superadmin|admin')
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {{-- Student Card --}}
             <x-dashboard.report-card name="students" count="{{ $students }}">
                 {{-- Card Icon --}}

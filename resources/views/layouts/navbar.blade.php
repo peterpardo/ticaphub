@@ -1,6 +1,6 @@
 <div class="fixed top-0 left-0 w-screen flex items-center bg-white filter drop-shadow-md h-14 z-10 px-5">
     <div class="ml-auto flex w-full justify-between items-center">
-        <h1 class="ml-14 font-bold text-md sm:text-2xl md:text-3xl transition-all duration-300 md:ml-64">{{ $title }}</h1>
+        <h1 class="ml-14 font-bold text-md sm:text-2xl lg:text-2xl transition-all duration-300 lg:ml-64">{{ $title }}</h1>
 
         <div class="relative block" x-data="{ open: false }">
             <!-- Dropdown toggle button -->
@@ -15,16 +15,16 @@
             <div x-cloak x-show="open" @click.outside="open = false" class="absolute top-9 right-0 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl dark:bg-gray-800">
                 {{-- User Image and Name --}}
                 <div class="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <img
-                        class="flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9"
-                        src="
-                            @if (is_null(Auth::user()->profile_picture))
-                                {{ url(asset('assets/default-img.png')) }}
+                    <div class="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden mx-1">
+                        <img
+                            class="object-cover w-full"
+                            @if (is_null(auth()->user()->profile_picture))
+                                src="{{ url(asset('assets/default-img.png')) }}"
                             @else
-                                {{ Storage::url(Auth::user()->profile_picture) }}
+                                src="{{ url(asset(auth()->user()->profile_picture)) }}"
                             @endif
-                        "
-                        alt="user_avatar">
+                            alt="user_avatar">
+                    </div>
                     <div class="mx-1">
                         <h1 class="text-sm font-semibold text-gray-700 dark:text-gray-200">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h1>
                         <p class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</p>
@@ -34,7 +34,7 @@
                 <hr class="border-gray-200 dark:border-gray-700 ">
 
                 {{-- View/Manage Profile --}}
-                <a href="{{ route('profile.update') }}" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                <a href="{{ route('view-profile') }}" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                     view profile
                 </a>
 

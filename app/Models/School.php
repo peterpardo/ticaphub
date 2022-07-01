@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class School extends Model
 {
@@ -29,5 +30,13 @@ class School extends Model
     }
     public function awards(){
         return $this->hasMany(Award::class, 'school_id', 'id');
+    }
+
+    public function getSlugNameAttribute() {
+        return Str::of($this->name)->slug('-');
+    }
+
+    public function scopeActive($query) {
+        return $query->where('is_involved', 1);
     }
 }

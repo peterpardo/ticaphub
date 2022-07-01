@@ -34,81 +34,11 @@ class HomeController extends Controller
                 'ticap' => $ticap,
                 'students' => User::role('student')->count(),
                 'panelists' => User::role('panelist')->count(),
-                'officers' => User::role('officer')->count(),
+                'officers' => User::permission('access manage events')->count(),
                 'admins' => User::role('admin')->count(),
                 'events' => Event::all(),
             ]);
         }
-    }
-
-    public function addTicap(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'ticap' => 'required|unique:ticaps,name|max:20'
-        ]);
-
-        // Return error response
-        if($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ]);
-        }
-
-        // Create ticap
-        $ticap = Ticap::create([
-            'name' => Str::upper($request->input('ticap')),
-        ]);
-
-        // Get admins
-        $admins = User::role('admin')->get();
-
-        // Set ticap id of admins
-        foreach($admins as $admin) {
-            $admin->ticap_id = $ticap->id;
-            $admin->save();
-        }
-
-        // Set ticap id of default events
-        foreach(Event::all() as $event) {
-            $event->ticap_id = $ticap->id;
-            $event->save();
-        }
-
-        // Set flash data
-        $request->session()->flash('status', 'green');
-        $request->session()->flash('message', 'Welcome to TICAPHUB! TICAP has been set.');
-
-        return response()->json([
-            'success' => route('dashboard')
-        ]);
-    }
-
-    public function users() {
-        $ticap = Ticap::find(Auth::user()->ticap_id);
-
-        // Check if ticap settings has not yet been set
-        if (!$ticap->invitation_is_set) {
-            return view('user-accounts.set-invitation');
-        } else {
-            $title = 'User Accounts';
-            $scripts = [
-                asset('js/useraccounts/users.js')
-            ];
-
-            return view('user-accounts.users', [
-                'title' => $title,
-                'scripts' => $scripts,
-            ]);
-        }
-    }
-
-    public function getSchools() {
-        $schools = School::with(['specializations'])->get();
-
-        return response()->json($schools);
-    }
-
-    public function updateSchoolStatus(Request $request) {
-        dd($request->all());
     }
 
     public function officers() {

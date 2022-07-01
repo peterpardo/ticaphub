@@ -1,5 +1,10 @@
 <div>
     <div x-data="{ isOpen: false }" class="flex justify-end">
+         {{-- Alert --}}
+        @if (session('status'))
+            <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+        @endif
+
         <div class="inline-block">
             <!-- Dropdown toggle button -->
             <button @click.prevent="isOpen = !isOpen" @click.away="isOpen = false" class="flex items-center z-10 p-2 text-gray-700 bg-white border border-transparent rounded-md dark:text-white focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:bg-gray-800 focus:outline-none">

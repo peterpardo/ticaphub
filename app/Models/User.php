@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -43,9 +44,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     public function userElection() {
         return $this->hasOne(UserElection::class, 'user_id', 'id');
@@ -85,14 +86,6 @@ class User extends Authenticatable
     public function activities() {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
-    public function scopeSearch($query, $term) {
-        $term  = "%$term%";
-        $query->where(function($query) use ($term){
-            $query->where('first_name', 'LIKE', $term)
-                ->orWhere('middle_name', 'LIKE', $term)
-                ->orWhere('last_name', 'LIKE', $term);
-        });
-    }
     public function committee() {
         return $this->hasOne(Committee::class, 'user_id', 'id');
     }
@@ -115,5 +108,37 @@ class User extends Authenticatable
     }
     public function schedules() {
         return $this->belongsToMany(Schedule::class, 'user_schedule', 'user_id', 'schedule_id');
+    }
+
+    public function scopeSearch($query, $term) {
+        $term  = "%$term%";
+        $query->where(function($query) use ($term){
+            $query->where(DB::raw("CONCAT(first_name, ' ', middle_name, ' ', last_name)"), 'LIKE', $term)
+                ->orWhere(DB::raw("CONCAT(first_name, ' ', last_name)"), 'LIKE', $term);
+        });
+    }
+
+    public function getFirstNameAttribute($value) {
+        return ucwords($value);
+    }
+
+    public function getMiddleNameAttribute($value) {
+        return ucwords($value);
+    }
+
+    public function getLastNameAttribute($value) {
+        return ucwords($value);
+    }
+
+    public function getFullnameAttribute() {
+        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
+    }
+
+    public function getStatusAttribute() {
+        return $this->email_verified === 'verified' ? 'green' : 'red';
+    }
+
+    public function getEmailVerifiedAttribute($value) {
+        return $value ? 'verified' : 'not verified';
     }
 }
