@@ -22,11 +22,11 @@
             {{-- Profile image --}}
             <div class="flex-1 w-40 space-y-2">
                 {{-- Preview image --}}
-                @if ($image && ($image->getClientOriginalExtension() === 'jpg' || $image->getClientOriginalExtension() === 'png' || $image->getClientOriginalExtension() === 'jpeg'))
+                @if ($profilePicture && ($profilePicture->getClientOriginalExtension() === 'jpg' || $profilePicture->getClientOriginalExtension() === 'png' || $profilePicture->getClientOriginalExtension() === 'jpeg'))
                     <div class="w-40 h-40 mx-auto rounded-full overflow-hidden object-cover">
                         <img
                             class="w-full"
-                            src="{{ $image->temporaryUrl() }}"
+                            src="{{ $profilePicture->temporaryUrl() }}"
                             alt="profile_picture" />
                     </div>
                 @else
@@ -45,13 +45,13 @@
                 @endif
 
                 {{-- File input --}}
-                <label for="image" class="flex flex-col gap-y-2 items-center text-center text-sm">
+                <label for="profilePicture" class="flex flex-col gap-y-2 items-center text-center text-sm">
                     {{-- Spinner --}}
-                    <x-spinner wire:loading.flex wire:target="image">Updating...</x-spinner>
+                    <x-spinner wire:loading.flex wire:target="profilePicture">Updating...</x-spinner>
 
-                    <input type="file" wire:model="image" id="image" class="hidden" accept="image/*">
+                    <input type="file" wire:model="profilePicture" id="profilePicture" class="hidden" accept="image/*">
                     <span class="border bg-gray-100 rounded px-2 py-1 text-gray-400 cursor-pointer hover:bg-gray-200">Update profile picture</span>
-                    @error('image')
+                    @error('profilePicture')
                         <x-form.error>{{ $message }}</x-form.error>
                     @enderror
                 </label>

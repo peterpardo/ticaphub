@@ -15,13 +15,13 @@ class ViewProfile extends Component
     public $fname;
     public $mname;
     public $lname;
-    public $image;
+    public $profilePicture;
 
     public $rules = [
         'fname' => 'required|max:30',
         'mname' => 'nullable|string|max:30',
         'lname' => 'required|max:30',
-        'image' => 'image'
+        'profilePicture' => 'nullable|image'
     ];
 
     protected $validationAttributes = [
@@ -30,10 +30,10 @@ class ViewProfile extends Component
         'lname' => 'last name',
     ];
 
-    public function updatedImage()
+    public function updatedProfilePicture()
     {
         $this->validate([
-            'image' => 'image'
+            'profilePicture' => 'nullable|image'
         ]);
     }
 
@@ -47,14 +47,14 @@ class ViewProfile extends Component
         $this->validate();
 
         // Check if user changed profile picture
-        if ($this->image) {
+        if ($this->profilePicture) {
             // Delete old profile picture
             if (!is_null($this->user->profile_picture)) {
                 Storage::delete($this->user->profile_picture);
             }
 
             // Update profile image
-            $this->user->profile_picture = $this->image->store('profile-pictures');
+            $this->user->profile_picture = $this->profilePicture->store('profile-pictures');
         }
 
         // Update profile
@@ -68,7 +68,7 @@ class ViewProfile extends Component
 
         // Reset input validations
         $this->resetValidation();
-        $this->reset('image');
+        $this->reset('profilePicture');
     }
 
     public function render()
