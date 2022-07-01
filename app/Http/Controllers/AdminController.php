@@ -43,7 +43,7 @@ class AdminController extends Controller
     }
 
     public function downloadImportStudentsExample() {
-        return response()->download(public_path('student-list-template.csv'));
+        return response()->download(public_path('assets/student-list-template.csv'));
     }
 
     public function uploadFile(Request $request) {

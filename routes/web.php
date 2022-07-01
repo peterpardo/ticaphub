@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     // VIEW PROFILE
     Route::get('/view-profile', [UserController::class, 'viewProfile'])->name('view-profile');
 
-    Route::middleware(['set.ticap'])->group(function () {
+    Route::middleware(['set.ticap', 'admin'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/users/groups', [AdminController::class, 'groups']);
