@@ -12,6 +12,13 @@
 
         <h1 class="text-2xl font-bold pb-2 border-b-2 border-gray-300">Import Students</h1>
 
+        {{-- Note --}}
+        <x-info-box color="yellow">
+            <br/>
+           - In case a <strong>student requests to change their email address</strong> <span class="italic">and</span> <strong>the email is not yet verified</strong>, delete the current account of the student and manually add the student in the Users > Add User button. <br/>
+           - In case <strong>some users didn't receive their invitation emails</strong> a few hours after the uploading of the file, delete the current account of the student and manually add the student in the Users > Add User button.
+        </x-info-box>
+
         {{-- Form --}}
         <x-form method="POST" action="{{ route('import-students') }}" enctype="multipart/form-data">
             @csrf

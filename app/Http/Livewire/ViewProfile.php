@@ -69,6 +69,8 @@ class ViewProfile extends Component
         // Reset input validations
         $this->resetValidation();
         $this->reset('profilePicture');
+
+        return redirect()->route('view-profile');
     }
 
     public function render()

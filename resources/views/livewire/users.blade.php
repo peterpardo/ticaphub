@@ -52,9 +52,14 @@
                 <tr>
                     <x-table.tdata>
                         <div class="flex items-center">
-                            <div class="flex-shrink-0 w-10 h-10">
-                                <img class="w-full h-full rounded-full"
-                                    src="{{ is_null($user->profile_picture) ? url(asset('assets/default-img.png')) : Storage::url($user->profile_picture)}}"
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
+                                <img
+                                    class="w-full object-cover"
+                                    @if (is_null($user->profile_picture))
+                                        src="{{ url(asset('assets/default-img.png')) }}"
+                                    @else
+                                        src="{{ url(asset($user->profile_picture)) }}"
+                                    @endif
                                     alt="profile_picture" />
                             </div>
                             <div class="ml-3">
