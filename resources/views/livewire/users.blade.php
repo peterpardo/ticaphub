@@ -15,17 +15,27 @@
         You can manually add users by clicking the <span class="font-bold">Add User</span> button below. You can also add multiple students at once by clicking the <span class="font-bold">Import Students</span> button. Keep in mind that students with unverified emails <span class="font-bold">can't be nominated as officers</span> or <span class="font-bold">vote</span> in their respective election of officers.
     </x-info-box>
 
-    {{-- Add user --}}
-    <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')" class="mb-2 sm:mb-0">
-        <i class="fa-solid fa-user-plus mr-1"></i>
-        Add User
-    </x-app.button>
+    <div class="flex flex-col-reverse gap-y-2 lg:flex-row lg:justify-between lg:items-center">
+        {{-- Search box --}}
+        <div class="max-w-96">
+            <x-form.input wire:model="search" placeholder="Search name..."/>
+        </div>
 
-    {{-- Import students --}}
-    <x-app.button type="link" href="{{ route('import-students') }}" color='indigo' >
-        <i class="fa-solid fa-file-import mr-1"></i>
-        Import Students
-    </x-app.button>
+        <div>
+            {{-- Add user --}}
+            <x-app.button color='green' wire:click="$emitTo('users.user-form', 'showForm')" class="mb-2 sm:mb-0">
+                <i class="fa-solid fa-user-plus mr-1"></i>
+                Add User
+            </x-app.button>
+
+            {{-- Import students --}}
+            <x-app.button type="link" href="{{ route('import-students') }}" color='indigo' >
+                <i class="fa-solid fa-file-import mr-1"></i>
+                Import Students
+            </x-app.button>
+        </div>
+    </div>
+
 
     {{-- User table --}}
     <x-table>

@@ -17,6 +17,7 @@ class Users extends Component
     public $showDeleteModal = false;
 
     public $selectedUser;
+    public $search = '';
 
     protected $listeners = ['refreshParent'];
 
@@ -95,7 +96,7 @@ class Users extends Component
     public function render()
     {
         return view('livewire.users', [
-            'users' => User::orderBy('id')->paginate(5)
+            'users' => User::search($this->search)->orderBy('id')->paginate(5)
         ]);
     }
 }
