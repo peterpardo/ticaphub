@@ -44,10 +44,10 @@ class ViewUser extends Component
     ];
 
     public $userRuleAttributes = [
-        'email' => 'Email',
-        'fname' => 'First Name',
-        'mname' => 'Middle Name',
-        'lname' => 'Last Name',
+        'email' => 'email',
+        'fname' => 'first Name',
+        'mname' => 'middle Name',
+        'lname' => 'last Name',
     ];
 
     public $studentRuleAttributes = [

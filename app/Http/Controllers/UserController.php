@@ -69,7 +69,7 @@ class UserController extends Controller
 
     public function viewProfile()
     {
-        $user = User::find(auth()->user()->id);
+        $user = User::where('id', auth()->user()->id)->with(['userSpecialization', 'userSpecialization.specialization', 'userSpecialization.specialization.school', 'userSpecialization.group'])->first();
 
         return view('view-profile', [
             'user' => $user
