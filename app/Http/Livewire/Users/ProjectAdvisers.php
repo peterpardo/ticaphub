@@ -13,6 +13,7 @@ class ProjectAdvisers extends Component
     public $isActive = 'advisers';
     public $showDeleteModal = false;
     public $selectedAdviser;
+    public $search = '';
 
     protected $listeners = ['refreshParent'];
 
@@ -57,7 +58,7 @@ class ProjectAdvisers extends Component
     public function render()
     {
         return view('livewire.users.project-advisers', [
-            'advisers' => Adviser::paginate(5),
+            'advisers' => Adviser::search($this->search)->paginate(5),
         ]);
     }
 }

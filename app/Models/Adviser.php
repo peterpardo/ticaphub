@@ -23,4 +23,10 @@ class Adviser extends Model
         return ucwords($value);
     }
 
+    public function scopeSearch($query, $term) {
+        $term  = "%$term%";
+        $query->where(function($query) use ($term){
+            $query->where('name', 'LIKE', $term);
+        });
+    }
 }

@@ -14,11 +14,18 @@
         You can add advisers here by clicking the <span class="font-bold">Add Adviser</span> button below.
     </x-info-box>
 
-    {{-- Add adviser --}}
-    <x-app.button color='green' wire:click.prevent="$emitTo('users.project-adviser-form', 'showForm')">
-        <i class="fa-solid fa-user-plus mr-1"></i>
-        Add Adviser
-    </x-app.button>
+    <div class="flex flex-col-reverse gap-y-2 lg:flex-row lg:justify-between lg:items-center">
+        {{-- Search box --}}
+        <div class="max-w-96">
+            <x-form.input wire:model="search" placeholder="Search group..."/>
+        </div>
+
+        {{-- Add adviser --}}
+        <x-app.button color='green' wire:click.prevent="$emitTo('users.project-adviser-form', 'showForm')">
+            <i class="fa-solid fa-user-plus mr-1"></i>
+            Add Adviser
+        </x-app.button>
+    </div>
 
      {{-- Advisers table --}}
      <x-table>

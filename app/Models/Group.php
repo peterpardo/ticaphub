@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Group extends Model
 {
@@ -64,5 +65,12 @@ class Group extends Model
     }
     public function individualCandidates() {
         return $this->hasMany(IndividualAwardCandidate::class, 'group_id', 'id');
+    }
+
+    public function scopeSearch($query, $term) {
+        $term  = "%$term%";
+        $query->where(function($query) use ($term){
+            $query->where('name', 'LIKE', $term);
+        });
     }
 }

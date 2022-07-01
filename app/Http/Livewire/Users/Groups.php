@@ -14,6 +14,7 @@ class Groups extends Component
     public $isActive = 'groups';
     public $showDeleteModal = false;
     public $selectedGroup;
+    public $search = '';
 
     protected $listeners = ['refreshParent'];
 
@@ -58,7 +59,7 @@ class Groups extends Component
     public function render()
     {
         return view('livewire.users.groups', [
-            'groups' => Group::select('id', 'name', 'specialization_id', 'adviser_id')->withCount('userSpecializations')->with(['adviser', 'specialization', 'specialization.school'])->paginate(5)
+            'groups' => Group::select('id', 'name', 'specialization_id', 'adviser_id')->search($this->search)->withCount('userSpecializations')->with(['adviser', 'specialization', 'specialization.school'])->paginate(5)
         ]);
     }
 }

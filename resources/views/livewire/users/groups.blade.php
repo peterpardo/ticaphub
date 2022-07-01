@@ -14,11 +14,19 @@
         You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must have <strong>an adviser</strong> and <span class="font-bold">atleast have 1 member</span> to be able to created awards for the TICaP.
     </x-info-box>
 
-    {{-- Add group --}}
-    <x-app.button color='green' wire:click.prevent="$emitTo('users.group-form', 'showForm')">
-        <i class="fa-solid fa-user-plus mr-1"></i>
-        Add Group
-    </x-app.button>
+    <div class="flex flex-col-reverse gap-y-2 lg:flex-row lg:justify-between lg:items-center">
+        {{-- Search box --}}
+        <div class="max-w-96">
+            <x-form.input wire:model="search" placeholder="Search group..."/>
+        </div>
+
+        {{-- Add group --}}
+        <x-app.button color='green' wire:click.prevent="$emitTo('users.group-form', 'showForm')">
+            <i class="fa-solid fa-user-plus mr-1"></i>
+            Add Group
+        </x-app.button>
+    </div>
+
 
     {{-- Groups table --}}
     <x-table>
