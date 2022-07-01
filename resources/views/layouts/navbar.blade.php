@@ -34,7 +34,7 @@
                 <hr class="border-gray-200 dark:border-gray-700 ">
 
                 {{-- View/Manage Profile --}}
-                <a href="{{ route('profile.update') }}" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                <a href="{{ route('view-profile') }}" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                     view profile
                 </a>
 

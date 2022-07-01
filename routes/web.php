@@ -82,6 +82,10 @@ Route::middleware(['auth'])->group(function () {
     // SET TICAP NAME
     Route::post('/set-ticap', [HomeController::class, 'addTicap']);
 
+    // VIEW USER PROFILE
+    Route::get('/users/view-profile', [UserController::class, 'viewProfile'])->name('view-profile');
+    // Route::post('/users/view-profile', [UserController::class, 'updateProfile'])->name('update.user.profile');
+
     Route::middleware(['set.ticap'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [HomeController::class, 'users'])->name('users');
@@ -109,10 +113,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
 
 
-
-    // MANAGE USER PROFILE
-    Route::get('/users/profile', [UserController::class, 'editProfile'])->name('profile.update');
-    Route::post('/users/profile/update', [UserController::class, 'updateProfile'])->name('update.user.profile');
 
     // SCHEDULES (temporarily disabled)
     // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
