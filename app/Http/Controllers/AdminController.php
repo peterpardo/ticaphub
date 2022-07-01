@@ -52,9 +52,9 @@ class AdminController extends Controller
 
                     // Validate fields
                     $validator = Validator::make($fields, [
-                        'first_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
-                        'middle_name' => 'regex:/^[a-zA-Z\s]*$/|max:50',
-                        'last_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:50',
+                        'first_name' => "required|string|max:50",
+                        'middle_name' => "string|max:50",
+                        'last_name' => "required|string|max:50",
                         'email' => 'required|email|unique:users,email|max:100',
                     ] ,[
                         'regex' => 'The :attribute must be letters and spaces only.'
@@ -77,9 +77,9 @@ class AdminController extends Controller
 
                     // Add student
                     $user = User::create([
-                        'first_name' => $fields['first_name'],
-                        'middle_name' => $fields['middle_name'],
-                        'last_name' => $fields['last_name'],
+                        'first_name' => Str::title(Str::lower($fields['first_name'])),
+                        'middle_name' => Str::title(Str::lower($fields['middle_name'])),
+                        'last_name' => Str::title(Str::lower($fields['last_name'])),
                         'password' => Hash::make('ticap123'),
                         'email' => $fields['email'],
                         'ticap_id' => auth()->user()->ticap_id,

@@ -6,7 +6,7 @@
             <x-form wire:submit.prevent="addSpecialization">
                 <x-form.title>Add Specialization</x-form.title>
                 <x-form.form-control>
-                    <x-form.label for="selectedSchool">Select School</x-form.label>
+                    <x-form.label for="selectedSchool">School</x-form.label>
                     <x-form.select wire:model="selectedSchool" id="selectedSchool">
                         @foreach($schools->where('is_involved') as $school)
                             <option value="{{ $school->id }}">{{ $school->name }}</option>

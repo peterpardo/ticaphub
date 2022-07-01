@@ -23,7 +23,7 @@ class Users extends Component
     public function refreshParent($action = null) {
         if ($action == 'add') {
             session()->flash('status', 'green');
-            session()->flash('message', 'User successfully added');
+            session()->flash('message', 'User successfully added. An Invitation email will be sent user. This may take few minutes.');
         } else if ($action == 'update') {
             session()->flash('status', 'green');
             session()->flash('message', 'User successfully updated');

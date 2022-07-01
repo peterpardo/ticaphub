@@ -225,14 +225,14 @@ class UserForm extends Component
 
             // Add user
             $user = User::create([
-                'first_name' => Str::title($this->fname),
-                'last_name' => Str::title($this->lname),
-                'password' => Hash::make('ticaphub123'), // default password
+                'first_name' => trim(Str::title($this->fname)),
+                'last_name' => trim(Str::title($this->lname)),
+                'password' => trim(Hash::make('ticaphub123')), // default password
                 'email' => $this->email,
                 'ticap_id' => auth()->user()->ticap_id,
             ]);
 
-             // TODO: Send email to user for resetting of password
+            // TODO: Send email to user for resetting of password
             // Link is valid for 5 days once sent to the student
             $token = Str::random(60) . time();
             $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
@@ -241,12 +241,12 @@ class UserForm extends Component
                 'email' => $this->email,
             ]);
             $details = [
-                'title' => 'Welcome to TICAPHUB, ' . Str::title($this->fname) . '!',
+                'title' => 'Welcome to TICAPHUB, ' . $user->first_name . '!',
                 'body' => 'Click the link to confirm your email.',
                 'link' => $link,
             ];
             DB::table('register_users')->insert([
-                'email' => $this->email,
+                'email' => $user->email,
                 'token' => $token,
                 'created_at' =>  now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString(),
