@@ -69,6 +69,10 @@ class UserController extends Controller
 
     public function viewProfile()
     {
-        return view('view-profile');
+        $user = User::find(auth()->user()->id);
+
+        return view('view-profile', [
+            'user' => $user
+        ]);
     }
 }

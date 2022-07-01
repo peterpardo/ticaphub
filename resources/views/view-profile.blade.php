@@ -1,3 +1,3 @@
-<x-app-layout title="View Profile">
-    @livewire('view-profile')
+<x-app-layout>
+    @livewire('view-profile', ['user' => $user])
 </x-app-layout>

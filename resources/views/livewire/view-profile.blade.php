@@ -1,4 +1,4 @@
-<div>
+<div class="space-y-5 w-full max-w-screen-sm mx-auto">
     <x-app.button type="link" color="red" href="{{ url('users') }}" >
         <i class="fa-solid fa-arrow-left mr-2"></i>
         Go back
@@ -9,7 +9,7 @@
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
     @endif
 
-    <h1 class="text-2xl font-bold pb-2 border-b-2 border-gray-300">Edit User</h1>
+    <h1 class="text-2xl font-bold pb-2 border-b-2 border-gray-300">Your Profile</h1>
 
     <x-form wire:submit.prevent="updateUser">
         <div

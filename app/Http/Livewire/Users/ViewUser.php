@@ -20,6 +20,11 @@ class ViewUser extends Component
     public $selectedSpecialization = '';
     public $selectedGroup = '';
 
+    public $email;
+    public $fname;
+    public $mname;
+    public $lname;
+
     public $uaPermission = false;
     public $chPermission = false;
     public $paPermission = false;
@@ -121,6 +126,7 @@ class ViewUser extends Component
 
         // Update user info
         $this->user->first_name = Str::title($this->fname);
+        $this->user->middle_name = Str::title($this->mname);
         $this->user->last_name = Str::title($this->lname);
         $this->user->email = $this->email;
         $this->user->save();
