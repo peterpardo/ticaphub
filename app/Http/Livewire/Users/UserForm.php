@@ -149,41 +149,6 @@ class UserForm extends Component
         $this->reset('selectedGroup');
     }
 
-    // Add new group
-    // public function addGroup() {
-    //     // Specialization and Adviser must be selected before creating a Group
-    //     if ($this->selectedSpecialization == ''){
-    //        $this->addError('newGroup', 'Please select a specialization first.');
-    //        return;
-    //     }
-    //     $this->validate([
-    //         'newGroup' => 'required|string',
-    //     ], [], [
-    //         'newGroup' => 'Group'
-    //     ]);
-
-    //     // Check if name is unique
-    //     $formattedName = Str::title($this->newGroup);
-    //     $nameExists = Group::where('name', '=', $formattedName)->exists();
-    //     if ($nameExists) {
-    //         $this->addError('newGroup', 'The New Group Name must be unique.');
-    //         return;
-    //     };
-
-    //     // Add group
-    //     Group::create([
-    //         'name' => $this->newGroup,
-    //         'specialization_id' => $this->selectedSpecialization,
-    //         'ticap_id' => auth()->user()->ticap_id,
-    //     ]);
-
-    //     // Update groups select field
-    //     $this->groups = Group::select('id', 'name')->where('specialization_id', $this->selectedSpecialization)->get();
-
-    //     // Empty input field
-    //     $this->reset('newGroup', 'selectedGroup');
-    // }
-
     public function saveUser() {
         // Validation for all user roles
         $validations = $this->userRules;

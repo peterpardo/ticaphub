@@ -20,7 +20,7 @@
                 <span class="block text-xs">The current TICaP name is <strong>"{{ $ticap->name }}"</strong></span>
             </div>
             <div class="self-end md:self-auto">
-                <x-app.button color="blue">
+                <x-app.button color="blue" wire:click.prevent="$emitTo('settings.ticap-form', 'getTicap', {{ $ticap->id }})">
                     <i class="fa-solid fa-pen mr-1"></i>
                     Change name
                 </x-app.button>
@@ -41,4 +41,8 @@
             </div>
         </div>
     </div>
+
+    {{-- Modals --}}
+    {{-- Edit Ticap --}}
+    @livewire('settings.ticap-form')
 </div>
