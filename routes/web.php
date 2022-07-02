@@ -101,6 +101,9 @@ Route::middleware(['auth'])->group(function () {
         // Used for "/users/import-students" route
         Route::get('/get-schools', [AdminController::class, 'getSchools']);
         Route::get('/get-specializations/{id}', [AdminController::class, 'getSpecializations']);
+
+        // SETTINGS
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
     });
 
     // Route::get('/users/schools', [HomeController::class, 'getSchools']);

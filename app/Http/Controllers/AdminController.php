@@ -206,4 +206,12 @@ class AdminController extends Controller
     public function projectAdvisers() {
         return view('users.project-advisers');
     }
+
+    // Settings
+    public function settings() {
+        $ticap = Ticap::find(auth()->user()->ticap_id);
+        return view('settings', [
+            'ticap' => $ticap
+        ]);
+    }
 }

@@ -9,6 +9,12 @@
             'hasAccess' => $user->hasAnyRole('superadmin', 'admin'), // Check whether user has access to the specified link
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
+        (object) [
+            'name' => 'Settings',              // name of sidebar link
+            'route' => route('settings'),              // route
+            'hasAccess' => $user->hasRole('superadmin'), // Check whether user has access to the specified link
+            'icon' => 'fa-solid fa-gears'            // icon from FontAwesome
+        ],
         // Schedules Link (temporarily disabled)
         // (object) [
         //     'name' => 'Schedules',
