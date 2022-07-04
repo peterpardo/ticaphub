@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
+use App\Models\Adviser;
+use App\Models\Election;
 use App\Models\Group;
 use App\Models\GroupExhibit;
 use App\Models\School;
@@ -43,7 +45,7 @@ class AdminController extends Controller
     }
 
     public function downloadImportStudentsExample() {
-        return response()->download(public_path('student-list-template.csv'));
+        return response()->download(public_path('assets/student-list-template.csv'));
     }
 
     public function uploadFile(Request $request) {
@@ -205,5 +207,18 @@ class AdminController extends Controller
     // Project Advisers
     public function projectAdvisers() {
         return view('users.project-advisers');
+    }
+
+    // Settings
+    public function settings() {
+        $ticap = Ticap::find(auth()->user()->ticap_id);
+        return view('settings', [
+            'ticap' => $ticap
+        ]);
+    }
+
+    // Settings > Specializations
+    public function specializations() {
+        return view('settings.specializations');
     }
 }

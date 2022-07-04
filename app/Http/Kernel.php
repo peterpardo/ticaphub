@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'set.ticap' => \App\Http\Middleware\EnsureTicapIsSet::class,
         'election' => \App\Http\Middleware\CheckIfElectionHasStarted::class,
         'admin' => \App\Http\Middleware\CheckIfUserIsAdmin::class,
+        'superadmin' => \App\Http\Middleware\CheckIfUserIsSuperAdmin::class,
         'set.invitation' => \App\Http\Middleware\CheckIfInvitationHasBeenSet::class,
         'student' => \App\Http\Middleware\CheckIfUserIsStudent::class,
         'officer' => \App\Http\Middleware\EnsureUserIsAnOfficer::class,

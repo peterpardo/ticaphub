@@ -47,4 +47,8 @@ class Specialization extends Model
     public function attendance() {
         return $this->hasMany(Attendance::class, 'specialization_id', 'id');
     }
+
+    public function getNameAttribute($value) {
+        return ucwords($value);
+    }
 }

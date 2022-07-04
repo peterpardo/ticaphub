@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CheckIfUserIsAdmin
+class CheckIfUserIsSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -18,9 +17,9 @@ class CheckIfUserIsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find(auth()->user()->id);
 
-        if($user->hasAnyRole(['superadmin', 'admin'])) {
+        if($user->hasRole('superadmin')) {
             return $next($request);
         }
 
