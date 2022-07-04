@@ -88,6 +88,14 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['set.ticap', 'admin'])->group(function () {
         // USER ACCOUNTS
         Route::get('/users', [AdminController::class, 'users'])->name('users');
+
+        // SETTINGS
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [AdminController::class, 'endEvent']);
+    });
+
+    Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
+        // USER ACCOUNTS (GROUPS, ADVISERS, IMPORT STUDENTS)
         Route::get('/users/groups', [AdminController::class, 'groups']);
         Route::get('/users/project-advisers', [AdminController::class, 'projectAdvisers']);
         Route::get('/users/import-students', [AdminController::class, 'importStudents'])->name('import-students');
@@ -102,19 +110,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get-schools', [AdminController::class, 'getSchools']);
         Route::get('/get-specializations/{id}', [AdminController::class, 'getSpecializations']);
 
-        // SETTINGS
-        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-        Route::post('/settings', [AdminController::class, 'endEvent']);
+        // SETTINGS (SPECIALIZATIONS)
+        Route::get('/settings/specializations', [AdminController::class, 'specializations']);
     });
-
-    // Route::get('/users/schools', [HomeController::class, 'getSchools']);
-    // Route::post('users/update-school-status', [HomeController::class, 'updateSchoolStatus']);
-    // Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
-    // Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
-    // Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);
-    // Route::post('/add-specialization', [UserController::class, 'addSpecialization']);
-    // Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
-
 
 
     // SCHEDULES (temporarily disabled)

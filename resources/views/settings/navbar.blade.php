@@ -4,7 +4,7 @@
             <a href="{{ route('settings') }}">TICaP Settings</a>
         </li>
         <li class="font-semibold @if($isActive === 'specializations') border-b-2 border-red-700 @endif">
-            <a href="{{ url('users/groups') }}">Specializations</a>
+            <a href="{{ url('settings/specializations') }}">Specializations</a>
         </li>
     </ul>
 </div>
