@@ -14,7 +14,7 @@
             <!-- Dropdown menu -->
             <div x-cloak x-show="open" @click.outside="open = false" class="absolute top-9 right-0 z-20 w-56 py-2 mt-2 overflow-hidden bg-white rounded-md shadow-xl dark:bg-gray-800">
                 {{-- User Image and Name --}}
-                <div class="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                <div class="flex jusitfy-start items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                     <div class="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden mx-1">
                         <img
                             class="object-cover w-full"
@@ -25,9 +25,9 @@
                             @endif
                             alt="user_avatar">
                     </div>
-                    <div class="mx-1">
+                    <div class="ml-1 overflow-hidden">
                         <h1 class="text-sm font-semibold text-gray-700 dark:text-gray-200">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h1>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
 
