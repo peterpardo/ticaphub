@@ -47,12 +47,12 @@
         //     'hasAccess' => $user->hasRole('superadmin'),
         //     'icon' => 'fa-solid fa-diagram-project'
         // ],
-        // (object) [
-        //     'name' => 'Documentation',
-        //     'route' => route('awards'),
-        //     'hasAccess' => $user->hasRole('superadmin'),
-        //     'icon' => 'fa-solid fa-file'
-        // ]
+        (object) [
+            'name' => 'Documentation',
+            'route' => route('awards'),
+            'hasAccess' => $user->hasRole('superadmin'),
+            'icon' => 'fa-solid fa-file'
+        ]
     ]);
 @endphp
 
