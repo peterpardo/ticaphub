@@ -126,7 +126,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
 
     // DOCUMENTATION
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['superadmin'])->group(function () {
         Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation');
         Route::post('/documentation/delete-ticap', [DocumentationController::class, 'deleteTicap']);
         Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);

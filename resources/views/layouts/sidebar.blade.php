@@ -47,12 +47,6 @@
         //     'hasAccess' => $user->hasRole('superadmin'),
         //     'icon' => 'fa-solid fa-diagram-project'
         // ],
-        (object) [
-            'name' => 'Documentation',
-            'route' => route('awards'),
-            'hasAccess' => $user->hasRole('superadmin'),
-            'icon' => 'fa-solid fa-file'
-        ]
     ]);
 @endphp
 
@@ -81,6 +75,9 @@
                     @endif
                 @endforeach
             @endif
+
+            {{-- Documentation link --}}
+            <x-app.sidebar-link route="{{ route('documentation') }}" name="Documentation" icon="fa-solid fa-file" />
         </ul>
     </div>
 </div>

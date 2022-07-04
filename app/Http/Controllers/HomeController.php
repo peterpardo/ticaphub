@@ -23,9 +23,17 @@ class HomeController extends Controller
     public function dashboard() {
         $user = User::find(Auth::user()->id);
 
+        // Check if ticap is not set
+        $showSidebar = true;
+        if (is_null($user->ticap_id)) {
+            $showSidebar = false;
+        }
+
         // Check if ticap is set
         if (is_null($user->ticap_id)) {
-            return view('set-ticap');
+            return view('set-ticap', [
+                'showSidebar' => $showSidebar
+            ]);
         } else {
             $ticap = Ticap::find($user->ticap_id)->pluck('name')->first();
 
