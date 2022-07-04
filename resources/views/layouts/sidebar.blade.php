@@ -77,7 +77,9 @@
             @endif
 
             {{-- Documentation link --}}
-            <x-app.sidebar-link route="{{ route('documentation') }}" name="Documentation" icon="fa-solid fa-file" />
+            @role('superadmin')
+                <x-app.sidebar-link route="{{ route('documentation') }}" name="Documentation" icon="fa-solid fa-file" />
+            @endrole
         </ul>
     </div>
 </div>
