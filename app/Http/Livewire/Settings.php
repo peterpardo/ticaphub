@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Adviser;
 use App\Models\Election;
 use App\Models\Group;
+use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
 use App\Models\User;
@@ -70,6 +71,9 @@ class Settings extends Component
 
         // Delete all elections
         DB::table('elections')->delete();
+
+        // Reset schools
+        School::where('id', '!=' , 1)->update(['is_involved' => 0]);
     }
 
     public function render()
