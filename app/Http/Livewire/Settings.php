@@ -29,7 +29,7 @@ class Settings extends Component
     public function endEvent() {
         $superadmin = User::find(auth()->user()->id);
 
-        // Delete all users
+        // Delete users
         $this->deleteUsers();
 
         // Set current ticap to done
@@ -47,31 +47,29 @@ class Settings extends Component
     }
 
     public function deleteUsers() {
-        DB::transaction(function() {
-            // Delete all users (except superadmin)
-            User::where('id', '!=', auth()->user()->id)->delete();
+        // Delete all users (except superadmin)
+        User::where('id', '!=', auth()->user()->id)->delete();
 
-            // Delete all roles (except superadmin)
-            DB::table('model_has_roles')->where('model_id', '!=', auth()->user()->id)->delete();
+        // Delete all roles (except superadmin)
+        DB::table('model_has_roles')->where('model_id', '!=', auth()->user()->id)->delete();
 
-            // Delete all permissions for all users
-            DB::table('model_has_roles')->truncate();
+        // Delete all permissions for all users
+        DB::table('model_has_permissions')->truncate();
 
-            // Delete all unregistered emails
-            DB::table('register_users')->truncate();
+        // Delete all unregistered emails
+        DB::table('register_users')->truncate();
 
-            // Delete all advisers
-            Adviser::truncate();
+        // Delete all groups
+        DB::table('groups')->delete();
 
-            // Delete all groups
-            Group::truncate();
+        // Delete all advisers
+        DB::table('advisers')->delete();
 
-            // Delete all specializations
-            Specialization::truncate();
+        // Delete all specializations
+        DB::table('specializations')->delete();
 
-            // Delete all elections
-            Election::truncate();
-        });
+        // Delete all elections
+        DB::table('elections')->delete();
     }
 
     public function render()

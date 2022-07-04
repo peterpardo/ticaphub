@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
 
         // SETTINGS
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [AdminController::class, 'endEvent']);
     });
 
     // Route::get('/users/schools', [HomeController::class, 'getSchools']);
