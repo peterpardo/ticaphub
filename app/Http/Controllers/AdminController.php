@@ -235,4 +235,9 @@ class AdminController extends Controller
             return redirect()->route('dashboard');
         }
     }
+
+    // Officers > Set Positions
+    public function setPositions($id) {
+        dd('set positions: ' . $id);
+    }
 }

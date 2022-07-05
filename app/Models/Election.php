@@ -13,7 +13,13 @@ class Election extends Model
         'name',
         'specialization_id',
         'ticap_id',
-        'is_finished'
+        'status'
+    ];
+
+    public $statusColor = [
+        'not started' => 'red',
+        'in progress' => 'blue',
+        'done' => 'green',
     ];
 
     public function positions() {
@@ -34,5 +40,9 @@ class Election extends Model
     }
     public function ticap() {
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
+
+    public function getStatusColorAttribute() {
+        return $this->statusColor[$this->status];
     }
 }

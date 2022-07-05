@@ -118,6 +118,13 @@ Route::middleware(['auth'])->group(function () {
     // OFFICERS
     Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
         Route::get('/officers', [AdminController::class, 'officers'])->name('officers');
+
+        // SETTING OF ELECTION (superadmin and admin only)
+        Route::middleware(['admin'])->group(function () {
+            Route::get('/officers/set-positions/{id}', [AdminController::class, 'setPositions']);
+        });
+
+        // VOTING PAGE (students)
     });
 
     // SCHEDULES (temporarily disabled)

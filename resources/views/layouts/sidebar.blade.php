@@ -59,7 +59,7 @@
             <li class="ml-3 mb-5 transition-all duration-300 lg:ml-14">
                 <div class="flex flex-row items-center">
                     <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
-                    <span class="hidden ml-1 text-base tracking-wide lg:inline-block">TICAP HUB</span>
+                    <span class="hidden ml-1 text-base tracking-wide lg:inline-block">TICAPHUB</span>
                 </div>
             </li>
 
