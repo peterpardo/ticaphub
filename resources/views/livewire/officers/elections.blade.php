@@ -15,7 +15,7 @@
                 <tr>
                     <x-table.tdata>{{ $election->name }}</x-table.tdata>
                     <x-table.tdata>{{ $election->user_elections_count }}</x-table.tdata>
-                    <x-table.tdata>{{ $election->is_finished }}</x-table.tdata>
+                    <x-table.tdata>{{ $election->status }}</x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn />
                     </x-table.tdata-actions>
