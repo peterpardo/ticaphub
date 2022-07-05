@@ -10,6 +10,12 @@
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
         (object) [
+            'name' =>  'Officers',
+            'route' => route('officers'),
+            'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
+            'icon' => 'fa-solid fa-user-shield'
+        ],
+        (object) [
             'name' => 'Settings',              // name of sidebar link
             'route' => route('settings'),              // route
             'hasAccess' => $user->hasRole('superadmin'), // Check whether user has access to the specified link
@@ -22,12 +28,6 @@
         //     'hasAccess' => $user->hasRole('superadmin'),
         //     'icon' => 'fa-solid fa-calendar'
         // ],
-        (object) [
-            'name' =>  'Officers',
-            'route' => route('officers'),
-            'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
-            'icon' => 'fa-solid fa-user-shield'
-        ],
         // (object) [
         //     'name' => 'Committee Heads',
         //     'route' => route('committee-heads'),

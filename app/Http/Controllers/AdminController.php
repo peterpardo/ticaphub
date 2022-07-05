@@ -228,9 +228,11 @@ class AdminController extends Controller
 
         // Check if user is a student
         if ($user->hasRole('student')) {
-            dd('student route');
+            return view('officers.student-page');
+        } else if ($user->hasAnyRole('superadmin', 'admin')){
+            return view('officers.admin-page');
         } else {
-            dd('superadmin or admin route');
+            return redirect()->route('dashboard');
         }
     }
 }
