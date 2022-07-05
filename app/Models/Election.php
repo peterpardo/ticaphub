@@ -12,8 +12,13 @@ class Election extends Model
     protected $fillable = [
         'name',
         'specialization_id',
-        'ticap_id'
+        'ticap_id',
+        'is_finished'
     ];
+
+    public function positions() {
+        return $this->hasMany(Position::class, 'election_id', 'id');
+    }
 
     public function officers() {
         return $this->hasMany(Officer::class, 'election_id', 'id');

@@ -13,12 +13,13 @@ class Position extends Model
 
     protected $fillable = [
         'name',
+        'election_id',
+        'is_done',
     ];
 
-    // public function users() {
-    //     return $this->belongsToMany(User::class, 'candidates', 'position_id', 'user_id')
-    //         ->withPivot('id');
-    // }
+    public function election() {
+        return $this->belongsTo(Election::class, 'election_id', 'id');
+    }
 
     public function userSchool() {
         return $this->hasOneThrough(School::class, User::class);

@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/settings', [AdminController::class, 'endEvent']);
     });
 
+    // USER ACCOUNTS AND SETTINGS
     Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
         // USER ACCOUNTS (GROUPS, ADVISERS, IMPORT STUDENTS)
         Route::get('/users/groups', [AdminController::class, 'groups']);
@@ -114,6 +115,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/settings/specializations', [AdminController::class, 'specializations']);
     });
 
+    // OFFICERS
+    Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
+        Route::get('/officers', [AdminController::class, 'officers'])->name('officers');
+    });
 
     // SCHEDULES (temporarily disabled)
     // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
@@ -135,7 +140,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
         // OFFICERS AND COMMITTEES
-        Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
+        // Route::get('/officers-and-committees', [HomeController::class, 'officers'])->name('officers');
 
         // PANELISTS ROUTE
         Route::get('/evaluate-groups', [PanelistController::class, 'index'])->name('evaluate-groups');
@@ -177,13 +182,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/email-student-choice-certificate', [AwardController::class, 'emailStudentChoiceCertificate']);
 
         // SET TICAP
-        Route::middleware(['invitation'])->group(function () {
-            Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
-            Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
-            Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);
-            Route::post('/add-specialization', [UserController::class, 'addSpecialization']);
-            Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
-        });
+        // Route::middleware(['invitation'])->group(function () {
+        //     Route::get('/users/set-invitation', [UserController::class, 'invitationForm'])->name('set-invitation');
+        //     Route::post('/users/set-invitation', [UserController::class, 'setInvitation']);
+        //     Route::get('/fetch-specializations', [UserController::class, 'fetchSpecializations']);
+        //     Route::post('/add-specialization', [UserController::class, 'addSpecialization']);
+        //     Route::post('/delete-specialization', [UserController::class, 'deleteSpecialization']);
+        // });
 
         // ADMIN ROUTE
         // Route::middleware(['admin', 'set.invitation'])->group(function () {

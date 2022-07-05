@@ -35,7 +35,7 @@ class HomeController extends Controller
                 'showSidebar' => $showSidebar
             ]);
         } else {
-            $ticap = Ticap::find($user->ticap_id)->pluck('name')->first();
+            $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
 
             return view('dashboard', [
                 'user' => $user,

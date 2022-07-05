@@ -221,4 +221,16 @@ class AdminController extends Controller
     public function specializations() {
         return view('settings.specializations');
     }
+
+    // Officers
+    public function officers() {
+        $user = User::find(auth()->user()->id);
+
+        // Check if user is a student
+        if ($user->hasRole('student')) {
+            dd('student route');
+        } else {
+            dd('superadmin or admin route');
+        }
+    }
 }
