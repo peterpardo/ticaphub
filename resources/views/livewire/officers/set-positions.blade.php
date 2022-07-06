@@ -2,7 +2,16 @@
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
     {{-- Election name --}}
-    <h1 class="font-bold text-xl">{{ $election->name }}</h1>
+    <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
+        <h1 class="font-bold text-xl">{{ $election->name }}</h1>
+
+        <div class="self-end md:self-auto">
+            <x-app.button type="link" href="{{ url('officers/set-candidates/' . $election->id) }}" color="indigo">
+                Set Candidates
+                <i class="fa-solid fa-arrow-right-from-bracket ml-1"></i>
+            </x-app.button>
+        </div>
+    </div>
 
     {{-- Alert --}}
     @if (session('status'))

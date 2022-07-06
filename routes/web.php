@@ -122,6 +122,7 @@ Route::middleware(['auth'])->group(function () {
         // SETTING OF ELECTION (superadmin and admin only)
         Route::middleware(['admin'])->group(function () {
             Route::get('/officers/set-positions/{id}', [AdminController::class, 'setPositions']);
+            Route::get('/officers/set-candidates/{id}', [AdminController::class, 'setCandidates']);
         });
 
         // VOTING PAGE (students)

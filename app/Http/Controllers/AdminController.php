@@ -240,12 +240,40 @@ class AdminController extends Controller
     public function setPositions(Request $request, $id) {
         $election = Election::where('id', $id)->withCount('userElections')->first();
 
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.set-positions', [
+                'election' => $election
+            ]);
+        }
+    }
+
+    public function setCandidates(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
+
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.set-candidates', [
+                'election' => $election
+            ]);
+        }
+    }
+
+    public function checkElection(Request $request, $election) {
         // Check if election exists
         if (!$election) {
             $request->session()->flash('status', 'red');
             $request->session()->flash('message', 'Election not found');
 
-            return back();
+            return true;
         }
 
         // Check if election has voters
@@ -253,12 +281,9 @@ class AdminController extends Controller
             $request->session()->flash('status', 'red');
             $request->session()->flash('message', 'Election has no voters. Add students for this school/specialization.');
 
-            return back();
+            return true;
         }
 
-        return view('officers.set-positions', [
-            'election' => $election
-        ]);
-
+        return false;
     }
 }
