@@ -10,7 +10,7 @@
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Set Positions
             </x-app.button>
-            <x-app.button type="link" href="{{ url('officers/set-candidates/' . $election->id) }}" color="indigo">
+            <x-app.button type="link" href="#" color="indigo">
                 Review Election
                 <i class="fa-solid fa-arrow-right ml-1"></i>
             </x-app.button>
@@ -70,7 +70,7 @@
                                         </div>
                                     <div>
                                         <x-table.delete-btn wire:click="selectItem({{ $candidate->id }})"/>
-                                        <x-table.edit-btn type="button" />
+                                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('officers.candidate-form', 'getCandidate', {{ $candidate->id }})"/>
                                     </div>
                                 </div>
                             @empty

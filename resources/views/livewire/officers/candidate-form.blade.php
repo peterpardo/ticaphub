@@ -10,23 +10,25 @@
             @endif
 
             {{-- Search box --}}
-            <x-form.form-control>
-                <x-form.input-info>
-                    You can search for the student in the search box below.
-                </x-form.input-info>
-                <div class="relative">
-                    <x-form.input wire:model="search" id="search" placeholder="Search student..." />
-                    @if ($search !== '')
-                        <div class="absolute border w-full rounded bg-white overflow-hidden max-h-40">
-                            @forelse ($students as $student)
-                                <div class="px-2 py-1 hover:bg-gray-100 cursor-pointer" wire:click.prevent="selectStudent({{ $student->id }}, '{{ $student->fullname }}')">{{ $student->fullname }}</div>
-                            @empty
-                                <div class="px-2 py-1">No student found</div>
-                            @endforelse
-                        </div>
-                    @endif
-                </div>
-            </x-form.form-control>
+            @if ($action === 'add')
+                <x-form.form-control>
+                    <x-form.input-info>
+                        You can search for the student in the search box below.
+                    </x-form.input-info>
+                    <div class="relative">
+                        <x-form.input wire:model="search" id="search" placeholder="Search student..." />
+                        @if ($search !== '')
+                            <div class="absolute border w-full rounded bg-white overflow-hidden max-h-40">
+                                @forelse ($students as $student)
+                                    <div class="px-2 py-1 hover:bg-gray-100 cursor-pointer" wire:click.prevent="selectStudent({{ $student->id }}, '{{ $student->fullname }}')">{{ $student->fullname }}</div>
+                                @empty
+                                    <div class="px-2 py-1">No student found</div>
+                                @endforelse
+                            </div>
+                        @endif
+                    </div>
+                </x-form.form-control>
+            @endif
 
             {{-- Student --}}
             <x-form.form-control>

@@ -15,15 +15,12 @@ class CandidateForm extends Component
     public $showModal = false;
     public $selectedPositionId = '';
     public $selectedStudentId;
+    public $candidateId;
     public $action = 'add';
 
     protected $rules = [
-        'selectedStudentId' => 'required|numeric|unique:candidates,user_id',
+        'selectedStudentId' => 'required|numeric',
         'selectedPositionId' => 'required|numeric'
-    ];
-
-    protected $messages = [
-        'selectedStudentId.unique' => 'The student is already a candidate',
     ];
 
     protected $validationAttributes = [
@@ -31,7 +28,20 @@ class CandidateForm extends Component
         'selectedPositionId' => 'position',
     ];
 
-    protected $listeners = ['showModal', 'getPosition'];
+    protected $listeners = ['showModal', 'getCandidate'];
+
+
+    public function getCandidate($id) {
+        $candidate = Candidate::where('id', $id)->first();
+        $student = User::where('id', $candidate->user_id)->first();
+        $this->name = $student->fullname;
+        $this->selectedStudentId = $candidate->user_id;
+        $this->selectedPositionId = $candidate->position_id;
+        $this->candidateId = $candidate->id;
+
+        $this->action = 'edit';
+        $this->showModal();
+    }
 
     public function showModal() {
         $this->showModal = true;
@@ -54,8 +64,19 @@ class CandidateForm extends Component
         $this->emitUp('refreshParent');
     }
 
+    public function updatedSelectedPositionId() {
+        $this->emitUp('refreshParent');
+    }
+
     public function saveCandidate() {
-        $validated = $this->validate();
+        $this->validate();
+
+        // Check if student is candidate
+        $candidate = Candidate::where('user_id', $this->selectedStudentId)->first();
+        if ($candidate && $candidate->position_id == $this->selectedPositionId) {
+            $this->addError('selectedStudentId', 'This student is already a candidate');
+            return;
+        }
 
         // Check if student exists
         $studentExists = User::where('id', $this->selectedStudentId)->exists();
@@ -63,14 +84,22 @@ class CandidateForm extends Component
         // Check if position exists
         $positionExists = Position::where('id', $this->selectedPositionId)->exists();
 
-        // Add student as candidate
+        // Add/Edit candidate
         $isSuccess = null;
         if ($studentExists && $positionExists) {
-            $isSuccess = Candidate::create([
-                'user_id' => $this->selectedStudentId,
-                'position_id' => $this->selectedPositionId,
-                'election_id' => $this->electionId,
-            ]);
+            if ($this->action === 'add') {
+                $isSuccess = Candidate::create([
+                    'user_id' => $this->selectedStudentId,
+                    'position_id' => $this->selectedPositionId,
+                    'election_id' => $this->electionId,
+                ]);
+            } else {
+                $isSuccess = Candidate::where('id', $this->candidateId)
+                    ->update([
+                        'user_id' => $this->selectedStudentId,
+                        'position_id' => $this->selectedPositionId,
+                    ]);
+            }
         }
 
         // Check if add/edit candidate is success
