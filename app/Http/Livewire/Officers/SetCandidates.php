@@ -14,6 +14,8 @@ class SetCandidates extends Component
     use WithPagination;
 
     public Election $election;
+    public $showDeleteModal = false;
+    public $selectedCandidateId;
 
     protected $listeners = ['refreshParent'];
 
@@ -28,6 +30,33 @@ class SetCandidates extends Component
             session()->flash('status', 'red');
             session()->flash('message', 'Something went wrong. Try again later.');
         }
+    }
+
+    public function selectItem($id) {
+        $this->selectedCandidateId = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeModal() {
+        $this->showDeleteModal = false;
+    }
+
+    public function deleteItem() {
+        $isCandidateDeleted = Candidate::destroy($this->selectedCandidateId);
+
+        if ($isCandidateDeleted) {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Candidate successfully deleted');
+        } else {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Try again later');
+        }
+
+        // Reset selected candidate
+        $this->reset('selectedCandidateId');
+
+        // Close modal
+        $this->closeModal();
     }
 
     public function render()

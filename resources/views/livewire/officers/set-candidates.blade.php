@@ -1,4 +1,6 @@
-<div class="space-y-2">
+<div class="space-y-2"  x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer,
+}">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $election->name }}</h1>
@@ -67,7 +69,7 @@
                                                 </div>
                                         </div>
                                     <div>
-                                        <x-table.delete-btn />
+                                        <x-table.delete-btn wire:click="selectItem({{ $candidate->id }})"/>
                                         <x-table.edit-btn type="button" />
                                     </div>
                                 </div>
@@ -78,7 +80,7 @@
                     </x-table.tdata>
                 </tr>
             @empty
-                <x-table.tdata>No candidates found</x-table.tdata>
+                <x-table.tdata>No positions found</x-table.tdata>
             @endforelse
         </x-slot>
 
@@ -90,4 +92,16 @@
     {{-- Modals --}}
     {{-- Add Candidate --}}
     @livewire('officers.candidate-form', ['electionId' => $election->id])
+
+    {{-- Delete candidate --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal>
+            <x-modal.title>Delete Candidate</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the candidate.</x-modal.description>
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete it.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>
