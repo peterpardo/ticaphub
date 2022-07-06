@@ -1,4 +1,4 @@
-<div class="space-y-4"  x-data="{
+<div class="space-y-2"  x-data="{
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
     {{-- Election name --}}

@@ -1,4 +1,4 @@
-<div class="space-y-4">
+<div class="space-y-2">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $election->name }}</h1>

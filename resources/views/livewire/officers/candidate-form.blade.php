@@ -19,7 +19,7 @@
                     @if ($search !== '')
                         <div class="absolute border w-full rounded bg-white overflow-hidden max-h-40">
                             @forelse ($students as $student)
-                                <div class="px-2 py-1 hover:bg-gray-100 cursor-pointer">{{ $student->fullname }}</div>
+                                <div class="px-2 py-1 hover:bg-gray-100 cursor-pointer" wire:click.prevent="selectStudent({{ $student->id }}, '{{ $student->fullname }}')">{{ $student->fullname }}</div>
                             @empty
                                 <div class="px-2 py-1">No student found</div>
                             @endforelse
@@ -31,8 +31,8 @@
             {{-- Student --}}
             <x-form.form-control>
                 <x-form.label>Student Name</x-form.label>
-                <div class="w-full py-2 px-3 rounded border border-gray-300 bg-gray-100 text-gray-400">
-                    {{ $name }}
+                <div class="w-full py-2 px-3 rounded border border-gray-300 bg-gray-100 text-gray-500">
+                    {{ ($name === '') ? 'Student name' : $name }}
                 </div>
                 @error('selectedStudentId')
                     <x-form.error>{{ $message }}</x-form.error>
@@ -52,7 +52,6 @@
                     <x-form.error>{{ $message }}</x-form.error>
                 @enderror
             </x-form.form-control>
-
 
             <div class="text-right">
                 <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
