@@ -237,7 +237,28 @@ class AdminController extends Controller
     }
 
     // Officers > Set Positions
-    public function setPositions($id) {
-        dd('set positions: ' . $id);
+    public function setPositions(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
+
+        // Check if election exists
+        if (!$election) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election not found');
+
+            return back();
+        }
+
+        // Check if election has voters
+        if ($election->user_elections_count <= 0) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election has no voters. Add students for this school/specialization.');
+
+            return back();
+        }
+
+        return view('officers.set-positions', [
+            'election' => $election
+        ]);
+
     }
 }

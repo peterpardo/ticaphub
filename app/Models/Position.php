@@ -36,4 +36,8 @@ class Position extends Model
     public function officer() {
         return $this->hasOne(Officer::class, 'position_id' ,'id');
     }
+
+    public function getNameAttribute($value) {
+        return ucwords($value);
+    }
 }
