@@ -21,7 +21,7 @@ class ViewProfile extends Component
         'fname' => 'required|max:30',
         'mname' => 'nullable|string|max:30',
         'lname' => 'required|max:30',
-        'profilePicture' => 'nullable|image'
+        'profilePicture' => 'nullable|image|max:5000'
     ];
 
     protected $validationAttributes = [
