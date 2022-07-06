@@ -18,9 +18,15 @@ class SetPositions extends Component
     protected $listeners = ['refreshParent'];
 
     public function refreshParent($message = null) {
-        if ($message === 'success') {
+        if ($message === 'add') {
             session()->flash('status', 'green');
             session()->flash('message', 'Position successfully added');
+        } else if ($message === 'edit') {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Position successfully updated');
+        } else if ($message === 'error') {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Try again later.');
         }
     }
 

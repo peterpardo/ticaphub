@@ -10,12 +10,23 @@ class PositionForm extends Component
     public $electionId;
     public $name = '';
     public $showModal = false;
+    public $selectedPositionId;
+    public $action = 'add';
 
     protected $rules = [
         'name' => 'required|string|max:20'
     ];
 
-    protected $listeners = ['showModal'];
+    protected $listeners = ['showModal', 'getPosition'];
+
+    public function getPosition($id) {
+        $position = Position::where('id', $id)->first();
+        $this->selectedPositionId = $position->id;
+        $this->name = $position->name;
+
+        $this->action = 'edit';
+        $this->showModal();
+    }
 
     public function showModal() {
         $this->showModal = true;
@@ -24,7 +35,7 @@ class PositionForm extends Component
     public function closeModal() {
         $this->showModal = false;
 
-        $this->reset('name', 'showModal');
+        $this->reset('name', 'showModal', 'action');
         $this->resetValidation();
     }
 
@@ -45,13 +56,24 @@ class PositionForm extends Component
         }
 
         // Add position
-        Position::create([
-            'name' => trim($this->name),
-            'election_id' => $this->electionId
-        ]);
+        $isSuccess = null;
+        if ($this->action === 'add') {
+            $isSuccess = Position::create([
+                'name' => trim($this->name),
+                'election_id' => $this->electionId
+            ]);
+        } else {
+            $isSuccess = Position::where('id', $this->selectedPositionId)
+                ->update(['name' => trim($this->name)]);
+        }
 
-        // Refresh parent component and return success message
-        $this->emit('refreshParent', 'success');
+        // Check if add/edit position is success
+        if ($isSuccess === 0 || is_null($isSuccess)) {
+            $this->emit('refreshParent', 'error');
+        } else {
+            // Refresh parent component and return success message
+            $this->emit('refreshParent', $this->action);
+        }
 
         // Close modal
         $this->closeModal();

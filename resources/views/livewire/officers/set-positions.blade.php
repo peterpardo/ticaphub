@@ -38,7 +38,7 @@
                     <x-table.tdata>{{ $position->name }}</x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn wire:click="selectItem({{ $position->id }})"/>
-                        <x-table.edit-btn type="button"/>
+                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('officers.position-form', 'getPosition', {{ $position->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty
