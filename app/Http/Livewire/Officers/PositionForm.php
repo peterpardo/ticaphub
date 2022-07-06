@@ -28,6 +28,10 @@ class PositionForm extends Component
         $this->resetValidation();
     }
 
+    public function updatedName() {
+        $this->emitUp('refreshParent');
+    }
+
     public function addPosition() {
         $this->validate();
 

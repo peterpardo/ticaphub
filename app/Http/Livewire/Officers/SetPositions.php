@@ -12,6 +12,8 @@ class SetPositions extends Component
     use WithPagination;
 
     public Election $election;
+    public $showDeleteModal = false;
+    public $selectedPositionId;
 
     protected $listeners = ['refreshParent'];
 
@@ -20,6 +22,33 @@ class SetPositions extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'Position successfully added');
         }
+    }
+
+    public function selectItem($id) {
+        $this->selectedPositionId = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeModal() {
+        $this->showDeleteModal = false;
+    }
+
+    public function deleteItem() {
+        $isPositionDeleted = Position::destroy($this->selectedPositionId);
+
+        if ($isPositionDeleted) {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Position successfully deleted');
+        } else {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Try again later');
+        }
+
+        // Reset selected position
+        $this->reset('selectedPositionId');
+
+        // Close modal
+        $this->closeModal();
     }
 
     public function render()

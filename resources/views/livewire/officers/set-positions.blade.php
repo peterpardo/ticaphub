@@ -1,4 +1,7 @@
-<div class="space-y-4">
+<div class="space-y-4"  x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer,
+}">
+    {{-- Election name --}}
     <h1 class="font-bold text-xl">{{ $election->name }}</h1>
 
     {{-- Alert --}}
@@ -11,6 +14,7 @@
         For the first step, create positions (e.g. Chairman, Committee Head, etc.) for this election. Make sure to finish this step to be able to nominate students as candidate for the selected position.
     </x-info-box>
 
+    {{-- Add Position Button --}}
     <div class="space-y-1">
         <h2 class="text-lg font-semibold">Set Position</h2>
         <x-app.button color="green" wire:click.prevent="$emitTo('officers.position-form', 'showModal')">
@@ -33,7 +37,7 @@
                 <tr>
                     <x-table.tdata>{{ $position->name }}</x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.delete-btn />
+                        <x-table.delete-btn wire:click="selectItem({{ $position->id }})"/>
                         <x-table.edit-btn type="button"/>
                     </x-table.tdata-actions>
                 </tr>
@@ -52,4 +56,16 @@
     {{-- Modals --}}
     {{-- Add position --}}
     @livewire('officers.position-form', ['electionId' => $election->id])
+
+    {{-- Delete position --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal>
+            <x-modal.title>Delete Position</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the position.</x-modal.description>
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete it.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>
