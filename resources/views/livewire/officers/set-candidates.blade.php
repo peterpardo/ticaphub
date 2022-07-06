@@ -1,4 +1,39 @@
-<div>
+<div class="space-y-4">
+    {{-- Election name --}}
+    <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
+        <h1 class="font-bold text-xl">{{ $election->name }}</h1>
+
+        <div class="flex gap-x-1 self-end md:self-auto">
+            <x-app.button type="link" href="{{ url('officers/set-positions/' . $election->id) }}" color="gray">
+                <i class="fa-solid fa-arrow-left mr-1"></i>
+                Set Positions
+            </x-app.button>
+            <x-app.button type="link" href="{{ url('officers/set-candidates/' . $election->id) }}" color="indigo">
+                Review Election
+                <i class="fa-solid fa-arrow-right ml-1"></i>
+            </x-app.button>
+        </div>
+    </div>
+
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
+
+    {{-- Note --}}
+    <x-info-box color="yellow">
+        After creating the positions for the election, add candidates/nominees for this election. Please take note that each position must <strong>atleast have two or more candidates</strong> for the election to start.
+    </x-info-box>
+
+    {{-- Add Candidate Button --}}
+    <div class="space-y-1">
+        <h2 class="text-lg font-semibold">Set Candidate</h2>
+        <x-app.button color="green">
+            <i class="fa-solid fa-plus mr-1"></i>
+            Add Candidate
+        </x-app.button>
+    </div>
+
     {{-- Candidates table --}}
     <x-table>
         <x-slot name="heading">

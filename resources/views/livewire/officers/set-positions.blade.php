@@ -8,7 +8,7 @@
         <div class="self-end md:self-auto">
             <x-app.button type="link" href="{{ url('officers/set-candidates/' . $election->id) }}" color="indigo">
                 Set Candidates
-                <i class="fa-solid fa-arrow-right-from-bracket ml-1"></i>
+                <i class="fa-solid fa-arrow-right ml-1"></i>
             </x-app.button>
         </div>
     </div>
