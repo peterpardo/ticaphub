@@ -18,9 +18,6 @@ class SetCandidates extends Component
     public function render()
     {
         return view('livewire.officers.set-candidates', [
-            'users' => User::whereHas('userElection', function ($query) {
-                $query->where('election_id', $this->election->id);
-            })->paginate(5),
             'positions' => Position::where('election_id', $this->election->id)->with(['candidates', 'candidates.user'])->paginate(5),
         ]);
     }

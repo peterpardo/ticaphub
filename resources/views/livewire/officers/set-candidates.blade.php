@@ -28,7 +28,7 @@
     {{-- Add Candidate Button --}}
     <div class="space-y-1">
         <h2 class="text-lg font-semibold">Set Candidate</h2>
-        <x-app.button color="green">
+        <x-app.button color="green" wire:click.prevent="$emitTo('officers.candidate-form', 'showModal')">
             <i class="fa-solid fa-plus mr-1"></i>
             Add Candidate
         </x-app.button>
@@ -48,7 +48,7 @@
                     <x-table.tdata>
                         <div class="space-y-2">
                             @forelse ($position->candidates as $candidate)
-                                <div class="flex items-center justify-between">
+                                <div class="flex items-center justify-between min-w-max gap-x-2">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
                                             <img
@@ -86,4 +86,8 @@
             {{ $positions->links() }}
         </x-slot>
     </x-table>
+
+    {{-- Modals --}}
+    {{-- Add Candidate --}}
+    @livewire('officers.candidate-form', ['electionId' => $election->id])
 </div>
