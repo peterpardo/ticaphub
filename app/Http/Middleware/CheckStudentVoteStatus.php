@@ -19,16 +19,15 @@ class CheckStudentVoteStatus
     public function handle(Request $request, Closure $next)
     {
         $user = User::find(auth()->user()->id);
-        $election = Election::find($request->route('id'));
 
         // Check user if student and has not yet voted
         if ($user->hasRole('student') && !$user->userElection->has_voted) {
-            return redirect('officers/elections/' . $election->id . '/vote');
+            return redirect('officers/elections/' . $user->userElection->election_id . '/vote');
         }
 
         // Check user if student and has voted
         if ($user->hasRole('student') && $user->userElection->has_voted) {
-            return redirect('officers/elections/' . $election->id);
+            return redirect('officers/elections/' . $user->userElection->election_id);
         }
 
         return $next($request);

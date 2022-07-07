@@ -310,6 +310,11 @@ class AdminController extends Controller
             return redirect('officers/elections/' . $election->id . '/vote');
         }
 
+        // If student and the accesed election is not the same as the election_id of the student, redirect to the correct election
+        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
+             return redirect('officers/elections/' . $user->userElection->election_id);
+        }
+
         return view('officers.election', [
             'election' => $election
         ]);

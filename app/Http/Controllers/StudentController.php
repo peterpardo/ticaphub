@@ -50,7 +50,12 @@ class StudentController extends Controller
 
         // Check if student has voted
         if ($student->userElection->has_voted) {
-            return redirect('officers/elections/' . $election->id);
+            return redirect('officers/elections/' . $student->userElection->election_id);
+        }
+
+        // If the accesed vote page is not the same as the election_id of the student, redirect to the correct vote page
+        if ($student->userElection->election_id !== $election->id) {
+            return redirect('officers/elections/' . $student->userElection->election_id . '/vote');
         }
 
         return view('officers.vote', [
