@@ -1,5 +1,7 @@
 <x-app-layout title="Officers">
-    Check if election has started
-
-    voting page for students only
+    @if ($election->status === 'not started')
+        Election not yet started
+    @else
+        vote for {{ $election->name }}
+    @endif
 </x-app-layout>

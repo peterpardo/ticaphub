@@ -297,11 +297,17 @@ class AdminController extends Controller
 
     // Election
     public function election($id) {
+        $user = User::find(auth()->user()->id);
         $election = Election::find($id);
 
-        // Check status of election
+        // If election has "not started", redirect to officers route
         if ($election->status === 'not started') {
             return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        // If user is a student AND has not yet voted, redirect to vote page
+        if ($user->hasRole('student') && !$user->userElection->has_voted) {
+            return redirect('officers/elections/' . $election->id . '/vote');
         }
 
         return view('officers.election', [

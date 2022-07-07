@@ -74,6 +74,7 @@ class Kernel extends HttpKernel
         'event' => \App\Http\Middleware\EnsureEventExists::class,
         'list' => \App\Http\Middleware\EnsureListExists::class,
         'invitation' => \App\Http\Middleware\RedirectIfTicapIsSet::class,
-        'election.status' => \App\Http\Middleware\CheckElectionStatus::class
+        'election.status' => \App\Http\Middleware\CheckElectionStatus::class,
+        'student.vote.status' => \App\Http\Middleware\CheckStudentVoteStatus::class,
     ];
 }

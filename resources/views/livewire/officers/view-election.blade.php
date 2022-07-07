@@ -3,16 +3,19 @@
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $election->name }}</h1>
 
-        <div class="flex gap-x-1 self-end md:self-auto">
-            <x-app.button type="button" color="gray">
-                <i class="fa-solid fa-arrow-left mr-1"></i>
-                Reset Election
-            </x-app.button>
-            <x-app.button type="button" color="green">
-                End Election
-                <i class="fa-solid fa-arrow-right ml-1"></i>
-            </x-app.button>
-        </div>
+        {{-- Functions for admin only --}}
+        @hasanyrole('superadmin|admin')
+            <div class="flex gap-x-1 self-end md:self-auto">
+                <x-app.button type="button" color="gray">
+                    <i class="fa-solid fa-arrow-left mr-1"></i>
+                    Reset Election
+                </x-app.button>
+                <x-app.button type="button" color="green">
+                    End Election
+                    <i class="fa-solid fa-arrow-right ml-1"></i>
+                </x-app.button>
+            </div>
+        @endhasanyrole
     </div>
 
     {{-- Alert --}}
@@ -36,7 +39,10 @@
         <x-slot name="body">
             @forelse ($positions as $position)
                 <tr>
+                    {{-- Position --}}
                     <x-table.tdata>{{ $position->name }}</x-table.tdata>
+
+                    {{-- Candidate --}}
                     <x-table.tdata>
                         <div class="space-y-2">
                             @forelse ($position->candidates as $candidate)
@@ -60,6 +66,15 @@
                             @empty
                                 No candidates found
                             @endforelse
+                        </div>
+                    </x-table.tdata>
+
+                    {{-- Vote Count --}}
+                    <x-table.tdata>
+                        <div class="space-y-2">
+                            @foreach ($position->candidates as $candidate)
+                                <div class="flex items-center h-10">{{ $candidate->votes_count }}</div>
+                            @endforeach
                         </div>
                     </x-table.tdata>
                 </tr>

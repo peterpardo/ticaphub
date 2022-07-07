@@ -495,11 +495,4 @@ class ElectionController extends Controller
         return $pdf->download(time().'-officers.pdf');
     }
 
-    public function vote($id) {
-        $election = Election::find($id);
-
-        return view('officers.vote', [
-            'election' => $election
-        ]);
-    }
 }
