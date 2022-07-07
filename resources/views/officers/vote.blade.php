@@ -1,5 +1,5 @@
 <x-app-layout title="Officers">
-    {{ $election->name }}
+    Check if election has started
 
     voting page for students only
 </x-app-layout>

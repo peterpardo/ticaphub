@@ -1,3 +1,3 @@
 <x-app-layout title="Officers">
-    election page
+    @livewire('officers.view-election', ['election' => $election])
 </x-app-layout>
