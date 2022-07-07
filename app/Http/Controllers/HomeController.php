@@ -59,8 +59,8 @@ class HomeController extends Controller
             return redirect('officers/elections/' . $election->id . '/vote');
         }
 
-        // Check user if admin or superadmin
-        if ($user->hasAnyRole('superadmin', 'admin')) {
+        // Check user if admin or superadmin and election is not yet "done"
+        if ($user->hasAnyRole('superadmin', 'admin') && $election->status !== 'done') {
             return redirect('officers/elections');
         }
 
