@@ -495,19 +495,6 @@ class ElectionController extends Controller
         return $pdf->download(time().'-officers.pdf');
     }
 
-    public function election($id) {
-        $election = Election::find($id);
-
-        // Check status of election
-        if ($election->status === 'not started') {
-            return redirect()->route('officers', ['id' => $election->id]);
-        }
-
-        return view('officers.election', [
-            'election' => $election
-        ]);
-    }
-
     public function vote($id) {
         $election = Election::find($id);
 

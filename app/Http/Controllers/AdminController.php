@@ -247,8 +247,8 @@ class AdminController extends Controller
         return false;
     }
 
-     // Officers > Set Positions
-     public function setPositions(Request $request, $id) {
+    // Officers > Set Positions
+    public function setPositions(Request $request, $id) {
         $election = Election::where('id', $id)->withCount('userElections')->first();
 
         // Check if election exists or has no voters
@@ -263,6 +263,7 @@ class AdminController extends Controller
         }
     }
 
+    // Officers > Set Positions > Set Candidates
     public function setCandidates(Request $request, $id) {
         $election = Election::where('id', $id)->withCount('userElections')->first();
 
@@ -278,6 +279,7 @@ class AdminController extends Controller
         }
     }
 
+    // Officers > Set Positions > Set Candidates > Review Election
     public function reviewElection(Request $request, $id) {
         $election = Election::where('id', $id)->withCount('userElections')->first();
 
@@ -291,5 +293,19 @@ class AdminController extends Controller
                 'election' => $election
             ]);
         }
+    }
+
+    // Election
+    public function election($id) {
+        $election = Election::find($id);
+
+        // Check status of election
+        if ($election->status === 'not started') {
+            return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        return view('officers.election', [
+            'election' => $election
+        ]);
     }
 }

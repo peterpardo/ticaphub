@@ -12,7 +12,11 @@ class ReviewElection extends Component
     public $showConfirmModal = false;
 
     public function confirmSettings() {
-        dd('start election');
+        // Change status of election
+        $this->election->status = 'in progress';
+        $this->election->save();
+
+        return redirect('officers/elections/' . $this->election->id);
     }
 
     public function render()

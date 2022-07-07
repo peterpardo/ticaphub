@@ -21,7 +21,7 @@ class CheckElectionStatus
 
         // Check status of election
         if ($election->status === 'in progress') {
-            return redirect()->route('election');
+            return redirect()->route('election', ['id' => $election->id]);
         } else if ($election->status === 'done') {
             return redirect()->route('officers', ['id' => $election->id]);
         }

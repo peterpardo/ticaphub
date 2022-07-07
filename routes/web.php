@@ -128,10 +128,10 @@ Route::middleware(['auth'])->group(function () {
         });
 
         // OVERVIEW OF ELECTION (superadmin, admin, and student)
-        Route::get('/officers/elections/{id}', [ElectionController::class, 'election'])->name('election');
+        Route::get('/officers/elections/{id}', [AdminController::class, 'election'])->name('election');
 
         // VOTING PAGE (students)
-        Route::get('/officers/elections/{id}/vote', [ElectionController::class, 'vote']);
+        Route::get('/officers/elections/{id}/vote', [ElectionController::class, 'vote'])->middleware('student');
     });
 
     // SCHEDULES (temporarily disabled)
