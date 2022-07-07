@@ -14,7 +14,7 @@ class AddIsFinishedOnElectionsTable extends Migration
     public function up()
     {
         Schema::table('elections', function (Blueprint $table) {
-            $table->enum('status', ['done', 'in progres', 'not started'])->default('not started');
+            $table->enum('status', ['done', 'in progress', 'not started'])->default('not started');
         });
     }
 

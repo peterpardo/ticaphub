@@ -1,6 +1,6 @@
 @php
     // Get current user
-    $user = App\Models\User::find(Auth::id());
+    $user = App\Models\User::find(auth()->user()->id);
 
     $navs = collect([
         (object) [
@@ -11,7 +11,7 @@
         ],
         (object) [
             'name' =>  'Officers',
-            'route' => route('officers'),
+            'route' => $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id),
             'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
             'icon' => 'fa-solid fa-user-shield'
         ],

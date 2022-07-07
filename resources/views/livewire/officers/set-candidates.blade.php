@@ -1,4 +1,4 @@
-<div class="space-y-2"  x-data="{
+<div class="space-y-2" x-data="{
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
     {{-- Election name --}}
@@ -10,7 +10,7 @@
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Set Positions
             </x-app.button>
-            <x-app.button type="link" href="#" color="indigo">
+            <x-app.button type="link" href="{{ url('officers/review-election/' . $election->id) }}" color="indigo">
                 Review Election
                 <i class="fa-solid fa-arrow-right ml-1"></i>
             </x-app.button>

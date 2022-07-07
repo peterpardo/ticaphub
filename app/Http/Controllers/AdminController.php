@@ -223,21 +223,32 @@ class AdminController extends Controller
     }
 
     // Officers
-    public function officers() {
-        $user = User::find(auth()->user()->id);
-
-        // Check if user is a student
-        if ($user->hasRole('student')) {
-            return view('officers.student-page');
-        } else if ($user->hasAnyRole('superadmin', 'admin')){
-            return view('officers.admin-page');
-        } else {
-            return redirect()->route('dashboard');
-        }
+    public function elections() {
+        return view('officers.admin-page');
     }
 
-    // Officers > Set Positions
-    public function setPositions(Request $request, $id) {
+    public function checkElection(Request $request, $election) {
+        // Check if election exists
+        if (!$election) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election not found');
+
+            return true;
+        }
+
+        // Check if election has voters
+        if ($election->user_elections_count <= 0) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election has no voters. Add students for this school/specialization.');
+
+            return true;
+        }
+
+        return false;
+    }
+
+     // Officers > Set Positions
+     public function setPositions(Request $request, $id) {
         $election = Election::where('id', $id)->withCount('userElections')->first();
 
         // Check if election exists or has no voters
@@ -267,23 +278,18 @@ class AdminController extends Controller
         }
     }
 
-    public function checkElection(Request $request, $election) {
-        // Check if election exists
-        if (!$election) {
-            $request->session()->flash('status', 'red');
-            $request->session()->flash('message', 'Election not found');
+    public function reviewElection(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
 
-            return true;
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.review-election', [
+                'election' => $election
+            ]);
         }
-
-        // Check if election has voters
-        if ($election->user_elections_count <= 0) {
-            $request->session()->flash('status', 'red');
-            $request->session()->flash('message', 'Election has no voters. Add students for this school/specialization.');
-
-            return true;
-        }
-
-        return false;
     }
 }

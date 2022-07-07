@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Award;
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\IndividualAwardCandidate;
 use App\Models\IndividualWinner;
 use App\Models\Officer;
@@ -70,7 +71,7 @@ class ElectionController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
         if($ticap->election_finished) {
             return redirect()->route('officers');
-        } 
+        }
         if($ticap->election_review) {
             return redirect()->route('election-result');
         }
@@ -99,7 +100,7 @@ class ElectionController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
         if($ticap->election_finished) {
             return redirect()->route('officers');
-        } 
+        }
         if($ticap->election_review) {
             return redirect()->route('election-result');
         }
@@ -133,15 +134,15 @@ class ElectionController extends Controller
             }
 
             $search = $request->search;
-        
+
             $data = User::where('first_name', 'like', '%'.$search.'%')
                         ->orWhere('middle_name', 'like', '%'.$search.'%')
                         ->orWhere('last_name', 'like', '%'.$search.'%')
-                        ->orWhere('student_number', 'like', '%'.$search.'%')         
+                        ->orWhere('student_number', 'like', '%'.$search.'%')
             ->get();
-                        
+
             $output = '';
-        
+
             if($data){
                 foreach($data as $user){
                     $output .=  '<p class="rounded border-2-black px-2 py-2 hover:bg-gray-200 cursor-pointer" data-id="' . $user->id . '">' . $user->school->name . ' | ' . $user->userSpecialization->specialization->name . ' | ' . $user->last_name . ', ' . $user->first_name . ' ' . $user->middle_name . '</p>';
@@ -149,10 +150,10 @@ class ElectionController extends Controller
             } else {
                 $output .= 'No Results';
             }
-    
+
             return response($output);
         }
-    }   
+    }
 
     public function addCandidate(Request $request) {
         $validator = Validator::make($request->all(), [
@@ -221,17 +222,17 @@ class ElectionController extends Controller
             foreach(UserElection::where('has_voted', 1)->get() as $voter) {
                 $voter->has_voted = 0;
                 $voter->save();
-            } 
+            }
             $ticap->election_updated = 0;
         }
-        
+
         // START ELECTION
         if(!$ticap->election_has_started) {
             $ticap->election_has_started = 1;
         }
-        
+
         $ticap->save();
-        
+
         if($ticap->election_finished) {
             return redirect()->route('officers');
         }
@@ -244,9 +245,9 @@ class ElectionController extends Controller
             asset('js/officersandcommittees/election.js'),
         ];
         return view('officers-and-committees.election', [
-            'title' => $title, 
-            'ticap' => $ticap->name, 
-            'scripts' => $scripts, 
+            'title' => $title,
+            'ticap' => $ticap->name,
+            'scripts' => $scripts,
         ]);
     }
 
@@ -270,7 +271,7 @@ class ElectionController extends Controller
                     }
                     // POSITION
                     foreach($positions as $position){
-                        // FINDS CANDIDATES 
+                        // FINDS CANDIDATES
                         foreach($users as $user){
                             // CHECK IF USER IS A CANDIDATE
                             if($user->candidate != null){
@@ -293,8 +294,8 @@ class ElectionController extends Controller
                                     'ticap_id' => $candidate->user->ticap_id,
                                     'is_elected' => 1,
                                 ]);
-                            }  
-                        } 
+                            }
+                        }
                         // RUNS IF THERE ARE MORE THAN ONE RESULT
                         if(count($final) > 1){
                             foreach($final as $candidate_id){
@@ -313,7 +314,7 @@ class ElectionController extends Controller
                         $officer = Role::findByName('officer');
                         // CHECK IF POSITION HAS NO ROLE YET ASSIGNED
                         if($position->positionHasRole == null) {
-                            // ASSIGN CHAIRMAN ROLE TO CHAIRMAN 
+                            // ASSIGN CHAIRMAN ROLE TO CHAIRMAN
                             if($position->name == 'Chairman'){
                                 $position->positionHasRole()->create([
                                     'role_id' => $chairman->id
@@ -407,7 +408,7 @@ class ElectionController extends Controller
                         // UPDATE OFFICER AS ELECTED AND DELETE LOSER
                         Officer::where('user_id', $final[0])->update(['is_elected' => 1]);
                         Officer::where('user_id', $loser[0])->delete();
-                    } 
+                    }
                     // RUNS IF THERE ARE MORE THAN ONE RESULT
                     if(count($final) > 1){
                         foreach($final as $candidate_id){
@@ -493,45 +494,25 @@ class ElectionController extends Controller
         $pdf = PDF::loadView('reports.officers', $data);
         return $pdf->download(time().'-officers.pdf');
     }
-    public function test() {
-        // $winners = IndividualWinner::all();
-        // $specs = Specialization::all();
-        // foreach($specs as $spec) {
-        //     echo '<strong>' . $spec->name . '</strong><br>';
-        //     foreach($spec->awards as $award) {
-        //         if($award->type == 'individual') {
-        //             echo $award->name . '<br>';
-        //             foreach($award->individualWinners as $winner) {
-        //                 $users = [];
-        //                 echo $winner->group->name . '<br>';
-        //                 foreach($winner->group->userGroups as $userGroup) {
-        //                     array_push($users, $userGroup->user->id);
-        //                 }
-        //                 for($i = 0; $i < $spec->panelists->count(); $i++) {
-        //                     $key = array_rand($users);
-        //                     $winner->group->individualCandidates()->create([
-        //                         'user_id' => $users[$key]
-        //                     ]);
-        //                     echo 'panelist ' . $i+1 . ' : ' . $users[$key] . '<br>';
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        // dd($winners);
-        // foreach($winners as $winner) {
-        //     $users = [];
-        //     echo $winner->group->specialization->name . '<br>';
-        //     echo $winner->group->name . '<br>';
-        //     foreach($winner->group->userGroups as $userGroup) {
-        //         echo $userGroup->user->id . '<br>';
-        //         array_push($users, $userGroup->user->id);
-        //     }   
-        //     $key = array_rand($users);
-        //     $x = $winner->group->individualCandidates()->create([
-        //         'user_id' => $users[$key]
-        //     ]);
-        //     echo '<br>';
-        // }
+
+    public function election($id) {
+        $election = Election::find($id);
+
+        // Check status of election
+        if ($election->status === 'not started') {
+            return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        return view('officers.election', [
+            'election' => $election
+        ]);
+    }
+
+    public function vote($id) {
+        $election = Election::find($id);
+
+        return view('officers.vote', [
+            'election' => $election
+        ]);
     }
 }

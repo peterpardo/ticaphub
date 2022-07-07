@@ -117,15 +117,21 @@ Route::middleware(['auth'])->group(function () {
 
     // OFFICERS
     Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
-        Route::get('/officers', [AdminController::class, 'officers'])->name('officers');
+        Route::get('/officers/elections', [AdminController::class, 'elections'])->middleware('admin');
+        Route::get('/officers/{id}', [HomeController::class, 'officers'])->name('officers');
 
         // SETTING OF ELECTION (superadmin and admin only)
-        Route::middleware(['admin'])->group(function () {
+        Route::middleware(['admin', 'election.status'])->group(function () {
             Route::get('/officers/set-positions/{id}', [AdminController::class, 'setPositions']);
             Route::get('/officers/set-candidates/{id}', [AdminController::class, 'setCandidates']);
+            Route::get('/officers/review-election/{id}', [AdminController::class, 'reviewElection']);
         });
 
+        // OVERVIEW OF ELECTION (superadmin, admin, and student)
+        Route::get('/officers/elections/{id}', [ElectionController::class, 'election'])->name('election');
+
         // VOTING PAGE (students)
+        Route::get('/officers/elections/{id}/vote', [ElectionController::class, 'vote']);
     });
 
     // SCHEDULES (temporarily disabled)
