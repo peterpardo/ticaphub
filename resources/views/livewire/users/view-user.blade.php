@@ -15,9 +15,18 @@
         <div
         class="flex flex-col items-center gap-y-2 pb-5 border-b-2 border-gray-300 lg:flex-row lg:items-start">
             <div class="flex-1 w-40">
-                <img class="w-40 mx-auto rounded-full"
-                src="{{ is_null($user->profile_picture) ? url(asset('assets/default-img.png')) : Storage::url($user->profile_picture)}}"
-                alt="profile_picture" />
+                <div class="w-40 h-40 mx-auto rounded-full overflow-hidden object-cover">
+                    {{-- Check if user has a profile picture --}}
+                    <img
+                        class="w-full"
+                        @if (is_null($user->profile_picture))
+                            src="{{ url(asset('assets/default-img.png')) }}"
+                        @else
+                            src="{{ url(asset($user->profile_picture)) }}"
+                        @endif
+                        alt="profile_picture"
+                        loading="lazy" />
+                </div>
             </div>
 
             <div class="flex-1 space-y-1">
@@ -119,44 +128,46 @@
                 @enderror
             </x-form.form-control>
 
-
-            <x-form.form-control>
-                <x-form.label>Permissions</x-form.label>
-                <div class="grid grid-rows-2 grid-cols-1 md:grid-cols-2 gap-y-2">
-                    <div class="flex items-center space-x-2 text-sm">
-                        <input
-                        type="checkbox"
-                        wire:model="uaPermission"
-                        id="uaPermission"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                        <label for="uaPermission">give accesss <strong>User Accounts</strong></label>
+            @hasanyrole('superadmin|admin')
+                {{-- Permissions --}}
+                <x-form.form-control>
+                    <x-form.label>Permissions</x-form.label>
+                    <div class="grid grid-rows-2 grid-cols-1 md:grid-cols-2 gap-y-2">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <input
+                            type="checkbox"
+                            wire:model="uaPermission"
+                            id="uaPermission"
+                            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                            <label for="uaPermission">give accesss <strong>User Accounts</strong></label>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <input
+                            type="checkbox"
+                            wire:model="paPermission"
+                            id="paPermission"
+                            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                            <label for="paPermission">give access <strong>Project Assessment</strong></label>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <input
+                            type="checkbox"
+                            wire:model="chPermission"
+                            id="chPermission"
+                            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                            <label for="chPermission">give access <strong>Committee Heads</strong></label>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <input
+                            type="checkbox"
+                            wire:model="mePermission"
+                            id="mePermission"
+                            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                            <label for="mePermission">give access <strong>Manage Events</strong></label>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-2 text-sm">
-                        <input
-                        type="checkbox"
-                        wire:model="paPermission"
-                        id="paPermission"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                        <label for="paPermission">give access <strong>Project Assessment</strong></label>
-                    </div>
-                    <div class="flex items-center space-x-2 text-sm">
-                        <input
-                        type="checkbox"
-                        wire:model="chPermission"
-                        id="chPermission"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                        <label for="chPermission">give access <strong>Committee Heads</strong></label>
-                    </div>
-                    <div class="flex items-center space-x-2 text-sm">
-                        <input
-                        type="checkbox"
-                        wire:model="mePermission"
-                        id="mePermission"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                        <label for="mePermission">give access <strong>Manage Events</strong></label>
-                    </div>
-                </div>
-            </x-form.form-control>
+                </x-form.form-control>
+            @endhasanyrole
         @endif
 
         <div class="text-right">

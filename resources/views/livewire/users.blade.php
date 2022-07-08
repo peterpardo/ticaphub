@@ -92,6 +92,10 @@
                             @if (auth()->user()->hasRole('superadmin') || (auth()->user()->hasRole('admin') && !$user->hasRole('admin')))
                                 <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
                                 <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                            {{-- Don't allow students to delete/edit own account --}}
+                            @elseif ((auth()->user()->hasRole('student') && !$user->hasRole('admin')) && auth()->user()->email != $user->email)
+                                <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
+                                <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
                             @endif
                         @endif
                     </x-table.tdata-actions>

@@ -20,7 +20,7 @@ class CheckIfUserIsAdmin
     {
         $user = User::find(Auth::user()->id);
 
-        if($user->hasAnyRole(['superadmin', 'admin'])) {
+        if($user->hasAnyRole(['superadmin', 'admin']) || $user->hasPermissionTo('access user accounts')) {
             return $next($request);
         }
 

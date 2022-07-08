@@ -6,7 +6,7 @@
         (object) [
             'name' => 'User Accounts',              // name of sidebar link
             'route' => route('users'),              // route
-            'hasAccess' => $user->hasAnyRole('superadmin', 'admin'), // Check whether user has access to the specified link
+            'hasAccess' => $user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access user accounts'), // Check whether user has access to the specified link
             'icon' => 'fa-solid fa-user'            // icon from FontAwesome
         ],
         (object) [
