@@ -1,4 +1,7 @@
-<div class="space-y-2">
+<div class="space-y-2" x-data="{
+    showResetModal: @entangle('showResetModal').defer,
+    showConfirmModal: @entangle('showConfirmModal').defer,
+}">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $election->name }}</h1>
@@ -6,7 +9,7 @@
         {{-- Functions for admin only --}}
         @hasanyrole('superadmin|admin')
             <div class="flex gap-x-1 self-end md:self-auto">
-                <x-app.button type="button" color="gray">
+                <x-app.button type="button" color="gray" @click.prevent="showResetModal = !showResetModal">
                     <i class="fa-solid fa-arrow-left mr-1"></i>
                     Reset Election
                 </x-app.button>
@@ -87,4 +90,19 @@
             {{ $positions->links() }}
         </x-slot>
     </x-table>
+
+
+    {{-- Modals --}}
+    {{-- Reset election --}}
+    <div x-cloak x-show="showResetModal">
+        <x-modal>
+            <x-modal.title>Reset Electoin</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will reset all of the current votes of each candidate.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" @click.prevent="showResetModal = !showResetModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="resetElection">Yes, reset election.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>

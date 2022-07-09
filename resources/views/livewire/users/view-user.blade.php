@@ -82,6 +82,25 @@
             @enderror
         </x-form.form-control>
 
+        @hasanyrole('superadmin|admin')
+            {{-- Manually validate email --}}
+            <x-form.form-control>
+                <x-form.label>Verify Email</x-form.label>
+                <x-form.input-info>
+                    <strong>Note:</strong>
+                    In case the user didn't receive the invitation link, you can manually validate the account here. After manually verifying the email, the user can use the <strong>Forgot Password</strong> link in the login screen to reset their password. By default, <strong>users can't reset their passwords if the email is not verified</strong>.
+                </x-form.input-info>
+                <div class="flex items-center space-x-2 text-sm">
+                    <input
+                        type="checkbox"
+                        wire:model="isEmailVerified"
+                        id="isEmailVerified"
+                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                    <label for="isEmailVerified">email verified</label>
+                </div>
+            </x-form.form-control>
+        @endhasanyrole
+
         @if($showStudentFields)
             {{-- School --}}
             <x-form.form-control>
@@ -129,23 +148,6 @@
             </x-form.form-control>
 
             @hasanyrole('superadmin|admin')
-                {{-- Manually validate email --}}
-                <x-form.form-control>
-                    <x-form.label>Verify Email</x-form.label>
-                    <x-form.input-info>
-                        <strong>Note:</strong>
-                        In case the user didn't receive the invitation link, you can manually validate the account here. After manually verifying the email, the user can use the <strong>Forgot Password</strong> link in the login screen to reset their password. By default, <strong>users can't reset their passwords if the email is not verified</strong>.
-                    </x-form.input-info>
-                    <div class="flex items-center space-x-2 text-sm">
-                        <input
-                        type="checkbox"
-                        wire:model="isEmailVerified"
-                        id="isEmailVerified"
-                        class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
-                        <label for="isEmailVerified">email verified</label>
-                    </div>
-                </x-form.form-control>
-
                 {{-- Permissions --}}
                 <x-form.form-control>
                     <x-form.label>Permissions</x-form.label>
