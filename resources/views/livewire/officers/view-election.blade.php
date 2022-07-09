@@ -1,6 +1,7 @@
 <div class="space-y-2" x-data="{
     showResetModal: @entangle('showResetModal').defer,
     showConfirmModal: @entangle('showConfirmModal').defer,
+    showRedoModal: @entangle('showRedoModal').defer,
 }">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
@@ -11,14 +12,14 @@
             <div class="flex gap-x-1 self-end md:self-auto">
                 <x-app.button type="button" color="gray" @click.prevent="showResetModal = !showResetModal">
                     <i class="fa-solid fa-arrow-left mr-1"></i>
-                    Reset Election
+                    Update Election
                 </x-app.button>
 
                 {{-- Check if election is 'in_review' --}}
                 @if ($election->in_review)
                     {{-- If there are still tied candidates, show re-do election --}}
-                    @if (in_array('red', $candidateStatus))
-                        <x-app.button type="button" color="blue" @click.prevent="showConfirmModal = !showConfirmModal">
+                    @if ($hasTiedCandidates)
+                        <x-app.button type="button" color="blue" wire:click.prevent="$set('showRedoModal', true)">
                             Redo Election
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
@@ -44,9 +45,15 @@
     @endif
 
     {{-- Note --}}
-    <x-info-box color="yellow">
-        Here, you can see the status of the election. The vote count will automatically update every five seconds.
-    </x-info-box>
+    @if ($election->in_review)
+        <x-info-box color="yellow">
+            Currently, the election has been finished and is now in review. If their are positions with tied votes, redo of election for that position must be done by clicking the <strong>Redo Election</strong> button.
+        </x-info-box>
+    @else
+        <x-info-box color="yellow">
+            Here, you can see the status of the election. The vote count will automatically update every five seconds.
+        </x-info-box>
+    @endif
 
     {{-- Student count --}}
     <div>
@@ -71,7 +78,7 @@
                     <x-table.tdata>
                         <div class="space-y-2">
                             @forelse ($position->candidates as $candidate)
-                                <div class="flex items-center @if (array_key_exists($candidate->id, $candidateStatus)) bg-{{ $candidateStatus[$candidate->id] }}-100 @endif">
+                                <div class="flex items-center @if ($candidate->status) bg-{{ $candidate->status }}-100 @endif">
                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
                                         <img
                                             class="w-full object-cover"
@@ -117,7 +124,7 @@
     {{-- Reset election --}}
     <div x-cloak x-show="showResetModal">
         <x-modal>
-            <x-modal.title>Reset Election</x-modal.title>
+            <x-modal.title>Update Election</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will reset all of the current votes of each candidate.</x-modal.description>
 
             <div class="text-right">
@@ -136,6 +143,19 @@
             <div class="text-right">
                 <x-app.button color="gray" wire:click.prevent="$set('showConfirmModal', false)">Cancel</x-app.button>
                 <x-app.button color="green" wire:click.prevent="endElection">Yes, end the election.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
+
+    {{-- Redo election --}}
+    <div x-cloak x-show="showRedoModal">
+        <x-modal>
+            <x-modal.title>Redo Election</x-modal.title>
+            <x-modal.description>Votes of the positions with tied candidates will be reset to 0 and students will need to vote again to determine the winner.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="$set('showRedoModal', false)">Cancel</x-app.button>
+                <x-app.button color="blue" wire:click.prevent="redoElection">Yes, redo the election.</x-app.button>
             </div>
         </x-modal>
     </div>

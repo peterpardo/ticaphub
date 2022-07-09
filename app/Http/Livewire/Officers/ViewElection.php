@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Officers;
 
+use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Position;
 use App\Models\UserElection;
@@ -13,9 +14,14 @@ class ViewElection extends Component
     public Election $election;
     public $showResetModal = false;
     public $showConfirmModal = false;
+    public $showRedoModal = false;
+    public $hasTiedCandidates = false;
 
-    // candidate_id => status (red or green)
-    public $candidateStatus = [];
+    public function mount() {
+        // Check if election has tied candidates
+        $this->hasTiedCandidates = Candidate::where('election_id', $this->election->id)
+            ->where('status', 'red')->exists();
+    }
 
     public function resetElection() {
         // delete all votes of the election
@@ -26,8 +32,13 @@ class ViewElection extends Component
             ->where('has_voted', 1)
             ->update(['has_voted' => 0]);
 
+        // changes status of candidates to null
+        Candidate::where('election_id', $this->election->id)->update(['status' => null]);
+
         // change status of election from 'in progress' to 'not started'
+        // change in_review column to false
         $this->election->status = 'not started';
+        $this->election->in_review = false;
         $this->election->save();
 
         // redirect to the elections page (list of all elections)
@@ -38,6 +49,9 @@ class ViewElection extends Component
         // Set the election 'in_review' to true
         $this->election->in_review = true;
         $this->election->save();
+
+        // Reset hasTiedCandidates property
+        $this->reset('hasTiedCandidates');
 
         // Get all candidates for each position
         $positions =  Position::select('id')
@@ -61,12 +75,10 @@ class ViewElection extends Component
 
             // If result is more than 2, there is a tie, set the bg color of the tied candidates to red
             if (count($result) > 1) {
-                foreach ($result as $tiedCandidate) {
-                    $this->candidateStatus[$tiedCandidate] = 'red';
-                }
+                Candidate::whereIn('id', $result)->update(['status' => 'red']);
+                $this->hasTiedCandidates = true;
             } else {
-                dd('one winner');
-                $this->candidateStatus[$result[0]] = 'green';
+                Candidate::where('id', $result[0])->update(['status' => 'red']);
             }
         }
 
@@ -75,6 +87,10 @@ class ViewElection extends Component
         session()->flash('message', 'Voting of candidates is finished. Election is now in review.');
 
         $this->showConfirmModal = false;
+    }
+
+    public function redoElection() {
+        dd('redo electoni');
     }
 
     public function render()

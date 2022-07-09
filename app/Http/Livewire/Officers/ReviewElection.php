@@ -18,7 +18,7 @@ class ReviewElection extends Component
         foreach ($positions as $position) {
             if ($position->candidates_count < 2) {
                 session()->flash('status', 'red');
-                session()->flash('message', $position->name . 'position needs one more candidate to proceed');
+                session()->flash('message', $position->name . ' position needs atleast two candidate to proceed');
 
                 $this->showConfirmModal = false;
 
