@@ -42,6 +42,10 @@ class Election extends Model
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
     }
 
+    public function votes() {
+        return $this->hasMany(Vote::class, 'election_id', 'id');
+    }
+
     public function getStatusColorAttribute() {
         return $this->statusColor[$this->status];
     }
