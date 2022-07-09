@@ -13,7 +13,7 @@
                     <i class="fa-solid fa-arrow-left mr-1"></i>
                     Reset Election
                 </x-app.button>
-                <x-app.button type="button" color="green">
+                <x-app.button type="button" color="green" @click.prevent="showConfirmModal = !showConfirmModal">
                     End Election
                     <i class="fa-solid fa-arrow-right ml-1"></i>
                 </x-app.button>
@@ -28,8 +28,13 @@
 
     {{-- Note --}}
     <x-info-box color="yellow">
-        Here, you can see the status of the election. The vote count will automatically update every two seconds.
+        Here, you can see the status of the election. The vote count will automatically update every five seconds.
     </x-info-box>
+
+    {{-- Student count --}}
+    <div wire:poll.5000ms>
+        <strong>{{ $studentHasVotedCount }}</strong> out of <strong>{{ $studentCount }}</strong> has voted
+    </div>
 
     {{-- Candidates table --}}
     <x-table>
@@ -74,7 +79,7 @@
 
                     {{-- Vote Count --}}
                     <x-table.tdata>
-                        <div class="space-y-2">
+                        <div class="space-y-2" wire:poll.5000ms>
                             @foreach ($position->candidates as $candidate)
                                 <div class="flex items-center h-10">{{ $candidate->votes_count }}</div>
                             @endforeach
@@ -96,12 +101,25 @@
     {{-- Reset election --}}
     <div x-cloak x-show="showResetModal">
         <x-modal>
-            <x-modal.title>Reset Electoin</x-modal.title>
+            <x-modal.title>Reset Election</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will reset all of the current votes of each candidate.</x-modal.description>
 
             <div class="text-right">
                 <x-app.button color="gray" @click.prevent="showResetModal = !showResetModal">Cancel</x-app.button>
                 <x-app.button color="red" wire:click.prevent="resetElection">Yes, reset election.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
+
+    {{-- End election --}}
+    <div x-cloak x-show="showConfirmModal">
+        <x-modal>
+            <x-modal.title>End Election</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will end the election students will not be able to vote anymore.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" @click.prevent="showConfirmModal = !showConfirmModal">Cancel</x-app.button>
+                <x-app.button color="green" wire:click.prevent="endElection">Yes, end the election.</x-app.button>
             </div>
         </x-modal>
     </div>

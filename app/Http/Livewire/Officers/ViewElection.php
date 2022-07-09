@@ -31,6 +31,10 @@ class ViewElection extends Component
         return redirect('officers/elections');
     }
 
+    public function endElection() {
+        dd('end election');
+    }
+
     public function render()
     {
         return view('livewire.officers.view-election', [
@@ -42,6 +46,10 @@ class ViewElection extends Component
                     'candidates.user'
                 ])
                 ->paginate(5),
+            'studentCount' =>  UserElection::where('election_id', $this->election->id)->count(),
+            'studentHasVotedCount' => UserElection::where('election_id', $this->election->id)
+                ->where('has_voted', 1)
+                ->count()
         ]);
     }
 }
