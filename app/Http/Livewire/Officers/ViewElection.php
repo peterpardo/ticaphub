@@ -13,14 +13,31 @@ class ViewElection extends Component
 {
     public Election $election;
     public $showResetModal = false;
-    public $showConfirmModal = false;
-    public $showRedoModal = false;
     public $hasTiedCandidates = false;
+    public $positions;
+    public $studentCount;
+    public $studentHasVotedCount;
 
     public function mount() {
+        $this->updateVotes();
         // Check if election has tied candidates
         $this->hasTiedCandidates = Candidate::where('election_id', $this->election->id)
             ->where('status', 'red')->exists();
+    }
+
+    public function updateVotes() {
+        $this->positions = Position::where('election_id', $this->election->id)
+            ->with([
+                'candidates' => function ($query) {
+                    $query->withCount('votes');
+                },
+                'candidates.user'
+            ])
+            ->get();
+        $this->studentCount = UserElection::where('election_id', $this->election->id)->count();
+        $this->studentHasVotedCount = UserElection::where('election_id', $this->election->id)
+            ->where('has_voted', 1)
+            ->count();
     }
 
     public function resetElection() {
@@ -46,10 +63,6 @@ class ViewElection extends Component
     }
 
     public function endElection() {
-        // Set the election 'in_review' to true
-        $this->election->in_review = true;
-        $this->election->save();
-
         // Reset hasTiedCandidates property
         $this->reset('hasTiedCandidates');
 
@@ -78,7 +91,11 @@ class ViewElection extends Component
                 Candidate::whereIn('id', $result)->update(['status' => 'red']);
                 $this->hasTiedCandidates = true;
             } else {
-                Candidate::where('id', $result[0])->update(['status' => 'red']);
+                Candidate::where('id', $result[0])->update(['status' => 'green']);
+
+                // set is_done column of position to true
+                $position->is_done = true;
+                $position->save();
             }
         }
 
@@ -86,28 +103,23 @@ class ViewElection extends Component
         session()->flash('status', 'green');
         session()->flash('message', 'Voting of candidates is finished. Election is now in review.');
 
-        $this->showConfirmModal = false;
+        // Set the election 'in_review' to true
+        $this->election->in_review = true;
+        $this->election->save();
+
+        return redirect('officers/elections/' . $this->election->id);
     }
 
     public function redoElection() {
-        dd('redo electoni');
+        dd('redo election');
+        // delete all votes for the position with tied candidates
+        // set has_voted column of user_election (students) to false to allow them to vote again
+        // set 'in_review' to false
+        // delete candidates whose status is still null after ending election
     }
 
     public function render()
     {
-        return view('livewire.officers.view-election', [
-            'positions' => Position::where('election_id', $this->election->id)
-                ->with([
-                    'candidates' => function ($query) {
-                        $query->withCount('votes');
-                    },
-                    'candidates.user'
-                ])
-                ->paginate(5),
-            'studentCount' =>  UserElection::where('election_id', $this->election->id)->count(),
-            'studentHasVotedCount' => UserElection::where('election_id', $this->election->id)
-                ->where('has_voted', 1)
-                ->count()
-        ]);
+        return view('livewire.officers.view-election');
     }
 }

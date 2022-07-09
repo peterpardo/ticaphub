@@ -1,7 +1,7 @@
 <div class="space-y-2" x-data="{
     showResetModal: @entangle('showResetModal').defer,
-    showConfirmModal: @entangle('showConfirmModal').defer,
-    showRedoModal: @entangle('showRedoModal').defer,
+    showConfirmModal: false,
+    showRedoModal: false,
 }">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
@@ -19,7 +19,7 @@
                 @if ($election->in_review)
                     {{-- If there are still tied candidates, show re-do election --}}
                     @if ($hasTiedCandidates)
-                        <x-app.button type="button" color="blue" wire:click.prevent="$set('showRedoModal', true)">
+                        <x-app.button type="button" color="blue" @click.prevent="showRedoModal = !showRedoModal">
                             Redo Election
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
@@ -30,7 +30,7 @@
                         </x-app.button>
                     @endif
                 @else
-                    <x-app.button type="button" color="green" wire:click.prevent="$set('showConfirmModal', true)">
+                    <x-app.button type="button" color="green" @click.prevent="showConfirmModal = !showConfirmModal">
                         End Election
                         <i class="fa-solid fa-arrow-right ml-1"></i>
                     </x-app.button>
@@ -56,7 +56,7 @@
     @endif
 
     {{-- Student count --}}
-    <div>
+    <div wire:poll.5000ms="updateVotes">
         <strong>{{ $studentHasVotedCount }}</strong> out of <strong>{{ $studentCount }}</strong> has voted
     </div>
 
@@ -115,9 +115,7 @@
             @endforelse
         </x-slot>
 
-        <x-slot name="links">
-            {{ $positions->links() }}
-        </x-slot>
+        <x-slot name="links"></x-slot>
     </x-table>
 
     {{-- Modals --}}
@@ -140,9 +138,12 @@
             <x-modal.title>End Election</x-modal.title>
             <x-modal.description>Are you sure? Continuing this will end the election students will not be able to vote anymore.</x-modal.description>
 
+            {{-- Spinner --}}
+            <x-spinner wire:loading.flex wire:target="endElection">Please Wait. This may take a few seconds.</x-spinner>
+
             <div class="text-right">
-                <x-app.button color="gray" wire:click.prevent="$set('showConfirmModal', false)">Cancel</x-app.button>
-                <x-app.button color="green" wire:click.prevent="endElection">Yes, end the election.</x-app.button>
+                <x-app.button color="gray" wire:loading.attr="disabled" @click.prevent="showConfirmModal = !showConfirmModal">Cancel</x-app.button>
+                <x-app.button color="green" wire:loading.attr="disabled" wire:click.prevent="endElection">Yes, end the election.</x-app.button>
             </div>
         </x-modal>
     </div>
@@ -154,7 +155,7 @@
             <x-modal.description>Votes of the positions with tied candidates will be reset to 0 and students will need to vote again to determine the winner.</x-modal.description>
 
             <div class="text-right">
-                <x-app.button color="gray" wire:click.prevent="$set('showRedoModal', false)">Cancel</x-app.button>
+                <x-app.button color="gray" @click.prevent="showRedoModal = !showRedoModal">Cancel</x-app.button>
                 <x-app.button color="blue" wire:click.prevent="redoElection">Yes, redo the election.</x-app.button>
             </div>
         </x-modal>
