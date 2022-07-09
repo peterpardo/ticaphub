@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddElectionIdOnVotesTable extends Migration
+class AddInReviewColumnOnElectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddElectionIdOnVotesTable extends Migration
      */
     public function up()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->foreignId('election_id')
-                ->constrained('elections')
-                ->onDelete('cascade');
+        Schema::table('elections', function (Blueprint $table) {
+            $table->boolean('in_review')
+                ->default(0);
         });
     }
 
@@ -27,8 +26,8 @@ class AddElectionIdOnVotesTable extends Migration
      */
     public function down()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->dropColumn('election_id');
+        Schema::table('elections', function (Blueprint $table) {
+            $table->dropColumn('in_review');
         });
     }
 }

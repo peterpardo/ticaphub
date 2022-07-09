@@ -14,6 +14,9 @@ class ViewElection extends Component
     public $showResetModal = false;
     public $showConfirmModal = false;
 
+    // candidate_id => status (red or green)
+    public $candidateStatus = [];
+
     public function resetElection() {
         // delete all votes of the election
         Vote::where('election_id', $this->election->id)->delete();
@@ -32,7 +35,46 @@ class ViewElection extends Component
     }
 
     public function endElection() {
-        dd('end election');
+        // Set the election 'in_review' to true
+        $this->election->in_review = true;
+        $this->election->save();
+
+        // Get all candidates for each position
+        $positions =  Position::select('id')
+            ->where('election_id', $this->election->id)
+            ->with(['candidates' => function ($query) {
+                $query->withCount('votes');
+            }])
+            ->get();
+
+        // Loop through each position
+        foreach ($positions as $position) {
+            $voteCounts = [];
+
+            // Get all vote counts of each candidate and store in an array
+            foreach ($position->candidates as $candidate) {
+                $voteCounts[$candidate->id] = $candidate->votes_count; // candidate_id => vote count
+            }
+
+            // Get the candidate_id  of the highest vote count
+            $result = array_keys($voteCounts, max($voteCounts));
+
+            // If result is more than 2, there is a tie, set the bg color of the tied candidates to red
+            if (count($result) > 1) {
+                foreach ($result as $tiedCandidate) {
+                    $this->candidateStatus[$tiedCandidate] = 'red';
+                }
+            } else {
+                dd('one winner');
+                $this->candidateStatus[$result[0]] = 'green';
+            }
+        }
+
+        // Show alert message
+        session()->flash('status', 'green');
+        session()->flash('message', 'Voting of candidates is finished. Election is now in review.');
+
+        $this->showConfirmModal = false;
     }
 
     public function render()

@@ -13,10 +13,27 @@
                     <i class="fa-solid fa-arrow-left mr-1"></i>
                     Reset Election
                 </x-app.button>
-                <x-app.button type="button" color="green" @click.prevent="showConfirmModal = !showConfirmModal">
-                    End Election
-                    <i class="fa-solid fa-arrow-right ml-1"></i>
-                </x-app.button>
+
+                {{-- Check if election is 'in_review' --}}
+                @if ($election->in_review)
+                    {{-- If there are still tied candidates, show re-do election --}}
+                    @if (in_array('red', $candidateStatus))
+                        <x-app.button type="button" color="blue" @click.prevent="showConfirmModal = !showConfirmModal">
+                            Redo Election
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </x-app.button>
+                    @else
+                        <x-app.button type="button" color="green" @click.prevent="showConfirmModal = !showConfirmModal">
+                            Finalize Election
+                            <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </x-app.button>
+                    @endif
+                @else
+                    <x-app.button type="button" color="green" wire:click.prevent="$set('showConfirmModal', true)">
+                        End Election
+                        <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </x-app.button>
+                @endif
             </div>
         @endhasanyrole
     </div>
@@ -32,7 +49,7 @@
     </x-info-box>
 
     {{-- Student count --}}
-    <div wire:poll.5000ms>
+    <div>
         <strong>{{ $studentHasVotedCount }}</strong> out of <strong>{{ $studentCount }}</strong> has voted
     </div>
 
@@ -54,7 +71,7 @@
                     <x-table.tdata>
                         <div class="space-y-2">
                             @forelse ($position->candidates as $candidate)
-                                <div class="flex items-center">
+                                <div class="flex items-center @if (array_key_exists($candidate->id, $candidateStatus)) bg-{{ $candidateStatus[$candidate->id] }}-100 @endif">
                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
                                         <img
                                             class="w-full object-cover"
@@ -79,7 +96,7 @@
 
                     {{-- Vote Count --}}
                     <x-table.tdata>
-                        <div class="space-y-2" wire:poll.5000ms>
+                        <div class="space-y-2">
                             @foreach ($position->candidates as $candidate)
                                 <div class="flex items-center h-10">{{ $candidate->votes_count }}</div>
                             @endforeach
@@ -95,7 +112,6 @@
             {{ $positions->links() }}
         </x-slot>
     </x-table>
-
 
     {{-- Modals --}}
     {{-- Reset election --}}
@@ -118,7 +134,7 @@
             <x-modal.description>Are you sure? Continuing this will end the election students will not be able to vote anymore.</x-modal.description>
 
             <div class="text-right">
-                <x-app.button color="gray" @click.prevent="showConfirmModal = !showConfirmModal">Cancel</x-app.button>
+                <x-app.button color="gray" wire:click.prevent="$set('showConfirmModal', false)">Cancel</x-app.button>
                 <x-app.button color="green" wire:click.prevent="endElection">Yes, end the election.</x-app.button>
             </div>
         </x-modal>
