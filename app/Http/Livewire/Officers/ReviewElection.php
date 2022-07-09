@@ -12,6 +12,20 @@ class ReviewElection extends Component
     public $showConfirmModal = false;
 
     public function confirmSettings() {
+        $positions = Position::withCount('candidates')->get();
+
+        // Check if each position has atleast two candidates
+        foreach ($positions as $position) {
+            if ($position->candidates_count < 2) {
+                session()->flash('status', 'red');
+                session()->flash('message', $position->name . 'position needs one more candidate to proceed');
+
+                $this->showConfirmModal = false;
+
+                return;
+            }
+        }
+
         // Change status of election
         $this->election->status = 'in progress';
         $this->election->save();

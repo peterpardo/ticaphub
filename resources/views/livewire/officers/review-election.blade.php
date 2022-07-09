@@ -1,5 +1,5 @@
 <div class="space-y-2" x-data="{
-    showConfirmModal: false,
+    showConfirmModal: @entangle('showConfirmModal').defer,
 }">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
@@ -86,7 +86,7 @@
 
             <div class="text-right">
                 <x-app.button color="gray" @click.prevent="showConfirmModal = !showConfirmModal">Cancel</x-app.button>
-                <x-app.button color="blue" wire:click.prevent="confirmSettings">Yes, start the election.</x-app.button>
+                <x-app.button color="green" wire:click.prevent="confirmSettings">Yes, start the election.</x-app.button>
             </div>
         </x-modal>
     </div>
