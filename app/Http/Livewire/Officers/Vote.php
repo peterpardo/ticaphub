@@ -31,6 +31,15 @@ class Vote extends Component
     }
 
     public function submitVote() {
+        // If the election is already in review, don't count the vote and redirect to election page
+        if ($this->election->in_review) {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Sorry, your vote didn\'t count. The voting of officers is already finished.');
+
+            // Redirect to election page
+            return redirect('/officers/elections/' . $this->election->id);
+        }
+
         // Create validation rules
         $customRules = [];
         $customAttributes = [];

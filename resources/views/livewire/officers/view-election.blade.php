@@ -24,7 +24,7 @@
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
                     @else
-                        <x-app.button type="button" color="green" @click.prevent="showConfirmModal = !showConfirmModal">
+                        <x-app.button type="button" color="green">
                             Finalize Election
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
@@ -60,7 +60,8 @@
     @endif
 
     {{-- Student count --}}
-    <div wire:poll.5000ms="updateVotes">
+    {{-- Refresh page only when voting is still ongoing --}}
+    <div @if (!$election->in_review) wire:poll.5000ms="updateVotes" @endif>
         <strong>{{ $studentHasVotedCount }}</strong> out of <strong>{{ $studentCount }}</strong> has voted
     </div>
 
@@ -82,7 +83,7 @@
                     <x-table.tdata>
                         <div class="space-y-2">
                             @forelse ($position->candidates as $candidate)
-                                <div class="flex items-center @if ($candidate->status) bg-{{ $candidate->status }}-100 @endif">
+                                <div class="flex items-center @if ($candidate->status) bg-{{ $candidate->status }}-100 rounded-full @endif">
                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
                                         <img
                                             class="w-full object-cover"
