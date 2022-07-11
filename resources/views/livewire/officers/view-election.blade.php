@@ -47,7 +47,11 @@
     {{-- Note --}}
     @if ($election->in_review)
         <x-info-box color="yellow">
-            Currently, the election has been finished and is now in review. If their are positions with tied votes, redo of election for that position must be done by clicking the <strong>Redo Election</strong> button.
+            @if (auth()->user()->hasAnyRole('superadmin', 'admin'))
+                Currently, the election has been finished and is now in review. If their are positions with tied votes, redo of election for that position must be done by clicking the <strong>Redo Election</strong> button.
+            @else
+                This table shows the result of the election.
+            @endif
         </x-info-box>
     @else
         <x-info-box color="yellow">

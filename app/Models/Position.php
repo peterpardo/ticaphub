@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Position extends Model
 {
@@ -39,5 +40,9 @@ class Position extends Model
 
     public function getNameAttribute($value) {
         return ucwords($value);
+    }
+
+    public function getPositionSlugAttribute() {
+        return Str::slug($this->name, '_');
     }
 }
