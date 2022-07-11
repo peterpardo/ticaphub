@@ -48,8 +48,8 @@ class StudentController extends Controller
         $student = User::where('id', auth()->user()->id)->with('userElection')->first();
         $election = Election::find($id);
 
-        // If student has voted, redirect to election page
-        if ($student->userElection->has_voted) {
+        // If student has voted, redirect to election page OR If election is 'in_review', redirect student to election page
+        if ($student->userElection->has_voted || $election->in_review) {
             return redirect('officers/elections/' . $student->userElection->election_id);
         }
 

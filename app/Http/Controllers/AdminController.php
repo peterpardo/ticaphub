@@ -306,7 +306,7 @@ class AdminController extends Controller
         }
 
         // If user is a student AND has not yet voted, redirect to vote page
-        if ($user->hasRole('student') && !$user->userElection->has_voted) {
+        if ($user->hasRole('student') && !$user->userElection->has_voted && !$election->in_review) {
             return redirect('officers/elections/' . $election->id . '/vote');
         }
 
