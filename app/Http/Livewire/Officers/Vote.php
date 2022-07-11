@@ -2,8 +2,12 @@
 
 namespace App\Http\Livewire\Officers;
 
+use App\Exceptions\GeneralException;
 use App\Models\Election;
 use App\Models\Position;
+use App\Models\UserElection;
+use App\Models\Vote as ModelsVote;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
@@ -26,7 +30,7 @@ class Vote extends Component
         $this->positionProps = $positionProps;
     }
 
-    public function reviewVotes() {
+    public function submitVote() {
         // Create validation rules
         $customRules = [];
         $customAttributes = [];
@@ -60,13 +64,29 @@ class Vote extends Component
                 }
             }
 
+            $this->showConfirmModal = false;
+
             // Show error message
             if ($hasError) return;
         }
 
-        $validated = $validator->validated();
+        // Add votes of student
+        foreach ($this->positionProps as $candidateId) {
+            ModelsVote::create([
+                'user_id' => auth()->user()->id,
+                'candidate_id' => $candidateId,
+                'election_id' => $this->election->id
+            ]);
+        }
 
-        $this->showConfirmModal = true;
+        // Set student to 'has_voted'
+        UserElection::where('user_id', auth()->user()->id)->update(['has_voted' => 1]);
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Your vote has been successfully saved. Awesome!');
+
+        // Redirect to election page
+        return redirect('/officers/elections/' . $this->election->id);
     }
 
     public function render()

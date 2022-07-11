@@ -14,7 +14,7 @@
 
     {{-- Submit vote button --}}
     <div class="text-right">
-        <x-app.button color="green" wire:click.prevent="reviewVotes">
+        <x-app.button color="green" wire:click.prevent="$set('showConfirmModal', true)">
             <i class="fa-solid fa-check mr-1"></i>
             Confirm Vote
         </x-app.button>
