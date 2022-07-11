@@ -7,7 +7,7 @@
             <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
 
                 <!-- Session Status -->
-                <x-auth-session-status class="py-3 text-center" :status="session('status')" />
+                <x-auth-session-status class="py-3 text-center" :status="session('status')" :color="session('color')"/>
 
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="mb-4 p-4" :errors="$errors" />
