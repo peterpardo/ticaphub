@@ -38,6 +38,10 @@ class Position extends Model
         return $this->hasOne(Officer::class, 'position_id' ,'id');
     }
 
+    public function votes() {
+        return $this->hasManyThrough(Vote::class, Candidate::class, 'position_id', 'candidate_id', 'id', 'id');
+    }
+
     public function getNameAttribute($value) {
         return ucwords($value);
     }

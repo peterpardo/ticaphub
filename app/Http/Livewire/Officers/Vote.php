@@ -19,7 +19,10 @@ class Vote extends Component
     public $positionProps = [];
 
     public function mount() {
-        $this->positions = Position::where('election_id', $this->election->id)->with(['candidates', 'candidates.user'])->get();
+        $this->positions = Position::where('election_id', $this->election->id)
+            ->where('is_done', false)
+            ->with(['candidates', 'candidates.user'])
+            ->get();
 
         // Create properties for each position
         $positionProps = [];
@@ -34,10 +37,16 @@ class Vote extends Component
         // If the election is already in review, don't count the vote and redirect to election page
         if ($this->election->in_review) {
             session()->flash('status', 'red');
-            session()->flash('message', 'Sorry, your vote didn\'t count. The voting of officers is already finished.');
+            session()->flash('message', 'Sorry, your vote did not count. The voting of officers is already finished.');
 
             // Redirect to election page
             return redirect('/officers/elections/' . $this->election->id);
+        }
+
+        // If the election is not_started, return to voting page
+        if ($this->election->status === 'not started') {
+            // Redirect to voting page
+            return redirect('/officers/elections/' . $this->election->id . '/vote');
         }
 
         // Create validation rules

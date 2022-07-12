@@ -52,6 +52,9 @@ class ViewElection extends Component
         // changes status of candidates to null
         Candidate::where('election_id', $this->election->id)->update(['status' => null]);
 
+        // Change 'is_done' column of positions to false
+        Position::where('election_id', $this->election->id)->update(['is_done' => false]);
+
         // change status of election from 'in progress' to 'not started'
         // change in_review column to false
         $this->election->status = 'not started';
@@ -86,7 +89,7 @@ class ViewElection extends Component
             // Get the candidate_id  of the highest vote count
             $result = array_keys($voteCounts, max($voteCounts));
 
-            // If result is more than 2, there is a tie, set the bg color of the tied candidates to red
+            // If result is more than 1, there is a tie, set the bg color of the tied candidates to red
             if (count($result) > 1) {
                 Candidate::whereIn('id', $result)->update(['status' => 'red']);
                 $this->hasTiedCandidates = true;
@@ -111,11 +114,33 @@ class ViewElection extends Component
     }
 
     public function redoElection() {
-        dd('redo election');
-        // delete all votes for the position with tied candidates
+        // delete all votes for the election
+        Vote::where('election_id', $this->election->id)->delete();
+
         // set has_voted column of user_election (students) to false to allow them to vote again
+        UserElection::where('election_id', $this->election->id)
+            ->where('has_voted', true)
+            ->update(['has_voted' => false]);
+
+        // delete candidates whose status is still null after redoing election
+        Candidate::where('election_id', $this->election->id)
+            ->where('status', null)
+            ->delete();
+
+        // Remove the red bg of tied candidates
+        Candidate::where('election_id', $this->election->id)
+            ->where('status', 'red')
+            ->update(['status' => null]);
+
         // set 'in_review' to false
-        // delete candidates whose status is still null after ending election
+        $this->election->in_review = false;
+        $this->election->save();
+
+        // Show alert message
+        session()->flash('status', 'green');
+        session()->flash('message', 'Voting of tied candidates has been started');
+
+        return redirect('officers/elections/' . $this->election->id);
     }
 
     public function render()
