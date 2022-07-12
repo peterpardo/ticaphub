@@ -3,24 +3,12 @@
     $user = App\Models\User::find(auth()->user()->id);
 
     $navs = collect([
-        (object) [
-            'name' => 'User Accounts',              // name of sidebar link
-            'route' => route('users'),              // route
-            'hasAccess' => $user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access user accounts'), // Check whether user has access to the specified link
-            'icon' => 'fa-solid fa-user'            // icon from FontAwesome
-        ],
-        (object) [
-            'name' =>  'Officers',
-            'route' => $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id),
-            'hasAccess' => $user->hasAnyRole('superadmin', 'admin', 'student'),
-            'icon' => 'fa-solid fa-user-shield'
-        ],
-        (object) [
-            'name' => 'Settings',              // name of sidebar link
-            'route' => route('settings'),              // route
-            'hasAccess' => $user->hasRole('superadmin'), // Check whether user has access to the specified link
-            'icon' => 'fa-solid fa-gears'            // icon from FontAwesome
-        ],
+        // (object) [
+        //     'name' => 'User Accounts',              // name of sidebar link
+        //     'route' => route('users'),              // route
+        //     'hasAccess' => $user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access user accounts'), // Check whether user has access to the specified link
+        //     'icon' => 'fa-solid fa-user'            // icon from FontAwesome
+        // ],
         // Schedules Link (temporarily disabled)
         // (object) [
         //     'name' => 'Schedules',
@@ -66,20 +54,25 @@
             {{-- Dashboard link --}}
             <x-app.sidebar-link route="{{ route('dashboard') }}" name="Dashboard" icon="fa-solid fa-border-all" />
 
-            {{-- Loop all other links --}}
-            {{-- Hide Sidebar links if ticap is not set --}}
-            @if ($showSidebar)
-                @foreach ($navs as $nav)
-                    @if($nav->hasAccess)
-                        <x-app.sidebar-link :route="$nav->route" :name="$nav->name" :icon="$nav->icon" />
-                    @endif
-                @endforeach
+            {{-- Users link --}}
+            @if($user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access user accounts'))
+                <x-app.sidebar-link route="{{ route('users') }}" name="User Accounts" icon="fa-solid fa-user" />
             @endif
+
+            {{-- Officers link --}}
+            @hasanyrole('superadmin|admin|student')
+                <x-app.sidebar-link route="{{ $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id) }}" name="Officers" icon="fa-solid fa-user-shield" />
+            @endhasanyrole
 
             {{-- Documentation link --}}
             @role('superadmin')
-                <x-app.sidebar-link route="{{ route('documentation') }}" name="Documentation" icon="fa-solid fa-file" />
+            <x-app.sidebar-link route="{{ route('documentation') }}" name="Documentation" icon="fa-solid fa-file" />
             @endrole
+
+            {{-- Settings link --}}
+            @hasrole('superadmin')
+                <x-app.sidebar-link route="{{ route('settings') }}" name="Settings" icon="fa-solid fa-gears" />
+            @endhasrole
         </ul>
     </div>
 </div>

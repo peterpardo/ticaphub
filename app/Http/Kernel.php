@@ -76,5 +76,6 @@ class Kernel extends HttpKernel
         'invitation' => \App\Http\Middleware\RedirectIfTicapIsSet::class,
         'election.status' => \App\Http\Middleware\CheckElectionStatus::class,
         'student.vote.status' => \App\Http\Middleware\CheckStudentVoteStatus::class,
+        'student.or.admin' => \App\Http\Middleware\CheckIfUserIsStudentOrAdmin::class,
     ];
 }

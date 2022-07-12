@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // OFFICERS
-    Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
+    Route::middleware(['set.ticap', 'set.invitation', 'student.or.admin'])->group(function () {
         // LIST OF ELECTION (superadmin and admin only)
         Route::get('/officers/elections', [AdminController::class, 'elections'])->middleware('admin');
 
