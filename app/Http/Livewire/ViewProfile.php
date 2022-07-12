@@ -30,17 +30,17 @@ class ViewProfile extends Component
         'lname' => 'last name',
     ];
 
+    public function mount() {
+        $this->fname = $this->user->first_name;
+        $this->mname = $this->user->middle_name;
+        $this->lname = $this->user->last_name;
+    }
+
     public function updatedProfilePicture()
     {
         $this->validate([
             'profilePicture' => 'nullable|image'
         ]);
-    }
-
-    public function mount() {
-        $this->fname = $this->user->first_name;
-        $this->mname = $this->user->middle_name;
-        $this->lname = $this->user->last_name;
     }
 
     public function updateProfile() {
