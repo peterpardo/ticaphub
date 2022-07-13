@@ -72,8 +72,8 @@ class CandidateForm extends Component
         $this->validate();
 
         // Check if student is candidate
-        $candidate = Candidate::where('user_id', $this->selectedStudentId)->first();
-        if ($candidate && $candidate->position_id == $this->selectedPositionId) {
+        $isCandidate = Candidate::where('user_id', $this->selectedStudentId)->exists();
+        if ($isCandidate) {
             $this->addError('selectedStudentId', 'This student is already a candidate');
             return;
         }
