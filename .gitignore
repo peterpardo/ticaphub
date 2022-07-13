@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/profile-pictures
 /public/.htaccess
 /storage/*.key
 /vendor
