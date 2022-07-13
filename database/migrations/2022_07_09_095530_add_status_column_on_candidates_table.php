@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTicapIdOnVotesTable extends Migration
+class AddStatusColumnOnCandidatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddTicapIdOnVotesTable extends Migration
      */
     public function up()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
+        Schema::table('candidates', function (Blueprint $table) {
+            $table->string('status')
+                ->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ class AddTicapIdOnVotesTable extends Migration
      */
     public function down()
     {
-        Schema::table('votes', function (Blueprint $table) {
-            $table->dropForeign(['ticap_id']);
+        Schema::table('candidates', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 }

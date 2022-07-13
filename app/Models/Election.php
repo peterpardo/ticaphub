@@ -12,8 +12,19 @@ class Election extends Model
     protected $fillable = [
         'name',
         'specialization_id',
-        'ticap_id'
+        'ticap_id',
+        'status'
     ];
+
+    public $statusColor = [
+        'not started' => 'red',
+        'in progress' => 'blue',
+        'done' => 'green',
+    ];
+
+    public function positions() {
+        return $this->hasMany(Position::class, 'election_id', 'id');
+    }
 
     public function officers() {
         return $this->hasMany(Officer::class, 'election_id', 'id');
@@ -29,5 +40,13 @@ class Election extends Model
     }
     public function ticap() {
         return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    }
+
+    public function votes() {
+        return $this->hasMany(Vote::class, 'election_id', 'id');
+    }
+
+    public function getStatusColorAttribute() {
+        return $this->statusColor[$this->status];
     }
 }

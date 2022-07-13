@@ -221,4 +221,112 @@ class AdminController extends Controller
     public function specializations() {
         return view('settings.specializations');
     }
+
+    // Officers
+    public function elections() {
+        return view('officers.admin-page');
+    }
+
+    public function checkElection(Request $request, $election) {
+        // Check if election exists
+        if (!$election) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election not found');
+
+            return true;
+        }
+
+        // Check if election has voters
+        if ($election->user_elections_count <= 0) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'Election has no voters. Add students for this school/specialization.');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // Officers > Set Positions
+    public function setPositions(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
+
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.set-positions', [
+                'election' => $election
+            ]);
+        }
+    }
+
+    // Officers > Set Positions > Set Candidates
+    public function setCandidates(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
+
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.set-candidates', [
+                'election' => $election
+            ]);
+        }
+    }
+
+    // Officers > Set Positions > Set Candidates > Review Election
+    public function reviewElection(Request $request, $id) {
+        $election = Election::where('id', $id)->withCount('userElections')->first();
+
+        // Check if election exists or has no voters
+        $electionHasError = $this->checkElection($request, $election);
+
+        if ($electionHasError) {
+            return back();
+        } else {
+            return view('officers.review-election', [
+                'election' => $election
+            ]);
+        }
+    }
+
+    // Election
+    public function election($id) {
+        $user = User::find(auth()->user()->id);
+        $election = Election::find($id);
+
+        // If election is done, redirect to officers page
+        if ($election->status === 'done') {
+            return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        // If election has "not started", redirect to respective page
+        if ($election->status === 'not started') {
+            if ($user->hasAnyRole('superadmin', 'admin')) {
+                return redirect('/officers/elections');
+            } else {
+                return redirect('/officers/elections/' . $id . '/vote');
+            }
+        }
+
+        // If student and the accesed election is not the same as the election_id of the student, redirect to the correct election
+        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
+             return redirect('officers/elections/' . $user->userElection->election_id);
+        }
+
+        // If user is a student AND has not yet voted, redirect to vote page
+        if ($user->hasRole('student') && !$user->userElection->has_voted && !$election->in_review) {
+            return redirect('officers/elections/' . $election->id . '/vote');
+        }
+
+
+        return view('officers.election', [
+            'election' => $election
+        ]);
+    }
 }

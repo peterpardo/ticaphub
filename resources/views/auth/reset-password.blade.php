@@ -20,7 +20,7 @@
             <div>
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full bg-gray-200" type="email" name="email" :value="old('email', $request->email)" required autofocus/>
+                <x-input id="email" class="block mt-1 w-full bg-gray-200" type="email" name="email" :value="old('email', $request->email)" required readonly/>
             </div>
 
             <!-- Password -->

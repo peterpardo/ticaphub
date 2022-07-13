@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Election;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,5 +42,29 @@ class StudentController extends Controller
         session()->flash('status', 'green');
         session()->flash('message', 'Exhibit successfully updated');
         return redirect()->route('exhibit');
+    }
+
+    public function vote($id) {
+        $student = User::where('id', auth()->user()->id)->with('userElection')->first();
+        $election = Election::find($id);
+
+        // If the accesed vote page is not the same as the election_id of the student, redirect to the correct vote page
+        if ($student->userElection->election_id !== $election->id) {
+            return redirect('officers/elections/' . $student->userElection->election_id . '/vote');
+        }
+
+        // If election is done, redirect student to officers page
+        if ($election->status === 'done') {
+            return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        // If student has voted, redirect to election page OR If election is 'in_review', redirect student to election page
+        if ($student->userElection->has_voted || $election->in_review) {
+            return redirect('officers/elections/' . $student->userElection->election_id);
+        }
+
+        return view('officers.vote', [
+            'election' => $election
+        ]);
     }
 }

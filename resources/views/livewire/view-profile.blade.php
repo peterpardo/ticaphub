@@ -111,8 +111,13 @@
             @enderror
         </x-form.form-control>
 
-        <div class="text-right">
+        <div class="text-right space-y-2 sm:space-y-0">
+            <x-app.button color="blue" wire:click.prevent="$emitTo('change-password', 'showModal')">Change Password</x-app.button>
             <x-app.button type="submit" color="green">Save Changes</x-app.button>
         </div>
     </x-form>
+
+    {{-- Modals --}}
+    {{-- Change Password --}}
+    @livewire('change-password', ['user' => $user])
 </div>

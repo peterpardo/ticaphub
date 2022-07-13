@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Position extends Model
 {
@@ -13,12 +14,13 @@ class Position extends Model
 
     protected $fillable = [
         'name',
+        'election_id',
+        'is_done',
     ];
 
-    // public function users() {
-    //     return $this->belongsToMany(User::class, 'candidates', 'position_id', 'user_id')
-    //         ->withPivot('id');
-    // }
+    public function election() {
+        return $this->belongsTo(Election::class, 'election_id', 'id');
+    }
 
     public function userSchool() {
         return $this->hasOneThrough(School::class, User::class);
@@ -34,5 +36,17 @@ class Position extends Model
 
     public function officer() {
         return $this->hasOne(Officer::class, 'position_id' ,'id');
+    }
+
+    public function votes() {
+        return $this->hasManyThrough(Vote::class, Candidate::class, 'position_id', 'candidate_id', 'id', 'id');
+    }
+
+    public function getNameAttribute($value) {
+        return ucwords($value);
+    }
+
+    public function getPositionSlugAttribute() {
+        return Str::slug($this->name, '_');
     }
 }

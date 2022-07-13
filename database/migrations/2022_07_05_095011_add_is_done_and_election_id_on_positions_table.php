@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddIsDoneAndElectionIdOnPositionsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('positions', function (Blueprint $table) {
+            $table->foreignId('election_id')
+                ->nullable()
+                ->constrained('elections')
+                ->onDelete('cascade');
+            $table->boolean('is_done')
+                ->default(0);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('positions', function (Blueprint $table) {
+            $table->dropColumn('election_id');
+            $table->dropColumn('is_done');
+        });
+    }
+}

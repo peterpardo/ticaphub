@@ -12,7 +12,7 @@
 
     {{-- Note --}}
     <x-info-box color="yellow">
-        You can manually add users by clicking the <span class="font-bold">Add User</span> button below. You can also add multiple students at once by clicking the <span class="font-bold">Import Students</span> button. Keep in mind that students with unverified emails <span class="font-bold">can't be nominated as officers</span> or <span class="font-bold">vote</span> in their respective election of officers.
+        You can manually add users by clicking the <span class="font-bold">Add User</span> button below. You can also add multiple students at once by clicking the <span class="font-bold">Import Students</span> button.
     </x-info-box>
 
     <div class="flex flex-col-reverse gap-y-2 lg:flex-row lg:justify-between lg:items-center">
@@ -90,6 +90,10 @@
                         @if(!$user->hasRole('superadmin'))
                             {{-- Don't allow admin to delete/edit admin accounts --}}
                             @if (auth()->user()->hasRole('superadmin') || (auth()->user()->hasRole('admin') && !$user->hasRole('admin')))
+                                <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
+                                <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
+                            {{-- Don't allow students to delete/edit own account --}}
+                            @elseif ((auth()->user()->hasRole('student') && !$user->hasRole('admin')) && auth()->user()->email != $user->email)
                                 <x-table.delete-btn wire:click="selectItem({{ $user->id }})"/>
                                 <x-table.edit-btn type="link" href="{{ url('users/' . $user->id) }}"/>
                             @endif

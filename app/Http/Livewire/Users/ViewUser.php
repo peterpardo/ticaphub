@@ -6,6 +6,7 @@ use App\Models\Group;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -24,6 +25,7 @@ class ViewUser extends Component
     public $fname;
     public $mname;
     public $lname;
+    public $isEmailVerified;
 
     public $uaPermission = false;
     public $chPermission = false;
@@ -61,6 +63,7 @@ class ViewUser extends Component
         $this->mname = $this->user->middle_name;
         $this->lname = $this->user->last_name;
         $this->email = $this->user->email;
+        ($this->user->email_verified === 'verified') ? $this->isEmailVerified = true : $this->isEmailVerified = false;
 
         // if user is a student, show student fields
         if ($this->user->hasRole('student')) {
@@ -129,6 +132,13 @@ class ViewUser extends Component
         $this->user->middle_name = Str::title($this->mname);
         $this->user->last_name = Str::title($this->lname);
         $this->user->email = $this->email;
+
+        // If email is not yet verified and email is not registered by the user
+        if ($this->user->email_verified !== 'verified' && $this->isEmailVerified && DB::table('register_users')->where('email', $this->user->email)->exists()) {
+            DB::table('register_users')->where('email', $this->user->email)->delete();
+        }
+
+        $this->user->email_verified = $this->isEmailVerified;
         $this->user->save();
 
         // Check if user is student

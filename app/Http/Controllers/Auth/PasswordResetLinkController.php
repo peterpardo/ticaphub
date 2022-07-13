@@ -35,7 +35,7 @@ class PasswordResetLinkController extends Controller
 
         // Only allow verified emails to reset their passwords
         $user = User::where('email', $request->email)->first();
-        if ($user->email_verified === 'not verified') {
+        if ($user && $user->email_verified === 'not verified') {
             return back()->withInput($request->only('email'))
             ->withErrors(['email' => 'This email does not exist. Please contact the admin for more details.']);
         }

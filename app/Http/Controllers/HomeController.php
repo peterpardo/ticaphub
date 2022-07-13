@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\Slider;
 use App\Models\Stream;
 use App\Models\Brand;
+use App\Models\Candidate;
 use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
@@ -35,7 +36,7 @@ class HomeController extends Controller
                 'showSidebar' => $showSidebar
             ]);
         } else {
-            $ticap = Ticap::find($user->ticap_id)->pluck('name')->first();
+            $ticap = Ticap::where('id', $user->ticap_id)->pluck('name')->first();
 
             return view('dashboard', [
                 'user' => $user,
@@ -49,53 +50,90 @@ class HomeController extends Controller
         }
     }
 
-    public function officers() {
-        $title = 'Officers and Committees';
-        $ticap = Ticap::find(Auth::user()->ticap_id);
-        $user = User::find(Auth::user()->id);
-        // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
-        if ($user->hasRole('admin')) {
-            if(!$ticap->invitation_is_set){
-                session()->flash('error', 'Manage settings for TICaP first');
-                return redirect()->route('set-invitation');
+    // Officers
+    public function officers($id) {
+        $user = User::find(auth()->user()->id);
+        $election = Election::find($id);
+
+        // If electionId of student !== to the param id, redirect to correct officers page
+        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
+            return redirect()->route('officers', ['id' => $user->userElection->election_id]);
+        }
+
+        // If election is not yet done
+        if ($election->status !== 'done') {
+            // If user is superadmin or admin AND election, redirect to list of elections page
+            if ($user->hasAnyRole('superadmin', 'admin')) {
+                return redirect('officers/elections');
             }
-            if($ticap->election_review) {
-                return redirect()->route('election-result');
+
+            // Check user if student and has not yet voted
+            if ($user->hasRole('student') && !$user->userElection->has_voted) {
+                return redirect('officers/elections/' . $user->userElection->election_id . '/vote');
             }
-            if($ticap->election_has_started && $ticap->has_new_election) {
-                return redirect()->route('new-election');
-            }
-            if($ticap->election_has_started && !$ticap->election_finished) {
-                return redirect()->route('election');
-            }elseif(!$ticap->election_has_started){
-                session()->flash('error', 'Appoint officers first.');
-                return redirect()->route('set-positions');
+
+            // Check user if student and has voted
+            if ($user->hasRole('student') && $user->userElection->has_voted) {
+                return redirect('officers/elections/' . $user->userElection->election_id);
             }
         }
-        // REDIRECT STUDENT WHETHER ELECTION HAS STARTED OR NOT AND HAS NOT YET VOTED
-        if ($user->hasRole('student')) {
-            if($ticap->election_has_started && !$user->userElection->has_voted) {
-                return redirect()->route('vote');
-            }
-        }
-        $elections = Election::all();
-        $positions = Position::all();
-        // CHECK IF STUDENT IS FROM FEUTECH
-        if($user->hasRole('student')) {
-            if($user->userSpecialization->specialization->school->id == 1){
-                $elections = Election::where('specialization_id', $user->userSpecialization->specialization->id)->get();
-            } else {
-                $elections = Election::where('name', $user->userSpecialization->specialization->school->name)->get();
-            }
-        }
-        return view('officers-and-committees.officers', [
-            'title' => $title,
-            'ticap' => $ticap,
-            'elections' => $elections,
-            'positions' => $positions,
+
+        $positions = Position::where('election_id', $election->id)->with(['candidates', 'candidates.user'])->get();
+
+        return view('officers', [
             'user' => $user,
+            'election' => $election,
+            'positions' => $positions,
         ]);
     }
+
+    // public function officers() {
+    //     $title = 'Officers and Committees';
+    //     $ticap = Ticap::find(Auth::user()->ticap_id);
+    //     $user = User::find(Auth::user()->id);
+    //     // REDIRECT ADMIN TO SETTING OF POSITIONS IF ELECTION HAS NOT BEEN SET
+    //     if ($user->hasRole('admin')) {
+    //         if(!$ticap->invitation_is_set){
+    //             session()->flash('error', 'Manage settings for TICaP first');
+    //             return redirect()->route('set-invitation');
+    //         }
+    //         if($ticap->election_review) {
+    //             return redirect()->route('election-result');
+    //         }
+    //         if($ticap->election_has_started && $ticap->has_new_election) {
+    //             return redirect()->route('new-election');
+    //         }
+    //         if($ticap->election_has_started && !$ticap->election_finished) {
+    //             return redirect()->route('election');
+    //         }elseif(!$ticap->election_has_started){
+    //             session()->flash('error', 'Appoint officers first.');
+    //             return redirect()->route('set-positions');
+    //         }
+    //     }
+    //     // REDIRECT STUDENT WHETHER ELECTION HAS STARTED OR NOT AND HAS NOT YET VOTED
+    //     if ($user->hasRole('student')) {
+    //         if($ticap->election_has_started && !$user->userElection->has_voted) {
+    //             return redirect()->route('vote');
+    //         }
+    //     }
+    //     $elections = Election::all();
+    //     $positions = Position::all();
+    //     // CHECK IF STUDENT IS FROM FEUTECH
+    //     if($user->hasRole('student')) {
+    //         if($user->userSpecialization->specialization->school->id == 1){
+    //             $elections = Election::where('specialization_id', $user->userSpecialization->specialization->id)->get();
+    //         } else {
+    //             $elections = Election::where('name', $user->userSpecialization->specialization->school->name)->get();
+    //         }
+    //     }
+    //     return view('officers-and-committees.officers', [
+    //         'title' => $title,
+    //         'ticap' => $ticap,
+    //         'elections' => $elections,
+    //         'positions' => $positions,
+    //         'user' => $user,
+    //     ]);
+    // }
 
     // SLIDER
     public function HomeSlider(){
