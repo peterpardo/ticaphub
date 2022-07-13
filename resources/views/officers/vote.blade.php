@@ -7,7 +7,9 @@
         @endif
 
         <div class="flex justify-center items-center bg-gray-100 rounded text-gray-500 p-10">Voting has not yet started</div>
-    @else
+    @elseif ($election->status === 'in progress')
         @livewire('officers.vote', ['election' => $election])
+    @else
+        <div>Officers for this election</div>
     @endif
 </x-app-layout>

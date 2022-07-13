@@ -2,6 +2,7 @@
     showResetModal: @entangle('showResetModal').defer,
     showConfirmModal: false,
     showRedoModal: false,
+    showFinalModal: false,
 }">
     {{-- Election name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
@@ -24,7 +25,7 @@
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
                     @else
-                        <x-app.button type="button" color="green">
+                        <x-app.button type="button" color="green" @click.prevent="showFinalModal = !showFinalModal">
                             Finalize Election
                             <i class="fa-solid fa-arrow-right ml-1"></i>
                         </x-app.button>
@@ -162,6 +163,20 @@
             <div class="text-right">
                 <x-app.button color="gray" @click.prevent="showRedoModal = !showRedoModal">Cancel</x-app.button>
                 <x-app.button color="blue" wire:click.prevent="redoElection">Yes, redo the election.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
+
+
+    {{-- Finalize election --}}
+    <div x-cloak x-show="showFinalModal">
+        <x-modal>
+            <x-modal.title>Finalize Election</x-modal.title>
+            <x-modal.description>Are you sure? All the winners will be assigned as officers for this election and will given access to the <strong>Manage Events</strong> link.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" @click.prevent="showFinalModal = !showFinalModal">Cancel</x-app.button>
+                <x-app.button color="green" wire:click.prevent="finalizeElection">Yes, finalize the election.</x-app.button>
             </div>
         </x-modal>
     </div>

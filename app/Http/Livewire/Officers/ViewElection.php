@@ -143,6 +143,16 @@ class ViewElection extends Component
         return redirect('officers/elections/' . $this->election->id);
     }
 
+    public function finalizeElection() {
+        dd('finalize election');
+        // delete all candidates whose status is still 'null'
+        // remove the green bg of candidates
+        // delete all vote counts for the election
+        // give candidates for this election the permission to manage events
+        // set the 'status' column to 'done' of elections table
+        //
+    }
+
     public function render()
     {
         return view('livewire.officers.view-election');

@@ -36,6 +36,10 @@ class ChangePassword extends Component
         $this->reset('oldPassword', 'newPassword', 'confirmPassword');
     }
 
+    public function updatedOldPassword() {
+        $this->resetValidation();
+    }
+
     public function updatedNewPassword() {
         $this->resetValidation();
     }

@@ -122,7 +122,6 @@ Route::middleware(['auth'])->group(function () {
 
         // OFFICERS
         Route::get('/officers/{id}', [HomeController::class, 'officers'])
-            ->middleware('student.vote.status')
             ->name('officers');
 
         // SETTING OF ELECTION (superadmin and admin only)

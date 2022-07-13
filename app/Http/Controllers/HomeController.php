@@ -54,10 +54,29 @@ class HomeController extends Controller
         $user = User::find(auth()->user()->id);
         $election = Election::find($id);
 
-        // If user is superadmin or admin AND election is not "done", redirect to list of elections page
-        if ($user->hasAnyRole('superadmin', 'admin') && $election->status !== 'done') {
-            return redirect('officers/elections');
+        // If electionId of student !== to the param id, redirect to correct officers page
+        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
+            return redirect()->route('officers', ['id' => $user->userElection->election_id]);
         }
+
+        // If election is not yet done
+        if ($election->status !== 'done') {
+            // If user is superadmin or admin AND election, redirect to list of elections page
+            if ($user->hasAnyRole('superadmin', 'admin')) {
+                return redirect('officers/elections');
+            }
+
+            // Check user if student and has not yet voted
+            if ($user->hasRole('student') && !$user->userElection->has_voted) {
+                return redirect('officers/elections/' . $user->userElection->election_id . '/vote');
+            }
+
+            // Check user if student and has voted
+            if ($user->hasRole('student') && $user->userElection->has_voted) {
+                return redirect('officers/elections/' . $user->userElection->election_id);
+            }
+        }
+
 
         return view('officers', [
             'user' => $user,
