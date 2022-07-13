@@ -73,7 +73,7 @@ class CandidateForm extends Component
 
         // Check if student is candidate
         $isCandidate = Candidate::where('user_id', $this->selectedStudentId)->exists();
-        if ($isCandidate) {
+        if ($isCandidate && $this->action === 'add') {
             $this->addError('selectedStudentId', 'This student is already a candidate');
             return;
         }
