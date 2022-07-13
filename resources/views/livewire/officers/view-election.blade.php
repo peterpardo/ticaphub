@@ -174,9 +174,12 @@
             <x-modal.title>Finalize Election</x-modal.title>
             <x-modal.description>Are you sure? All the winners will be assigned as officers for this election and will given access to the <strong>Manage Events</strong> link.</x-modal.description>
 
+            {{-- Spinner --}}
+            <x-spinner wire:loading.flex wire:target="finalizeElection">Please Wait. This may take a few seconds.</x-spinner>
+
             <div class="text-right">
-                <x-app.button color="gray" @click.prevent="showFinalModal = !showFinalModal">Cancel</x-app.button>
-                <x-app.button color="green" wire:click.prevent="finalizeElection">Yes, finalize the election.</x-app.button>
+                <x-app.button color="gray" wire:loading.attr="disabled" @click.prevent="showFinalModal = !showFinalModal">Cancel</x-app.button>
+                <x-app.button color="green" wire:loading.attr="disabled" wire:click.prevent="finalizeElection">Yes, finalize the election.</x-app.button>
             </div>
         </x-modal>
     </div>

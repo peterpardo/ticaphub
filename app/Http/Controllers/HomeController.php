@@ -77,7 +77,6 @@ class HomeController extends Controller
             }
         }
 
-
         return view('officers', [
             'user' => $user,
             'election' => $election

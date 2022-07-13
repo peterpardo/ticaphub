@@ -300,9 +300,23 @@ class AdminController extends Controller
         $user = User::find(auth()->user()->id);
         $election = Election::find($id);
 
-        // If election has "not started", redirect to officers route
-        if ($election->status === 'not started') {
+        // If election is done, redirect to officers page
+        if ($election->status === 'done') {
             return redirect()->route('officers', ['id' => $election->id]);
+        }
+
+        // If election has "not started", redirect to respective page
+        if ($election->status === 'not started') {
+            if ($user->hasAnyRole('superadmin', 'admin')) {
+                return redirect('/officers/elections');
+            } else {
+                return redirect('/officers/elections/' . $id . '/vote');
+            }
+        }
+
+        // If student and the accesed election is not the same as the election_id of the student, redirect to the correct election
+        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
+             return redirect('officers/elections/' . $user->userElection->election_id);
         }
 
         // If user is a student AND has not yet voted, redirect to vote page
@@ -310,10 +324,6 @@ class AdminController extends Controller
             return redirect('officers/elections/' . $election->id . '/vote');
         }
 
-        // If student and the accesed election is not the same as the election_id of the student, redirect to the correct election
-        if ($user->hasRole('student') && $user->userElection->election_id !== $election->id) {
-             return redirect('officers/elections/' . $user->userElection->election_id);
-        }
 
         return view('officers.election', [
             'election' => $election

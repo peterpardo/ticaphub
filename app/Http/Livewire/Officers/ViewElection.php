@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Officers;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Position;
+use App\Models\User;
 use App\Models\UserElection;
 use App\Models\Vote;
 use Livewire\Component;
@@ -144,13 +145,31 @@ class ViewElection extends Component
     }
 
     public function finalizeElection() {
-        dd('finalize election');
         // delete all candidates whose status is still 'null'
-        // remove the green bg of candidates
+        Candidate::where('election_id', $this->election->id)
+            ->where('status', null)
+            ->delete();
+
         // delete all vote counts for the election
+        Vote::where('election_id', $this->election->id)->delete();
+
         // give candidates for this election the permission to manage events
+        $candidates = Candidate::where('election_id', $this->election->id)->get();
+        foreach($candidates as $candidate) {
+            $student = User::find($candidate->user_id);
+            $student->givePermissionTo('access manage events');
+        }
+
         // set the 'status' column to 'done' of elections table
-        //
+        $this->election->status = 'done';
+        $this->election->save();
+
+        // Show alert message
+        session()->flash('status', 'green');
+        session()->flash('message', 'Election is finished. Here are the officers for ' . $this->election->name);
+
+        // redirect to officers page
+        return redirect()->route('officers', ['id' => $this->election->id]);
     }
 
     public function render()

@@ -48,6 +48,11 @@ class StudentController extends Controller
         $student = User::where('id', auth()->user()->id)->with('userElection')->first();
         $election = Election::find($id);
 
+        // If the accesed vote page is not the same as the election_id of the student, redirect to the correct vote page
+        if ($student->userElection->election_id !== $election->id) {
+            return redirect('officers/elections/' . $student->userElection->election_id . '/vote');
+        }
+
         // If election is done, redirect student to officers page
         if ($election->status === 'done') {
             return redirect()->route('officers', ['id' => $election->id]);
@@ -56,11 +61,6 @@ class StudentController extends Controller
         // If student has voted, redirect to election page OR If election is 'in_review', redirect student to election page
         if ($student->userElection->has_voted || $election->in_review) {
             return redirect('officers/elections/' . $student->userElection->election_id);
-        }
-
-        // If the accesed vote page is not the same as the election_id of the student, redirect to the correct vote page
-        if ($student->userElection->election_id !== $election->id) {
-            return redirect('officers/elections/' . $student->userElection->election_id . '/vote');
         }
 
         return view('officers.vote', [
