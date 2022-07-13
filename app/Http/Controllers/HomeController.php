@@ -8,6 +8,7 @@ use App\Models\Position;
 use App\Models\Slider;
 use App\Models\Stream;
 use App\Models\Brand;
+use App\Models\Candidate;
 use App\Models\School;
 use App\Models\Ticap;
 use App\Models\User;
@@ -77,9 +78,12 @@ class HomeController extends Controller
             }
         }
 
+        $positions = Position::where('election_id', $election->id)->with(['candidates', 'candidates.user'])->get();
+
         return view('officers', [
             'user' => $user,
-            'election' => $election
+            'election' => $election,
+            'positions' => $positions,
         ]);
     }
 
