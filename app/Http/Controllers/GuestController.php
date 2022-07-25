@@ -32,17 +32,29 @@ class GuestController extends Controller
     }
 
     public function specialization($id) {
-         // Check if specialization exists
-         if (is_null(Specialization::where('id', $id)->first())) {
+        $specialization = Specialization::select('id', 'name', 'school_id')->where('id', $id)->with('school:id,name')->first();
+
+        // Check if specialization exists
+        if (is_null($specialization)) {
             return redirect()->route('schools');
         }
 
-        $specialization = Specialization::select('id', 'name', 'school_id')->where('id', $id)->with('school:id,name')->first();
         $groups = Group::where('specialization_id', $id)->get();
 
         return view('homepage.groupView', [
             'groups' => $groups,
             'specialization' => $specialization
         ]);
+    }
+
+    public function group($id) {
+        $group = Group::find($id);
+
+        // Check if group exists
+        if (is_null($group)) {
+            return redirect()->route('schools');
+        }
+
+        return view('homepage.viewSpecialization', ['group' => $group]);
     }
 }

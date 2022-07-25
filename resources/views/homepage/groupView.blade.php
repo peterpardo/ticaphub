@@ -9,7 +9,7 @@
 
         <div class="grid grid-cols-1 gap-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach($groups as $group)
-                <a href="{{ url('group/' . $group->id) }}" class="block">
+                <a href="{{ url('groups/' . $group->id) }}" class="block">
                     <div class="bg-white shadow-md rounded-lg mx-1 my-3 cursor-pointer overflow-hidden">
                         <div class="overflow-hidden relative">
                             <img class="h-52 hover:opacity-75 w-full object-cover" src="{{url('/assets/specialization.png')}}">

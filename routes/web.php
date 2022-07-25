@@ -14,12 +14,6 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoterController;
-use App\Models\Group;
-use App\Models\School;
-use App\Models\Specialization;
-use App\Models\Ticap;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,11 +32,7 @@ Route::view('/url', 'emails.certificate');
 Route::get('/', [GuestController::class, 'index'])->name('home');
 Route::get('/schools/{id?}', [GuestController::class, 'schools'])->name('schools');
 Route::get('/specializations/{id}', [GuestController::class, 'specialization']);
-Route::get('/group/{groupId}', function ($groupId) {
-    $group = Group::find($groupId);
-
-    return view('homepage.viewSpecialization', ['group' => $group]);
-});
+Route::get('/groups/{id}', [GuestController::class, 'group']);
 
 // ATTENDANCE FOR GUESTS
 Route::get('/attendance/{eventId}', [EventController::class, 'attendance']);
