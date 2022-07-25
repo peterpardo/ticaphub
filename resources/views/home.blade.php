@@ -3,21 +3,21 @@
     $streams = DB::table('streams')->get();
     $brands = DB::table('brands')->get();
 @endphp
-<head>
-</head>
+{{-- <head>
+</head> --}}
 
 <x-guest-layout>
     <div class="overflow-x-auto">
         {{-- Slider --}}
         @if($sliders->count() == 0)
             <div class="hidden"></div>
-            @else
+        @else
             <section>
                 <div class="w-full mx-auto overflow-hidden">
                     <div id="slider" class="swiper-container w-full mx-auto">
                         <div class="swiper-wrapper">
                             @foreach($sliders as $key => $slider)
-                            <div class="swiper-slide bg-cover bg-center h-full text-white py-24 px-10 object-fill" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{asset($slider->image)}}); background-repeat: no-repeat; background-size: cover;">
+                            <div class="swiper-slide bg-cover bg-center h-full text-white py-24 px-10 object-fill" style="height: 620px; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{asset($slider->image)}}); background-repeat: no-repeat; background-size: cover;">
                                 <div class="container mx-auto px-6 md:px-20 py-6">
                                     <div class="w-full md:w-1/2">
                                         <div class="mt-24">
@@ -37,7 +37,7 @@
             </section>
         @endif
 
-        {{-- MAIN CONTENT --}}
+        {{-- Streams     --}}
         {{-- @foreach($streams as $key => $stream)
             <main data-aos="fade-up" class="container mx-auto flex flex-row items-center p-5 w-auto h-screen justify-evenly mt-40 sm:mt-0">
                 <div class="grid grid-col md:grid-cols-2">
@@ -104,6 +104,7 @@
             @endif
         </section>
 
+        {{-- Footer --}}
         <section data-aos="fade-down-right" class="text-gray-600 body-font">
             <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
                 <img class="w-32 h-32  object-cover object-center rounded animate-bounce" alt="hero" src="{{ url('assets/cyberace.png') }}">
@@ -114,9 +115,8 @@
             </div>
         </section>
 
+        {{-- Scripts --}}
         @push('scripts')
-            <script src="//code.jquery.com/jquery-latest.js"></script>
-            <script src="//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
             <script>
                 var mySwiper = new Swiper ('.swiper-container', {
                     // Optional parameters
