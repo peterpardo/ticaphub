@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="container mx-auto">
+    <div class="container mx-auto p-5">
         <div class="mt-5 mb-5">
             <ul class="flex gap-x-4 ">
                 @foreach ($schools as $school)
@@ -15,14 +15,12 @@
         {{-- Specializations --}}
         <div class="grid grid-cols-1 gap-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach($specializations as $specialization)
-                <a href="{{ url('specializations/' . $specialization->id) }}" class="block">
-                    <div class="bg-white shadow-md rounded-lg mx-1 my-3 cursor-pointer overflow-hidden">
-                        <div class="overflow-hidden relative">
-                            <img class="h-52 hover:opacity-75 w-full object-cover" src="{{url('/assets/specialization.png')}}">
-                        </div>
-                        <div class="h-24 min-h-full p-5 grid place-items-center text-center">
-                            <h1 class="text-xl font-semibold text-gray-800">{{ $specialization->name }}</h1>
-                        </div>
+                <a href="{{ url('specializations/' . $specialization->id) }}" class="block bg-white shadow-md rounded-lg mx-1 my-3 cursor-pointer ">
+                    <div class="rounded-lg overflow-hidden">
+                        <img class="h-52 hover:opacity-75 w-full object-cover" src="{{url('/assets/specialization.png')}}">
+                    </div>
+                    <div class="p-5 text-center text-xl font-semibold text-gray-800 overflow-ellipsis overflow-hidden">
+                        {{ $specialization->name }}
                     </div>
                 </a>
             @endforeach

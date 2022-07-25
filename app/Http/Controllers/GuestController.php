@@ -34,6 +34,9 @@ class GuestController extends Controller
     public function specialization($id) {
         $groups = Group::where('specialization_id', $id)->get();
 
-        return view('homepage.groupView', ['groups' => $groups]);
+        return view('homepage.groupView', [
+            'groups' => $groups,
+            'specializationId' => $id
+        ]);
     }
 }
