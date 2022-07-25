@@ -1,9 +1,11 @@
 <x-guest-layout>
-    <div class="container mx-auto p-5">
-        <x-app.button type="link" color="red" href="{{ url('specialization/' . $specializationId) }}" >
+    <div class="container mx-auto p-5 space-y-3">
+        <x-app.button type="link" color="gray" href="{{ route('schools') }}">
             <i class="fa-solid fa-arrow-left mr-2"></i>
             Go back
         </x-app.button>
+
+        <h1 class="text-xl my-5 font-bold">{{ $specialization->school->name . ' | ' . $specialization->name }}</h1>
 
         <div class="grid grid-cols-1 gap-y-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             @foreach($groups as $group)
