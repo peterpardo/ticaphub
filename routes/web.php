@@ -6,6 +6,7 @@ use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\GuestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PanelistController;
@@ -33,30 +34,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::view('/url', 'emails.certificate');
 
-// HOME PAGE
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-Route::get('/about-ticap', function () {
-    return view('about-ticap');
-})->name('about-ticap');
-Route::get('/test', [ElectionController::class, 'test']);
-Route::get('/schools', function () {
-    $admin = User::find(1);
-    if ($admin->ticap_id == null) {
-        return redirect('/');
-    }
-    $schools = School::where('is_involved', 1)->get();
-    return view('schools', ['schools' => $schools]);
-})->name('schools');
-Route::get('/schools/{schoolId}/specializations', function ($schoolId) {
-    $specializations = Specialization::where('school_id', $schoolId)->get();
-    return view('specialization', ['specializations' => $specializations]);
-});
-Route::get('/specializations/{specId}/groups', function ($specId) {
-    $groups = Group::where('specialization_id', $specId)->get();
-    return view('homepage.groupView', ['groups' => $groups]);
-});
+// GUEST ROUTES
+Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::get('/schools/{id?}', [GuestController::class, 'schools'])->name('schools');
+Route::get('/specializations/{id}', [GuestController::class, 'specialization']);
 Route::get('/group/{groupId}', function ($groupId) {
     $group = Group::find($groupId);
 
