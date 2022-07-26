@@ -33,6 +33,7 @@
                         <div class="hidden md:flex swiper-button-prev bg-transparent w-10 h-w-10 text-xs rounded-full text-red-600"></div>
                         <div class="hidden md:flex swiper-button-next bg-transparent w-10 h-w-10 text-xs rounded-full text-red-600"></div>
                         <div class="swiper-pagination"></div>
+                    </div>
                 </div>
             </section>
         @endif

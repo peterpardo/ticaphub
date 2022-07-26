@@ -1,100 +1,94 @@
 <x-guest-layout>
-  <section class="container mx-auto h-screen">
-  
-  {{-- PROJECT TITLE AND DESCRIPTION --}}
-  @if($group->groupExhibit->title == null)
-    <div class="text-gray-600 text-center py-5 my-1">Exhibit empty</div>
-  @else
-  <div class="container mx-auto w-8/12 bg-white rounded shadow-md mt-5">
-    <div class="container px-5 py-5 mx-auto">
-        <div class="items-center">
-            <div class="">
-                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $group->groupExhibit->title }}</h2>
-                <p class="mt-4 text-gray-500 dark:text-gray-400">
-                    {{ $group->groupExhibit->description }}
-                </p>
-            </div>
-        </div>
-    </div>
-  </div>
-  @endif
-  
-  {{-- LIVE STREAM --}}
-  @if($group->groupExhibit->link == null)
-    <div class="text-gray-600 text-center py-5 my-1">Livestream empty</div>
-  @else
-  <section>
-      <div class="container mx-auto text-gray-600 body-font w-1/2 mt-10">
-          <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-              <source src="{{ $group->groupExhibit->link }}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-          </video>
-      </div>
-  </section>
-  @endif
-    {{-- LINK AND POSTER --}}
-  <section class="container mx-auto text-gray-600 body-font mt-5">
-    <div class="container px-5 mx-auto flex flex-wrap">
-    <div class="container mx-auto text-gray-600 body-font w-8/12">
-      <div class="container px-5 mx-auto flex justify-center">
-        <div class="flex flex-wrap md:m-2 m-1">
-          <div class="flex flex-wrap w-1/2">
-            <div class="md:p-5 p-1 w-full mx-1 my-3">
-              @if($group->groupExhibit->video_path == null)
-              <div class="flex justify-center items-center py-20 px-20 w-full">
-                  <span>System teaser empty</span>
-              </div>
-              @else
-                @if($group->groupExhibit->video_path == 'assets/sample-video.mp4')
-                  <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-                    <source src="{{ url(asset($group->groupExhibit->video_path)) }}">
-                  </video>  
-                @else
-                  <video class="w-full h-full object-cover object-center block rounded" controls loop autoplay muted>
-                    <source src="{{ Storage::url($group->groupExhibit->video_path) }}">
-                  </video>  
-                @endif
-              @endif
-            </div>
-          </div>
-          <div class="flex flex-wrap w-1/2 cursor-pointer">
-            <div class="md:p-5 p-1 w-full mx-1 my-3">
-              @if($group->groupExhibit->banner_path == null)
-                <div class="flex justify-center items-center py-20 px-20 w-full">
-                    <span>Banner empty</span>
+    <section>
+
+        {{-- PROJECT TITLE AND DESCRIPTION --}}
+        {{-- @if($group->groupExhibit->title == null)
+            <div class="text-gray-600 text-center py-5 my-1">Exhibit empty</div>
+        @else
+            <div class="container mx-auto w-8/12 bg-white rounded shadow-md mt-5">
+                <div class="container px-5 py-5 mx-auto">
+                    <div class="items-center">
+                        <div class="">
+                            <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100">{{ $group->groupExhibit->title }}</h2>
+                            <p class="mt-4 text-gray-500 dark:text-gray-400">
+                                {{ $group->groupExhibit->description }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-              @else
-                @if($group->groupExhibit->banner_path == 'assets/banner.png')
-                  <a href="{{ url(asset($group->groupExhibit->banner_path)) }}" data-featherlight="image">
-                    <img src="{{ url(asset($group->groupExhibit->banner_path)) }}" class="w-full h-full object-cover object-center block rounded" >
-                  </a>
-                @else
-                  <a href="{{ Storage::url($group->groupExhibit->banner_path) }}" data-featherlight="image">
-                    <img src="{{ Storage::url($group->groupExhibit->banner_path) }}" class="w-full h-full object-cover object-center block rounded" >
-                  </a>
-                @endif
-              @endif
             </div>
-          </div>
-        </a>
+        @endif --}}
+
+        {{-- Hero --}}
+        <div class="flex justify-center items-center bg-white h-full overflow-hidden" style="height: 500px;">
+            <img class="w-full object-cover" src="{{ asset('assets/banner.png') }}" alt="ticaphub-group-image">
         </div>
-      </div>
-    </div>
-  </section>
-  
-  <div class="text-center my-3">
-    @php
-      $admin = \App\Models\User::find(1);
-      $showExhibit = false;
-      if($admin->ticap_id) {
-        $ticap = \App\Models\Ticap::find($admin->ticap_id);
-        $showExhibit = $ticap->evaluation_finished;
-      }
-    @endphp
-    @if(!$showExhibit)
-      <a href="/student-choice-award/{{ $group->id }}" class="md:w-32 bg-red-600 dark:bg-red-100 text-white dark:text-white-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-500 dark:hover:bg-red-200 transition ease-in-out duration-300">Vote</a>
-    @endif
-  </div>
-  </section>
-  </x-guest-layout>
-  
-  
+
+        {{-- Group name --}}
+        <div class="flex flex-col items-center py-10 h-96">
+            <div class="flex items-center justify-center w-52 h-36 overflow-hidden">
+                <img class="w-full" src="{{ asset('assets/cyberace.png') }}" alt="ticaphub-group-logo">
+            </div>
+            <h1 class="font-bold text-5xl md:text-7xl text-center mt-5">CYBER ACE</h1>
+        </div>
+
+        {{-- Poster and Description --}}
+        <div class="flex flex-col justify-evenly gap-y-5 items-center h-full bg-white py-5 md:flex-row" style="min-height: 24rem;">
+            <div class="border-2 w-80">
+                <img class="w-full" src="{{ asset('assets/program-flow-1.jpg') }}" alt="ticaphub-group-poster">
+            </div>
+            <div class="px-5 md:w-96 space-y-5">
+                <h1 class="font-semibold text-xl">Project Title</h1>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quis alias itaque doloremque autem sapiente, rem quod facere cupiditate iusto praesentium consectetur porro repellat minus accusantium molestias quo corrupti perspiciatis esse optio earum! Eaque explicabo fugiat maxime quas unde qui sunt vitae voluptas velit necessitatibus totam nobis eum sequi molestias saepe, in laborum minima libero consectetur deserunt architecto similique voluptatibus hic. Architecto dicta repudiandae ut, a, provident quibusdam saepe quas nemo nulla vero illum tenetur quos. Suscipit omnis optio aut sunt eos at alias ad, quasi eius animi illo incidunt, cum quo fuga ipsam officia tenetur, quibusdam ea fugiat aspernatur! Sequi.</p>
+            </div>
+        </div>
+
+        {{-- Group members --}}
+        <div class="flex flex-col items-center py-10 h-96">
+            <h1 class="font-bold text-xl text-center">Team CYBER ACE</h1>
+            <div class="flex items-center justify-between mt-10 gap-x-10">
+                <div class="flex flex-col justify-center items-center gap-y-2">
+                    <div class="w-36 h-36 overflow-hidden rounded-full">
+                        <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
+                    </div>
+                    <h2 class="font-semibold text-lg">Myoui Mina</h2>
+                    <span class="text-gray-500">Project Manager</span>
+                </div>
+                <div class="flex flex-col justify-center items-center gap-y-2">
+                    <div class="w-36 h-36 overflow-hidden rounded-full">
+                        <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
+                    </div>
+                    <h2 class="font-semibold text-lg">Myoui Mina</h2>
+                    <span class="text-gray-500">Project Manager</span>
+                </div>
+                <div class="flex flex-col justify-center items-center gap-y-2">
+                    <div class="w-36 h-36 overflow-hidden rounded-full">
+                        <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
+                    </div>
+                    <h2 class="font-semibold text-lg">Myoui Mina</h2>
+                    <span class="text-gray-500">Project Manager</span>
+                </div>
+                <div class="flex flex-col justify-center items-center gap-y-2">
+                    <div class="w-36 h-36 overflow-hidden rounded-full">
+                        <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
+                    </div>
+                    <h2 class="font-semibold text-lg">Myoui Mina</h2>
+                    <span class="text-gray-500">Project Manager</span>
+                </div>
+                <div class="flex flex-col justify-center items-center gap-y-2">
+                    <div class="w-36 h-36 overflow-hidden rounded-full">
+                        <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
+                    </div>
+                    <h2 class="font-semibold text-lg">Myoui Mina</h2>
+                    <span class="text-gray-500">Project Manager</span>
+                </div>
+            </div>
+        </div>
+
+        {{-- Footer --}}
+        <div class="h-96 bg-red-800"></div>
+
+    </section>
+</x-guest-layout>
+
+
