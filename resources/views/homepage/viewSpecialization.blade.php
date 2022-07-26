@@ -20,7 +20,7 @@
         @endif --}}
 
         {{-- Hero --}}
-        <div class="flex justify-center items-center bg-white h-full overflow-hidden" style="height: 500px;">
+        <div class="hidden md:flex justify-center items-center bg-white h-full overflow-hidden" style="height: 500px;">
             <img class="w-full object-cover" src="{{ asset('assets/banner.png') }}" alt="ticaphub-group-image">
         </div>
 
@@ -44,9 +44,9 @@
         </div>
 
         {{-- Group members --}}
-        <div class="flex flex-col items-center py-10 h-96">
+        <div class="flex flex-col items-center py-10 h-full" style="min-height: 24rem;">
             <h1 class="font-bold text-xl text-center">Team CYBER ACE</h1>
-            <div class="flex items-center justify-between mt-10 gap-x-10">
+            <div class="flex flex-col gap-y-5 items-center justify-between mt-10 md:flex-row md:gap-x-10">
                 <div class="flex flex-col justify-center items-center gap-y-2">
                     <div class="w-36 h-36 overflow-hidden rounded-full">
                         <img class="w-full" src="{{ asset('assets/mina.jpg') }}" alt="ticaphub-group-member">
@@ -86,7 +86,23 @@
         </div>
 
         {{-- Footer --}}
-        <div class="h-96 bg-red-800"></div>
+        <div class="text-white h-96 bg-red-800 p-10">
+            <h1>Follow us on</h1>
+            <div class="flex items-center gap-x-5 mt-5">
+                <span>
+                    <a href="https://www.facebook.com" target="_blank" class="text-4xl"><i class="fa-brands fa-facebook"></i></a>
+                </span>
+                <span>
+                    <a href="https://www.twitter.com" target="_blank" class="text-4xl"><i class="fa-brands fa-twitter"></i></a>
+                </span>
+                <span>
+                    <a href="https://www.instagram.com" target="_blank" class="text-4xl"><i class="fa-brands fa-instagram"></i></a>
+                </span>
+                <span>
+                    <a href="https://www.youtube.com" target="_blank" class="text-4xl"><i class="fa-brands fa-youtube"></i></a>
+                </span>
+            </div>
+        </div>
 
     </section>
 </x-guest-layout>
