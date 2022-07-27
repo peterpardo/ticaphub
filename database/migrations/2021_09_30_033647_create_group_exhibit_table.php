@@ -17,10 +17,12 @@ class CreateGroupExhibitTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('banner_name')->nullable();
-            $table->string('banner_path')->nullable();
-            $table->string('video_name')->nullable();
-            $table->string('video_path')->nullable();
+            $table->string('hero_image')->nullable();
+            $table->string('poster_image')->nullable();
+            $table->text('facebook_link')->nullable();
+            $table->text('youtube_link')->nullable();
+            $table->text('instagram_link')->nullable();
+            $table->text('twitter_link')->nullable();
             $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
             $table->timestamps();

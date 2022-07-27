@@ -75,4 +75,8 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+
+    public function groupExhibit() {
+        // $user = User::where('id', auth()->user()->id)->with('')
+    }
 }

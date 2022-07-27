@@ -10,10 +10,10 @@
         <ul class="flex flex-col py-4 gap-y-1 overflow-hidden">
             {{-- App Logo --}}
             <li class="ml-3 mb-5 transition-all duration-300 lg:ml-14">
-                <div class="flex flex-row items-center">
+                <a href="{{ route('home') }}" class="flex flex-row items-center">
                     <img src="{{ url('assets/ticap-logo.png') }}" class="w-10 h-10" alt="logo">
                     <span class="hidden ml-1 text-base tracking-wide lg:inline-block">TICAPHUB</span>
-                </div>
+                </a>
             </li>
 
             {{-- Dashboard link --}}
@@ -29,8 +29,9 @@
                 <x-app.sidebar-link route="{{ $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id) }}" name="Officers" icon="fa-solid fa-user-shield" />
             @endhasanyrole
 
+            {{-- Group exhibit link (for students only) --}}
             @if($user->hasRole('student') && !is_null($user->userSpecialization->group_id))
-                <x-app.sidebar-link route="route('dashboard')" name="Group Exhibit" icon="fa-solid fa-users-line" />
+                <x-app.sidebar-link route="{{ route('group-exhibit') }}" name="Group Exhibit" icon="fa-solid fa-users-line" />
             @endif
 
             {{-- Documentation link --}}

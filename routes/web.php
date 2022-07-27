@@ -109,6 +109,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/officers/elections/{id}/vote', [StudentController::class, 'vote'])->middleware('student');
     });
 
+    // GROUP EXHIBIT (FOR STUDENTS)
+    Route::middleware(['student'])->group(function () {
+        Route::get('/group-exhibit', [UserController::class, 'groupExhibit'])->name('group-exhibit');
+    });
+
     // SCHEDULES (temporarily disabled)
     // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     // Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
@@ -270,25 +275,25 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/fetch-files/{taskId}', [EventController::class, 'fetchFiles']);
 
         // STUDENT ROUTE
-        Route::middleware(['student'])->group(function () {
-            Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
-            Route::post('/officers-and-committees/vote', [VoterController::class, 'getVote']);
-            Route::get('/group-exhibit', [StudentController::class, 'index'])->name('exhibit');
-            Route::get('/group-exhibit/{groupId}/update', [StudentController::class, 'updateForm']);
-            Route::post('/group-exhibit/{groupId}/update', [StudentController::class, 'update']);
+        // Route::middleware(['student'])->group(function () {
+        //     Route::get('/officers-and-committees/vote', [VoterController::class, 'voterPanel'])->name('vote');
+        //     Route::post('/officers-and-committees/vote', [VoterController::class, 'getVote']);
+        //     Route::get('/group-exhibit', [StudentController::class, 'index'])->name('exhibit');
+        //     Route::get('/group-exhibit/{groupId}/update', [StudentController::class, 'updateForm']);
+        //     Route::post('/group-exhibit/{groupId}/update', [StudentController::class, 'update']);
 
-            // ASSIGN TASK TO COMMITTEE MEMBERS
-            Route::get('/committee/{commId}', [CommitteeController::class, 'index']);
-            Route::get('/committee/{commId}/add-task', [CommitteeController::class, 'addTaskForm']);
-            Route::post('/committee/{commId}/add-task', [CommitteeController::class, 'addTask']);
-            Route::get('/committee/{commId}/task/{taskId}/view-task', [CommitteeController::class, 'viewTask']);
-            Route::get('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTaskForm']);
-            Route::post('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTask']);
-            Route::post('/committee/{commId}/delete-task', [CommitteeController::class, 'deleteTask']);
-            Route::get('/committee/{commId}/add-member', [CommitteeController::class, 'addCommitteeMember']);
-        });
-        Route::get('/search-committee', [CommitteeController::class, 'searchCommittee']);
-        Route::get('/fetch-committee/{taskId}', [CommitteeController::class, 'fetchCommittee']);
+        //     // ASSIGN TASK TO COMMITTEE MEMBERS
+        //     Route::get('/committee/{commId}', [CommitteeController::class, 'index']);
+        //     Route::get('/committee/{commId}/add-task', [CommitteeController::class, 'addTaskForm']);
+        //     Route::post('/committee/{commId}/add-task', [CommitteeController::class, 'addTask']);
+        //     Route::get('/committee/{commId}/task/{taskId}/view-task', [CommitteeController::class, 'viewTask']);
+        //     Route::get('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTaskForm']);
+        //     Route::post('/committee/{commId}/task/{taskId}/edit-task', [CommitteeController::class, 'editTask']);
+        //     Route::post('/committee/{commId}/delete-task', [CommitteeController::class, 'deleteTask']);
+        //     Route::get('/committee/{commId}/add-member', [CommitteeController::class, 'addCommitteeMember']);
+        // });
+        // Route::get('/search-committee', [CommitteeController::class, 'searchCommittee']);
+        // Route::get('/fetch-committee/{taskId}', [CommitteeController::class, 'fetchCommittee']);
     });
 });
 
