@@ -53,8 +53,13 @@ class ViewProfile extends Component
                 Storage::delete($this->user->profile_picture);
             }
 
+            // Create file path for profile picture
+            $tempPath = $this->profilePicture->store('public/profile-pictures');
+            $tempArray = explode('/', $tempPath);
+            $filePath = 'storage/' . $tempArray[1]  . '/' . $tempArray[2];
+
             // Update profile image
-            $this->user->profile_picture = $this->profilePicture->store('profile-pictures');
+            $this->user->profile_picture = $filePath;
         }
 
         // Update profile
