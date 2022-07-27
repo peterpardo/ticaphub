@@ -15,6 +15,10 @@ class GroupExhibit extends Model
         'description',
         'hero_image',
         'poster_image',
+        'facebook_link',
+        'youtube_link',
+        'instagram_link',
+        'twitter_link',
         'group_id',
         'ticap_id',
     ];
