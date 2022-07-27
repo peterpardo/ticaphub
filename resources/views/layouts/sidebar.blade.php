@@ -1,41 +1,6 @@
 @php
     // Get current user
     $user = App\Models\User::find(auth()->user()->id);
-
-    $navs = collect([
-        // (object) [
-        //     'name' => 'User Accounts',              // name of sidebar link
-        //     'route' => route('users'),              // route
-        //     'hasAccess' => $user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access user accounts'), // Check whether user has access to the specified link
-        //     'icon' => 'fa-solid fa-user'            // icon from FontAwesome
-        // ],
-        // Schedules Link (temporarily disabled)
-        // (object) [
-        //     'name' => 'Schedules',
-        //     'route' => route('schedules'),
-        //     'hasAccess' => $user->hasRole('superadmin'),
-        //     'icon' => 'fa-solid fa-calendar'
-        // ],
-        // (object) [
-        //     'name' => 'Committee Heads',
-        //     'route' => route('committee-heads'),
-        //     'hasAccess' => $user->hasRole(['superadmin']),
-        //     'icon' => 'fa-solid fa-user-group'
-        // ],
-        // Manage Events Link (temporarily disabled)
-        // (object) [
-        //     'name' => 'Manage Events',
-        //     'route' => route('events'),
-        //     'hasAccess' => $user->hasPermissionTo('access events'),
-        //     'icon' => 'fa-solid fa-calendar-check'
-        // ],
-        // (object) [
-        //     'name' => 'Project Assessment',
-        //     'route' => route('awards'),
-        //     'hasAccess' => $user->hasRole('superadmin'),
-        //     'icon' => 'fa-solid fa-diagram-project'
-        // ],
-    ]);
 @endphp
 
 {{-- Sidebar Component --}}
@@ -63,6 +28,10 @@
             @hasanyrole('superadmin|admin|student')
                 <x-app.sidebar-link route="{{ $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id) }}" name="Officers" icon="fa-solid fa-user-shield" />
             @endhasanyrole
+
+            @if($user->hasRole('student') && !is_null($user->userSpecialization->group_id))
+                <x-app.sidebar-link route="route('dashboard')" name="Group Exhibit" icon="fa-solid fa-users-line" />
+            @endif
 
             {{-- Documentation link --}}
             @role('superadmin')
