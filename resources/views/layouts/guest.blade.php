@@ -77,13 +77,20 @@
                     <span>Home</span>
                 </a>
 
-                {{-- Get ticap id of superadmin --}}
+                {{-- If ticap exists and has been set, show capstone projects link --}}
                 @php
-                    $ticap = App\Models\User::select('ticap_id')->where('id', 1)->pluck('ticap_id')->first();
+                    $isTicapSet = false;
+                    $ticapId = App\Models\User::select('ticap_id')->where('id', 1)->pluck('ticap_id')->first();
+
+                    if (!is_null($ticapId)) {
+                        $isTicapSet = App\Models\Ticap::select('invitation_is_set')
+                            ->where('id', $ticapId)
+                            ->where('invitation_is_set', 1)
+                            ->exists();
+                    }
                 @endphp
 
-                {{-- Show link if ticap is not null --}}
-                @if (!is_null($ticap))
+                @if ($isTicapSet)
                     <a href="{{ route ('schools') }}" class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-red-900 hover:text-white">
                         <span>Capstone Projects</span>
                     </a>
