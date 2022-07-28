@@ -1,6 +1,3 @@
-<x-app-layout :scripts="$scripts">
-    <x-page-title>
-        {{ $title }}
-    </x-page-title>
+<x-app-layout :title="$group->name">
     @livewire('group-exhibit', ['group' => $group])
 </x-app-layout>

@@ -12,6 +12,7 @@ use App\Models\Specialization;
 use App\Models\Ticap;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserSpecialization;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -77,6 +78,17 @@ class UserController extends Controller
     }
 
     public function groupExhibit() {
-        // $user = User::where('id', auth()->user()->id)->with('')
+        // Get the group id of student
+        $groupId = UserSpecialization::select('group_id')->where('user_id', auth()->user()->id)->pluck('group_id')->first();
+
+        // If student has no group, return to dashboard
+        if (is_null($groupId)) {
+            return redirect()->route('dashboard');
+        }
+
+        // Get details of group
+        $group = Group::find($groupId);
+
+        return view('group-exhibit.group', ['group' => $group]);
     }
 }
