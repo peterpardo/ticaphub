@@ -17,6 +17,7 @@ class CreateGroupExhibitTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
+            $table->string('logo')->nullable();
             $table->string('hero_image')->nullable();
             $table->string('poster_image')->nullable();
             $table->text('facebook_link')->nullable();

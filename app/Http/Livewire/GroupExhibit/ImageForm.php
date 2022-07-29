@@ -25,6 +25,8 @@ class ImageForm extends Component
     public function showModal($action) {
         if ($action == 'poster') {
             $this->action = 'poster';
+        } else if ($action == 'logo') {
+            $this->action = 'logo';
         }
         $this->showModal = true;
     }
@@ -35,9 +37,13 @@ class ImageForm extends Component
     }
 
     public function removeImage() {
-        ($this->action == 'hero')
-            ? $this->groupExhibit->hero_image = null
-            : $this->groupExhibit->poster_image = null;
+        if ($this->action == 'hero') {
+            $this->groupExhibit->hero_image = null;
+        } else if ($this->action == 'logo') {
+            $this->groupExhibit->logo = null;
+        } else {
+            $this->groupExhibit->poster_image = null;
+        }
 
         $this->file = null;
     }
@@ -45,14 +51,16 @@ class ImageForm extends Component
     public function updateImage() {
         $this->validate();
 
-        // Delete previous image (hero or poster)
         $image = null;
         if ($this->action == 'hero') {
             $image = $this->groupExhibit->hero_image;
+        } else if ($this->action == 'logo') {
+            $image = $this->groupExhibit->logo;
         } else {
             $image = $this->groupExhibit->poster_image;
         }
 
+        // Delete previous image (hero or poster)
         if (!is_null($image)) {
             $tempArray = explode('/', $image);
             $filePath = 'public/' . $tempArray[1]  . '/' . $tempArray[2];
@@ -69,13 +77,20 @@ class ImageForm extends Component
             // Update exhibit image
             if ($this->action == 'hero') {
                 $this->groupExhibit->hero_image = $filePath;
+            } else if ($this->action == 'logo') {
+                $this->groupExhibit->logo = $filePath;
             } else {
                 $this->groupExhibit->poster_image = $filePath;
             }
         } else {
-            ($this->action == 'hero')
-                ? $this->groupExhibit->hero_image = null
-                : $this->groupExhibit->poster_image = null;
+            // Check what to update
+            if ($this->action == 'hero') {
+                $this->groupExhibit->hero_image = null;
+            } else if ($this->action == 'logo') {
+                $this->groupExhibit->logo = null;
+            } else {
+                $this->groupExhibit->poster_image = null;
+            }
         }
         $this->groupExhibit->save();
 
