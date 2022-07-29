@@ -17,7 +17,7 @@ class ImageForm extends Component
     public $file;
 
     protected $rules = [
-        'file' => 'image|max:15000'
+        'file' => 'nullable|image|max:15000'
     ];
 
     protected $listeners = ['showModal'];
@@ -43,6 +43,8 @@ class ImageForm extends Component
     }
 
     public function updateImage() {
+        $this->validate();
+
         // Delete previous image (hero or poster)
         $image = null;
         if ($this->action == 'hero') {
@@ -59,8 +61,6 @@ class ImageForm extends Component
 
         // Check if student has uploaded an image
         if ($this->file) {
-            $this->validate();
-
             // Create file path for exhibit pictures
             $tempPath = $this->file->store('public/group-exhibits');
             $tempArray = explode('/', $tempPath);

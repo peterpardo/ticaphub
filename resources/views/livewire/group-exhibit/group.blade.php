@@ -29,7 +29,7 @@
         {{-- Poster --}}
         <div class="flex-1">
             <x-title class="mb-2">Poster Image</x-title>
-            <div class="grid place-items-center border-2" style="min-height: 620px">
+            <div class="grid place-items-center border-2" style="min-height: 495px">
                 <div class="w-64 md:w-96 mx-auto">
                     @if (!is_null($groupExhibit->poster_image))
                         <img class="w-full" src="{{ asset($groupExhibit->poster_image) }}" alt="ticaphub-group-poster">
@@ -50,11 +50,22 @@
         <div class="flex-1">
             <x-title class="mb-2">Project Description</x-title>
             <div class="p-5 border-2 space-y-5" style="min-height: 495px">
-                <h1 class="font-semibold text-xl">Project Title</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat omnis nobis minus facere sunt odit sequi quasi ipsa illo! Aspernatur in nihil, unde quam quasi dignissimos incidunt! Beatae tempora consequatur soluta, tempore deleniti explicabo reiciendis eos ipsa neque amet temporibus maiores nostrum. Error saepe consequatur dolorum? Sed neque ratione alias eveniet. Mollitia perferendis rem nam suscipit earum eius harum accusantium, repellendus omnis iusto in voluptatum voluptates beatae ipsum, incidunt dolore quaerat deserunt officia rerum nemo exercitationem cupiditate dolorem! Reiciendis in aspernatur ducimus voluptate laborum quasi culpa quas porro voluptatibus velit, exercitationem illum a sit enim? Alias quae assumenda voluptates libero, magnam iure eius qui cum reprehenderit asperiores facere aspernatur obcaecati voluptatem quod laudantium nemo ducimus. Tempore accusamus alias totam tenetur necessitatibus modi enim quidem architecto aliquam eligendi obcaecati culpa, quis corporis in esse rerum doloremque dolore, distinctio molestiae! Facilis, non perferendis corrupti architecto quam eius molestiae nesciunt dolores aspernatur soluta quibusdam officiis recusandae, vel modi cumque repellendus praesentium reprehenderit natus et? Impedit reiciendis aperiam ipsum sapiente dolorum quidem, beatae eius dolores a quam perspiciatis tenetur distinctio eaque natus! Optio cum neque repellat dicta saepe earum, perferendis temporibus libero! Quis deleniti at officia, magni laudantium corporis porro beatae voluptate quia magnam!</p>
+                {{-- Title --}}
+                @if (is_null($groupExhibit->title))
+                    <h1 class="font-semibold text-gray-300 text-xl">Project title here...</h1>
+                @else
+                    <h1 class="font-semibold text-xl">{{ $groupExhibit->title }}</h1>
+                @endif
+
+                {{-- Description --}}
+                @if (is_null($groupExhibit->description))
+                    <p class="text-gray-300">Project description here...</p>
+                @else
+                    <p>{{ $groupExhibit->description }}</p>
+                @endif
             </div>
             <div class="text-right mt-2">
-                <x-app.button color="blue">
+                <x-app.button color="blue" wire:click.prevent="$emitTo('group-exhibit.description-form', 'showModal')">
                     <i class="fa-solid fa-pen mr-1"></i>
                     Edit description
                 </x-app.button>
@@ -65,4 +76,7 @@
     {{-- Modals --}}
     {{-- Update Image (Hero and Poster) --}}
     @livewire('group-exhibit.image-form', ['groupExhibit' => $groupExhibit])
+
+    {{-- Update Project description --}}
+    @livewire('group-exhibit.description-form', ['groupExhibit' => $groupExhibit])
 </div>
