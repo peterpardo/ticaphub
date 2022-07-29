@@ -1,3 +1,3 @@
-<x-app-layout :title="$group->name">
-    @livewire('group-exhibit.group', ['group' => $group])
+<x-app-layout :title="$groupExhibit->group->name">
+    @livewire('group-exhibit.group', ['groupExhibit' => $groupExhibit])
 </x-app-layout>

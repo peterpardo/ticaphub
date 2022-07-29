@@ -10,7 +10,7 @@
         <img class="w-full object-cover" src="{{ asset('assets/banner.png') }}" alt="ticaphub-group-image">
     </div>
     <div class="text-right mt-2">
-        <x-app.button color="blue">
+        <x-app.button color="blue" wire:click.prevent="$emitTo('group-exhibit.image-form', 'showModal', 'hero')">
             <i class="fa-solid fa-pen mr-1"></i>
             Edit image
         </x-app.button>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="text-right mt-2">
-                <x-app.button color="blue">
+                <x-app.button color="blue" wire:click.prevent="$emitTo('group-exhibit.image-form', 'showModal', 'poster')">
                     <i class="fa-solid fa-pen mr-1"></i>
                     Edit poster
                 </x-app.button>
@@ -48,4 +48,8 @@
             </div>
         </div>
     </div>
+
+    {{-- Modals --}}
+    {{-- Update Image (Hero and Poster) --}}
+    @livewire('group-exhibit.image-form', ['groupExhibit' => $groupExhibit])
 </div>

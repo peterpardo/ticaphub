@@ -7,6 +7,7 @@ use App\Jobs\RegisterUserJob;
 use App\Models\Election;
 use App\Models\Event;
 use App\Models\Group;
+use App\Models\GroupExhibit;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\Ticap;
@@ -87,8 +88,8 @@ class UserController extends Controller
         }
 
         // Get details of group
-        $group = Group::find($groupId);
+        $groupExhibit = GroupExhibit::where('group_id', $groupId)->with('group:id,name')->first();
 
-        return view('group-exhibit.group', ['group' => $group]);
+        return view('group-exhibit.group', ['groupExhibit' => $groupExhibit]);
     }
 }

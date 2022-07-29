@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\GroupExhibit;
 
-use App\Models\Group as ModelsGroup;
+use App\Models\GroupExhibit;
 use Livewire\Component;
 
 class Group extends Component
 {
-    public ModelsGroup $group;
+    public GroupExhibit $groupExhibit;
 
     public function render()
     {
