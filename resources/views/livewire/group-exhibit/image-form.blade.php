@@ -13,10 +13,12 @@
                 <div class="flex border-2 justify-center items-center bg-white h-full overflow-hidden" style="min-height: 280px">
                     {{-- Check if edited image is hero or poster --}}
                     @if ($action == 'hero')
-                        @if (!is_null($groupExhibit->hero_image))
-                            <img class="w-full object-cover" src="{{ asset($groupExhibit->hero_image) }}" alt="ticaphub-group-image">
-                        @else
+                        @if ($file && ($file->getClientOriginalExtension() === 'jpg' || $file->getClientOriginalExtension() === 'png' || $file->getClientOriginalExtension() === 'jpeg'))
+                            <img class="w-full object-cover" src="{{ $file->temporaryUrl() }}" alt="ticaphub-group-image">
+                        @elseif (is_null($groupExhibit->hero_image))
                             <img class="opacity-10 w-60" src="https://media.istockphoto.com/vectors/photo-coming-soon-image-icon-vector-illustration-isolated-on-white-vector-id1193046541?k=6&m=1193046541&s=612x612&w=0&h=1p8PD2GfCfIOPx0UTPXW3UDWpoJ4D0yJVJJzdqMDdsY=" alt="ticaphub-group-image">
+                        @else
+                            <img class="w-full object-cover" src="{{ asset($groupExhibit->hero_image) }}" alt="ticaphub-group-image">
                         @endif
                     @else
                         @if (!is_null($groupExhibit->poster_image))
@@ -27,10 +29,13 @@
                     @endif
                 </div>
 
+                {{-- Spinner --}}
+                <x-spinner wire:loading.flex wire:target="file">Updating...</x-spinner>
+
                 {{-- Image --}}
                 <x-form.form-control>
                     @if ($action == 'hero')
-                        <x-form.label for="image">
+                        <x-form.label for="file">
                             Hero Image
                         </x-form.label>
                         <x-form.input-info>
@@ -38,12 +43,12 @@
                             For the hero image, you can upload your group photo. This hero image is like a cover photo in Facebook.
                         </x-form.input-info>
                     @else
-                        <x-form.label for="image">
+                        <x-form.label for="file">
                             Poster Image
                         </x-form.label>
                     @endif
-                    <input type="file" wire:model="image"/>
-                    @error('image')
+                    <input type="file" wire:model="file"/>
+                    @error('file')
                         <x-form.error>{{ $message }}</x-form.error>
                     @enderror
                 </x-form.form-control>
