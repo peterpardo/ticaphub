@@ -94,6 +94,63 @@
                 </x-app.button>
             </div>
         </div>
+
+        {{-- Social Media links --}}
+        <div>
+            <x-title class="mb-2">Social Media Links</x-title>
+            <div class="p-5 border-2 space-y-5" style="min-height: 510px">
+                <div>
+                    <span class="block mb-1 font-semibold">
+                        <i class="fa-brands fa-facebook"></i>
+                        Facebook
+                    </span>
+                    <div class="w-full h-10 py-2 px-3 rounded border border-gray-300 truncate">
+                        @if (!is_null($groupExhibit->facebook_link))
+                            {{ $groupExhibit->facebook_link }}
+                        @endif
+                    </div>
+                </div>
+                <div>
+                    <span class="block mb-1 font-semibold">
+                        <i class="fa-brands fa-youtube"></i>
+                        Youtube
+                    </span>
+                    <div class="w-full h-10 py-2 px-3 rounded border border-gray-300 truncate">
+                        @if (!is_null($groupExhibit->youtube_link))
+                            {{ $groupExhibit->youtube_link }}
+                        @endif
+                    </div>
+                </div>
+                <div>
+                    <span class="block mb-1 font-semibold">
+                        <i class="fa-brands fa-instagram"></i>
+                        Instagram
+                    </span>
+                    <div class="w-full h-10 py-2 px-3 rounded border border-gray-300 truncate">
+                        @if (!is_null($groupExhibit->instagram_link))
+                            {{ $groupExhibit->instagram_link }}
+                        @endif
+                    </div>
+                </div>
+                <div>
+                    <span class="block mb-1 font-semibold">
+                        <i class="fa-brands fa-twitter"></i>
+                        Twitter
+                    </span>
+                    <div class="w-full h-10 py-2 px-3 rounded border border-gray-300 truncate">
+                        @if (!is_null($groupExhibit->twitter_link))
+                            {{ $groupExhibit->twitter_link }}
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="text-right mt-2">
+                <x-app.button color="blue" wire:click.prevent="$emitTo('group-exhibit.links-form', 'showModal')">
+                    <i class="fa-solid fa-pen mr-1"></i>
+                    Edit links
+                </x-app.button>
+            </div>
+        </div>
     </div>
 
     {{-- Modals --}}
@@ -102,4 +159,7 @@
 
     {{-- Update Project description --}}
     @livewire('group-exhibit.description-form', ['groupExhibit' => $groupExhibit])
+
+    {{-- Update Social media links --}}
+    @livewire('group-exhibit.links-form', ['groupExhibit' => $groupExhibit])
 </div>
