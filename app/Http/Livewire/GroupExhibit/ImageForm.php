@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\GroupExhibit;
 
+use App\Models\GroupExhibit;
 use Livewire\Component;
 
 class ImageForm extends Component
 {
+    public GroupExhibit $groupExhibit;
     public $action = 'hero';
     public $showModal = false;
     public $image;
@@ -24,7 +26,7 @@ class ImageForm extends Component
     }
 
     public function closeModal() {
-        $this->reset();
+        $this->reset('action', 'showModal', 'image');
         $this->resetValidation();
     }
 
