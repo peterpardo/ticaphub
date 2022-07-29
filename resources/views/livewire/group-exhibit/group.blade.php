@@ -1,4 +1,9 @@
 <div>
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+    @endif
+
     {{-- Note --}}
     <x-info-box color="yellow">
         Here, you can update the contents of your exhibit that will be seen by other people on the home page of the website.

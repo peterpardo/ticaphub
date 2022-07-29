@@ -1,6 +1,4 @@
 <div class="space-y-5 w-full max-w-screen-sm mx-auto">
-    {{-- {{ dd(Storage::url($user->profile_picture)) }} --}}
-
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert :color="session('status')" :message="session('message')"/>

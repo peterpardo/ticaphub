@@ -50,7 +50,9 @@ class ViewProfile extends Component
         if ($this->profilePicture) {
             // Delete old profile picture
             if (!is_null($this->user->profile_picture)) {
-                Storage::delete($this->user->profile_picture);
+                $tempArray = explode('/', $this->user->profile_picture);
+                $filePath = 'public/' . $tempArray[1]  . '/' . $tempArray[2];
+                Storage::delete($filePath);
             }
 
             // Create file path for profile picture
