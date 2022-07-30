@@ -7,6 +7,7 @@ use App\Models\GroupExhibit;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
+use App\Models\UserSpecialization;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -40,7 +41,7 @@ class GuestController extends Controller
             return redirect()->route('schools');
         }
 
-        $groups = Group::where('specialization_id', $id)->get();
+        $groups = Group::where('specialization_id', $id)->with('groupExhibit:group_id,hero_image')->get();
 
         return view('homepage.groupView', [
             'groups' => $groups,
@@ -57,6 +58,11 @@ class GuestController extends Controller
             return redirect()->route('schools');
         }
 
-        return view('homepage.viewSpecialization', ['groupExhibit' => $groupExhibit]);
+        $members = UserSpecialization::where('group_id', $id)->with('user')->get();
+
+        return view('homepage.viewSpecialization', [
+            'groupExhibit' => $groupExhibit,
+            'members' => $members,
+        ]);
     }
 }

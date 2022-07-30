@@ -14,8 +14,12 @@
                 @foreach($groups as $group)
                     <a href="{{ url('groups/' . $group->id) }}" class="block">
                         <div class="bg-white shadow-md rounded-lg mx-1 my-3 cursor-pointer overflow-hidden">
-                            <div class="overflow-hidden relative">
-                                <img class="h-52 hover:opacity-75 w-full object-cover" src="{{url('/assets/specialization.png')}}">
+                            <div class="overflow-hidden relative border hover:opacity-80">
+                                @if ($group->groupExhibit->hero_image)
+                                    <img class="h-52 w-full object-cover" src="{{ asset($group->groupExhibit->hero_image) }}">
+                                @else
+                                    <img class="h-52 object-cover mx-auto opacity-30 " src="https://media.istockphoto.com/vectors/photo-coming-soon-image-icon-vector-illustration-isolated-on-white-vector-id1193046541?k=6&m=1193046541&s=612x612&w=0&h=1p8PD2GfCfIOPx0UTPXW3UDWpoJ4D0yJVJJzdqMDdsY=">
+                                @endif
                             </div>
                             <div class="h-24 min-h-full p-5 grid place-items-center text-center">
                                 <h1 class="text-xl font-semibold text-gray-800">{{ $group->name }}</h1>

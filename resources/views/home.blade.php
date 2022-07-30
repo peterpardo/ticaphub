@@ -3,8 +3,6 @@
     $streams = DB::table('streams')->get();
     $brands = DB::table('brands')->get();
 @endphp
-{{-- <head>
-</head> --}}
 
 <x-guest-layout>
     <div class="overflow-x-auto">
