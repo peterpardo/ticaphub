@@ -8,6 +8,7 @@ use Livewire\Component;
 class Group extends Component
 {
     public GroupExhibit $groupExhibit;
+    public $members;
 
     protected $listeners = ['refreshParent'];
 

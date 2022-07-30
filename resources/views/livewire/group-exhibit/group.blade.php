@@ -11,6 +11,33 @@
         Here, you can update the contents of your exhibit that will be seen by other people on the home page of the website.
     </x-info-box>
 
+    {{-- Group details --}}
+    <div class="grid grid-cols-2 mb-5">
+        <div>
+            <x-title class="mb-2">Members</x-title>
+            <ul class="space-y-2">
+                @forelse ($members as $member)
+                    <li class="flex items-center">
+                        <div class="rounded-full w-10 h-10 mr-5 overflow-hidden">
+                            @if ($member->user->profile_picture)
+                                <img class="w-full" src="{{ asset($member->user->profile_picture) }}" alt="ticaphub-member-profile">
+                            @else
+                                <img class="w-full" src="{{ asset('assets/default-img.png') }}" alt="ticaphub-member-profile">
+                            @endif
+                        </div>
+                        <span>{{ $member->user->first_name }} {{ $member->user->last_name }}</span>
+                    </li>
+                @empty
+                    <li>No members exists</li>
+                @endforelse
+            </ul>
+        </div>
+        <div>
+            <x-title class="mb-2">Project Adviser</x-title>
+            <p>Heehehhe heheh</p>
+        </div>
+    </div>
+
     {{-- Hero --}}
     <x-title class="mb-2">Hero Image</x-title>
     <div class="flex border-2 justify-center items-center bg-white h-full overflow-hidden" style="max-height: 500px;">

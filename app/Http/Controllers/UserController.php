@@ -89,7 +89,11 @@ class UserController extends Controller
 
         // Get details of group
         $groupExhibit = GroupExhibit::where('group_id', $groupId)->with('group:id,name')->first();
+        $members = UserSpecialization::where('group_id', $groupId)->with('user')->get();
 
-        return view('group-exhibit.group', ['groupExhibit' => $groupExhibit]);
+        return view('group-exhibit.group', [
+            'groupExhibit' => $groupExhibit,
+            'members' => $members
+        ]);
     }
 }

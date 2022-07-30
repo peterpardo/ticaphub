@@ -16,8 +16,6 @@ class CreateGroupsTable extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('adviser')
-                ->nullable();
             $table->foreignId('specialization_id')
                 ->constrained('specializations')
                 ->onDelete('cascade');
