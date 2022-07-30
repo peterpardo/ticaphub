@@ -34,7 +34,11 @@
         </div>
         <div>
             <x-title class="mb-2">Project Adviser</x-title>
-            <p>Heehehhe heheh</p>
+            @if ($adviser)
+                <p>{{ $adviser->name }}</p>
+            @else
+                <p>No adviser exists</p>
+            @endif
         </div>
     </div>
 

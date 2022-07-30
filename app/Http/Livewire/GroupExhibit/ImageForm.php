@@ -60,7 +60,7 @@ class ImageForm extends Component
             $image = $this->groupExhibit->poster_image;
         }
 
-        // Delete previous image (hero or poster)
+        // Delete previous image (hero or poster or logo)
         if (!is_null($image)) {
             $tempArray = explode('/', $image);
             $filePath = 'public/' . $tempArray[1]  . '/' . $tempArray[2];

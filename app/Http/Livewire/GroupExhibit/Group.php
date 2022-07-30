@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\GroupExhibit;
 
+use App\Models\Adviser;
 use App\Models\GroupExhibit;
 use Livewire\Component;
 
 class Group extends Component
 {
     public GroupExhibit $groupExhibit;
+    public Adviser $adviser;
     public $members;
 
     protected $listeners = ['refreshParent'];

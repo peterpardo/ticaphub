@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\GeneralException;
 use App\Jobs\RegisterUserJob;
+use App\Models\Adviser;
 use App\Models\Election;
 use App\Models\Event;
 use App\Models\Group;
@@ -90,10 +91,14 @@ class UserController extends Controller
         // Get details of group
         $groupExhibit = GroupExhibit::where('group_id', $groupId)->with('group:id,name')->first();
         $members = UserSpecialization::where('group_id', $groupId)->with('user')->get();
+        $adviser = Adviser::whereHas('groups', function ($query) use ($groupId) {
+            $query->where('id', $groupId);
+        })->first();
 
         return view('group-exhibit.group', [
             'groupExhibit' => $groupExhibit,
-            'members' => $members
+            'members' => $members,
+            'adviser' => $adviser,
         ]);
     }
 }
