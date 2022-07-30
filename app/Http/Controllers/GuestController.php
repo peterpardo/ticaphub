@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\GroupExhibit;
 use App\Models\School;
 use App\Models\Specialization;
 use App\Models\User;
@@ -48,13 +49,14 @@ class GuestController extends Controller
     }
 
     public function group($id) {
-        $group = Group::find($id);
+        // Get details of group
+        $groupExhibit = GroupExhibit::where('group_id', $id)->with('group:id,name')->first();
 
         // Check if group exists
-        if (is_null($group)) {
+        if (is_null($groupExhibit)) {
             return redirect()->route('schools');
         }
 
-        return view('homepage.viewSpecialization', ['group' => $group]);
+        return view('homepage.viewSpecialization', ['groupExhibit' => $groupExhibit]);
     }
 }

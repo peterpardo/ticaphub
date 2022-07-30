@@ -21,7 +21,7 @@
                     <x-form.label for="description">Description</x-form.label>
                     <x-form.input-info>
                         <strong>Note:</strong>
-                        The description must not be greater than 200 words.
+                        The description must not be greater than 100 words.
                     </x-form.input-info>
                     <textarea class="w-full py-2 px-3 rounded border border-gray-300" style="min-height: 300px" wire:model.lazy="description" id="description"></textarea>
                     @error('description')

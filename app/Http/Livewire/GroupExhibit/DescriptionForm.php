@@ -41,9 +41,9 @@ class DescriptionForm extends Component
     public function updateDescription() {
         $this->validate();
 
-        // If the word count of the description is greater than 200, return error
-        if (str_word_count($this->description) > 200) {
-            $this->addError('description', 'The description must have 200 word or less.');
+        // If the word count of the description is greater than 100, return error
+        if (str_word_count($this->description) > 100) {
+            $this->addError('description', 'The description must have 100 word or less.');
             return;
         }
 
