@@ -46,8 +46,7 @@ class Settings extends Component
         $zip = new ZipArchive;
         $fileName = 'group-exhibits.zip';
 
-        if ($zip->open(storage_path('app/public/ticap/' . $dirName . '/' . $fileName), ZipArchive::CREATE) === TRUE)
-        {
+        if ($zip->open(storage_path('app/public/ticap/' . $dirName . '/' . $fileName), ZipArchive::CREATE) === TRUE) {
             $groupExhibits = GroupExhibit::with('group:id,name')->get();
 
             // Loop through all exhibits
@@ -60,10 +59,15 @@ class Settings extends Component
             $zip->close();
         }
 
-        dd('done zipping.');
-
         // Delete users
         $this->deleteUsers();
+
+        // Delete all files
+        // group-exhibits
+        Storage::deleteDirectory('public/group-exhibits');
+
+        // profile-pictures
+        Storage::deleteDirectory('public/profile-pictures');
 
         // Set current ticap to done
         $this->ticap->is_done = true;
