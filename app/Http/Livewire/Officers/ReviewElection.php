@@ -26,7 +26,6 @@ class ReviewElection extends Component
 
         // Check if each position has atleast two candidates
         foreach ($positions as $position) {
-            dd($position->candidates_count);
             if ($position->candidates_count < 2) {
                 session()->flash('status', 'red');
                 session()->flash('message', $position->name . ' position needs atleast two candidate to proceed');
@@ -36,8 +35,6 @@ class ReviewElection extends Component
                 return;
             }
         }
-
-        dd('no loop');
 
         // Change status of election
         $this->election->status = 'in progress';
