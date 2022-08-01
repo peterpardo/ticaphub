@@ -29,6 +29,9 @@ class Settings extends Component
 
     public function endEvent() {
         $superadmin = User::find(auth()->user()->id);
+        // Set admin profile to null
+        $superadmin->profile_picture = null;
+        $superadmin->save();
 
         // Create directory for all ticap archives (one time only)
         if (!is_dir(storage_path('app/public/ticap'))) {
