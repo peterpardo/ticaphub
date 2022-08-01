@@ -20,7 +20,7 @@
 
             <div class="text-right">
                 <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
-                <x-app.button color="green" type="submit">Add Specialization</x-app.button>
+                <x-app.button color="green" type="submit">Save</x-app.button>
             </div>
         </x-form>
     </x-modal>
