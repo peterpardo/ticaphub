@@ -6,26 +6,47 @@
 
             {{-- Form --}}
             <x-form wire:submit.prevent="saveUser">
-                {{-- Type --}}
-                {{-- Hide selecting of role if action is update --}}
-                @if ($action != 'update')
-                    <x-form.form-control>
-                        <x-form.label for="role">Role</x-form.label>
-                        <x-form.select wire:model="role" id="role">
-                            <option value="">---select role---</option>
-                            <option value="student">Student</option>
-                            <option value="panelist">Panelist</option>
-                            <option value="admin">Admin</option>
-                        </x-form.select>
-                        @error('role')
-                            <x-form.error>{{ $message }}</x-form.error>
-                        @enderror
-                    </x-form.form-control>
+                {{-- Note --}}
+                @if (auth()->user()->hasRole('superadmin'))
+                    <x-info-box color="yellow">
+                        You can uncheck the "<strong>send invitation email</strong>" checkbox to automatically verify the account upon creation. By default, the password of the created account will be <strong>ticaphub123</strong>. Notify the user to change the password upon logging in.
+                    </x-info-box>
                 @endif
+
+                {{-- Type --}}
+                <x-form.form-control>
+                    <x-form.label for="role">Role</x-form.label>
+                    <x-form.select wire:model="role" id="role">
+                        <option value="">---select role---</option>
+                        <option value="student">Student</option>
+                        <option value="panelist">Panelist</option>
+                        {{-- Only allow superadmin to add other admins --}}
+                        @if (auth()->user()->hasRole('superadmin'))
+                            <option value="admin">Admin</option>
+                        @endif
+                    </x-form.select>
+                    @error('role')
+                        <x-form.error>{{ $message }}</x-form.error>
+                    @enderror
+                </x-form.form-control>
+
+                {{-- Invitation email --}}
+                <x-form.form-control>
+                    <x-form.label for="role">Invitation Email</x-form.label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            wire:model="isSendEmail"
+                            id="isSendEmail"
+                            class="rounded appearance-none checked:bg-blue-600 checked:border-transparent">
+                        <label for="isSendEmail">send invitation email</label>
+                    </div>
+                </x-form.form-control>
 
                 {{-- Email --}}
                 <x-form.form-control>
                     <x-form.label for="email">Email</x-form.label>
+                    <x-form.input-info><strong>Note:</strong> This email will be used to send an invitation to confirm the account.</x-form.input-info>
                     <x-form.input wire:model.lazy="email" id="email" />
                     @error('email')
                         <x-form.error>{{ $message }}</x-form.error>

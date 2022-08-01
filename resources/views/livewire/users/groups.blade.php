@@ -11,7 +11,7 @@
 
     {{-- Note --}}
     <x-info-box color="yellow">
-        You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must have <strong>an adviser</strong> and <span class="font-bold">atleast have 1 member</span> to be able to created awards for the TICaP.
+        You can add groups here by clicking the <span class="font-bold">Add Group</span> button below. Keep in mind that each group must have <strong>an adviser</strong> and <span class="font-bold">atleast have one(1) member</span> to be able to create awards for the TICaP.
     </x-info-box>
 
     <div class="flex flex-col-reverse gap-y-2 lg:flex-row lg:justify-between lg:items-center">

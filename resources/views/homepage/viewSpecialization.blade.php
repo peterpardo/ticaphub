@@ -2,7 +2,9 @@
     <section>
         {{-- Hero --}}
         <div class="hidden md:flex justify-center items-center bg-black overflow-hidden relative" style="height: 655px;">
-            <div class="absolute inset w-full text-center text-white text-3xl z-10 italic tracking-wider" style="max-width: 80rem">"{{ $groupExhibit->title }}"</div>
+            @if (!is_null($groupExhibit->title))
+                <div class="absolute inset w-full text-center text-white text-3xl z-10 italic tracking-wider" style="max-width: 80rem">"{{ $groupExhibit->title }}"</div>
+            @endif
             @if (!is_null($groupExhibit->hero_image))
                 <img class="opacity-40 w-full object-cover" src="{{ asset($groupExhibit->hero_image) }}" alt="ticaphub-group-image">
             @else
@@ -24,7 +26,7 @@
         {{-- Poster and Description --}}
         <div class="grid grid-cols-1  gap-y-5 h-full bg-white py-5 md:grid-cols-2" style="min-height: 24rem;">
             <div class="grid place-items-center mx-auto border-2 w-80" style="min-height: 500px">
-                @if (is_null($groupExhibit->poster_image))
+                @if (!is_null($groupExhibit->poster_image))
                     <img class="w-full" src="{{ asset($groupExhibit->poster_image) }}" alt="ticaphub-group-poster">
                 @else
                     <img class="w-full opacity-10" src="https://media.istockphoto.com/vectors/photo-coming-soon-image-icon-vector-illustration-isolated-on-white-vector-id1193046541?k=6&m=1193046541&s=612x612&w=0&h=1p8PD2GfCfIOPx0UTPXW3UDWpoJ4D0yJVJJzdqMDdsY=" alt="ticaphub-poster-image">
@@ -38,7 +40,7 @@
 
         {{-- Group members --}}
         <div class="flex flex-col items-center py-10 px-5 h-full" style="min-height: 24rem;">
-            <h1 class="font-bold text-3xl text-center">Team CYBER ACE</h1>
+            <h1 class="font-bold text-3xl text-center">Team {{ $groupExhibit->group->name }}</h1>
             {{-- <div class="flex flex-wrap gap-5 items-center justify-center mt-10"> --}}
             <div class="flex flex-wrap gap-5 items-center justify-center mt-10">
                 @foreach ($members as $member)

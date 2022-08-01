@@ -37,6 +37,7 @@ class UserForm extends Component
     // Action (add or update)
     public $action = 'add';
     public $userId;
+    public $isSendEmail = true;
 
     protected $listeners = ['getUser', 'showForm'];
 
@@ -112,7 +113,7 @@ class UserForm extends Component
     }
 
     public function resetInputFields() {
-        $this->reset('role', 'fname', 'lname', 'email', 'selectedSchool', 'selectedSpecialization', 'selectedGroup', 'showStudentFields', 'action');
+        $this->reset('role', 'fname', 'lname', 'email', 'selectedSchool', 'selectedSpecialization', 'selectedGroup', 'showStudentFields', 'action', 'isSendEmail');
         $this->specializations = Specialization::where('school_id', $this->selectedSchool)->get();
     }
 
@@ -162,7 +163,6 @@ class UserForm extends Component
 
         // Validation
         $validated = $this->validate($validations, [], $attributes);
-        // dd($validated);
 
         // Add user
         if ($this->action == 'update') {
@@ -193,30 +193,32 @@ class UserForm extends Component
                 'first_name' => trim(Str::title($this->fname)),
                 'last_name' => trim(Str::title($this->lname)),
                 'password' => trim(Hash::make('ticaphub123')), // default password
+                'email_verified' => !$this->isSendEmail,
                 'email' => $this->email,
                 'ticap_id' => auth()->user()->ticap_id,
             ]);
 
-            // TODO: Send email to user for resetting of password
-            // Link is valid for 5 days once sent to the student
-            $token = Str::random(60) . time();
-            $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
-                'token' => $token,
-                'ticap' => auth()->user()->ticap_id,
-                'email' => $this->email,
-            ]);
-            $details = [
-                'title' => 'Welcome to TICAPHUB, ' . $user->first_name . '!',
-                'body' => 'Click the link to confirm your email.',
-                'link' => $link,
-            ];
-            DB::table('register_users')->insert([
-                'email' => $user->email,
-                'token' => $token,
-                'created_at' =>  now()->toDateTimeString(),
-                'updated_at' => now()->toDateTimeString(),
-            ]);
-            RegisterUserJob::dispatch($this->email, $details);
+            if ($this->isSendEmail) {
+                // Link is valid for 5 days once sent to the student
+                $token = Str::random(60) . time();
+                $link = URL::temporarySignedRoute('set-password', now()->addDays(5), [
+                    'token' => $token,
+                    'ticap' => auth()->user()->ticap_id,
+                    'email' => $this->email,
+                ]);
+                $details = [
+                    'title' => 'Welcome to TICAPHUB, ' . $user->first_name . '!',
+                    'body' => 'Click the link to confirm your email.',
+                    'link' => $link,
+                ];
+                DB::table('register_users')->insert([
+                    'email' => $user->email,
+                    'token' => $token,
+                    'created_at' =>  now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ]);
+                RegisterUserJob::dispatch($this->email, $details);
+            }
         }
 
         // Add roles
