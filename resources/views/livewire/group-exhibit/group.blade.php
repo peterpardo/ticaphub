@@ -12,7 +12,7 @@
     </x-info-box>
 
     {{-- Group details --}}
-    <div class="grid grid-cols-2 mb-5">
+    <div class="grid grid-cols-1 mb-5 gap-y-6 md:grid-cols-2">
         <div>
             <x-title class="mb-2">Members</x-title>
             <ul class="space-y-2">

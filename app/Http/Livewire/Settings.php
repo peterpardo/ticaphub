@@ -2,15 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Adviser;
-use App\Models\Election;
-use App\Models\Group;
+use App\Models\GroupExhibit;
 use App\Models\School;
-use App\Models\Specialization;
 use App\Models\Ticap;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Illuminate\Support\Str;
+use ZipArchive;
 
 class Settings extends Component
 {
@@ -30,6 +30,38 @@ class Settings extends Component
     public function endEvent() {
         $superadmin = User::find(auth()->user()->id);
 
+        // Create directory for all ticap archives (one time only)
+        if (!is_dir(storage_path('app/public/ticap'))) {
+            Storage::makeDirectory('public/ticap');
+        }
+
+        // Create directory for current ticap
+        $dirName = time() . '-' . $superadmin->ticap_id;
+
+        if (!is_dir(storage_path('app/public/ticap/' . $dirName))) {
+           Storage::makeDirectory('public/ticap/' . $dirName);
+        }
+
+        // Create zip file for all exhibits (hero, posters and logos)
+        $zip = new ZipArchive;
+        $fileName = 'group-exhibits.zip';
+
+        if ($zip->open(storage_path('app/public/ticap/' . $dirName . '/' . $fileName), ZipArchive::CREATE) === TRUE)
+        {
+            $groupExhibits = GroupExhibit::with('group:id,name')->get();
+
+            // Loop through all exhibits
+            foreach ($groupExhibits as $exhibit) {
+                $this->addFileToZip($exhibit->hero_image, $exhibit->group->name, $zip);
+                $this->addFileToZip($exhibit->poster_image, $exhibit->group->name, $zip);
+                $this->addFileToZip($exhibit->logo, $exhibit->group->name, $zip);
+            }
+
+            $zip->close();
+        }
+
+        dd('done zipping.');
+
         // Delete users
         $this->deleteUsers();
 
@@ -45,6 +77,22 @@ class Settings extends Component
         session()->flash('message', 'Congratulations! TICaP has been successfully ended.');
 
         return redirect()->route('dashboard');
+    }
+
+    public function addFileToZip($file, $groupName, $zip) {
+        $tempFile = null;
+
+        // Check if group has image file
+        if (!is_null($file)) {
+            $tempFile = Str::replaceFirst('storage', 'public', $file);
+        }
+
+        // Check if file exists, add to zip file of group
+        if (Storage::disk('local')->exists($tempFile)) {
+            $filePath = storage_path('app/') . $tempFile;
+            $relativeNameInZipFile = Str::slug($groupName) . '/' . basename($filePath);
+            $zip->addFile($filePath, $relativeNameInZipFile);
+        }
     }
 
     public function deleteUsers() {

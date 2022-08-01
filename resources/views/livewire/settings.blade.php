@@ -57,9 +57,9 @@
             {{-- Spinner --}}
             <x-spinner wire:loading.flex wire:target="endEvent">Please wait. This may take a few seconds...</x-spinner>
 
-            <div wire:loading.remove class="text-right">
-                <x-app.button color="gray" wire:click.prevent="$set('showModal', false)">Cancel</x-app.button>
-                <x-app.button color="red" wire:click.prevent="endEvent">Yes, end the event.</x-app.button>
+            <div class="text-right">
+                <x-app.button color="gray" wire:loading.attr="disabled" wire:click.prevent="$set('showModal', false)">Cancel</x-app.button>
+                <x-app.button color="red" wire:loading.attr="disabled" wire:click.prevent="endEvent">Yes, end the event.</x-app.button>
             </div>
         </x-modal>
     </div>
