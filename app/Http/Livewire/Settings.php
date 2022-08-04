@@ -45,6 +45,9 @@ class Settings extends Component
            Storage::makeDirectory('public/ticap/' . $dirName);
         }
 
+        // Set ticap folder
+        $this->ticap->folder = $dirName;
+
         // Create zip file for all exhibits (hero, posters and logos)
         $zip = new ZipArchive;
         $fileName = 'group-exhibits.zip';

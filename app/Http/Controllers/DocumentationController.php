@@ -8,16 +8,8 @@ use Illuminate\Support\Facades\Validator;
 
 class DocumentationController extends Controller
 {
-    public function index() {
-        // Check if ticap is not set
-        $showSidebar = true;
-        if (is_null(auth()->user()->ticap_id)) {
-            $showSidebar = false;
-        }
-
-        return view('documentation', [
-            'showSidebar' => $showSidebar
-        ]);
+    public function ticaps() {
+        return view('documentation');
     }
 
     public function ticapFiles($ticapId) {

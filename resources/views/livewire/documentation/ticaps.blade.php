@@ -1,11 +1,53 @@
 <div x-data="{
     showDeleteModal: @entangle('showDeleteModal').defer,
 }">
-    {{-- Ticap table --}}
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
+
+    <div>
+        Peter
+    </div>
+
     <x-table>
         <x-slot name="heading">
-            <x-table.thead>TICaP Name</x-table.thead>
-            <x-table.thead>Action</x-table.thead>
+            <tr>
+                <x-table.thead>school</x-table.thead>
+                <x-table.thead>specialization</x-table.thead>
+                <x-table.thead>actions</x-table.thead>
+            </tr>
+        </x-slot>
+
+        <x-slot name="body">
+            @forelse ($specializations as $specialization)
+                @if($specialization->school->is_involved)
+                    <tr>
+                        <x-table.tdata>{{ $specialization->school->name }}</x-table.tdata>
+                        <x-table.tdata>{{ $specialization->name }}</x-table.tdata>
+                        <x-table.tdata-actions>
+                            <x-table.delete-btn wire:click="selectItem({{ $specialization->id }})"   />
+                        </x-table.tdata-actions>
+                    </tr>
+                @endif
+            @empty
+                <tr>
+                    <x-table.tdata>No Specializations are found</x-table.tdata>
+                </tr>
+            @endforelse
+        </x-slot>
+
+        <x-slot name="links">
+            {{ $specializations->links() }}
+        </x-slot>
+    </x-table>
+
+    {{-- <x-table>
+        <x-slot name="heading">
+            <tr>
+                <x-table.thead>TICaP Name</x-table.thead>
+                <x-table.thead>Action</x-table.thead>
+            </tr>
         </x-slot>
 
         <x-slot name="body">
@@ -19,7 +61,7 @@
                                 <span class="hidden tracking-wide lg:inline-block">View</span>
                             </a>
                             <x-table.delete-btn wire:click="selectItem({{ $ticap->id }})"/>
-                    @else
+                        @else
                             <span
                                 class="relative inline-block px-3 py-1 font-semibold text-indigo-900 leading-tight">
                                 <span aria-hidden
@@ -30,24 +72,25 @@
                     </x-table.tdata-actions>
                 </tr>
             @empty
-                <x-table.tdata>No ticaps found</x-table.tdata>
+                <tr>
+                    <x-table.tdata>No Ticaps are found</x-table.tdata>
+                </tr>
             @endforelse
         </x-slot>
 
         <x-slot name="links">
             {{ $ticaps->links() }}
         </x-slot>
-    </x-table>
+    </x-table> --}}
 
-    {{-- Delete ticap --}}
+    {{-- Delete modal --}}
     <div x-cloak x-show="showDeleteModal">
         <x-modal>
-            <x-modal.title>Delete Ticap</x-modal.title>
-            <x-modal.description>Are you sure? Continuing this will permanently delete the ticap and all of its files.</x-modal.description>
-
+            <x-modal.title>Delete Specialization</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the specialization.</x-modal.description>
             <div class="text-right">
-                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
-                <x-app.button color="red" wire:click.prevent="deleteTicap">Yes, delete ticap.</x-app.button>
+                <x-app.button color="gray" wire:click.prevent="closeModal('delete')">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete it.</x-app.button>
             </div>
         </x-modal>
     </div>

@@ -20,6 +20,7 @@ class Ticap extends Model
         'evaluation_finished',
         'is_done',
         'finalize_award',
+        'folder',
     ];
 
     public function candidates() {

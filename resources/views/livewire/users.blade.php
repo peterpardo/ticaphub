@@ -7,7 +7,7 @@
 
     {{-- Alert --}}
     @if (session('status'))
-        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
     @endif
 
     {{-- Note --}}
