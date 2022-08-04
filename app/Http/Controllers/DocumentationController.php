@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Validator;
 class DocumentationController extends Controller
 {
     public function index() {
-        $ticaps = Ticap::orderBy('created_at', 'desc')->paginate(5);
-
         // Check if ticap is not set
         $showSidebar = true;
         if (is_null(auth()->user()->ticap_id)) {
@@ -18,7 +16,6 @@ class DocumentationController extends Controller
         }
 
         return view('documentation', [
-            'ticaps' => $ticaps,
             'showSidebar' => $showSidebar
         ]);
     }
