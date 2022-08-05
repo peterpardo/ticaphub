@@ -1,5 +1,5 @@
-<x-app-layout title="Documentation">
-    <x-app.button type="link" color="red" href="{{ url('users') }}" class="mb-5">
+<x-app-layout title="{{ $ticap->name }}">
+    <x-app.button type="link" color="red" href="{{ route('documentation') }}" class="mb-5">
         <i class="fa-solid fa-arrow-left mr-2"></i>
         Go back
     </x-app.button>
