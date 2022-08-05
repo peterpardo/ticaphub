@@ -16,11 +16,11 @@
         <div class="flex flex-col justify-center items-center py-10 h-96">
             {{-- Logo --}}
             @if (!is_null($groupExhibit->logo))
-                <div class="flex items-center justify-center w-60 h-36 overflow-hidden -mt-14">
+                <div class="flex items-center justify-center w-48 h-48 overflow-hidden rounded-full -mt-14">
                     <img class="w-full" src="{{ asset($groupExhibit->logo) }}" alt="ticaphub-group-logo">
                 </div>
             @endif
-            <h1 class="font-bold text-5xl md:text-7xl text-center">{{ $groupExhibit->group->name }}</h1>
+            <h1 class="font-bold text-5xl md:text-7xl text-center -mt-1">{{ $groupExhibit->group->name }}</h1>
         </div>
 
         {{-- Poster and Description --}}
@@ -42,7 +42,7 @@
         <div class="flex flex-col items-center py-10 px-5 h-full" style="min-height: 24rem;">
             <h1 class="font-bold text-3xl text-center">Team {{ $groupExhibit->group->name }}</h1>
             {{-- <div class="flex flex-wrap gap-5 items-center justify-center mt-10"> --}}
-            <div class="flex flex-wrap gap-5 items-center justify-center mt-10">
+            <div class="flex flex-wrap gap-5 items-center justify-center mt-10 w-full">
                 @foreach ($members as $member)
                     <div class="flex flex-col justify-center items-center gap-y-2 w-full p-5" style="max-width: 250px">
                         <div class="w-36 h-36 overflow-hidden rounded-full">

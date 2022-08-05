@@ -63,7 +63,7 @@
                     @else
                         <x-form.label for="file">Poster Image</x-form.label>
                     @endif
-                    <input type="file" wire:model="file"/>
+                    <input type="file" wire:model="file" accept="image/*"/>
                     @error('file')
                         <x-form.error>{{ $message }}</x-form.error>
                     @enderror

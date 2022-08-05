@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticap;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class DocumentationController extends Controller
@@ -24,8 +25,11 @@ class DocumentationController extends Controller
     }
 
     public function downloadExhibitFiles($id) {
-        dd('downloading...');
         $ticap = Ticap::find($id);
+
+        $filePath = 'public/ticap/' . $ticap->folder . '/group-exhibits.zip';
+
+        return Storage::download($filePath);
     }
 
 
