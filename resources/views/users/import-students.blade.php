@@ -16,7 +16,7 @@
         <x-info-box color="yellow">
             <br/>
            - In case a <strong>student requests to change their email address</strong> <span class="italic">and</span> <strong>the email is not yet verified</strong>, delete the current account of the student and manually add the student in the Users > Add User button for them to receive the email. <br/>
-           - In case <strong>some users didn't receive their invitation emails</strong> a few hours after the uploading of the file, you can either delete the current account of the student and manually add the student in the Users > Add User button, or just manually verify the email in the Users > Edit button (<span class="italic">choose a user</span>) > Verify Email.
+           - In case <strong>some users didn't receive their invitation emails</strong> a few hours after the uploading of the file, you can either delete the current account of the student and manually add the student in the Users > Add User button, or just manually verify the email in the Users > Edit button (choose a user) > Verify Email.
         </x-info-box>
 
         {{-- Form --}}

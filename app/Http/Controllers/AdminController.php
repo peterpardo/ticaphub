@@ -105,7 +105,7 @@ class AdminController extends Controller
                         'first_name' => Str::title(Str::lower($fields['first_name'])),
                         'middle_name' => Str::title(Str::lower($fields['middle_name'])),
                         'last_name' => Str::title(Str::lower($fields['last_name'])),
-                        'password' => Hash::make('ticap123'),
+                        'password' => Hash::make('ticaphub123'),
                         'email' => $fields['email'],
                         'ticap_id' => auth()->user()->ticap_id,
                     ]);

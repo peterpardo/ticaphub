@@ -12,6 +12,28 @@ class DocumentationController extends Controller
         return view('documentation');
     }
 
+    public function viewTicap($id) {
+        $ticap = Ticap::find($id);
+
+        // Return back if ticap doesn't exists
+        if (!$ticap) {
+            return back();
+        }
+
+        return view('documentation.view-ticap', ['ticap' => $ticap]);
+    }
+
+    public function downloadExhibitFiles($id) {
+        dd('downloading...');
+        $ticap = Ticap::find($id);
+    }
+
+
+
+
+
+
+
     public function ticapFiles($ticapId) {
         $title = 'Documentation';
         $ticap = Ticap::find($ticapId);

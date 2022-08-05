@@ -26,7 +26,7 @@
                     <x-table.tdata>{{ $ticap->name }}</x-table.tdata>
                     <x-table.tdata-actions>
                         @if ($ticap->is_done)
-                            <a href="#" class="inline-block text-white rounded p-2 text-xs tracking-wide bg-blue-600 hover:bg-red-blue" >
+                            <a href="{{ url('documentation/' . $ticap->id) }}" class="inline-block text-white rounded p-2 text-xs tracking-wide bg-blue-600 hover:bg-red-blue" >
                                 <i class="fa-solid fa-eye"></i>
                                 <span class="hidden tracking-wide lg:inline-block">View</span>
                             </a>

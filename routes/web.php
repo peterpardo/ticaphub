@@ -125,6 +125,8 @@ Route::middleware(['auth'])->group(function () {
     // DOCUMENTATION
     Route::middleware(['superadmin'])->group(function () {
         Route::get('/documentation', [DocumentationController::class, 'ticaps'])->name('documentation');
+        Route::get('/documentation/{id}', [DocumentationController::class, 'viewTicap']);
+        Route::get('/documentation/download-exhibit-files/{id}', [DocumentationController::class, 'downloadExhibitFiles']);
         // Route::post('/documentation/delete-ticap', [DocumentationController::class, 'deleteTicap']);
         // Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
         // Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
