@@ -29,6 +29,11 @@
                 <x-app.sidebar-link route="{{ $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id) }}" name="Officers" icon="fa-solid fa-user-shield" />
             @endhasanyrole
 
+            {{-- Project Assessment --}}
+            @if($user->hasAnyRole('superadmin', 'admin') || $user->hasPermissionTo('access project assessment'))
+                <x-app.sidebar-link route="{{ route('project-assessment') }}" name="Project Assessment" icon="fa-solid fa-award" />
+            @endif
+
             {{-- Group exhibit link (for students only) --}}
             @if($user->hasRole('student') && !is_null($user->userSpecialization->group_id))
                 <x-app.sidebar-link route="{{ route('group-exhibit') }}" name="Group Exhibit" icon="fa-solid fa-users-line" />

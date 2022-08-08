@@ -114,6 +114,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/group-exhibit', [UserController::class, 'groupExhibit'])->name('group-exhibit');
     });
 
+    // PROJECT ASSESSMENT
+    Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
+        Route::get('/project-assessment', [AdminController::class, 'viewSpecializations'])->name('project-assessment');
+    });
+
+    // DOCUMENTATION
+    Route::middleware(['superadmin'])->group(function () {
+        Route::get('/documentation', [DocumentationController::class, 'ticaps'])->name('documentation');
+        Route::get('/documentation/{id}', [DocumentationController::class, 'viewTicap']);
+        Route::get('/documentation/download-exhibit-files/{id}', [DocumentationController::class, 'downloadExhibitFiles']);
+    });
+
     // SCHEDULES (temporarily disabled)
     // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
     // Route::get('/schedules/calendar', [ScheduleController::class, 'viewCalendar']);
@@ -121,18 +133,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/schedules/create', [ScheduleController::class, 'addSchedule']);
     // Route::post('/schedules/delete/{id}', [ScheduleController::class, 'deleteSchedule']);
     // Route::post('/schedules/update/{id}', [ScheduleController::class, 'updateSchedule']);
-
-    // DOCUMENTATION
-    Route::middleware(['superadmin'])->group(function () {
-        Route::get('/documentation', [DocumentationController::class, 'ticaps'])->name('documentation');
-        Route::get('/documentation/{id}', [DocumentationController::class, 'viewTicap']);
-        Route::get('/documentation/download-exhibit-files/{id}', [DocumentationController::class, 'downloadExhibitFiles']);
-        // Route::post('/documentation/delete-ticap', [DocumentationController::class, 'deleteTicap']);
-        // Route::get('/documentation/{ticapId}', [DocumentationController::class, 'ticapFiles']);
-        // Route::get('/event-files/{file}', [EventController::class, 'downloadEventFile']);
-        // Route::get('/event-programs/{file}', [EventController::class, 'downloadEventPrograms']);
-        // Route::get('/group-files/{file}', [EventController::class, 'downloadGroupFiles']);
-    });
 
     Route::middleware(['set.ticap', 'set.invitation'])->group(function () {
         // OFFICERS AND COMMITTEES
@@ -150,32 +150,32 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/results-panel', [PanelistController::class, 'resultsPanel'])->name('results-panel');
 
         // PROJECT ASSESSMENT
-        Route::get('/awards', [AwardController::class, 'index'])->name('awards');
-        Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
-        Route::get('/create-rubric', [AwardController::class, 'createRubric'])->name('rubric');
-        Route::post('/create-rubric', [AwardController::class, 'addRubric']);
-        Route::get('/set-rubrics/{awardId}/add-rubric', [AwardController::class, 'addRubric']);
-        Route::get('/set-panelist', [AwardController::class, 'setPanelist']);
-        Route::get('/set-panelist/assign', [AwardController::class, 'assignPanelist']);
-        Route::post('/set-panelist/assign', [AwardController::class, 'assign']);
-        Route::get('/fetch-panelists', [AwardController::class, 'fetchPanelists']);
-        Route::get('/award-review', [AwardController::class, 'awardReview']);
-        Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
-        Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
-        Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
-        Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
-        Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
-        Route::get('/generate-awards', [AwardController::class, 'generateAwards']);
-        Route::get('/generate-panelists', [AwardController::class, 'generatePanelists']);
-        Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
-        Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
-        Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
-        Route::post('/email-winner-awards', [AwardController::class, 'emailWinnerAwards']);
-        Route::post('/email-recognition', [AwardController::class, 'emailRecognition']);
-        Route::post('/email-panelists', [AwardController::class, 'emailPanelists']);
-        Route::post('/email-single-certificate', [AwardController::class, 'emailSingleCertificate']);
-        Route::post('/email-group-certificate', [AwardController::class, 'emailGroupCertificate']);
-        Route::post('/email-student-choice-certificate', [AwardController::class, 'emailStudentChoiceCertificate']);
+        // Route::get('/awards', [AwardController::class, 'index'])->name('awards');
+        // Route::get('/set-rubrics', [AwardController::class, 'setRubrics'])->name('set-rubrics');
+        // Route::get('/create-rubric', [AwardController::class, 'createRubric'])->name('rubric');
+        // Route::post('/create-rubric', [AwardController::class, 'addRubric']);
+        // Route::get('/set-rubrics/{awardId}/add-rubric', [AwardController::class, 'addRubric']);
+        // Route::get('/set-panelist', [AwardController::class, 'setPanelist']);
+        // Route::get('/set-panelist/assign', [AwardController::class, 'assignPanelist']);
+        // Route::post('/set-panelist/assign', [AwardController::class, 'assign']);
+        // Route::get('/fetch-panelists', [AwardController::class, 'fetchPanelists']);
+        // Route::get('/award-review', [AwardController::class, 'awardReview']);
+        // Route::get('/confirm-awards', [AwardController::class, 'confirmAwards']);
+        // Route::get('/assessment-panel', [AwardController::class, 'assessmentPanel'])->name('assessment-panel');
+        // Route::post('/assessment-panel', [AwardController::class, 'generateResults']);
+        // Route::get('/review-results', [AwardController::class, 'reviewResults'])->name('review-results');
+        // Route::post('/review-results', [AwardController::class, 'finalizeEvaluation']);
+        // Route::get('/generate-awards', [AwardController::class, 'generateAwards']);
+        // Route::get('/generate-panelists', [AwardController::class, 'generatePanelists']);
+        // Route::get('/generate-graded-rubrics', [AwardController::class, 'generateGradedRubrics']);
+        // Route::get('/generate-rubrics', [AwardController::class, 'generateRubrics']);
+        // Route::get('/generate-certificates', [AwardController::class, 'generateCertificates']);
+        // Route::post('/email-winner-awards', [AwardController::class, 'emailWinnerAwards']);
+        // Route::post('/email-recognition', [AwardController::class, 'emailRecognition']);
+        // Route::post('/email-panelists', [AwardController::class, 'emailPanelists']);
+        // Route::post('/email-single-certificate', [AwardController::class, 'emailSingleCertificate']);
+        // Route::post('/email-group-certificate', [AwardController::class, 'emailGroupCertificate']);
+        // Route::post('/email-student-choice-certificate', [AwardController::class, 'emailStudentChoiceCertificate']);
 
         // SET TICAP
         // Route::middleware(['invitation'])->group(function () {

@@ -329,4 +329,9 @@ class AdminController extends Controller
             'election' => $election
         ]);
     }
+
+    // Project Assessment
+    public function viewSpecializations() {
+        return view('project-assessment.view-specializations');
+    }
 }
