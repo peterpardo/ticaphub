@@ -13,7 +13,7 @@ class ViewSpecializations extends Component
     public function render()
     {
         return view('livewire.project-assessment.view-specializations', [
-            'specializations' => Specialization::with('school:id,name')->paginate(5)
+            'specializations' => Specialization::with('school:id,name')->orderBy('school_id', 'asc')->paginate(5)
         ]);
     }
 }

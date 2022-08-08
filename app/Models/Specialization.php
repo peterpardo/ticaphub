@@ -15,6 +15,7 @@ class Specialization extends Model
         'name',
         'election_id',
         'school_id',
+        'status'
     ];
 
     public function election() {
