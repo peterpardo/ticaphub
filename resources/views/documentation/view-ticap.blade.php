@@ -4,6 +4,11 @@
         Go back
     </x-app.button>
 
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert :color="session('status')" :message="session('message')"/>
+    @endif
+
     {{-- Note --}}
     <x-info-box color="yellow">
         You can download the assets of the previous group exhibits (group picture, poster, logo, etc.).

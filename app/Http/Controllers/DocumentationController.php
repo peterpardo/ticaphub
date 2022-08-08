@@ -24,10 +24,18 @@ class DocumentationController extends Controller
         return view('documentation.view-ticap', ['ticap' => $ticap]);
     }
 
-    public function downloadExhibitFiles($id) {
+    public function downloadExhibitFiles(Request $request, $id) {
         $ticap = Ticap::find($id);
 
         $filePath = 'public/ticap/' . $ticap->folder . '/group-exhibits.zip';
+
+        // Check if there are exhibit files saved in this ticap
+        if (!Storage::disk('local')->exists($filePath)) {
+            $request->session()->flash('status', 'red');
+            $request->session()->flash('message', 'No exhibits were documented in this TICaP.');
+
+            return back();
+        }
 
         return Storage::download($filePath);
     }
