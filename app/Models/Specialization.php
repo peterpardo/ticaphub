@@ -18,6 +18,12 @@ class Specialization extends Model
         'status'
     ];
 
+    public $statusColor = [
+        'not started' => 'red',
+        'in progress' => 'blue',
+        'done' => 'green',
+    ];
+
     public function election() {
         return $this->belongsTo(Election::class, 'election_id', 'id');
     }
@@ -51,5 +57,9 @@ class Specialization extends Model
 
     public function getNameAttribute($value) {
         return ucwords($value);
+    }
+
+    public function getStatusColorAttribute() {
+        return $this->statusColor[$this->status];
     }
 }
