@@ -25,7 +25,7 @@
                             class="relative inline-block px-3 py-1 font-semibold text-{{ $specialization->status_color }}-900 leading-tight">
                             <span aria-hidden
                                 class="absolute inset-0 bg-{{ $specialization->status_color }}-200 opacity-50 rounded-full"></span>
-                            <span class="relative">{{ $specialization->status }}</span>
+                            <span class="relative">{{ $specialization   ->status }}</span>
                         </span>
                     </x-table.tdata>
                     <x-table.tdata-actions>
