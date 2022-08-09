@@ -1,6 +1,4 @@
-<div x-data="{
-    showRubricForm: @entangle('showRubricForm'),
-}">
+<div>
     {{-- Note --}}
     <x-info-box color="yellow">
         Here, you can create rubrics and set the criteria.
@@ -50,51 +48,5 @@
 
     {{-- Modals --}}
     {{-- Add Rubric --}}
-    {{-- <div x-cloak x-show="showRubricForm"> --}}
-        @livewire('project-assessment.rubric-form')
-    {{-- </div> --}}
-
-    {{-- Scripts --}}
-    {{-- @push('scripts')
-        <script>
-            const addCriteriaBtn = document.getElementById('addCriteriaBtn');
-            const criteriaList = document.getElementById('criteriaList');
-            let count = 1;
-
-            // Create
-            for (let i = 0; i < count; i++) {
-                createCriteriaField();
-            }
-
-            // Add criteria field
-            addCriteriaBtn.addEventListener('click', e => {
-                e.preventDefault();
-                createCriteriaField();
-                console.log(criteriaList);
-            });
-
-            function createCriteriaField() {
-                const div = document.createElement('div');
-                div.setAttribute('class', 'flex gap-x-2 items-end criteria-field');
-                div.innerHTML = `
-                    <x-form.form-control>
-                        <x-form.label class="text-sm md:text-base" for="critName">Criteria Name</x-form.label>
-                        <x-form.input wire:model.defer="critName.${count}" id="critName" />
-                    </x-form.form-control>
-                    <x-form.form-control>
-                        <x-form.label class="text-sm md:text-base" for="critPerc">Criteria Percentage</x-form.label>
-                        <x-form.input wire:model.defer="critPerc.${count}" id="critPerc" />
-                    </x-form.form-control>
-                    <div class="flex items-end">
-                        <x-app.button color="red" class="deleteBtn"><i class="fa-solid fa-trash-can"></i></x-app.button>
-                    </div>
-                `
-                const deleteBtn = div.querySelector('.deleteBtn');
-                console.log(deleteBtn);
-
-                criteriaList.appendChild(div);
-            }
-
-        </script>
-    @endpush --}}
+    @livewire('project-assessment.rubric-form')
 </div>

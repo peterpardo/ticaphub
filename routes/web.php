@@ -118,7 +118,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
         Route::get('/project-assessment', [AdminController::class, 'viewSpecializations'])->name('project-assessment');
         Route::get('/project-assessment/rubrics', [AdminController::class, 'rubrics']);
-        Route::get('/project-assessment/add-rubric', [AdminController::class, 'addRubric']);
     });
 
     // DOCUMENTATION

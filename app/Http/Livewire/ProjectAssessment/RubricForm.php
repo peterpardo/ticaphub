@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\ProjectAssessment;
 
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class RubricForm extends Component
@@ -9,16 +10,19 @@ class RubricForm extends Component
     public $showModal = false;
     public $action = 'add';
     public $name;
-    public $critName;
-    public $critPerc;
-    public $inputs = [0];
+    public $criteria = [''];
     public $count = 0;
 
     protected $rules = [
         'name' => 'required|string|min:3|max:50',
-        'critName' => 'required',
-        'critPerc' => 'required'
+        'criteria.*.name' => 'required|min:3|max:50',
+        'criteria.*.percentage' => 'required|numeric|max:100',
     ];
+
+    protected $validationAttributes = [
+        'criteria.*.name' => 'Criteria name',
+        'criteria.*.percentage' => 'Criteria percentage'
+,   ];
 
     protected $listeners = ['showModal'];
 
@@ -36,22 +40,21 @@ class RubricForm extends Component
     }
 
     public function addCriteria() {
-        $this->count = $this->count + 1;
-        array_push($this->inputs, $this->count);
+        $this->criteria[] = '';
     }
 
     public function deleteCriteria($index) {
         // If count is 1, don't allow to delete criteria
-        if ($this->count === 0) {
+        if (count($this->criteria) == 1) {
             return;
         }
 
-        dd($index);
-        unset($this->critName[$index]);
-        unset($this->critPerc[$index]);
+        unset($this->criteria[$index]);
+        $this->criteria = array_values($this->criteria);
     }
 
     public function saveRubric() {
+        $this->validate();
         dd('save');
     }
 

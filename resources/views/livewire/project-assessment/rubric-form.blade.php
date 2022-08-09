@@ -23,42 +23,30 @@
                     @enderror
                 </x-form.form-control>
 
-                {{-- Add crtiria button --}}
-                <div class="text-right">
-                    <x-app.button color="green" wire:click.prevent="addCriteria">
-                        <i class="fa-solid fa-plus mr-1"></i>
-                        Add Criteria Box
-                    </x-app.button>
-                </div>
-
                 {{-- Criteria --}}
                 <div>
-                    <div class="flex gap-x-2 items-end">
-                        <x-form.form-control>
-                            <x-form.label class="text-sm md:text-base" for="critName">Criteria Name</x-form.label>
-                            <x-form.input wire:model.lazy="critName.0" id="critName" />
-                        </x-form.form-control>
-                        <x-form.form-control>
-                            <x-form.label class="text-sm md:text-base" for="critPerc">Criteria Percentage</x-form.label>
-                            <x-form.input wire:model.lazy="critPerc.0" id="critPerc" />
-                        </x-form.form-control>
-                        <div class="flex items-end">
-                            <x-app.button color="green" wire:click.prevent="addCriteria"> <i class="fa-solid fa-plus"></i></x-app.button>
-                        </div>
-                    </div>
-                    <div>this is line</div>
-                    @foreach ($inputs as $key => $value)
+                    @foreach ($criteria as $key => $value)
                         <div class="flex gap-x-2 items-end">
                             <x-form.form-control>
-                                <x-form.label class="text-sm md:text-base" for="critName">Criteria Name</x-form.label>
-                                <x-form.input wire:model.lazy="critName.{{ $value }}" id="critName" />
+                                <x-form.label class="text-sm md:text-base">Criteria Name</x-form.label>
+                                <x-form.input wire:model.lazy="criteria.{{ $key }}.name" placeholder="e.g. Creativity"/>
+                                @error('criteria.' . $key . '.name')
+                                    <x-form.error>{{ $message }}</x-form.error>
+                                @enderror
                             </x-form.form-control>
                             <x-form.form-control>
-                                <x-form.label class="text-sm md:text-base" for="critPerc">Criteria Percentage</x-form.label>
-                                <x-form.input wire:model.lazy="critPerc.{{ $value }}" id="critPerc" />
+                                <x-form.label class="text-sm md:text-base">Criteria Percentage</x-form.label>
+                                <x-form.input type="number" wire:model.lazy="criteria.{{ $key }}.percentage" placeholder="e.g. 30"/>
+                                @error('criteria.' . $key . '.percentage')
+                                    <x-form.error>{{ $message }}</x-form.error>
+                                @enderror
                             </x-form.form-control>
                             <div class="flex items-end">
-                                <x-app.button color="red" wire:click.prevent="deleteCriteria({{ $value }})"><i class="fa-solid fa-trash-can"></i></x-app.button>
+                                @if ($loop->first)
+                                    <x-app.button color="green" wire:click.prevent="addCriteria"> <i class="fa-solid fa-plus"></i></x-app.button>
+                                @else
+                                    <x-app.button color="red" wire:click.prevent="deleteCriteria({{ $key }})"><i class="fa-solid fa-trash-can"></i></x-app.button>
+                                @endif
                             </div>
                         </div>
                     @endforeach
