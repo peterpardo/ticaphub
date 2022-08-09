@@ -61,10 +61,21 @@
             const criteriaList = document.getElementById('criteriaList');
             let count = 1;
 
+            // Create
+            for (let i = 0; i < count; i++) {
+                createCriteriaField();
+            }
+
+            // Add criteria field
             addCriteriaBtn.addEventListener('click', e => {
                 e.preventDefault();
+                createCriteriaField();
+                console.log(criteriaList);
+            });
+
+            function createCriteriaField() {
                 const div = document.createElement('div');
-                div.setAttribute('class', 'flex gap-x-2 items-end');
+                div.setAttribute('class', 'flex gap-x-2 items-end criteria-field');
                 div.innerHTML = `
                     <x-form.form-control>
                         <x-form.label class="text-sm md:text-base" for="critName">Criteria Name</x-form.label>
@@ -75,14 +86,14 @@
                         <x-form.input wire:model.defer="critPerc.${count}" id="critPerc" />
                     </x-form.form-control>
                     <div class="flex items-end">
-                        <x-app.button color="red" wire:click.prevent="deleteCriteria(${count})"><i class="fa-solid fa-trash-can"></i></x-app.button>
+                        <x-app.button color="red" class="deleteBtn"><i class="fa-solid fa-trash-can"></i></x-app.button>
                     </div>
                 `
-                criteriaList.appendChild(div);
-                count++;
-                console.log(criteriaList);
-            });
+                const deleteBtn = div.querySelector('.deleteBtn');
+                console.log(deleteBtn);
 
+                criteriaList.appendChild(div);
+            }
 
         </script>
     @endpush

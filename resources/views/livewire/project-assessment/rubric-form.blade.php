@@ -32,7 +32,7 @@
 
             {{-- Criteria --}}
             <div id="criteriaList">
-                <div class="flex gap-x-2 items-end">
+                {{-- <div class="flex gap-x-2 items-end">
                     <x-form.form-control>
                         <x-form.label class="text-sm md:text-base" for="critName">Criteria Name</x-form.label>
                         <x-form.input wire:model.defer="critName.0" id="critName" />
@@ -44,7 +44,7 @@
                     <div class="flex items-end">
                         <x-app.button color="red" wire:click.prevent="deleteCriteria(0)"><i class="fa-solid fa-trash-can"></i></x-app.button>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="text-right">
