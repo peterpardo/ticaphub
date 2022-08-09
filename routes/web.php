@@ -117,6 +117,7 @@ Route::middleware(['auth'])->group(function () {
     // PROJECT ASSESSMENT
     Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
         Route::get('/project-assessment', [AdminController::class, 'viewSpecializations'])->name('project-assessment');
+        Route::get('/project-assessment/rubrics', [AdminController::class, 'rubrics']);
     });
 
     // DOCUMENTATION

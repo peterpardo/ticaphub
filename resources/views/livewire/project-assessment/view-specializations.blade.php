@@ -1,8 +1,15 @@
 <div>
     {{-- Note --}}
     <x-info-box color="yellow">
-        Here, you can pick a specialization and set the awards</span>
+        Here, you can pick a specialization and set the awards. Make sure to create a rubric first, click the <strong>View Rubrics</strong> button, which will be used for the award
     </x-info-box>
+
+    <div class="text-right">
+        <x-app.button color="blue" type="link" href="{{ url('/project-assessment/rubrics') }}">
+            <i class="fa-solid fa-eye mr-1"></i>
+            View Rubrics
+        </x-app.button>
+    </div>
 
     {{-- Specializations Table --}}
     <x-table>
@@ -29,7 +36,7 @@
                         </span>
                     </x-table.tdata>
                     <x-table.tdata-actions>
-                        <x-table.view-btn href="{{ url('officers/set-positions/' . $specialization->id) }}"/>
+                        <x-table.view-btn href="#"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty
@@ -43,4 +50,7 @@
             {{ $specializations->links() }}
         </x-slot>
     </x-table>
+
+    {{-- Modals --}}
+    @livewire('project-assessment.rubric-form')
 </div>

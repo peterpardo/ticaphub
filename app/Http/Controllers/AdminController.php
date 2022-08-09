@@ -334,4 +334,8 @@ class AdminController extends Controller
     public function viewSpecializations() {
         return view('project-assessment.view-specializations');
     }
+
+    public function rubrics() {
+        return view('project-assessment.rubrics');
+    }
 }
