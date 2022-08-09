@@ -6,10 +6,12 @@ use Livewire\Component;
 
 class RubricForm extends Component
 {
+    public $showModal = false;
     public $action = 'add';
     public $name;
-    public $critName = [];
-    public $critPerc = [];
+    public $critName;
+    public $critPerc;
+    public $inputs = [0];
     public $count = 0;
 
     protected $rules = [
@@ -25,16 +27,17 @@ class RubricForm extends Component
         if ($type == 'edit') {
             $this->action = 'edit';
         }
+
+        $this->showModal = true;
     }
 
     public function closeModal() {
-        $this->reset('action', 'critName', 'critPerc');
-        $this->emitUp('closeRubricForm');
+        $this->reset('showModal', 'action');
     }
 
     public function addCriteria() {
-        $this->count++;
-        $this->dispatchBrowserEvent('addCriteriaBox', ['count' => $this->count]);
+        $this->count = $this->count + 1;
+        array_push($this->inputs, $this->count);
     }
 
     public function deleteCriteria($index) {

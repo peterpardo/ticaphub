@@ -338,4 +338,8 @@ class AdminController extends Controller
     public function rubrics() {
         return view('project-assessment.rubrics');
     }
+
+    public function addRubric() {
+        return view('project-assessment.add-rubric');
+    }
 }

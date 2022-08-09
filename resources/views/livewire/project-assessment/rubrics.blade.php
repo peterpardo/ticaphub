@@ -12,7 +12,7 @@
             Go back
         </x-app.button>
 
-        <x-app.button color="green" wire:click.prevent="showRubricForm">
+        <x-app.button color="green" wire:click.prevent="$emitTo('project-assessment.rubric-form', 'showModal', 'add')">
             <i class="fa-solid fa-plus mr-1"></i>
             Add Rubric
         </x-app.button>
@@ -50,12 +50,12 @@
 
     {{-- Modals --}}
     {{-- Add Rubric --}}
-    <div x-cloak x-show="showRubricForm">
+    {{-- <div x-cloak x-show="showRubricForm"> --}}
         @livewire('project-assessment.rubric-form')
-    </div>
+    {{-- </div> --}}
 
     {{-- Scripts --}}
-    @push('scripts')
+    {{-- @push('scripts')
         <script>
             const addCriteriaBtn = document.getElementById('addCriteriaBtn');
             const criteriaList = document.getElementById('criteriaList');
@@ -96,5 +96,5 @@
             }
 
         </script>
-    @endpush
+    @endpush --}}
 </div>
