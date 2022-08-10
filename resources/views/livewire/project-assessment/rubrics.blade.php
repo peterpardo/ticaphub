@@ -1,4 +1,6 @@
-<div>
+<div x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer
+}">
     {{-- Alert --}}
     @if (session('status'))
         <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
@@ -52,6 +54,20 @@
     </x-table>
 
     {{-- Modals --}}
-    {{-- Add Rubric --}}
+    {{-- Add/Update Rubric --}}
     @livewire('project-assessment.rubric-form')
+
+    {{-- Delete Rubric --}}
+    {{-- Delete user --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal>
+            <x-modal.title>Delete Rubric</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the rubric.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete rubric.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>
