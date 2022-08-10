@@ -9,6 +9,11 @@
                     <x-form.title>Edit Rubric</x-form.title>
                 @endif
 
+                {{-- Alert --}}
+                @if (session('status'))
+                    <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+                @endif
+
                 <x-info-box color="yellow">
                     Make sure that the overall points/percentage is equal to <strong>100</strong>.
                 </x-info-box>
