@@ -12,21 +12,24 @@ class Award extends Model
     public $table = 'awards';
     public $fillable = [
         'name',
-        'type',
         'specialization_id',
-        'school_id',
-        'ticap_id',
+        'rubric_id'
     ];
 
     public function specialization(){
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
     }
-    public function school(){
-        return $this->belongsTo(School::class, 'school_id', 'id');
+
+    public function rubric() {
+        return $this->belongsTo(Rubric::class, 'rubric_id', 'id');
     }
-    public function ticap(){
-        return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
-    }
+
+    // public function school(){
+    //     return $this->belongsTo(School::class, 'school_id', 'id');
+    // }
+    // public function ticap(){
+    //     return $this->belongsTo(Ticap::class, 'ticap_id', 'id');
+    // }
     public function awardRubric() {
         return $this->hasOne(AwardRubric::class, 'award_id', 'id');
     }

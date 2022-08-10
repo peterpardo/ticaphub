@@ -16,11 +16,13 @@ class CreateAwardsTable extends Migration
         Schema::create('awards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['individual', 'group']);
-            $table->foreignId('specialization_id')->constrained('specializations')->onDelete('cascade');
-            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
-            $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
+            $table->foreignId('specialization_id')
+                ->constrained('specializations')
+                ->onDelete('cascade');
             $table->timestamps();
+            // $table->enum('type', ['individual', 'group']);
+            // $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            // $table->foreignId('ticap_id')->constrained('ticaps')->onDelete('cascade');
         });
     }
 
