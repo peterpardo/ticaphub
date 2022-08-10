@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Award extends Model
 {
@@ -22,6 +23,10 @@ class Award extends Model
 
     public function rubric() {
         return $this->belongsTo(Rubric::class, 'rubric_id', 'id');
+    }
+
+    public function getNameAttribute($value) {
+        return Str::upper($value);
     }
 
     // public function school(){

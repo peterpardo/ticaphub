@@ -338,4 +338,14 @@ class AdminController extends Controller
     public function rubrics() {
         return view('project-assessment.rubrics');
     }
+
+    public function viewSpecialization($id) {
+        $specialization = Specialization::with('school:id,name')->find($id);
+
+        return view('project-assessment.awards', ['specialization' => $specialization]);
+    }
+
+    public function setPanelists($id) {
+        dd('set panelists: ' . $id);
+    }
 }
