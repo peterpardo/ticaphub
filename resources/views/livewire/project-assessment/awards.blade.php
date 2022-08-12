@@ -20,11 +20,11 @@
     <x-info-box color="yellow">
         <br/>- For the first step, create awards by clicking the <strong>Add Award</strong> button. Make sure that you have rubrics for your awards (Go to the <strong>Project Assessment</strong> page).
         <br/>- <strong>*IMPORTANT*</strong> Awards such as <strong>BEST CAPSTONE PROJECT</strong>, <strong>BEST PRESENTER</strong>, and <strong>BEST PROJECT ADVISER</strong> are automatically created by default for each specializations. Just assign a rubric for the said awards.
-        <br/>- <strong>*IMPORTANT*</strong> All awards listed here will be evaluated by panelists or invited guests. Awards such as the <strong>STUDENT CHOICE AWARD</strong> are temporarily not included in this module.
+        <br/>- <strong>*IMPORTANT*</strong> All awards listed here can only be evaluated by panelists or invited guests. Awards such as the <strong>STUDENT CHOICE AWARD</strong> are temporarily not included in this module.
     </x-info-box>
 
     {{-- Add award button --}}
-    <x-app.button color="green" wire:click.prevent="#">
+    <x-app.button color="green" wire:click.prevent="$emitTo('project-assessment.award-form', 'showModal', 'add')">
         <i class="fa-solid fa-plus mr-1"></i>
         Add Award
     </x-app.button>
@@ -73,4 +73,7 @@
         </x-slot>
     </x-table>
 
+    {{-- Modals --}}
+    {{-- Add award --}}
+    <livewire:project-assessment.award-form :specializationId="$specialization->id"/>
 </div>

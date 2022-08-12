@@ -1,1 +1,1 @@
-<th class="border border-black">{{ $slot }}</th>
+<th class="border">{{ $slot }}</th>

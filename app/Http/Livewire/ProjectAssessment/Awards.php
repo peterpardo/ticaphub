@@ -13,6 +13,19 @@ class Awards extends Component
 
     public Specialization $specialization;
 
+    protected $listeners = ['refreshParent'];
+
+    public function refreshParent($type) {
+        if ($type == 'add') {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Award has been successfully created');
+        } else {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Award has been successfully updated');
+        }
+    }
+
+
     public function render()
     {
         return view('livewire.project-assessment.awards', [
