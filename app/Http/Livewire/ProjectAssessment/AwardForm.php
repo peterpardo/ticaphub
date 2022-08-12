@@ -43,6 +43,7 @@ class AwardForm extends Component
 
     public function closeModal() {
         $this->reset('showModal', 'action', 'rubric', 'name', 'rubricPreview', 'selectedAward');
+        $this->resetValidation();
     }
 
     public function updatedRubric($value) {

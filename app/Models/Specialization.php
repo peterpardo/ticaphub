@@ -48,6 +48,8 @@ class Specialization extends Model
     public function studentVotes() {
         return $this->hasMany(StudentChoiceVote::class, 'specialization_id', 'id');
     }
+
+    // Specialization Panelists
     public function panelists() {
         return $this->hasMany(SpecializationPanelist::class, 'specialization_id', 'id');
     }

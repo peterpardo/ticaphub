@@ -33,6 +33,7 @@
                 {{-- Invitation email --}}
                 <x-form.form-control>
                     <x-form.label for="role">Invitation Email</x-form.label>
+                    <x-form.input-info><strong>Note:</strong> If unchecked, the user will be automatically verified.</x-form.input-info>
                     <div class="flex items-center space-x-2">
                         <input
                             type="checkbox"

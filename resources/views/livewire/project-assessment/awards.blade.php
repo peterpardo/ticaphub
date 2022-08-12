@@ -87,7 +87,7 @@
 
             <div class="text-right">
                 <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
-                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete rubric.</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete award.</x-app.button>
             </div>
         </x-modal>
     </div>

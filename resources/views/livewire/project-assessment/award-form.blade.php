@@ -11,8 +11,8 @@
 
                 {{-- Alert --}}
                 @if (session('status'))
-                   <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
-               @endif
+                    <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+                @endif
 
                 {{-- Award name --}}
                 <x-form.form-control>
@@ -25,7 +25,7 @@
 
                 {{-- Rubric --}}
                 <x-form.form-control>
-                    <x-form.label for="name">Rubric Name</x-form.label>
+                    <x-form.label for="rubric">Rubric Name</x-form.label>
                     <x-form.input-info><strong>Note:</strong> If there are no listed rubrics, go to <strong>Project Assessment > View Rubrics > Add Rubric</strong>.</x-form.input-info>
                     <x-form.select wire:model="rubric" id="rubric">
                         <option value="">--- select a rubric ---</option>

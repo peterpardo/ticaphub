@@ -346,6 +346,8 @@ class AdminController extends Controller
     }
 
     public function setPanelists($id) {
-        dd('set panelists: ' . $id);
+        $specialization = Specialization::with('school:id,name')->find($id);
+
+        return view('project-assessment.set-panelists', ['specialization' => $specialization]);
     }
 }

@@ -98,7 +98,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
     public function specializationPanelist() {
-        return $this->hasOne(SpecializationPanelist::class, 'user_id', 'id');
+        return $this->hasMany(SpecializationPanelist::class, 'user_id', 'id');
     }
     public function panelistGrades() {
         return $this->hasMany(PanelistGrade::class, 'user_id', 'id');

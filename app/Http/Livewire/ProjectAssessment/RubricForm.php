@@ -47,6 +47,7 @@ class RubricForm extends Component
 
     public function closeModal() {
         $this->reset('showModal', 'action', 'criteria', 'name');
+        $this->resetValidation();
     }
 
     public function addCriteria() {
