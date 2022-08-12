@@ -9,6 +9,8 @@ use Livewire\Component;
 class SetPanelists extends Component
 {
     public Specialization $specialization;
+    public $showDeleteModal;
+    public $selectedPanelist;
 
     protected $listeners = ['refreshParent'];
 
@@ -20,6 +22,27 @@ class SetPanelists extends Component
             session()->flash('status', 'green');
             session()->flash('message', 'Panelist has been successfully updated');
         }
+    }
+
+    public function closeModal() {
+        $this->reset('showDeleteModal', 'selectedPanelist');
+    }
+
+    public function selectItem($id) {
+        $this->selectedPanelist = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function deleteItem() {
+        if (SpecializationPanelist::destroy($this->selectedPanelist) > 0) {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Panelist has been successfully deleted');
+        } else {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Please try again.');
+        }
+
+        $this->closeModal();
     }
 
     public function render()

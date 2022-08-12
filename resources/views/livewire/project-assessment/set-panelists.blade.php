@@ -1,4 +1,6 @@
-<div class="space-y-2">
+<div class="space-y-2" x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer
+}">
     {{-- Specialization name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $specialization->school->name }} | {{ $specialization->name }}</h1>
