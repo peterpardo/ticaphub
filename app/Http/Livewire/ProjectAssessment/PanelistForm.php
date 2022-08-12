@@ -25,6 +25,9 @@ class PanelistForm extends Component
         if ($type == 'edit') {
             $this->selectedPanelist = $id;
 
+            // Get panelist details
+            $panelist = SpecializationPanelist::select('id', 'user_id')->where('id', $id)->first();
+            $this->panelist = $panelist->user_id;
 
             $this->action = 'edit';
         }
@@ -40,14 +43,14 @@ class PanelistForm extends Component
     public function savePanelist() {
         $this->validate();
 
+        // Check if user is already a panelist to the specialization
+        if (SpecializationPanelist::where('user_id', $this->panelist)->where('specialization_id', $this->specializationId)->exists()) {
+            $this->addError('panelist', 'Panelist already exists in this specialization');
+            return;
+        }
+
         // Check if action is add or updated award
         if ($this->action == 'add') {
-            // Check if user is already a panelist to the specialization
-            if (SpecializationPanelist::where('user_id', $this->panelist)->where('specialization_id', $this->specializationId)->exists()) {
-                $this->addError('panelist', 'Panelist already exists in this specialization');
-                return;
-            }
-
             // Add panelist
             $panelist = SpecializationPanelist::create([
                 'user_id' => $this->panelist,
@@ -61,7 +64,8 @@ class PanelistForm extends Component
                 return;
             }
         } else {
-
+            // Update panelist
+            SpecializationPanelist::where('id', $this->selectedPanelist)->update(['user_id' => $this->panelist]);
         }
 
         $this->emitUp('refreshParent', $this->action);
