@@ -58,7 +58,7 @@
                     </x-table.tdata>
                     <x-table.tdata-actions>
                         <x-table.delete-btn wire:click="selectItem({{ $award->id }})"/>
-                        <x-table.edit-btn type="button" wire:click.prevent="#"/>
+                        <x-table.edit-btn type="button" wire:click.prevent="$emitTo('project-assessment.award-form', 'showModal', 'edit', {{ $award->id }})"/>
                     </x-table.tdata-actions>
                 </tr>
             @empty

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\ProjectAssessment;
 
 use App\Models\Award;
 use App\Models\Rubric;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class AwardForm extends Component
@@ -28,6 +29,12 @@ class AwardForm extends Component
         if ($type == 'edit') {
             $this->selectedAward = $id;
 
+            // Get award details
+            $award = Award::find($id);
+            $this->name = $award->name;
+            $this->rubric = $award->rubric_id;
+            $this->rubricPreview = Rubric::where('id', $award->rubric_id)->with('criteria:id,rubric_id,name,percentage')->first();
+
             $this->action = 'edit';
         }
 
@@ -35,7 +42,7 @@ class AwardForm extends Component
     }
 
     public function closeModal() {
-        $this->reset('showModal', 'action', 'rubric', 'name');
+        $this->reset('showModal', 'action', 'rubric', 'name', 'rubricPreview', 'selectedAward');
     }
 
     public function updatedRubric($value) {
@@ -66,6 +73,19 @@ class AwardForm extends Component
                 session()->flash('message', 'Something went wrong. Please try again.');
                 return;
             }
+        } else {
+            $award = Award::find($this->selectedAward);
+
+            // Check if award name changed
+            if ($award->name != Str::upper($this->name) && Award::where('name', $this->name)->exists()) {
+                $this->addError('name', 'Award name already exists.');
+                return;
+            }
+
+            // Update award details
+            $award->name = $this->name;
+            $award->rubric_id = $this->rubric;
+            $award->save();
         }
 
         $this->emitUp('refreshParent', $this->action);
