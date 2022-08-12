@@ -58,7 +58,6 @@
     @livewire('project-assessment.rubric-form')
 
     {{-- Delete Rubric --}}
-    {{-- Delete user --}}
     <div x-cloak x-show="showDeleteModal">
         <x-modal>
             <x-modal.title>Delete Rubric</x-modal.title>

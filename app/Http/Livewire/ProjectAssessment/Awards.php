@@ -12,6 +12,8 @@ class Awards extends Component
     use WithPagination;
 
     public Specialization $specialization;
+    public $showDeleteModal;
+    public $selectedAward;
 
     protected $listeners = ['refreshParent'];
 
@@ -25,6 +27,26 @@ class Awards extends Component
         }
     }
 
+    public function closeModal() {
+        $this->reset('showDeleteModal', 'selectedAward');
+    }
+
+    public function selectItem($id) {
+        $this->selectedAward = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function deleteItem() {
+        if (Award::destroy($this->selectedAward) > 0) {
+            session()->flash('status', 'green');
+            session()->flash('message', 'Award has been successfully deleted');
+        } else {
+            session()->flash('status', 'red');
+            session()->flash('message', 'Something went wrong. Please try again.');
+        }
+
+        $this->closeModal();
+    }
 
     public function render()
     {

@@ -1,4 +1,6 @@
-<div class="space-y-2">
+<div class="space-y-2" x-data="{
+    showDeleteModal: @entangle('showDeleteModal').defer
+}">
     {{-- Specialization name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $specialization->school->name }} | {{ $specialization->name }}</h1>
@@ -76,4 +78,17 @@
     {{-- Modals --}}
     {{-- Add award --}}
     <livewire:project-assessment.award-form :specializationId="$specialization->id"/>
+
+    {{-- Delete Award --}}
+    <div x-cloak x-show="showDeleteModal">
+        <x-modal>
+            <x-modal.title>Delete Award</x-modal.title>
+            <x-modal.description>Are you sure? Continuing this will permanently delete the award.</x-modal.description>
+
+            <div class="text-right">
+                <x-app.button color="gray" wire:click.prevent="closeModal">Cancel</x-app.button>
+                <x-app.button color="red" wire:click.prevent="deleteItem">Yes, delete rubric.</x-app.button>
+            </div>
+        </x-modal>
+    </div>
 </div>
