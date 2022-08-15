@@ -77,5 +77,6 @@ class Kernel extends HttpKernel
         'election.status' => \App\Http\Middleware\CheckElectionStatus::class,
         'student.vote.status' => \App\Http\Middleware\CheckStudentVoteStatus::class,
         'student.or.admin' => \App\Http\Middleware\CheckIfUserIsStudentOrAdmin::class,
+        'specialization.exists' => \App\Http\Middleware\CheckIfSpecializationExists::class,
     ];
 }

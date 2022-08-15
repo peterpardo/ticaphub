@@ -350,4 +350,10 @@ class AdminController extends Controller
 
         return view('project-assessment.set-panelists', ['specialization' => $specialization]);
     }
+
+    public function reviewSettings($id) {
+        $specialization = Specialization::with('school:id,name')->find($id);
+
+        return view('project-assessment.review-settings', ['specialization' => $specialization]);
+    }
 }

@@ -118,8 +118,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['set.ticap', 'set.invitation', 'admin'])->group(function () {
         Route::get('/project-assessment', [AdminController::class, 'viewSpecializations'])->name('project-assessment');
         Route::get('/project-assessment/rubrics', [AdminController::class, 'rubrics']);
-        Route::get('/project-assessment/{id}', [AdminController::class, 'viewSpecialization']);
-        Route::get('/project-assessment/set-panelists/{id}', [AdminController::class, 'setPanelists']);
+
+        Route::middleware('specialization.exists')->group(function () {
+            Route::get('/project-assessment/{id}', [AdminController::class, 'viewSpecialization'])->whereNumber('id');
+            Route::get('/project-assessment/set-panelists/{id}', [AdminController::class, 'setPanelists'])->whereNumber('id');
+            Route::get('/project-assessment/review-settings/{id}', [AdminController::class, 'reviewSettings'])->whereNumber('id');
+        });
     });
 
     // DOCUMENTATION
