@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Validator;
 
 class PanelistController extends Controller
 {
+    public function viewSpecializations() {
+        $panelist = User::with('specializationPanelist')->find(auth()->user()->id);
+
+        return view('grade-groups.specializations', ['panelist' => $panelist]);
+    }
+
+    public function viewAwards($id) {
+        dd($id);
+    }
+
     public function index() {
         $title = 'Evaluate Capstone Groups';
         $ticap = Ticap::find(Auth::user()->ticap_id);
@@ -50,7 +60,7 @@ class PanelistController extends Controller
             'awards.*.*.*' => 'required|numeric|min:0',
         ], [
             'awards.*.*.*.required' => 'This field has no grade yet.',
-            'awards.*.*.*.min' => 'Grades can\'t be negative numbers' 
+            'awards.*.*.*.min' => 'Grades can\'t be negative numbers'
         ]);
         // foreach(Group::all() as $group) {
         //     $group->awards()->detach();
@@ -174,8 +184,8 @@ class PanelistController extends Controller
         $validator = Validator::make($request->all(), [
             'awards.*.*.*' => 'required|numeric|min:0',
         ], [
-            'awards.*.*.*.required' => 'This field has no grade yet.', 
-            'awards.*.*.*.min' => 'Grades can\'t be negative numbers' 
+            'awards.*.*.*.required' => 'This field has no grade yet.',
+            'awards.*.*.*.min' => 'Grades can\'t be negative numbers'
         ]);
         foreach($request->awards as $awardId => $groups) {
             $award = Award::find($awardId);
@@ -222,7 +232,7 @@ class PanelistController extends Controller
         $ticap = Ticap::find(Auth::user()->ticap_id);
         $panelists = SpecializationPanelist::where('specialization_id', $user->specializationPanelist->specialization->id)->get();
         $spec = Specialization::find($user->specializationPanelist->specialization->id);
-        
+
         if($user->specializationPanelist->has_chosen_user) {
             return redirect()->route('results-panel');
         }
@@ -243,13 +253,13 @@ class PanelistController extends Controller
         $validator = Validator::make($request->all(), [
             'groups.*' => 'required'
         ],  [
-            'groups.*.required' => 'This field has no input yet.' 
+            'groups.*.required' => 'This field has no input yet.'
         ]);
 
         if($validator->fails()) {
             return back()->withErrors($validator);
         }
-        
+
         $panelist = User::find(Auth::user()->id);
         foreach($request->groups as $group => $user) {
             echo $group . ' - ' . $user . '<br>';
@@ -262,7 +272,7 @@ class PanelistController extends Controller
         }
         $panelist->specializationPanelist->has_chosen_user = 1;
         $panelist->specializationPanelist->save();
-        
+
         return redirect()->route('results-panel');
     }
 

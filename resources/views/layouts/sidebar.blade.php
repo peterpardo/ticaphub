@@ -24,6 +24,11 @@
                 <x-app.sidebar-link route="{{ route('users') }}" name="User Accounts" icon="fa-solid fa-user" />
             @endif
 
+            {{-- Grade Groups (for panelist) --}}
+            @hasrole('panelist')
+                <x-app.sidebar-link route="{{ route('grade-groups') }}" name="Grade Groups" icon="fa-solid fa-medal" />
+            @endhasrole
+
             {{-- Officers link --}}
             @hasanyrole('superadmin|admin|student')
                 <x-app.sidebar-link route="{{ $user->hasAnyRole('superadmin', 'admin') ? url('officers/elections') : url('officers/' . $user->userElection->election_id) }}" name="Officers" icon="fa-solid fa-user-shield" />

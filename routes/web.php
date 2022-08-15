@@ -126,6 +126,15 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    // GRADE GROUPS (for panelists)
+    Route::middleware(['panelist'])->group(function () {
+        Route::get('/grade-groups', [PanelistController::class, 'viewSpecializations'])->name('grade-groups');
+
+        Route::middleware(['specialization.status'])->group(function () {
+            Route::get('/grade-groups/{id}', [PanelistController::class, 'viewAwards']);
+        });
+    });
+
     // DOCUMENTATION
     Route::middleware(['superadmin'])->group(function () {
         Route::get('/documentation', [DocumentationController::class, 'ticaps'])->name('documentation');
