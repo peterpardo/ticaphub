@@ -1,8 +1,3 @@
 <x-app-layout title="Project Assessment - Panelists">
-    {{-- Alert --}}
-    @if (session('status'))
-        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
-    @endif
-
-    panelists
+    <livewire:project-assessment.view-panelists :specialization="$specialization"/>
 </x-app-layout>

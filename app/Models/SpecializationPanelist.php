@@ -22,7 +22,12 @@ class SpecializationPanelist extends Model
     public function specialization() {
         return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
     }
+
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function getStatusColorAttribute() {
+        return $this->is_done ? 'green' : 'red';
     }
 }

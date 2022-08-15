@@ -364,9 +364,11 @@ class AdminController extends Controller
 
         // Check status of specialization
         if ($specialization->status === 'not started') {
-            return redirect('project-assessment/' . $specialization->id);
+            return redirect('project-assessment/' . $specialization->id)
+                ->with('status', 'red')
+                ->with('message', 'Set awards and panelists first');
         }
 
-        return view('project-assessment.view-panelists');
+        return view('project-assessment.view-panelists', ['specialization' => $specialization]);
     }
 }
