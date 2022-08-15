@@ -120,13 +120,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/project-assessment/rubrics', [AdminController::class, 'rubrics']);
 
         Route::middleware('specialization.exists')->group(function () {
-            Route::get('/project-assessment/{id}', [AdminController::class, 'viewSpecialization'])->whereNumber('id');
-            Route::get('/project-assessment/set-panelists/{id}', [AdminController::class, 'setPanelists'])->whereNumber('id');
-            Route::get('/project-assessment/review-settings/{id}', [AdminController::class, 'reviewSettings'])->whereNumber('id');
+            Route::middleware('specialization.status')->group(function () {
+                Route::get('/project-assessment/{id}', [AdminController::class, 'viewSpecialization'])->whereNumber('id');
+                Route::get('/project-assessment/set-panelists/{id}', [AdminController::class, 'setPanelists'])->whereNumber('id');
+                Route::get('/project-assessment/review-settings/{id}', [AdminController::class, 'reviewSettings'])->whereNumber('id');
+            });
 
-            Route::get('/project-assessment/view-panelists/{id}', [AdminController::class, 'viewPanelists'])
-                ->whereNumber('id')
-                ->middleware('specialization.status');
+            Route::get('/project-assessment/view-panelists/{id}', [AdminController::class, 'viewPanelists'])->whereNumber('id');
         });
     });
 

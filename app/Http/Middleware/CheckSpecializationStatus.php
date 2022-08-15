@@ -26,11 +26,8 @@ class CheckSpecializationStatus
             return back()
                 ->with('status', 'red')
                 ->with('message', 'The grading of groups for this specialization has not yet started. Contact an event organizer for more information.');
-        } else if ($user->hasAnyRole('superadmin', 'admin') && $spec->status === 'not started') {
-            return redirect()
-                ->route('project-assessment')
-                ->with('status', 'red')
-                ->with('message', 'Set first the awards and panelists');
+        } else if ($user->hasAnyRole('superadmin', 'admin') && $spec->status === 'in progress') {
+            return redirect('/project-assessment/view-panelists/' . $spec->id);
         }
 
         return $next($request);

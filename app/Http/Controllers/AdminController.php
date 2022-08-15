@@ -361,6 +361,12 @@ class AdminController extends Controller
 
     public function viewPanelists($id) {
         $specialization = Specialization::find($id);
-        dd('view something');
+
+        // Check status of specialization
+        if ($specialization->status === 'not started') {
+            return redirect('project-assessment/' . $specialization->id);
+        }
+
+        return view('project-assessment.view-panelists');
     }
 }

@@ -1,5 +1,5 @@
 <div class="space-y-2"  x-data="{
-    showConfirmModal: false
+    showConfirmModal: @entangle('showConfirmModal').defer
 }">
     {{-- Specialization name --}}
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
@@ -63,7 +63,7 @@
             <tr>
                 <x-table.tdata>No. of Awards</x-table.tdata>
                 <x-table.tdata>
-                    @if ($specialization->awards_count <= 0)
+                    @if ($awardCount <= 0)
                         <span
                             class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
                             <span aria-hidden
@@ -71,14 +71,14 @@
                             <span class="relative">none</span>
                         </span>
                     @else
-                        {{ $specialization->awards_count }}
+                        {{ $awardCount }}
                     @endif
                 </x-table.tdata>
             </tr>
             <tr>
                 <x-table.tdata>No. of Panelists</x-table.tdata>
                 <x-table.tdata>
-                    @if ($specialization->panelists_count <= 0)
+                    @if ($panelistCount <= 0)
                         <span
                             class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
                             <span aria-hidden
@@ -86,7 +86,7 @@
                             <span class="relative">none</span>
                         </span>
                     @else
-                        {{ $specialization->panelists_count }}
+                        {{ $panelistCount }}
                     @endif
                 </x-table.tdata>
             </tr>
