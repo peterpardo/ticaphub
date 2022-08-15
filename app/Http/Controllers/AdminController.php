@@ -358,4 +358,9 @@ class AdminController extends Controller
 
         return view('project-assessment.review-settings', ['specialization' => $specialization]);
     }
+
+    public function viewPanelists($id) {
+        $specialization = Specialization::find($id);
+        dd('view something');
+    }
 }

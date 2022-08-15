@@ -123,6 +123,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/project-assessment/{id}', [AdminController::class, 'viewSpecialization'])->whereNumber('id');
             Route::get('/project-assessment/set-panelists/{id}', [AdminController::class, 'setPanelists'])->whereNumber('id');
             Route::get('/project-assessment/review-settings/{id}', [AdminController::class, 'reviewSettings'])->whereNumber('id');
+
+            Route::get('/project-assessment/view-panelists/{id}', [AdminController::class, 'viewPanelists'])
+                ->whereNumber('id')
+                ->middleware('specialization.status');
         });
     });
 
@@ -130,7 +134,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['panelist'])->group(function () {
         Route::get('/grade-groups', [PanelistController::class, 'viewSpecializations'])->name('grade-groups');
 
-        Route::middleware(['specialization.status'])->group(function () {
+        Route::middleware(['specialization.exists', 'specialization.status'])->group(function () {
             Route::get('/grade-groups/{id}', [PanelistController::class, 'viewAwards']);
         });
     });

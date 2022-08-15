@@ -1,4 +1,9 @@
 <div>
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
+
     {{-- Note --}}
     <x-info-box color="yellow">
         Here, you can pick a specialization and set the awards. Make sure to create a rubric first, click the <strong>View Rubrics</strong> button, which will be used for the award
