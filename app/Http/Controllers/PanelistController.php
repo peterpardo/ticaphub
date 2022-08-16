@@ -21,7 +21,7 @@ class PanelistController extends Controller
     }
 
     public function viewAwards($id) {
-        dd($id);
+        return view('grade-groups.view-awards', ['id' => $id]);
     }
 
     public function index() {
