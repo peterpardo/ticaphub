@@ -137,6 +137,8 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware(['specialization.exists', 'specialization.status'])->group(function () {
             Route::get('/grade-groups/{id}', [PanelistController::class, 'viewAwards']);
         });
+
+        Route::get('/grade-groups/award/{id}', [PanelistController::class, 'gradeGroups']);
     });
 
     // DOCUMENTATION

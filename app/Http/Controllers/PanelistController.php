@@ -24,6 +24,23 @@ class PanelistController extends Controller
         return view('grade-groups.view-awards', ['id' => $id]);
     }
 
+    public function gradeGroups($id) {
+        $award = Award::find($id);
+        $specialization = Specialization::find($award->specialization_id);
+
+        // Check if specialization exists
+        if (is_null($specialization) || $specialization->status === 'not started') {
+            return redirect()->route('grade-groups');
+        }
+
+        // Check if award exists
+        if (is_null($award)) {
+            return back();
+        }
+
+        return view('grade-groups.grade-groups', ['id' => $id]);
+    }
+
     public function index() {
         $title = 'Evaluate Capstone Groups';
         $ticap = Ticap::find(Auth::user()->ticap_id);
