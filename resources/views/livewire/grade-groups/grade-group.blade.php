@@ -3,7 +3,11 @@
     <div class="flex flex-col gap-y-2 md:flex-row md:justify-between md:items-center">
         <h1 class="font-bold text-xl">{{ $specializationName }} | {{ $awardName }}</h1>
 
-        <div class="self-end md:self-auto">
+        <div class="flex gap-x-1 self-end md:self-auto">
+            <x-app.button type="link" href="{{ url('grade-groups/' . $specializationId) }}" color="red">
+                <i class="fa-solid fa-arrow-left mr-1"></i>
+                Go Back
+            </x-app.button>
             <x-app.button color="blue">
                 Edit Grades
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -33,16 +37,16 @@
         <x-slot name="body">
             @forelse ($groups as $group)
                 <tr>
-                    <x-table.tdata>{{ $group->name }}</x-table.tdata>
+                    <x-table.tdata>{{ $group['name'] }}</x-table.tdata>
                     @foreach ($criteria as $crit)
-                        @if($group->groupGrades->contains('criteria_id', $crit->id))
-                            <x-table.tdata>{{ number_format($group->groupGrades->where('criteria_id', $crit->id)->pluck('grade')->first(), 1) }}</x-table.tdata>
+                        @if (array_key_exists($crit->id, $group['group_grades']))
+                            <x-table.tdata>{{ number_format($group['group_grades'][$crit->id], 1) }}</x-table.tdata>
                         @else
-                            <x-table.tdata><x-form.input type="number"/></x-table.tdata>
+                            <x-table.tdata></x-table.tdata>
                         @endif
                     @endforeach
                     <x-table.tdata>
-                        <strong>0.0</strong>
+                        <strong>{{ number_format($group['total_grade'], 1) }}</strong>
                     </x-table.tdata>
                 </tr>
             @empty
