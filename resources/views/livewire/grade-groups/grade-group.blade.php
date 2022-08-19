@@ -8,17 +8,29 @@
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Go Back
             </x-app.button>
-            <x-app.button color="blue">
-                Edit Grades
-                <i class="fa-solid fa-pen-to-square"></i>
-            </x-app.button>
+            @if (!$isEditGrades)
+                <x-app.button color="blue" wire:click.prevent="$set('isEditGrades', true)">
+                    Edit Grades
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </x-app.button>
+            @else
+                <x-app.button color="green" wire:click.prevent="saveChanges">
+                    Save Changes
+                    <i class="fa-solid fa-check"></i>
+                </x-app.button>
+            @endif
         </div>
     </div>
+
+    {{-- Alert --}}
+    @if (session('status'))
+        <x-alert.basic-alert color="{{ session('status') }}" message="{{ session('message') }}"/>
+    @endif
 
     {{-- Note --}}
     <x-info-box color="yellow">
         Here is the list of all the groups and the criteria. Click the <strong>Edit Grades</strong> button to change the grades of each group for each criteria.
-     </x-info-box>
+    </x-info-box>
 
       {{-- Awards Table --}}
     <x-table>
@@ -35,25 +47,32 @@
         </x-slot>
 
         <x-slot name="body">
-            @forelse ($groups as $group)
+            @for ($i = 0; $i < count($groups); $i++)
                 <tr>
-                    <x-table.tdata>{{ $group['name'] }}</x-table.tdata>
+                    <x-table.tdata>{{ $groups[$i]['name'] }}</x-table.tdata>
                     @foreach ($criteria as $crit)
-                        @if (array_key_exists($crit->id, $group['group_grades']))
-                            <x-table.tdata>{{ number_format($group['group_grades'][$crit->id], 1) }}</x-table.tdata>
+                        @if ($isEditGrades)
+                            <x-table.tdata>
+                                <x-form.form-control>
+                                    <x-form.input type="number" wire:model.lazy="groups.{{ $i }}.group_grades.{{ $crit->id }}" />
+                                    @error('groups.' . $i . '.group_grades.' . $crit->id)
+                                        <x-form.error>{{ $message }}</x-form.error>
+                                    @enderror
+                                </x-form.form-control>
+                            </x-table.tdata>
                         @else
-                            <x-table.tdata></x-table.tdata>
+                            @if (array_key_exists($crit->id, $groups[$i]['group_grades']))
+                                <x-table.tdata>{{ number_format($groups[$i]['group_grades'][$crit->id], 1) }}</x-table.tdata>
+                            @else
+                                <x-table.tdata></x-table.tdata>
+                            @endif
                         @endif
                     @endforeach
                     <x-table.tdata>
-                        <strong>{{ number_format($group['total_grade'], 1) }}</strong>
+                        <strong>{{ number_format($groups[$i]['total_grade'], 1) }}</strong>
                     </x-table.tdata>
                 </tr>
-            @empty
-                <tr>
-                    <x-table.tdata>No groups are found</x-table.tdata>
-                </tr>
-            @endforelse
+            @endfor
         </x-slot>
 
         <x-slot name="links"></x-slot>

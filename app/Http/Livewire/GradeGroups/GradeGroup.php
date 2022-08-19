@@ -5,6 +5,7 @@ namespace App\Http\Livewire\GradeGroups;
 use App\Models\Award;
 use App\Models\Criteria;
 use App\Models\Group;
+use App\Models\GroupGrade;
 use App\Models\Specialization;
 use Illuminate\Support\Arr;
 use Livewire\Component;
@@ -18,6 +19,15 @@ class GradeGroup extends Component
     public $groups = [];
     public $groupGrades = [];
     public $criteria;
+    public $isEditGrades = false;
+
+    protected $rules = [
+        'groups.*.group_grades.*' => 'numeric'
+    ];
+
+    protected $messages  = [
+        'groups.*.group_grades.*.numeric' => 'Must be a number',
+    ];
 
     public function mount() {
         $award = Award::find($this->awardId);
@@ -54,6 +64,38 @@ class GradeGroup extends Component
                 'group_grades' => $groupGrades[0],
             ];
         }
+    }
+
+    public function saveChanges() {
+        $this->validate();
+
+        // Check if grade is less than or equal to the criteria percentage
+        for ($i = 0; $i < count($this->groups); $i++) {
+            foreach ($this->criteria as $criteria) {
+                // Check if criteria has a grade
+                if (array_key_exists($criteria->id, $this->groups[$i]['group_grades']) && $criteria->percentage < $this->groups[$i]['group_grades'][$criteria->id]) {
+                    $this->addError('groups.' . $i . '.group_grades.' . $criteria->id, 'Must be not greater than ' . $criteria->percentage . '%');
+                    return;
+                }
+            }
+
+            // Check if record exists
+            if (count($this->groups[$i]['group_grades']) > 0) {
+                foreach($this->groups[$i]['group_grades'] as $criteriaId => $grade) {
+                    GroupGrade::updateOrCreate(
+                        ['group_id' => $this->groups[$i]['id'], 'criteria_id' => $criteriaId, 'award_id' => $this->awardId, 'user_id' => auth()->user()->id],
+                        ['grade' => $grade]
+                    );
+                }
+            }
+
+            $this->groups[$i]['total_grade']  = array_sum($this->groups[$i]['group_grades']);
+        }
+
+        $this->isEditGrades = false;
+
+        session()->flash('status', 'green');
+        session()->flash('message', 'Grades successsfully updated.');
     }
 
     public function render()
