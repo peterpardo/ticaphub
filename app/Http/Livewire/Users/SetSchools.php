@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Models\Award;
 use App\Models\Election;
 use App\Models\School;
 use App\Models\Specialization;
@@ -113,6 +114,16 @@ class SetSchools extends Component
                 ]);
 
                 Specialization::where('school_id', $school->id)->update(['election_id' => $election->id]);
+            }
+
+            // Create award for each specialization (BEST CAPSTONE PROJECT)
+            $specializations = Specialization::all(['id']);
+
+            foreach ($specializations as $specialization) {
+                Award::create([
+                    'name' => 'BEST CAPSTONE PROJECT',
+                    'specialization_id' => $specialization->id,
+                ]);
             }
 
             // Change TICAP status column(invitation_is_set)

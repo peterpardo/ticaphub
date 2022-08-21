@@ -26,6 +26,7 @@ class CreateUsersProgramTable extends Migration
             //     ->constrained('schools')
             //     ->onDelete('cascade');
             $table->boolean('has_voted')->default(0);
+            $table->boolean('is_best_presenter')->default(0);
             $table->timestamps();
         });
     }
