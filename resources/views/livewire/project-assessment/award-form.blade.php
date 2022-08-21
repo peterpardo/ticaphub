@@ -16,8 +16,12 @@
 
                 {{-- Award name --}}
                 <x-form.form-control>
-                    <x-form.label for="name">Award Name</x-form.label>
-                    <x-form.input wire:model.lazy="name" id="name" placeholder="e.g. Best Website Design"/>
+                    <x-form.label>Award Name</x-form.label>
+                    @if ($name === 'BEST CAPSTONE PROJECT')
+                        <div class="w-full py-2 px-3 rounded border border-gray-300">{{ $name }}</div>
+                    @else
+                        <x-form.input wire:model.lazy="name" placeholder="e.g. Best Website Design" />
+                    @endif
                     @error('name')
                         <x-form.error>{{ $message }}</x-form.error>
                     @enderror
