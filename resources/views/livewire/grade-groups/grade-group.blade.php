@@ -32,7 +32,7 @@
         Here is the list of all the groups and the criteria. Click the <strong>Edit Grades</strong> button to change the grades of each group for each criteria.
     </x-info-box>
 
-      {{-- Awards Table --}}
+    {{-- Awards Table --}}
     <x-table>
         <x-slot name="heading">
             <tr>
